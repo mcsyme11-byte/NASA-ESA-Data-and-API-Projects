@@ -101,7 +101,8 @@ def main() -> None:
         if not (mex_out / "profiles.csv").exists() or sorted(set(done)) != sorted(sets):
             run_mex.main()
             mex_note = (f"ESA's Mars Express profiles were read ({mex_profiles(mex_out)} profiles). "
-                        "A chart for them needs a mock-up before it goes on the page.")
+                        "The \"Above the surface\" section of the charts page switches on after they are checked "
+                        "(MEX_LIVE in mars-data/charts/index.html; see docs/ROADMAP.md).")
     except Exception as e:  # ESA's archive not reachable: not a failure, tried again next run
         mex_note = ""
         print(f"Mars Express: ESA's archive not reachable ({e}); tried again next run.")
