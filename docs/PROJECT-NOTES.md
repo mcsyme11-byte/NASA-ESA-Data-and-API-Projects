@@ -4,6 +4,14 @@ How NASA and ESA Data Projects is built, the decisions made so far, and how to r
 
 ## Decisions
 
+- **Decided Nov 14, 2026 (live data status):** the site shows the state of its automatic data updates to every
+  visitor: a live line at the foot of every footer (a status light and one sentence: up to date, updating now, late,
+  partly failed or failed), and a page, How the data is collected (`data-collection/`), with a live status board,
+  the day's schedule in the visitor's time zone, what each job collects and the safeguards. Worked out in the browser
+  (`shared/datastatus.js`) from `dev/data_jobs.json`, the status files and GitHub's public run list (api.github.com,
+  no key, kept 3 minutes in the tab; added to the Privacy and Credits pages first). New shared components: status
+  light, footer live line, status board, source state and run bars. The developer asked for it without a mock-up
+  ("no mock up but make it really nice, modern and cool").
 - **Decided Nov 14, 2026 (data updates):** automatic data updates for the whole project are looked after in one
   place, the "Data updates" chat, by the rules in [DATA-UPDATES.md](DATA-UPDATES.md). Every data job follows one
   standard: a second daily run for daily data, a step per source, the previous good copy kept when a source fails,

@@ -9,8 +9,8 @@
   <meta name="robots" content="noindex">
   <meta name="theme-color" content="#141B26">
   <link rel="icon" href="../shared/emblem.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111307">
-  <script type="module" src="../shared/footer.js?v=2026111307"></script>
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111401">
+  <script type="module" src="../shared/footer.js?v=2026111401"></script>
 </head>
 <body>
   <header class="topbar">
@@ -256,6 +256,37 @@
       <div class="section-head sub"><h2>Callout</h2></div>
       <div class="panel">
         <div class="pf callout"><div class="t"><h4><a href="#h-write">A callout</a></h4><p class="caption">One line of text with one action, at the foot of a panel.</p></div><a class="btn outline" href="#h-write">Open</a></div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="h-live">
+      <div class="section-head"><div><div class="kicker">Section 9</div><h2 id="h-live">Live data status</h2></div><p class="aside">Added Nov 14, 2026. Replaces nothing: no earlier component shows a state that changes while the page is open.</p></div>
+      <div class="split">
+        <div>
+          <h3>Status lights</h3>
+          <p class="badges"><span class="light" data-state="ok"></span> Up to date · <span class="light" data-state="updating"></span> Updating · <span class="light" data-state="late"></span> Late · <span class="light" data-state="partial"></span> Partly failed · <span class="light" data-state="failed"></span> Failed · <span class="light" data-state="unknown"></span> Unknown</p>
+          <h3>Source states</h3>
+          <p class="badges"><span class="srcstate" data-state="ok">Close approaches</span><span class="srcstate" data-state="failed">Impact-risk lists</span><span class="srcstate" data-state="unknown">No record yet</span></p>
+        </div>
+        <div>
+          <h3>Footer line</h3>
+          <p class="caption">Added to every footer by <code>shared/footer.js</code>; linked to How the data is collected.</p>
+          <a class="livestatus" data-state="ok" href="#h-live"><span class="light" data-state="ok" aria-hidden="true"></span><span class="ls-k">Live data</span><span class="ls-t">All data is up to date</span><span class="ls-s">newest: asteroid data, 12 min ago</span></a>
+        </div>
+      </div>
+      <div class="section-head sub"><h2>Status board</h2></div>
+      <div class="board">
+        <div class="board-head" data-state="updating"><span class="light large" data-state="updating" aria-hidden="true"></span>
+          <div><h3>Updating spacecraft data now</h3><p class="caption">New data appears on the site a minute or two after the update finishes.</p></div>
+          <div class="actions"><button class="btn outline small" type="button">Refresh</button></div></div>
+        <ol class="jobs">
+          <li class="job" data-state="partial"><span class="light" data-state="partial" aria-hidden="true"></span>
+            <div><h3><a href="#h-live">Asteroid data</a></h3><p class="job-meta">Asteroid Tracker · twice a day</p>
+              <div class="job-srcs"><span class="srcstate" data-state="ok">Close approaches</span><span class="srcstate" data-state="failed">Impact-risk lists</span></div></div>
+            <dl class="job-when"><dt>Last check</dt><dd>2 hours ago</dd><dt>New data</dt><dd>2 hours ago</dd><dt>Next run</dt><dd>in 3 h 10 min</dd></dl>
+            <div class="job-side"><span class="job-state">Partly failed</span><div class="ticks"><i data-r="success"></i><i data-r="success"></i><i data-r="failure"></i><i data-r="success"></i><i data-r="cancelled"></i><i data-r="success"></i><i data-r="running"></i></div></div>
+          </li>
+        </ol>
       </div>
     </section>
 

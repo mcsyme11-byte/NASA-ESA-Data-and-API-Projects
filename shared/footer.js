@@ -10,8 +10,10 @@
 //     <p class="fnote">Data courtesy of NASA and ESA. An independent project, not endorsed by NASA or ESA.</p>
 //   </footer>
 // Privacy, Terms, Credits and the licence are reached through the Legal page (legal/).
-// It also sets up the "‹ Back" button on pages that have one (see wireBack below), and the soft edge fade on rows that
-// scroll sideways (wireScrollRows).
+// It also sets up the "‹ Back" button on pages that have one (see wireBack below), the soft edge fade on rows that
+// scroll sideways (wireScrollRows), and the live data status at the foot of the footer (addLiveStatus, since Nov 14,
+// 2026): a light and one line saying whether the site's data is up to date, updating now, late or failed, linked to
+// the data-collection page.
 // Links are worked out from this file's own address, so they are right at any folder depth.
 
 const REPO = 'https://github.com/mcsyme11-byte/NASA-ESA-Data-and-API-Projects';
@@ -61,7 +63,7 @@ const NAMES = [
   [/\/asteroid-tracker\/tracker\.html$/, 'the Asteroid Tracker'], [/\/asteroid-tracker\/(index\.html)?$/, 'the Asteroid Tracker home page'], [/\/image-explorer\/explore\.html$/, 'the Image Explorer'],
   [/\/image-explorer\/(index\.html)?$/, 'the Image Explorer home page'], [/\/mars-data\/charts\//, 'the Mars charts'],
   [/\/mars-data\/method\//, 'How the data is made'], [/\/mars-data\//, 'Mars Data'], [/\/about\//, 'About'], [/\/privacy\//, 'Privacy'], [/\/terms\//, 'Terms'],
-  [/\/credits\//, 'Credits'], [/\/contact\//, 'Contact'], [/\/legal\//, 'Legal'], [/\/sky-finder\/how-to\.html$/, 'How to use Sky Finder'], [/\/sky-finder\//, 'Sky Finder'], [/\/spacecraft\//, 'the spacecraft map'], [/\/design\//, 'Components'],
+  [/\/credits\//, 'Credits'], [/\/data-collection\//, 'How the data is collected'], [/\/contact\//, 'Contact'], [/\/legal\//, 'Legal'], [/\/sky-finder\/how-to\.html$/, 'How to use Sky Finder'], [/\/sky-finder\//, 'Sky Finder'], [/\/spacecraft\//, 'the spacecraft map'], [/\/design\//, 'Components'],
 ];
 function wireBack() {
   const el = document.getElementById('back');
@@ -111,6 +113,43 @@ function wireScrollRows() {
     .observe(document.body, { childList: true, subtree: true });
 }
 
-function start() { addLinks(); wireBack(); wireScrollRows(); }
+// The live data status (shared/datastatus.js, rules in docs/DATA-UPDATES.md): a light and one line at the foot of the
+// footer, refreshed every 3 minutes while the page is open; the times in it are kept current every 30 seconds.
+async function addLiveStatus() {
+  const footer = document.querySelector('footer.footer');
+  if (!footer || footer.querySelector('.livestatus')) return;
+  const v = new URL(import.meta.url).search;
+  let ds;
+  try { ds = await import(new URL('datastatus.js' + v, import.meta.url).href); } catch { return; }
+  const a = document.createElement('a');
+  a.className = 'livestatus';
+  a.href = new URL('data-collection/', root).href;
+  if (location.pathname.includes('/data-collection/')) a.setAttribute('aria-current', 'page');
+  a.dataset.state = 'unknown';
+  a.innerHTML = '<span class="light" data-state="unknown" aria-hidden="true"></span><span class="ls-k">Live data</span>'
+    + '<span class="ls-t">Checking…</span><span class="ls-s"></span>';
+  footer.append(a);
+  const [t, sub, light] = [a.querySelector('.ls-t'), a.querySelector('.ls-s'), a.querySelector('.light')];
+  let last = null;
+  const paint = () => {
+    if (!last) return;
+    const now = Date.now();
+    a.dataset.state = light.dataset.state = last.state;
+    t.textContent = last.headline;
+    const l = last.latest;
+    sub.textContent = { ok: l ? 'newest: ' + l.name.toLowerCase() + ', ' + ds.ago(l.changed, now) : '',
+      updating: 'new data in a few minutes', late: 'the latest saved data is shown', partial: 'previous data kept',
+      failed: 'previous data kept', unknown: '' }[last.state];
+    sub.hidden = !sub.textContent;
+    a.setAttribute('aria-label', 'Live data status: ' + last.headline + (sub.textContent ? ', ' + sub.textContent : '') + '. How the data is collected.');
+  };
+  const refresh = async (fresh) => { last = await ds.load({ fresh }); paint(); };
+  await refresh(false);
+  setInterval(paint, 30000);
+  setInterval(() => { if (!document.hidden) refresh(false); }, ds.REFRESH_MS);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(false); });
+}
+
+function start() { addLinks(); wireBack(); wireScrollRows(); addLiveStatus(); }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
 else start();

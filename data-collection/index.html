@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<!-- NASA and ESA Data Projects · How the data is collected · © 2026 Malcolm Syme · mcsyme11@gmail.com -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>How the data is collected · NASA and ESA Data Projects</title>
+  <meta name="description" content="Where the site's data comes from, when it is updated, how it is checked, and the live state of every data update.">
+  <meta name="theme-color" content="#141B26">
+  <link rel="icon" href="../shared/emblem.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111401">
+  <script type="module" src="../shared/footer.js?v=2026111401"></script>
+  <script type="module" src="app.js?v=2026111401"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../" aria-label="NASA and ESA Data Projects, home">
+        <svg class="emblem" width="26" height="26" viewBox="0 0 64 64" aria-hidden="true"><use href="../shared/emblem.svg#e"/></svg><span class="bname">NASA and ESA Data Projects</span></a>
+      <nav class="nav" aria-label="Projects">
+        <a href="../">Home</a>
+        <a href="../asteroid-tracker/">Asteroids</a>
+        <a href="../mars-data/">Mars</a>
+        <a href="../image-explorer/">Images</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <a class="backlink" id="back" href="../">Home</a>
+    <header class="pagehead">
+      <div class="kicker">Data</div>
+      <h1>How the data is collected</h1>
+      <p class="lede">Every orbit, measurement and picture on this site comes from NASA and ESA. Small programs on GitHub
+        fetch it on a schedule, check it, and publish it here. This page shows how, and what they are doing right now.</p>
+      <p class="meta"><span class="badge live">Live</span><span class="small" id="checked">Reading the latest status…</span></p>
+    </header>
+
+    <section class="section" aria-labelledby="h-now">
+      <div class="section-head"><div><div class="kicker">Right now</div><h2 id="h-now">Live status</h2></div>
+        <p class="aside">Refreshes by itself every 3 minutes.</p></div>
+      <div class="board" id="board" aria-live="polite">
+        <div class="board-head" id="bhead" data-state="unknown">
+          <span class="light large" data-state="unknown" aria-hidden="true"></span>
+          <div><h3 id="headline">Reading the status…</h3><p class="caption" id="detail">One moment.</p></div>
+          <div class="actions"><button class="btn outline small" id="refresh" type="button">Refresh</button></div>
+        </div>
+        <ol class="jobs" id="jobs"><li class="loading">Reading the data jobs…</li></ol>
+      </div>
+      <details class="howto">
+        <summary>How to read this</summary>
+        <p><b>The light</b> beside each job: green, up to date; brass with rings, updating now; amber, late or one source
+          failing; red, the last update failed. In every case except a first-ever run, the site keeps showing the last
+          good data, so a red light never means wrong numbers on the page.</p>
+        <p><b>Last check</b> is when the job last ran; <b>new data</b> is when it last found something new and saved it.
+          A job that checks and finds nothing new saves nothing, so new data can be older than the last check.</p>
+        <p><b>The bars</b> are the job's latest runs, oldest on the left: green finished, red failed, grey cancelled,
+          brass running now. Times are in your own time zone.</p>
+      </details>
+    </section>
+
+    <section class="section" aria-labelledby="h-figs">
+      <div class="section-head"><div><div class="kicker">In numbers</div><h2 id="h-figs">The data jobs at a glance</h2></div></div>
+      <div class="stats" id="stats">
+        <div class="stat"><div class="label">Data jobs</div><div class="value" id="f-jobs">5</div><div class="note">each on its own schedule</div></div>
+        <div class="stat"><div class="label">Sources</div><div class="value" id="f-src">–</div><div class="note">from NASA, ESA and others</div></div>
+        <div class="stat"><div class="label">Runs in view</div><div class="value" id="f-runs">–</div><div class="note" id="f-runs-n">the latest runs on GitHub</div></div>
+        <div class="stat"><div class="label">Succeeded</div><div class="value" id="f-ok">–</div><div class="note">of those runs</div></div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="h-path">
+      <div class="section-head"><div><div class="kicker">The path</div><h2 id="h-path">From the agencies to this page</h2></div></div>
+      <ol class="steps">
+        <li><b>Fetch.</b> On its schedule, a job on GitHub asks NASA's and ESA's services for the latest data, with no
+          visitor waiting and no key on the page.</li>
+        <li><b>Check.</b> Every new file is checked before it is saved: it must read, have rows, not be empty and not
+          suddenly shrink. A file that fails is thrown away.</li>
+        <li><b>Save.</b> Only data that changed is saved, in one record with a plain description, so every update can be
+          traced.</li>
+        <li><b>Publish.</b> GitHub Pages republishes the site a minute or two later, and the new data is on every page.</li>
+        <li><b>Watch.</b> Each job records how every source went. A daily health check reports any job that stops, runs
+          late or fails.</li>
+      </ol>
+    </section>
+
+    <section class="section" aria-labelledby="h-when">
+      <div class="section-head"><div><div class="kicker">Schedule</div><h2 id="h-when">When it runs</h2></div>
+        <p class="aside" id="tzname">Times in your time zone.</p></div>
+      <figure class="panel">
+        <div class="ph"><h3>A day of data updates</h3><span class="aside">The brass line is now</span></div>
+        <div class="pb"><svg class="chart" id="day" viewBox="0 0 1000 250" role="img" aria-labelledby="day-t"><title id="day-t">The times of day each data job runs</title></svg>
+          <div class="legend" id="day-key"></div></div>
+        <p class="pf caption" id="day-note">Also: Mars data on Mondays and Thursdays; place and map lists four times a year.</p>
+        <details class="howto">
+          <summary>How to read this</summary>
+          <p>Each row is one data job, each dot one scheduled run, across 24 hours of your day. Daily jobs run twice, so a
+            second run catches up if GitHub starts the first one late, which it sometimes does by a few hours.</p>
+        </details>
+      </figure>
+    </section>
+
+    <section class="section" aria-labelledby="h-what">
+      <div class="section-head"><div><div class="kicker">The jobs</div><h2 id="h-what">What each job collects</h2></div></div>
+      <div class="sources" id="what"></div>
+    </section>
+
+    <section class="section" aria-labelledby="h-safe">
+      <div class="section-head"><div><div class="kicker">Safeguards</div><h2 id="h-safe">When something goes wrong</h2></div></div>
+      <div class="split">
+        <div class="prose">
+          <p>NASA's and ESA's services are sometimes down for maintenance, change a format, or answer slowly. The jobs are
+            built so that none of this ever leaves a gap or a wrong number on the site.</p>
+          <ul>
+            <li><strong>The last good copy stays.</strong> A source that cannot be read keeps its previous data, and the
+              other sources of the same job are still updated.</li>
+            <li><strong>Nothing half-made is saved.</strong> A file that does not read, is empty or shrinks to a fraction
+              of its size is put back to its last good version.</li>
+            <li><strong>Two runs a day.</strong> Daily data is fetched twice, hours apart, so one late or missed run
+              changes nothing.</li>
+            <li><strong>A daily health check.</strong> Every afternoon, every job is checked: still switched on, run
+              recently, every source working. Anything wrong is reported to the developer the same day.</li>
+          </ul>
+        </div>
+        <div class="facts">
+          <div class="f"><h4>Mars data is slower by nature</h4><p>NASA publishes the rovers' measurements in batches,
+            months after they are taken. The job checks twice a week and adds a batch soon after it appears.</p></div>
+          <div class="f"><h4>Some data never changes</h4><p>The stars, the constellations and the list of towns come
+            from fixed catalogues and are built once.</p></div>
+          <div class="f"><h4>Open to check</h4><p>Every update is a public record on
+            <a href="https://github.com/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/actions" target="_blank" rel="noopener">GitHub ↗</a>, with what changed and when.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="h-you">
+      <div class="section-head"><div><div class="kicker">And you</div><h2 id="h-you">Nothing about you is collected</h2></div></div>
+      <div class="prose">
+        <p>The data collected here is about space and Earth, never about visitors: no accounts, cookies, analytics or
+          tracking. To show this page's live status, your browser reads GitHub's public list of the site's data runs;
+          the answer is kept in this browser tab for 3 minutes. The details are on the <a href="../privacy/">Privacy</a> page.</p>
+      </div>
+    </section>
+
+    <p class="srcline">Data from NASA, NASA/JPL, the NASA Planetary Data System, ESA (NEO Coordination Centre, Planetary
+      Science Archive), CelesTrak, GeoNames and Natural Earth; see <a href="../credits/">Credits</a>. Run history from
+      GitHub Actions (api.github.com).</p>
+    <footer class="footer">
+      <div class="ftop"><p class="copy">© 2026 <strong>Malcolm Syme</strong> · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></p></div>
+      <p class="fnote">Data courtesy of NASA and ESA. An independent project, not endorsed by NASA or ESA.</p>
+    </footer>
+  </main>
+</body>
+</html>

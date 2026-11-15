@@ -1,11 +1,54 @@
 {
- "about": "The data jobs the daily Data health check watches (dev/data_health.py; rules in docs/DATA-UPDATES.md). max_age_hours: the longest time allowed since the job's last successful run; grace_hours: how long a source may stay failed before it is reported (0: at once). known_notes: notes from a job's log that are already known and listed in docs/ROADMAP.md, left out of the report. reviews: tasks done by hand on a cycle; after doing one, set its last_done to that date.",
+ "about": "The data jobs, read by the daily Data health check (dev/data_health.py) and by the site's live data status (shared/datastatus.js: the footer and the data-collection page). Rules in docs/DATA-UPDATES.md. cron: the workflow's schedule in UTC, exactly as in its .yml file (the health check compares them); max_age_hours: the longest time allowed since the job's last successful run; grace_hours: how long a source may stay failed before it is reported (0: at once); sources: the names used in the job's status file, with a label and the agency for the site. known_notes: notes from a job's log that are already known and listed in docs/ROADMAP.md, left out of the report. reviews: tasks done by hand on a cycle; after doing one, set its last_done to that date.",
  "jobs": {
-  "asteroid-data": {"name": "Asteroid data", "runs": "twice a day", "max_age_hours": 30, "grace_hours": 24},
-  "spacecraft-data": {"name": "Spacecraft data", "runs": "twice a day", "max_age_hours": 30, "grace_hours": 24},
-  "astronaut-photos": {"name": "Astronaut photos", "runs": "twice a day", "max_age_hours": 30, "grace_hours": 48},
-  "mars-data": {"name": "Mars data", "runs": "Mondays and Thursdays", "max_age_hours": 108, "grace_hours": 0},
-  "build-places": {"name": "Place and map lists", "runs": "four times a year", "max_age_hours": 2400, "grace_hours": 0}
+  "asteroid-data": {
+   "name": "Asteroid data", "project": "Asteroid Tracker", "href": "asteroid-tracker/", "runs": "twice a day",
+   "cron": ["17 6 * * *", "47 14 * * *"], "max_age_hours": 30, "grace_hours": 24,
+   "about": "Close approaches, the orbit of every near-Earth asteroid, impact-risk lists, this week's asteroids and their positions in the sky.",
+   "sources": {
+    "close-approaches": {"label": "Close approaches", "agency": "NASA/JPL"},
+    "orbits-and-spacecraft": {"label": "Orbits and spacecraft", "agency": "NASA/JPL"},
+    "risk-lists": {"label": "Impact-risk lists", "agency": "NASA/JPL and ESA"},
+    "neows-copy": {"label": "This week's asteroids", "agency": "NASA"},
+    "sky-positions": {"label": "Sky positions", "agency": "NASA/JPL"}
+   }
+  },
+  "spacecraft-data": {
+   "name": "Spacecraft data", "project": "Spacecraft map", "href": "spacecraft/", "runs": "twice a day",
+   "cron": ["23 5 * * *", "53 17 * * *"], "max_age_hours": 30, "grace_hours": 24,
+   "about": "Where every active spacecraft in the catalogue is, from low Earth orbit to the Voyagers, and a check of every mission link.",
+   "sources": {
+    "horizons-and-celestrak": {"label": "Positions and orbits", "agency": "NASA/JPL and CelesTrak"}
+   }
+  },
+  "astronaut-photos": {
+   "name": "Astronaut photos", "project": "Image Explorer", "href": "image-explorer/", "runs": "twice a day",
+   "cron": ["41 7 * * *", "11 19 * * *"], "max_age_hours": 30, "grace_hours": 48,
+   "about": "The newest photos of Earth taken by astronauts on the International Space Station, placed on the globe.",
+   "sources": {
+    "astronaut-photos": {"label": "Astronaut photos", "agency": "NASA"}
+   }
+  },
+  "mars-data": {
+   "name": "Mars data", "project": "Mars Data", "href": "mars-data/", "runs": "Mondays and Thursdays",
+   "cron": ["23 9 * * 1,4"], "max_age_hours": 108, "grace_hours": 0,
+   "about": "New weather measurements from Curiosity and Perseverance as NASA releases them, cleaned, checked and charted.",
+   "sources": {
+    "archive": {"label": "Mission archives", "agency": "NASA and ESA"},
+    "validation": {"label": "Science checks", "agency": ""},
+    "page-files": {"label": "Chart files", "agency": ""}
+   }
+  },
+  "build-places": {
+   "name": "Place and map lists", "project": "Image Explorer", "href": "image-explorer/", "runs": "four times a year",
+   "cron": ["37 3 2 1,4,7,10 *"], "max_age_hours": 2400, "grace_hours": 0,
+   "about": "Natural features, volcanoes, coastlines, borders and place names for the Earth map and the globe.",
+   "sources": {
+    "geonames": {"label": "Natural features", "agency": "GeoNames"},
+    "globe-places": {"label": "Globe places", "agency": "GeoNames"},
+    "natural-earth": {"label": "Map lines and names", "agency": "Natural Earth"}
+   }
+  }
  },
  "known_notes": [
   {"match": "Tianwen-1", "reason": "not in Horizons (ROADMAP: added if Horizons lists it later)"},

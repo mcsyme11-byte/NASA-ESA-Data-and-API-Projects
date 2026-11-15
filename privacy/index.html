@@ -8,8 +8,8 @@
   <meta name="description" content="What NASA and ESA Data Projects stores and shares: no accounts, no cookies, no tracking.">
   <meta name="theme-color" content="#141B26">
   <link rel="icon" href="../shared/emblem.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111307">
-  <script type="module" src="../shared/footer.js?v=2026111307"></script>
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111401">
+  <script type="module" src="../shared/footer.js?v=2026111401"></script>
 </head>
 <body>
   <header class="topbar">
@@ -30,7 +30,7 @@
     <header class="pagehead">
       <div class="kicker">About this site</div>
       <h1>Privacy</h1>
-      <p class="updated">Last updated November 12, 2026</p>
+      <p class="updated">Last updated November 14, 2026</p>
     </header>
 
     <article class="prose">
@@ -55,6 +55,10 @@
         <li><strong>Sky Finder's settings:</strong> that you have read its safety notice, whether red light is on, the
           camera view width, and its compass calibration (two angles, kept for 12 hours). Local storage, on your device
           only.</li>
+        <li><strong>The live data status</strong> at the foot of every page and on
+          <a href="../data-collection/">How the data is collected</a>: GitHub's list of the site's latest data runs is
+          kept in your browser's session storage for 3 minutes, so moving between pages does not ask GitHub again. It
+          holds nothing about you and is deleted when you close the tab.</li>
         <li><strong>Sky Finder's offline copy:</strong> Sky Finder saves its own pages and data files in your browser's
           cache (a service worker) so it still works with a weak connection outdoors. Nothing about you is in it; your
           browser's "clear site data" removes it.</li>
@@ -82,7 +86,11 @@
         <li><strong>GitHub Pages,</strong> which hosts the site. GitHub logs each visitor's IP address for security
           (<a href="https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages#data-collection" target="_blank" rel="noopener">GitHub Pages data collection</a>,
           <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub Privacy Statement</a>).</li>
-        <li><strong>Pages that read only this site's own files:</strong> the spacecraft map, the "Visible from here" tab
+        <li><strong>GitHub's API</strong> (api.github.com): every page reads GitHub's public list of the site's data
+          runs (which updates ran, when, and whether they worked) to show the live data status in the footer, at most
+          once every 3 minutes per tab. No key or account is used
+          (<a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub Privacy Statement</a>).</li>
+        <li><strong>Pages that read only this site's own files:</strong> apart from the live data status above, the spacecraft map, the "Visible from here" tab
           and Sky Finder contact no other service; their data (from NASA/JPL Horizons and CelesTrak) is copied to the site
           twice a day.</li>
         <li><strong>NASA and NASA/JPL services</strong> that supply the data and imagery: api.nasa.gov, GIBS, the NASA

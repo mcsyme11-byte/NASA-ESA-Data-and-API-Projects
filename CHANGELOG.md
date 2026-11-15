@@ -1,5 +1,23 @@
 # Change log
 
+## November 14, 2026 — live data status and How the data is collected
+
+- **Every footer** now ends with a live data line: a status light (green up to date, brass with rings while updating,
+  amber late or a source failing, red failed) and one sentence, such as "All data is up to date · newest: spacecraft
+  data, 19 min ago", linked to the new page. It refreshes every 3 minutes while the page is open.
+- **New page, How the data is collected** (`data-collection/`): a live status board (each job's state, its sources,
+  last check, newest data, a countdown to the next run and its latest runs), the figures at a glance, the path from
+  the agencies to the page, the day's schedule drawn in the visitor's own time zone, what each job collects, the
+  safeguards, and a note that nothing about visitors is collected. Linked from every footer and from About.
+- `shared/datastatus.js` works the state out in the browser from `dev/data_jobs.json` (now also holding each job's
+  schedule, project and source labels), the jobs' status files and GitHub's public run list (no key; kept 3 minutes in
+  the tab). The daily Data health check now also confirms each schedule in `dev/data_jobs.json` matches its workflow.
+- New shared components on the component page and in `docs/DESIGN.md`: status light, footer live line, status board,
+  source state and run bars (`dev/check_styles.py` protects them).
+- Privacy page (first): the GitHub API and the 3-minute session copy; Credits: GitHub Actions run history.
+- Sky Finder's offline copy includes `shared/datastatus.js` and reads the status files fresh. Version tag raised to
+  2026111401.
+
 ## November 14, 2026 — spacecraft links
 
 - Three links on the spacecraft map's cards replaced after the link check reported them gone: ESA's SOHO page (now

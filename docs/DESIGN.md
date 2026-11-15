@@ -113,7 +113,8 @@ All in `shared/theme.css`, all shown on `design/index.html`. Use these; do not r
 | Chart parts | `svg.chart` (`.grid`, `.axt` axis titles, `.dim`), `.legend` (`.s1`–`.s6` swatches), `.tip` | Axis text, gridlines, a chart's key and its tooltip |
 | Callout, stage | `.pf.callout` › `.t` + a button; `a.stage` › `canvas` | A line of text with one action, at the foot of a panel; a canvas that fills a panel and opens something |
 | Data credits | `p.srcline` | A page's detailed credits, just above the footer |
-| Footer | `.footer` › `.ftop` › `.copy`, `.fnote` (links added by `shared/footer.js`) | Decided Nov 12, 2026: one row of links and the copyright, then one short credit line; nothing else |
+| Footer | `.footer` › `.ftop` › `.copy`, `.fnote` (links and the live data line added by `shared/footer.js`) | Decided Nov 12, 2026: one row of links and the copyright, then one short credit line; since Nov 14, 2026 also the live data line below it; nothing else |
+| Live data status | `.light[data-state]`, `a.livestatus` › `.light`, `.ls-k`, `.ls-t`, `.ls-s`; `.board` › `.board-head`, `ol.jobs` › `li.job` › `.light`, `.job-meta`, `.job-srcs` › `.srcstate`, `dl.job-when`, `.job-side` › `.job-state`, `.ticks` › `i[data-r]` | Added Nov 14, 2026 (the developer waived the mock-up). The state of the automatic data updates (`shared/datastatus.js`): `data-state` is `ok` (green), `updating` (brass, pulsing rings), `late` or `partial` (amber), `failed` (red) or `unknown` (grey). The footer line is on every page; the board is on How the data is collected (`data-collection/`). Replaces nothing: no earlier component shows a state that changes while the page is open |
 
 ## 6. Page styles
 

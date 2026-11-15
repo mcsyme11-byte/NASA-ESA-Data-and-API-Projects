@@ -6,12 +6,12 @@
 // Only this site's own files are saved, in this browser's cache. Nothing about the visitor is stored or sent.
 // Raise VERSION when the list of app files changes.
 
-const VERSION = 'sky-finder-2026111307';
+const VERSION = 'sky-finder-2026111401';
 const APP = [
   './', './index.html', './how-to.html', './sky-finder.css', './app.js', './view.js', './orient.js', './targets.js',
   './manifest.webmanifest', './icons/icon.svg', './icons/icon-192.png', './data/stars.json',
   '../shared/theme.css', '../shared/footer.js', '../shared/sky.js', '../shared/passes.js', '../shared/place.js',
-  '../shared/sats.js', '../shared/vendor/satellite.min.js', '../asteroid-tracker/orbit.js', '../shared/emblem.svg',
+  '../shared/sats.js', '../shared/datastatus.js', '../shared/vendor/satellite.min.js', '../asteroid-tracker/orbit.js', '../shared/emblem.svg',
 ];
 const DATA = ['/asteroid-tracker/data/sky.json', '/spacecraft/data/tle.json', '/image-explorer/data/places.json'];
 
@@ -24,7 +24,9 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('fetch', (e) => {
   const req = e.request, url = new URL(req.url);
   if (req.method !== 'GET' || url.origin !== location.origin) return;
-  const isData = DATA.some((d) => url.pathname.endsWith(d));
+  // the live data status (shared/datastatus.js, since Nov 14, 2026) is read fresh too, like the data files
+  const isData = DATA.some((d) => url.pathname.endsWith(d)) || url.pathname.includes('/shared/data/status/')
+    || url.pathname.endsWith('/dev/data_jobs.json');
   if (isData) {
     e.respondWith(fetch(req).then((r) => { if (r.ok) { const copy = r.clone(); caches.open(VERSION).then((c) => c.put(req, copy)); } return r; })
       .catch(() => caches.match(req, { ignoreSearch: true }).then((r) => r || Response.error())));

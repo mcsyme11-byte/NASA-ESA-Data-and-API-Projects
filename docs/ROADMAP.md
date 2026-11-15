@@ -118,4 +118,6 @@ one GitHub issue labelled `data-health`.
 - [ ] Confirm the first scheduled run of "Place and map lists" on January 2, 2027.
 - [ ] Mars data: reduce the job to weekly once it has run without trouble for a few weeks (from about December 10,
   2026); change `mars-data.yml` and `max_age_hours` in `dev/data_jobs.json` (to 192) together.
-- [ ] Optional: a "Data checked [date]" line on each project's page, read from the status files (mock-up first).
+- [ ] Developer testing of the live data status (Nov 14, 2026): the footer line on a few pages, on a phone and a
+  computer; How the data is collected (`data-collection/`) at every width; the line turning brass while a job runs
+  (Actions › any data job › Run workflow, then reload a page).

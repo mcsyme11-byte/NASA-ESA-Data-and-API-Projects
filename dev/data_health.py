@@ -5,6 +5,7 @@
 # dev/data_jobs.json it checks:
 #   - that the workflow is still switched on (GitHub switches off schedules in quiet repositories);
 #   - that it has succeeded within its max_age_hours, and that its latest run did not fail;
+#   - that its schedule in dev/data_jobs.json (shown on the site) matches its workflow file;
 #   - its status file (shared/data/status/<job>.json, written by dev/datajob.py): any source failed for longer than
 #     the job's grace_hours, and any note from its log not listed as known;
 # and also the spacecraft catalogue's broken links (spacecraft/data/links.json) and the review tasks that are due.
@@ -68,6 +69,15 @@ def check(repo, cfg):
             if h > j['max_age_hours']:
                 problems.append('**%s**: no successful run for %s (it runs %s). [Last success](%s)'
                                 % (name, age(h), j['runs'], runs[0]['html_url']))
+        # the schedule the site shows (dev/data_jobs.json) must match the workflow's own
+        try:
+            yml = open(os.path.join(ROOT, '.github/workflows', wf), encoding='utf-8').read()
+            crons = sorted(re.findall(r"cron:\s*'([^']+)'", yml))
+            if crons != sorted(j.get('cron', [])):
+                problems.append('**%s**: the schedule in dev/data_jobs.json (%s) differs from %s (%s).'
+                                % (name, ', '.join(j.get('cron', [])) or 'none', wf, ', '.join(crons) or 'none'))
+        except OSError:
+            problems.append('**%s**: .github/workflows/%s is missing.' % (name, wf))
         lr = (last.get('workflow_runs') or [None])[0]
         if lr and lr.get('conclusion') == 'failure':
             problems.append('**%s**: the latest run failed. [The run](%s)' % (name, lr['html_url']))

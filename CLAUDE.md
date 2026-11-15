@@ -54,7 +54,8 @@ inside its own folder.
   `mars-data/mars.css`, `spacecraft/spacecraft.css` and `sky-finder/sky-finder.css` with one version tag
   (`?v=YYYYMMDDNN`). After changing any of them, raise the tag in every page (one search-and-replace), and Sky
   Finder's `VERSION` in `sky-finder/sw.js` with it, so browsers fetch the new copy instead of an old saved one.
-  `dev/check_styles.py` refuses a page whose tags differ.
+  `dev/check_styles.py` refuses a page whose tags differ. The same tag is on the import of `shared/datastatus.js` in
+  `data-collection/app.js`, so include `.js` files in the search-and-replace.
 - **Feel (since Nov 12, 2026):** everything pressable gives quick feedback (the shared hover and press transitions in
   `shared/theme.css`); tap targets are at least 40 px tall on phones; segmented controls and chip rows that don't
   fit a phone scroll sideways with a soft edge fade (`shared/footer.js` adds it to `.seg`, `.popular` and anything

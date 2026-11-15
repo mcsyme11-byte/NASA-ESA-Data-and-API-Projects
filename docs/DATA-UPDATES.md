@@ -23,7 +23,7 @@ files and the daily health check. Decided Nov 14, 2026.
 | Astronaut photos (`astronaut-photos.yml`) | 07:41 and 19:11 daily | NASA Gateway to Astronaut Photography of Earth (key: `EOL_API_KEY`, or the public Latest ISS Imagery set) | `image-explorer/data/astronaut.json` | `astronaut-photos.json` |
 | Mars data (`mars-data.yml`) | 09:23 Mondays and Thursdays | NASA PDS (Curiosity REMS, Perseverance MEDA); ESA PSA (Mars Express MaRS) | `mars-data/data/` | `mars-data.json` |
 | Place and map lists (`build-places.yml`) | 03:37 on January, April, July and October 2 | GeoNames; Natural Earth | `image-explorer/data/` (features, globe places, map lines, countries, names) | `build-places.json` |
-| Data health (`data-health.yml`) | 22:07 daily | the jobs above (reads only) | the `data-health` GitHub issue | none |
+| Data health (`data-health.yml`) | 22:07 daily | the jobs above (reads only); also checks that each schedule in `dev/data_jobs.json` matches its workflow | the `data-health` GitHub issue | none |
 
 Data built once and not refreshed, because its sources do not change: the town list (`places.json`, from the pinned
 `all-the-cities` package), the sky catalogue (`sky.json`, `stars.json`, `constellations.json`) and the Asteroid
@@ -107,6 +107,22 @@ changes.
 | Mars data | 108 | 0 |
 | Place and map lists | 2400 | 0 |
 
+## On the site: the live data status
+
+Since Nov 14, 2026 the site shows the state of the data jobs to every visitor (`shared/datastatus.js`):
+
+- **Every footer** ends with a live line (added by `shared/footer.js`): a status light and one sentence ("All data is
+  up to date", "Updating spacecraft data now", "One source is failing"), linked to the page below.
+- **How the data is collected** (`data-collection/`): a status board with every job's state, its sources, its last
+  check, its newest data, a countdown to its next run and its latest runs; the day's schedule in the visitor's own
+  time zone; what each job collects; and the safeguards.
+
+The state is worked out in the browser from `dev/data_jobs.json` (names, schedules, sources), the status files, and
+GitHub's public list of workflow runs (api.github.com, no key; 60 requests an hour per visitor, so the answer is kept
+in the tab's session storage for 3 minutes). Without GitHub's list the status files are used alone. In order of
+precedence: **failed** (the latest finished run failed), **partly failed** (a source failing; its previous data is
+kept), **updating** (a run in progress or queued), **late** (no successful run within `max_age_hours`), **up to date**.
+
 ## Tasks done by hand
 
 Listed under `reviews` in `dev/data_jobs.json`; the health check lists each one when it is due. After doing one, set
@@ -125,7 +141,8 @@ its `last_done` to that date.
    `asteroid-data.yml` as the model): `--job` (the workflow's file name without `.yml`), `--message`, `--paths`
    (only when the required steps succeeded), one `--source name=${{ steps.<id>.outcome }}` per source, and
    `--log`/`--watch` where notes are wanted.
-3. Add the job to `dev/data_jobs.json` and to the tables above.
+3. Add the job to `dev/data_jobs.json` (its `cron` exactly as in the workflow, which the health check compares, and a
+   label and agency for each source, which the site shows) and to the tables above.
 4. Add the data folder to `paths-ignore` in `project-record.yml` if it is a new folder.
 5. Record the source in `docs/DATA-SOURCES.md` and its credit in `CREDITS.md` and on the Credits page, as CLAUDE.md
    requires.
