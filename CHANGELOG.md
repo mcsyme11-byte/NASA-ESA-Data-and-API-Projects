@@ -45,6 +45,8 @@
 - **Astronaut photos build up:** `fetch_astronaut_photos.py` adds each run's photos to those already saved (one a day
   for each 1° square, up to a year and 2,000 photos); a photo later cataloged moves to its centre point. A run that
   reads no photos keeps the saved file. The data file's format and the job's schedule are unchanged.
+- **Developer testing passed (Nov 14, 2026):** everything added to the Image Explorer from Nov 10 to Nov 14, on a
+  computer and a phone.
 
 ## November 14, 2026 — automatic data updates on one standard
 

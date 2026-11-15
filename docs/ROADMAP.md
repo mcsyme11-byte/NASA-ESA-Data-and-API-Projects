@@ -36,14 +36,6 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
   2026) would add cataloged photos with their centre points. Without it the job uses the public Latest ISS Imagery set
   (since Nov 11, 2026). If the key arrives: repository secret `EOL_API_KEY`, then Actions › Astronaut photos › Run
   workflow.
-- [ ] **Developer testing, one pass for everything added Nov 10–14, 2026** (computer and phone):
-  - home page: the three "Open" buttons reach the right tab; the explorer's back button returns;
-  - Earth map: colour keys and the other-day note; tapping a desert, the sea and a town; no black gaps between
-    satellite passes; Map lines and names in all three views; place search for smaller places (Moraine Lake);
-  - globe: zoomed in close (sharper Earth); Day and night; earthquakes, volcanoes, launch sites, wonders, astronaut
-    photos; the fainter galaxies (small dim rings); keyboard (arrows, + and −, Home, N and P, Enter, Escape);
-  - picture library: ESA videos with "Pictures and videos" or "Videos";
-  - after a few days: the astronaut photo count on the globe grows instead of staying near 260.
 - [ ] Picture library: tune the ranking further as the developer reviews searches (the weights are in `scoreOf` in
   `image-explorer/app.js`).
 - [ ] Polar views: a sea ice layer that works through the polar night. GIBS's microwave sea-ice records ended
