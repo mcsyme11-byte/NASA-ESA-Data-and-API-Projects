@@ -1,0 +1,28 @@
+{
+ "job": "mars-data",
+ "workflow": ".github/workflows/mars-data.yml",
+ "last_data_change": "2026-11-15T02:42:39Z",
+ "sources": {
+  "archive": {
+   "state": "ok",
+   "since": "2026-11-15T02:42:39Z",
+   "note": ""
+  },
+  "checks": {
+   "state": "ok",
+   "since": "2026-11-15T02:42:39Z",
+   "note": ""
+  },
+  "page-files": {
+   "state": "ok",
+   "since": "2026-11-15T02:42:39Z",
+   "note": ""
+  },
+  "validation": {
+   "state": "ok",
+   "since": "2026-11-15T02:42:39Z",
+   "note": ""
+  }
+ },
+ "notes": []
+}
