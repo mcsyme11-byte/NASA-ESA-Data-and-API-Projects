@@ -1,0 +1,38 @@
+{
+ "job": "asteroid-data",
+ "workflow": ".github/workflows/asteroid-data.yml",
+ "last_data_change": "2026-11-15T02:42:41Z",
+ "sources": {
+  "checks": {
+   "state": "ok",
+   "since": "2026-11-15T02:42:41Z",
+   "note": ""
+  },
+  "close-approaches": {
+   "state": "ok",
+   "since": "2026-11-15T02:42:41Z",
+   "note": ""
+  },
+  "neows-copy": {
+   "state": "ok",
+   "since": "2026-11-15T02:42:41Z",
+   "note": ""
+  },
+  "orbits-and-spacecraft": {
+   "state": "ok",
+   "since": "2026-11-15T02:42:41Z",
+   "note": ""
+  },
+  "risk-lists": {
+   "state": "ok",
+   "since": "2026-11-15T02:42:41Z",
+   "note": ""
+  },
+  "sky-positions": {
+   "state": "ok",
+   "since": "2026-11-15T02:42:41Z",
+   "note": ""
+  }
+ },
+ "notes": []
+}
