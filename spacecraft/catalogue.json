@@ -1,5 +1,5 @@
 {
- "note": "Facts checked Nov 12, 2026; 18 craft added and checked Nov 14, 2026. Statuses change: missions that end are removed.",
+ "note": "Facts checked Nov 12, 2026; craft added and checked Nov 14, 2026. Statuses change: missions that end move to past.json. \"fleet\": the Earth-orbit fleet (relay and weather satellites), shown with its switch; \"size\": big (flagship-class missions and the crewed stations) or small (under about 500 kg at launch).",
  "craft": [
   {
    "key": "iss",
@@ -44,7 +44,9 @@
     "tle": [
      "ISS (ZARYA)"
     ]
-   }
+   },
+   "size": "big",
+   "crewed": true
   },
   {
    "key": "tiangong",
@@ -77,7 +79,9 @@
     "tle": [
      "CSS (TIANHE)"
     ]
-   }
+   },
+   "size": "big",
+   "crewed": true
   },
   {
    "key": "hubble",
@@ -119,7 +123,8 @@
     "tle": [
      "HST"
     ]
-   }
+   },
+   "size": "big"
   },
   {
    "key": "chandra",
@@ -147,7 +152,8 @@
     "tle": [
      "CXO"
     ]
-   }
+   },
+   "size": "big"
   },
   {
    "key": "xmm",
@@ -172,7 +178,8 @@
      "XMM-NEWTON",
      "XMM"
     ]
-   }
+   },
+   "size": "big"
   },
   {
    "key": "fermi",
@@ -222,7 +229,8 @@
     "tle": [
      "NUSTAR"
     ]
-   }
+   },
+   "size": "small"
   },
   {
    "key": "tess",
@@ -247,7 +255,8 @@
      "TESS",
      "#43435"
     ]
-   }
+   },
+   "size": "small"
   },
   {
    "key": "cheops",
@@ -271,7 +280,8 @@
     "tle": [
      "CHEOPS"
     ]
-   }
+   },
+   "size": "small"
   },
   {
    "key": "ixpe",
@@ -296,7 +306,8 @@
     "tle": [
      "IXPE"
     ]
-   }
+   },
+   "size": "small"
   },
   {
    "key": "xrism",
@@ -454,7 +465,8 @@
      "PANDORA",
      "#67395"
     ]
-   }
+   },
+   "size": "small"
   },
   {
    "key": "jwst",
@@ -497,7 +509,8 @@
    "src": {
     "horizons": "-170",
     "center": "Earth"
-   }
+   },
+   "size": "big"
   },
   {
    "key": "euclid",
@@ -548,7 +561,8 @@
      "Roman"
     ],
     "center": "Earth"
-   }
+   },
+   "size": "big"
   },
   {
    "key": "soho",
@@ -577,7 +591,8 @@
    "src": {
     "horizons": "-21",
     "center": "Earth"
-   }
+   },
+   "size": "big"
   },
   {
    "key": "ace",
@@ -926,7 +941,8 @@
      "IRIS",
      "#39197"
     ]
-   }
+   },
+   "size": "small"
   },
   {
    "key": "hinode",
@@ -1004,7 +1020,8 @@
     "tle": [
      "THEMIS A"
     ]
-   }
+   },
+   "size": "small"
   },
   {
    "key": "timed",
@@ -1071,7 +1088,8 @@
     "center": "Sun",
     "step": 30,
     "years_back": 50
-   }
+   },
+   "size": "big"
   },
   {
    "key": "voyager2",
@@ -1121,7 +1139,8 @@
     "center": "Sun",
     "step": 30,
     "years_back": 50
-   }
+   },
+   "size": "big"
   },
   {
    "key": "newhorizons",
@@ -1252,7 +1271,8 @@
     "horizons": "-159",
     "center": "Sun",
     "step": 4
-   }
+   },
+   "size": "big"
   },
   {
    "key": "juice",
@@ -1301,7 +1321,8 @@
     "horizons": "-28",
     "center": "Sun",
     "step": 4
-   }
+   },
+   "size": "big"
   },
   {
    "key": "lucy",
@@ -1495,7 +1516,8 @@
     "horizons": "-121",
     "center": "Sun",
     "step": 2
-   }
+   },
+   "size": "big"
   },
   {
    "key": "hayabusa2",
@@ -1872,7 +1894,8 @@
     "center": "Mars",
     "local": true,
     "step_min": 30
-   }
+   },
+   "size": "big"
   },
   {
    "key": "perseverance",
@@ -1899,7 +1922,8 @@
     ],
     "center": "Mars",
     "local": true
-   }
+   },
+   "size": "big"
   },
   {
    "key": "lro",
@@ -2006,7 +2030,8 @@
     "horizons": "-192",
     "center": "Moon",
     "local": true
-   }
+   },
+   "size": "small"
   },
   {
    "key": "artemis-p2",
@@ -2040,7 +2065,8 @@
     "horizons": "-193",
     "center": "Moon",
     "local": true
-   }
+   },
+   "size": "small"
   },
   {
    "key": "change7",
@@ -2097,7 +2123,8 @@
     "tle": [
      "TERRA"
     ]
-   }
+   },
+   "size": "big"
   },
   {
    "key": "aqua",
@@ -2120,7 +2147,8 @@
     "tle": [
      "AQUA"
     ]
-   }
+   },
+   "size": "big"
   },
   {
    "key": "aura",
@@ -2143,7 +2171,8 @@
     "tle": [
      "AURA"
     ]
-   }
+   },
+   "size": "big"
   },
   {
    "key": "landsat8",
@@ -2930,6 +2959,266 @@
    "tags": [
     "military"
    ]
+  },
+  {
+   "key": "tdrs8",
+   "name": "TDRS 8",
+   "full": "Tracking and Data Relay Satellite 8",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "earth",
+   "fleet": true,
+   "launch": "2000-06-30",
+   "vehicle": "Atlas IIA, Cape Canaveral",
+   "about": "Part of NASA's Tracking and Data Relay Satellite fleet: from geostationary orbit, 36,000 km up, it passes messages between the ground and spacecraft below, such as the space station and Hubble.",
+   "timeline": [],
+   "links": [
+    {
+     "label": "NASA: TDRS",
+     "url": "https://www.nasa.gov/missions/tdrs/"
+    }
+   ],
+   "src": {
+    "tle": [
+     "TDRS 8",
+     "#26388"
+    ]
+   }
+  },
+  {
+   "key": "tdrs10",
+   "name": "TDRS 10",
+   "full": "Tracking and Data Relay Satellite 10",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "earth",
+   "fleet": true,
+   "launch": "2002-12-05",
+   "vehicle": "Atlas IIA, Cape Canaveral",
+   "about": "Part of NASA's Tracking and Data Relay Satellite fleet: from geostationary orbit, 36,000 km up, it passes messages between the ground and spacecraft below, such as the space station and Hubble.",
+   "timeline": [],
+   "links": [
+    {
+     "label": "NASA: TDRS",
+     "url": "https://www.nasa.gov/missions/tdrs/"
+    }
+   ],
+   "src": {
+    "tle": [
+     "TDRS 10",
+     "#27566"
+    ]
+   }
+  },
+  {
+   "key": "tdrs11",
+   "name": "TDRS 11",
+   "full": "Tracking and Data Relay Satellite 11",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "earth",
+   "fleet": true,
+   "launch": "2013-01-31",
+   "vehicle": "Atlas V, Cape Canaveral",
+   "about": "Part of NASA's Tracking and Data Relay Satellite fleet: from geostationary orbit, 36,000 km up, it passes messages between the ground and spacecraft below, such as the space station and Hubble.",
+   "timeline": [],
+   "links": [
+    {
+     "label": "NASA: TDRS",
+     "url": "https://www.nasa.gov/missions/tdrs/"
+    }
+   ],
+   "src": {
+    "tle": [
+     "TDRS 11",
+     "#39070"
+    ]
+   }
+  },
+  {
+   "key": "tdrs12",
+   "name": "TDRS 12",
+   "full": "Tracking and Data Relay Satellite 12",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "earth",
+   "fleet": true,
+   "launch": "2014-01-24",
+   "vehicle": "Atlas V, Cape Canaveral",
+   "about": "Part of NASA's Tracking and Data Relay Satellite fleet: from geostationary orbit, 36,000 km up, it passes messages between the ground and spacecraft below, such as the space station and Hubble.",
+   "timeline": [],
+   "links": [
+    {
+     "label": "NASA: TDRS",
+     "url": "https://www.nasa.gov/missions/tdrs/"
+    }
+   ],
+   "src": {
+    "tle": [
+     "TDRS 12",
+     "#39504"
+    ]
+   }
+  },
+  {
+   "key": "tdrs13",
+   "name": "TDRS 13",
+   "full": "Tracking and Data Relay Satellite 13",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "earth",
+   "fleet": true,
+   "launch": "2017-08-18",
+   "vehicle": "Atlas V, Cape Canaveral",
+   "about": "Part of NASA's Tracking and Data Relay Satellite fleet: from geostationary orbit, 36,000 km up, it passes messages between the ground and spacecraft below, such as the space station and Hubble.",
+   "timeline": [],
+   "links": [
+    {
+     "label": "NASA: TDRS",
+     "url": "https://www.nasa.gov/missions/tdrs/"
+    }
+   ],
+   "src": {
+    "tle": [
+     "TDRS 13",
+     "#42915"
+    ]
+   }
+  },
+  {
+   "key": "goes16",
+   "name": "GOES-16",
+   "agencies": [
+    "NOAA",
+    "NASA"
+   ],
+   "kind": "earth",
+   "fleet": true,
+   "launch": "2016-11-19",
+   "vehicle": "Atlas V, Cape Canaveral",
+   "about": "Watched the Americas as GOES-East from 2017 to April 2025; now NOAA's spare in geostationary orbit, ready to take over if GOES-18 or GOES-19 fails.",
+   "timeline": [],
+   "links": [
+    {
+     "label": "NOAA: GOES status",
+     "url": "https://www.ospo.noaa.gov/operations/goes/status.html"
+    }
+   ],
+   "src": {
+    "tle": [
+     "GOES 16",
+     "#41866"
+    ]
+   }
+  },
+  {
+   "key": "goes17",
+   "name": "GOES-17",
+   "agencies": [
+    "NOAA",
+    "NASA"
+   ],
+   "kind": "earth",
+   "fleet": true,
+   "launch": "2018-03-01",
+   "vehicle": "Atlas V, Cape Canaveral",
+   "about": "Watched the Pacific as GOES-West from 2019 to 2023; now a second spare in geostationary orbit.",
+   "timeline": [],
+   "links": [
+    {
+     "label": "NOAA: GOES status",
+     "url": "https://www.ospo.noaa.gov/operations/goes/status.html"
+    }
+   ],
+   "src": {
+    "tle": [
+     "GOES 17",
+     "#43226"
+    ]
+   }
+  },
+  {
+   "key": "metopb",
+   "name": "Metop-B",
+   "agencies": [
+    "EUMETSAT",
+    "ESA"
+   ],
+   "kind": "earth",
+   "fleet": true,
+   "launch": "2012-09-17",
+   "vehicle": "Soyuz-Fregat, Baikonur",
+   "about": "A European polar weather satellite whose soundings of temperature and moisture feed the world's weather forecasts.",
+   "timeline": [],
+   "links": [
+    {
+     "label": "EUMETSAT: Metop",
+     "url": "https://www.eumetsat.int/our-satellites/metop-series"
+    }
+   ],
+   "src": {
+    "tle": [
+     "METOP-B",
+     "#38771"
+    ]
+   }
+  },
+  {
+   "key": "metopc",
+   "name": "Metop-C",
+   "agencies": [
+    "EUMETSAT",
+    "ESA"
+   ],
+   "kind": "earth",
+   "fleet": true,
+   "launch": "2018-11-07",
+   "vehicle": "Soyuz-Fregat, Kourou",
+   "about": "The third of Europe's first-generation polar weather satellites, flying with Metop-B.",
+   "timeline": [],
+   "links": [
+    {
+     "label": "EUMETSAT: Metop",
+     "url": "https://www.eumetsat.int/our-satellites/metop-series"
+    }
+   ],
+   "src": {
+    "tle": [
+     "METOP-C",
+     "#43689"
+    ]
+   }
+  },
+  {
+   "key": "himawari8",
+   "name": "Himawari-8",
+   "agencies": [
+    "JMA"
+   ],
+   "kind": "earth",
+   "fleet": true,
+   "launch": "2014-10-07",
+   "vehicle": "H-IIA, Tanegashima",
+   "about": "Japan's weather satellite over the western Pacific from 2015 to 2022; now the standby for Himawari-9.",
+   "timeline": [],
+   "links": [
+    {
+     "label": "JMA: Himawari",
+     "url": "https://www.data.jma.go.jp/mscweb/en/himawari89/"
+    }
+   ],
+   "src": {
+    "tle": [
+     "HIMAWARI-8",
+     "HIMAWARI 8",
+     "#40267"
+    ]
+   }
   }
  ]
 }

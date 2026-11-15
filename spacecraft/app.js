@@ -49,6 +49,7 @@ async function load() {
   const tleBy = Object.fromEntries((T.sats || []).map((s) => [s.key, s]));
   all = [];
   for (const info of cat.value.craft) {
+    if (info.fleet) continue;                  // the Earth-orbit fleet: shown with its switch (being built)
     if (info.src.tle) {
       const t = tleBy[info.key], rec = t && satrecOf(t);
       if (rec) all.push({ key: info.key, info, parent: 'Earth', rec, tle: t });

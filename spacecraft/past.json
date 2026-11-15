@@ -1,0 +1,1545 @@
+{
+ "note": "Facts checked Nov 14, 2026. Past missions: each one's route comes from NASA/JPL Horizons (data/routes.json).",
+ "craft": [
+  {
+   "key": "mariner2",
+   "name": "Mariner 2",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "planetary",
+   "launch": "1962-08-27",
+   "vehicle": "Atlas-Agena B, Cape Canaveral",
+   "ended": "1963-01-03",
+   "end_word": "silent, still circling the Sun",
+   "about": "The first spacecraft to fly past another planet: it passed Venus on December 14, 1962, and found it far too hot for life.",
+   "end": "Its radio fell silent on January 3, 1963, three weeks after the flyby. It still circles the Sun, its systems long dead.",
+   "timeline": [
+    [
+     "1962-08",
+     "Launched"
+    ],
+    [
+     "1962-12",
+     "Flies past Venus, 34,800 km away"
+    ],
+    [
+     "1963-01",
+     "Last contact"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: Mariner 2",
+     "url": "https://science.nasa.gov/mission/mariner-2/"
+    }
+   ],
+   "route": {
+    "horizons": "-2",
+    "center": "Sun"
+   },
+   "rest": "drift",
+   "size": "small"
+  },
+  {
+   "key": "pioneer10",
+   "name": "Pioneer 10",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "planetary",
+   "launch": "1972-03-03",
+   "vehicle": "Atlas-Centaur, Cape Canaveral",
+   "ended": "2003-01-23",
+   "end_word": "silent, leaving the solar system",
+   "about": "The first craft to cross the asteroid belt and the first to fly past Jupiter, in December 1973. It carries a plaque showing where and who sent it.",
+   "end": "Its nuclear power faded over the decades; the last faint signal arrived on January 23, 2003, from 12 billion km away. It coasts on towards the star Aldebaran, which it would pass in about two million years.",
+   "timeline": [
+    [
+     "1972-03",
+     "Launched"
+    ],
+    [
+     "1973-12",
+     "First flyby of Jupiter"
+    ],
+    [
+     "1983-06",
+     "Passes the orbit of Neptune"
+    ],
+    [
+     "2003-01",
+     "Last signal"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: Pioneer 10",
+     "url": "https://science.nasa.gov/mission/pioneer-10/"
+    }
+   ],
+   "route": {
+    "horizons": "-23",
+    "center": "Sun"
+   },
+   "rest": "drift",
+   "size": "small"
+  },
+  {
+   "key": "pioneer11",
+   "name": "Pioneer 11",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "planetary",
+   "launch": "1973-04-06",
+   "vehicle": "Atlas-Centaur, Cape Canaveral",
+   "ended": "1995-09-30",
+   "end_word": "silent, leaving the solar system",
+   "about": "Flew past Jupiter in 1974 and became the first craft to visit Saturn, in September 1979, scouting the way for the Voyagers.",
+   "end": "Its power ran too low to work its instruments in 1995, and the last contact was on September 30, 1995. It heads out of the solar system towards the constellation Aquila.",
+   "timeline": [
+    [
+     "1973-04",
+     "Launched"
+    ],
+    [
+     "1974-12",
+     "Flies past Jupiter"
+    ],
+    [
+     "1979-09",
+     "First flyby of Saturn"
+    ],
+    [
+     "1995-09",
+     "Last contact"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: Pioneer 11",
+     "url": "https://science.nasa.gov/mission/pioneer-11/"
+    }
+   ],
+   "route": {
+    "horizons": "-24",
+    "center": "Sun"
+   },
+   "rest": "drift",
+   "size": "small"
+  },
+  {
+   "key": "galileo",
+   "name": "Galileo",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "planetary",
+   "launch": "1989-10-18",
+   "vehicle": "Space Shuttle Atlantis (STS-34), Kennedy Space Center",
+   "ended": "2003-09-21",
+   "end_word": "into Jupiter",
+   "about": "The first craft to orbit Jupiter, from 1995 to 2003. It dropped a probe into Jupiter's clouds and found signs of a salty ocean under the ice of Europa.",
+   "end": "Almost out of fuel, it was steered into Jupiter on September 21, 2003, so it could never crash into Europa and carry Earth's microbes to a moon that might hold life.",
+   "timeline": [
+    [
+     "1989-10",
+     "Launched from a Space Shuttle"
+    ],
+    [
+     "1991-10",
+     "First close look at an asteroid, Gaspra"
+    ],
+    [
+     "1995-12",
+     "Enters orbit around Jupiter; its probe dives into the clouds"
+    ],
+    [
+     "2003-09",
+     "Ends in Jupiter"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: Galileo",
+     "url": "https://science.nasa.gov/mission/galileo/"
+    }
+   ],
+   "route": {
+    "horizons": "-77",
+    "center": "Sun"
+   },
+   "rest": {
+    "body": "Jupiter"
+   },
+   "size": "big"
+  },
+  {
+   "key": "cassini",
+   "name": "Cassini",
+   "agencies": [
+    "NASA",
+    "ESA",
+    "ASI"
+   ],
+   "kind": "planetary",
+   "launch": "1997-10-15",
+   "vehicle": "Titan IVB/Centaur, Cape Canaveral",
+   "ended": "2017-09-15",
+   "end_word": "into Saturn",
+   "about": "Orbited Saturn for 13 years, studying the planet, its rings and moons; it carried ESA's Huygens probe, which landed on Titan, and found the ocean spraying from Enceladus.",
+   "end": "Nearly out of fuel, Cassini was steered into Saturn's atmosphere on purpose on September 15, 2017, so it could never crash into and contaminate Enceladus or Titan, moons that might suit life. It sent data until it broke apart, after a last season of 22 dives between the planet and its rings.",
+   "timeline": [
+    [
+     "1997-10",
+     "Launched"
+    ],
+    [
+     "1999-08",
+     "Last of four flybys (Venus twice, Earth) for speed"
+    ],
+    [
+     "2000-12",
+     "Flies past Jupiter"
+    ],
+    [
+     "2004-07",
+     "Enters orbit around Saturn"
+    ],
+    [
+     "2005-01",
+     "Huygens lands on Titan"
+    ],
+    [
+     "2017-04",
+     "The Grand Finale dives begin"
+    ],
+    [
+     "2017-09",
+     "Ends in Saturn"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: Cassini",
+     "url": "https://science.nasa.gov/mission/cassini/"
+    },
+    {
+     "label": "ESA: Cassini-Huygens",
+     "url": "https://www.esa.int/Science_Exploration/Space_Science/Cassini-Huygens"
+    }
+   ],
+   "route": {
+    "horizons": "-82",
+    "center": "Sun"
+   },
+   "rest": {
+    "body": "Saturn"
+   },
+   "size": "big"
+  },
+  {
+   "key": "ulysses",
+   "name": "Ulysses",
+   "agencies": [
+    "ESA",
+    "NASA"
+   ],
+   "kind": "sun",
+   "launch": "1990-10-06",
+   "vehicle": "Space Shuttle Discovery (STS-41), Kennedy Space Center",
+   "ended": "2009-06-30",
+   "end_word": "switched off, circling the Sun",
+   "about": "The first craft to fly over the Sun's poles: a fly-by of Jupiter swung it out of the plane of the planets, onto a loop over the Sun's south and north poles.",
+   "end": "Its nuclear power slowly faded until the fuel risked freezing; the team switched it off on June 30, 2009, after more than 18 years, nearly four times its planned life.",
+   "timeline": [
+    [
+     "1990-10",
+     "Launched"
+    ],
+    [
+     "1992-02",
+     "Flies past Jupiter, out of the plane of the planets"
+    ],
+    [
+     "1994-09",
+     "First pass over the Sun's south pole"
+    ],
+    [
+     "2009-06",
+     "Switched off"
+    ]
+   ],
+   "links": [
+    {
+     "label": "ESA: Ulysses",
+     "url": "https://www.esa.int/Science_Exploration/Space_Science/Ulysses_overview"
+    }
+   ],
+   "route": {
+    "horizons": "-55",
+    "center": "Sun"
+   },
+   "rest": "drift"
+  },
+  {
+   "key": "near",
+   "name": "NEAR Shoemaker",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "planetary",
+   "launch": "1996-02-17",
+   "vehicle": "Delta II, Cape Canaveral",
+   "ended": "2001-02-28",
+   "end_word": "on the asteroid Eros",
+   "about": "The first craft to orbit an asteroid, 433 Eros, for a year of close study.",
+   "end": "Not built to land, it touched down gently on Eros on February 12, 2001, and kept sending data from the surface until February 28, 2001. It still sits on Eros.",
+   "timeline": [
+    [
+     "1996-02",
+     "Launched"
+    ],
+    [
+     "2000-02",
+     "Enters orbit around Eros"
+    ],
+    [
+     "2001-02",
+     "Lands on Eros"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: NEAR Shoemaker",
+     "url": "https://science.nasa.gov/mission/near-shoemaker/"
+    }
+   ],
+   "route": {
+    "horizons": "-93",
+    "center": "Sun"
+   },
+   "rest": null
+  },
+  {
+   "key": "pathfinder",
+   "name": "Mars Pathfinder",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "surface",
+   "launch": "1996-12-04",
+   "vehicle": "Delta II, Cape Canaveral",
+   "ended": "1997-09-27",
+   "end_word": "on Mars, Ares Vallis",
+   "about": "Landed on Mars on airbags on July 4, 1997, with Sojourner, the first rover on another planet.",
+   "end": "Planned for a month, it worked for nearly three; the last transmission came on September 27, 1997, probably when its battery gave out in the cold.",
+   "timeline": [
+    [
+     "1996-12",
+     "Launched"
+    ],
+    [
+     "1997-07",
+     "Lands on Mars; Sojourner rolls out"
+    ],
+    [
+     "1997-09",
+     "Last transmission"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: Mars Pathfinder",
+     "url": "https://science.nasa.gov/mission/mars-pathfinder/"
+    }
+   ],
+   "route": {
+    "horizons": "-530",
+    "center": "Sun",
+    "to": "1997-07-04"
+   },
+   "rest": {
+    "body": "Mars",
+    "site": [
+     19.13,
+     326.78
+    ]
+   }
+  },
+  {
+   "key": "ds1",
+   "name": "Deep Space 1",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "planetary",
+   "launch": "1998-10-24",
+   "vehicle": "Delta II, Cape Canaveral",
+   "ended": "2001-12-18",
+   "end_word": "switched off, circling the Sun",
+   "about": "Tested twelve new technologies, above all an ion engine, then flew past the comet Borrelly in 2001.",
+   "end": "With its tests done and a bonus comet visit behind it, its engine was turned off and it was retired on December 18, 2001.",
+   "timeline": [
+    [
+     "1998-10",
+     "Launched"
+    ],
+    [
+     "1999-07",
+     "Flies past the asteroid Braille"
+    ],
+    [
+     "2001-09",
+     "Flies past the comet Borrelly"
+    ],
+    [
+     "2001-12",
+     "Retired"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: Deep Space 1",
+     "url": "https://science.nasa.gov/mission/deep-space-1/"
+    }
+   ],
+   "route": {
+    "horizons": "-30",
+    "center": "Sun"
+   },
+   "rest": "drift",
+   "size": "small"
+  },
+  {
+   "key": "stardust",
+   "name": "Stardust",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "planetary",
+   "launch": "1999-02-07",
+   "vehicle": "Delta II, Cape Canaveral",
+   "ended": "2011-03-24",
+   "end_word": "switched off, circling the Sun",
+   "about": "Caught dust from the comet Wild 2 in a block of aerogel and brought it to Earth in a capsule in January 2006, the first comet sample.",
+   "end": "After a second comet, Tempel 1, in 2011, it burned its last fuel on March 24, 2011, to measure how much was left, and was switched off.",
+   "timeline": [
+    [
+     "1999-02",
+     "Launched"
+    ],
+    [
+     "2004-01",
+     "Collects dust from the comet Wild 2"
+    ],
+    [
+     "2006-01",
+     "Sample capsule lands in Utah"
+    ],
+    [
+     "2011-02",
+     "Flies past the comet Tempel 1"
+    ],
+    [
+     "2011-03",
+     "Switched off"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: Stardust",
+     "url": "https://science.nasa.gov/mission/stardust/"
+    }
+   ],
+   "route": {
+    "horizons": "-29",
+    "center": "Sun"
+   },
+   "rest": "drift",
+   "size": "small"
+  },
+  {
+   "key": "spitzer",
+   "name": "Spitzer",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "telescope",
+   "launch": "2003-08-25",
+   "vehicle": "Delta II, Cape Canaveral",
+   "ended": "2020-01-30",
+   "end_word": "switched off, trailing Earth",
+   "about": "An infrared space telescope that trailed behind Earth around the Sun, seeing dust, young stars and distant galaxies; it found the seven planets of TRAPPIST-1.",
+   "end": "As it drifted ever farther behind Earth, pointing its antenna home meant tilting its solar panels from the Sun. NASA switched it off on January 30, 2020.",
+   "timeline": [
+    [
+     "2003-08",
+     "Launched"
+    ],
+    [
+     "2009-05",
+     "Its coolant runs out; the warm mission begins"
+    ],
+    [
+     "2017-02",
+     "Finds the TRAPPIST-1 planets"
+    ],
+    [
+     "2020-01",
+     "Switched off"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: Spitzer",
+     "url": "https://science.nasa.gov/mission/spitzer/"
+    }
+   ],
+   "route": {
+    "horizons": "-79",
+    "center": "Sun"
+   },
+   "rest": "drift",
+   "size": "big"
+  },
+  {
+   "key": "spirit",
+   "name": "Spirit",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "surface",
+   "launch": "2003-06-10",
+   "vehicle": "Delta II, Cape Canaveral",
+   "ended": "2011-05-25",
+   "end_word": "on Mars, Gusev crater",
+   "about": "One of two twin rovers; planned to drive 90 days, it explored Gusev crater for six years and found signs of ancient hot springs.",
+   "end": "Stuck in soft sand in 2009, it could not turn its solar panels to the Sun for its fourth Martian winter. The last contact was on March 22, 2010; NASA ended the mission on May 25, 2011.",
+   "timeline": [
+    [
+     "2003-06",
+     "Launched"
+    ],
+    [
+     "2004-01",
+     "Lands in Gusev crater"
+    ],
+    [
+     "2009-05",
+     "Stuck in soft sand"
+    ],
+    [
+     "2010-03",
+     "Last contact"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: Spirit",
+     "url": "https://science.nasa.gov/mission/mer-spirit/"
+    }
+   ],
+   "route": {
+    "horizons": "-254",
+    "center": "Sun",
+    "to": "2004-01-04"
+   },
+   "rest": {
+    "body": "Mars",
+    "site": [
+     -14.6,
+     175.52
+    ]
+   }
+  },
+  {
+   "key": "opportunity",
+   "name": "Opportunity",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "surface",
+   "launch": "2003-07-08",
+   "vehicle": "Delta II Heavy, Cape Canaveral",
+   "ended": "2019-02-13",
+   "end_word": "on Mars, Meridiani Planum",
+   "about": "Spirit's twin; planned for 90 days, it drove 45 km in 14 years and found clear signs that water once soaked the rocks of Meridiani Planum.",
+   "end": "A planet-wide dust storm in June 2018 blotted out the Sun from its solar panels. It never woke up; NASA ended the mission on February 13, 2019, after more than 1,000 calls.",
+   "timeline": [
+    [
+     "2003-07",
+     "Launched"
+    ],
+    [
+     "2004-01",
+     "Lands at Meridiani Planum"
+    ],
+    [
+     "2015-03",
+     "Passes a marathon's distance driven"
+    ],
+    [
+     "2018-06",
+     "Last contact, in a dust storm"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: Opportunity",
+     "url": "https://science.nasa.gov/mission/mer-opportunity/"
+    }
+   ],
+   "route": {
+    "horizons": "-253",
+    "center": "Sun",
+    "to": "2004-01-25"
+   },
+   "rest": {
+    "body": "Mars",
+    "site": [
+     -2.28,
+     354.53
+    ]
+   }
+  },
+  {
+   "key": "hayabusa",
+   "name": "Hayabusa",
+   "agencies": [
+    "JAXA"
+   ],
+   "kind": "planetary",
+   "launch": "2003-05-09",
+   "vehicle": "M-V, Uchinoura",
+   "ended": "2010-06-13",
+   "end_word": "burned up on returning to Earth",
+   "about": "Brought the first sample from an asteroid, Itokawa, back to Earth, despite engine failures and months out of contact.",
+   "end": "On June 13, 2010, it released its sample capsule over Australia and then burned up itself in the atmosphere behind it. The capsule landed safely with grains of Itokawa.",
+   "timeline": [
+    [
+     "2003-05",
+     "Launched"
+    ],
+    [
+     "2005-11",
+     "Touches down on Itokawa"
+    ],
+    [
+     "2010-06",
+     "Capsule returns; the craft burns up"
+    ]
+   ],
+   "links": [
+    {
+     "label": "JAXA: Hayabusa",
+     "url": "https://www.isas.jaxa.jp/en/missions/spacecraft/past/hayabusa.html"
+    }
+   ],
+   "route": {
+    "horizons": "-130",
+    "center": "Sun"
+   },
+   "rest": null
+  },
+  {
+   "key": "messenger",
+   "name": "MESSENGER",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "planetary",
+   "launch": "2004-08-03",
+   "vehicle": "Delta II, Cape Canaveral",
+   "ended": "2015-04-30",
+   "end_word": "into Mercury",
+   "about": "The first craft to orbit Mercury, from 2011 to 2015; it mapped the whole planet and found water ice in craters at its poles.",
+   "end": "Out of fuel, it could no longer hold its orbit and crashed into Mercury on April 30, 2015, at about 14,000 km/h, leaving a new crater about 16 m across.",
+   "timeline": [
+    [
+     "2004-08",
+     "Launched"
+    ],
+    [
+     "2008-01",
+     "First of three flybys of Mercury"
+    ],
+    [
+     "2011-03",
+     "Enters orbit around Mercury"
+    ],
+    [
+     "2015-04",
+     "Ends on Mercury"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: MESSENGER",
+     "url": "https://science.nasa.gov/mission/messenger/"
+    }
+   ],
+   "route": {
+    "horizons": "-236",
+    "center": "Sun"
+   },
+   "rest": {
+    "body": "Mercury"
+   }
+  },
+  {
+   "key": "rosetta",
+   "name": "Rosetta",
+   "agencies": [
+    "ESA",
+    "NASA"
+   ],
+   "kind": "planetary",
+   "launch": "2004-03-02",
+   "vehicle": "Ariane 5, Kourou",
+   "ended": "2016-09-30",
+   "end_word": "on the comet 67P",
+   "about": "The first craft to orbit a comet, 67P/Churyumov–Gerasimenko, for two years as it passed the Sun; its lander Philae made the first landing on a comet.",
+   "end": "As the comet moved away from the Sun, there was too little sunlight to run it. On September 30, 2016, it was steered down onto the comet, taking pictures to the end.",
+   "timeline": [
+    [
+     "2004-03",
+     "Launched"
+    ],
+    [
+     "2014-08",
+     "Arrives at the comet"
+    ],
+    [
+     "2014-11",
+     "Philae lands on the comet"
+    ],
+    [
+     "2016-09",
+     "Lands on the comet itself"
+    ]
+   ],
+   "links": [
+    {
+     "label": "ESA: Rosetta",
+     "url": "https://www.esa.int/Science_Exploration/Space_Science/Rosetta"
+    }
+   ],
+   "route": {
+    "horizons": "-226",
+    "center": "Sun"
+   },
+   "rest": null,
+   "size": "big"
+  },
+  {
+   "key": "deepimpact",
+   "name": "Deep Impact",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "planetary",
+   "launch": "2005-01-12",
+   "vehicle": "Delta II, Cape Canaveral",
+   "ended": "2013-09-20",
+   "end_word": "silent, circling the Sun",
+   "about": "Fired an impactor into the comet Tempel 1 on July 4, 2005, to see what was inside; later, as EPOXI, it flew past the comet Hartley 2.",
+   "end": "Contact was lost in August 2013, probably because its clock overflowed, leaving it unable to point its solar panels. NASA ended the mission on September 20, 2013.",
+   "timeline": [
+    [
+     "2005-01",
+     "Launched"
+    ],
+    [
+     "2005-07",
+     "Its impactor hits the comet Tempel 1"
+    ],
+    [
+     "2010-11",
+     "Flies past the comet Hartley 2"
+    ],
+    [
+     "2013-08",
+     "Last contact"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: Deep Impact",
+     "url": "https://science.nasa.gov/mission/deep-impact-epoxi/"
+    }
+   ],
+   "route": {
+    "horizons": "-140",
+    "center": "Sun"
+   },
+   "rest": "drift"
+  },
+  {
+   "key": "venusexpress",
+   "name": "Venus Express",
+   "agencies": [
+    "ESA"
+   ],
+   "kind": "planetary",
+   "launch": "2005-11-09",
+   "vehicle": "Soyuz-Fregat, Baikonur",
+   "ended": "2014-12-16",
+   "end_word": "into Venus",
+   "about": "Orbited Venus for eight years, studying its thick, hot atmosphere and finding signs of recent volcanic activity.",
+   "end": "Its fuel ran out in late 2014 after a daring dive deep into the atmosphere; contact was lost on November 28, 2014, and it sank into Venus early in 2015.",
+   "timeline": [
+    [
+     "2005-11",
+     "Launched"
+    ],
+    [
+     "2006-04",
+     "Enters orbit around Venus"
+    ],
+    [
+     "2014-06",
+     "Dives into the upper atmosphere"
+    ],
+    [
+     "2014-11",
+     "Last contact"
+    ]
+   ],
+   "links": [
+    {
+     "label": "ESA: Venus Express",
+     "url": "https://www.esa.int/Science_Exploration/Space_Science/Venus_Express"
+    }
+   ],
+   "route": {
+    "horizons": "-248",
+    "center": "Sun",
+    "to": "2006-04-11"
+   },
+   "rest": {
+    "body": "Venus"
+   }
+  },
+  {
+   "key": "dawn",
+   "name": "Dawn",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "planetary",
+   "launch": "2007-09-27",
+   "vehicle": "Delta II, Cape Canaveral",
+   "ended": "2018-11-01",
+   "end_word": "orbiting the dwarf planet Ceres",
+   "about": "The only craft to orbit two worlds beyond Earth and the Moon: the asteroid Vesta, then the dwarf planet Ceres, using ion engines.",
+   "end": "It ran out of the fuel that kept its antenna pointed at Earth and fell silent on November 1, 2018. It stays in orbit around Ceres for decades.",
+   "timeline": [
+    [
+     "2007-09",
+     "Launched"
+    ],
+    [
+     "2011-07",
+     "Enters orbit around Vesta"
+    ],
+    [
+     "2015-03",
+     "Enters orbit around Ceres"
+    ],
+    [
+     "2018-11",
+     "Out of fuel"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: Dawn",
+     "url": "https://science.nasa.gov/mission/dawn/"
+    }
+   ],
+   "route": {
+    "horizons": "-203",
+    "center": "Sun"
+   },
+   "rest": null
+  },
+  {
+   "key": "phoenix",
+   "name": "Phoenix",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "surface",
+   "launch": "2007-08-04",
+   "vehicle": "Delta II, Cape Canaveral",
+   "ended": "2008-11-10",
+   "end_word": "on Mars, near the north pole",
+   "about": "Landed in Mars's far north in May 2008 and dug up water ice just under the surface.",
+   "end": "As the northern winter came, there was too little sunlight for its solar panels; the last signal arrived on November 2, 2008, and its panels were later found crushed by winter ice.",
+   "timeline": [
+    [
+     "2007-08",
+     "Launched"
+    ],
+    [
+     "2008-05",
+     "Lands near the north pole"
+    ],
+    [
+     "2008-06",
+     "Confirms water ice in the soil"
+    ],
+    [
+     "2008-11",
+     "Last signal"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: Phoenix",
+     "url": "https://science.nasa.gov/mission/phoenix/"
+    }
+   ],
+   "route": {
+    "horizons": "-84",
+    "center": "Sun",
+    "to": "2008-05-25"
+   },
+   "rest": {
+    "body": "Mars",
+    "site": [
+     68.22,
+     234.25
+    ]
+   }
+  },
+  {
+   "key": "kepler",
+   "name": "Kepler",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "telescope",
+   "launch": "2009-03-07",
+   "vehicle": "Delta II, Cape Canaveral",
+   "ended": "2018-10-30",
+   "end_word": "switched off, trailing Earth",
+   "about": "Stared at about 150,000 stars for planets crossing in front of them, and showed that planets are common: it found more than 2,600.",
+   "end": "It ran out of fuel, and NASA retired it on October 30, 2018; the last commands were sent on November 15, 2018. It trails Earth around the Sun.",
+   "timeline": [
+    [
+     "2009-03",
+     "Launched"
+    ],
+    [
+     "2013-05",
+     "A second wheel fails; the K2 mission begins"
+    ],
+    [
+     "2018-10",
+     "Out of fuel and retired"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: Kepler",
+     "url": "https://science.nasa.gov/mission/kepler/"
+    }
+   ],
+   "route": {
+    "horizons": "-227",
+    "center": "Sun"
+   },
+   "rest": "drift"
+  },
+  {
+   "key": "lcross",
+   "name": "LCROSS",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "planetary",
+   "launch": "2009-06-18",
+   "vehicle": "Atlas V, Cape Canaveral (with LRO)",
+   "ended": "2009-10-09",
+   "end_word": "into the Moon",
+   "about": "Sent its spent rocket stage into a dark crater at the Moon's south pole, then flew through the plume and found water.",
+   "end": "Four minutes after its rocket stage, it crashed into the crater Cabeus itself on October 9, 2009, as planned.",
+   "timeline": [
+    [
+     "2009-06",
+     "Launched with LRO"
+    ],
+    [
+     "2009-10",
+     "Rocket stage and LCROSS hit Cabeus crater"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: LCROSS",
+     "url": "https://science.nasa.gov/mission/lcross/"
+    }
+   ],
+   "route": {
+    "horizons": "-18",
+    "center": "Earth"
+   },
+   "rest": {
+    "body": "Moon"
+   }
+  },
+  {
+   "key": "chandrayaan1",
+   "name": "Chandrayaan-1",
+   "agencies": [
+    "ISRO"
+   ],
+   "kind": "planetary",
+   "launch": "2008-10-22",
+   "vehicle": "PSLV, Sriharikota",
+   "ended": "2009-08-29",
+   "end_word": "silent, orbiting the Moon",
+   "about": "India's first Moon mission; NASA's instrument on board found water molecules spread across the lunar surface.",
+   "end": "Its star sensors failed in the heat, and contact was lost on August 29, 2009. In 2017 NASA radar found it, still circling the Moon.",
+   "timeline": [
+    [
+     "2008-10",
+     "Launched"
+    ],
+    [
+     "2008-11",
+     "Enters orbit around the Moon"
+    ],
+    [
+     "2009-08",
+     "Last contact"
+    ]
+   ],
+   "links": [
+    {
+     "label": "ISRO: Chandrayaan-1",
+     "url": "https://www.isro.gov.in/Chandrayaan_1.html"
+    }
+   ],
+   "route": {
+    "horizons": "-86",
+    "center": "Earth"
+   },
+   "rest": {
+    "body": "Moon"
+   }
+  },
+  {
+   "key": "herschel",
+   "name": "Herschel",
+   "agencies": [
+    "ESA",
+    "NASA"
+   ],
+   "kind": "telescope",
+   "launch": "2009-05-14",
+   "vehicle": "Ariane 5, Kourou (with Planck)",
+   "ended": "2013-06-17",
+   "end_word": "switched off, circling the Sun",
+   "about": "The largest infrared telescope launched until Webb, with a 3.5 m mirror, studying how stars and galaxies form, from L2.",
+   "end": "Its liquid helium coolant ran out on April 29, 2013, as expected; it was moved off L2 into an orbit around the Sun and switched off on June 17, 2013.",
+   "timeline": [
+    [
+     "2009-05",
+     "Launched with Planck"
+    ],
+    [
+     "2013-04",
+     "Coolant runs out"
+    ],
+    [
+     "2013-06",
+     "Switched off"
+    ]
+   ],
+   "links": [
+    {
+     "label": "ESA: Herschel",
+     "url": "https://www.esa.int/Science_Exploration/Space_Science/Herschel"
+    }
+   ],
+   "route": {
+    "horizons": "-486",
+    "center": "Earth"
+   },
+   "rest": "drift",
+   "size": "big"
+  },
+  {
+   "key": "planck",
+   "name": "Planck",
+   "agencies": [
+    "ESA",
+    "NASA"
+   ],
+   "kind": "telescope",
+   "launch": "2009-05-14",
+   "vehicle": "Ariane 5, Kourou (with Herschel)",
+   "ended": "2013-10-23",
+   "end_word": "switched off, circling the Sun",
+   "about": "Mapped the oldest light in the universe, the cosmic microwave background, in more detail than ever, and measured the age of the universe: 13.8 billion years.",
+   "end": "Its work done, it was moved away from L2 into an orbit around the Sun and switched off on October 23, 2013.",
+   "timeline": [
+    [
+     "2009-05",
+     "Launched with Herschel"
+    ],
+    [
+     "2013-03",
+     "Its map of the oldest light published"
+    ],
+    [
+     "2013-10",
+     "Switched off"
+    ]
+   ],
+   "links": [
+    {
+     "label": "ESA: Planck",
+     "url": "https://www.esa.int/Science_Exploration/Space_Science/Planck"
+    }
+   ],
+   "route": {
+    "horizons": "-489",
+    "center": "Earth"
+   },
+   "rest": "drift",
+   "size": "big"
+  },
+  {
+   "key": "wmap",
+   "name": "WMAP",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "telescope",
+   "launch": "2001-06-30",
+   "vehicle": "Delta II, Cape Canaveral",
+   "ended": "2010-10-20",
+   "end_word": "switched off, circling the Sun",
+   "about": "Mapped the cosmic microwave background from L2 and pinned down the age and make-up of the universe.",
+   "end": "After nine years it finished its observations in August 2010 and was sent into an orbit around the Sun, then switched off in October 2010.",
+   "timeline": [
+    [
+     "2001-06",
+     "Launched"
+    ],
+    [
+     "2003-02",
+     "First full map published"
+    ],
+    [
+     "2010-10",
+     "Switched off"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: WMAP",
+     "url": "https://science.nasa.gov/mission/wmap/"
+    }
+   ],
+   "route": {
+    "horizons": "-165",
+    "center": "Earth"
+   },
+   "rest": "drift"
+  },
+  {
+   "key": "akatsuki",
+   "name": "Akatsuki",
+   "agencies": [
+    "JAXA"
+   ],
+   "kind": "planetary",
+   "launch": "2010-05-20",
+   "vehicle": "H-IIA, Tanegashima",
+   "ended": "2024-09-18",
+   "end_word": "silent, orbiting Venus",
+   "about": "Japan's Venus orbiter. Its engine failed at arrival in 2010; five years later, using small thrusters, it reached Venus orbit at the second try.",
+   "end": "Contact was lost in April 2024 after a problem with its pointing, and JAXA ended the mission on September 18, 2024.",
+   "timeline": [
+    [
+     "2010-05",
+     "Launched"
+    ],
+    [
+     "2010-12",
+     "Misses Venus orbit"
+    ],
+    [
+     "2015-12",
+     "Enters orbit around Venus at the second try"
+    ],
+    [
+     "2024-04",
+     "Last contact"
+    ]
+   ],
+   "links": [
+    {
+     "label": "JAXA: Akatsuki",
+     "url": "https://akatsuki.isas.jaxa.jp/en/"
+    }
+   ],
+   "route": {
+    "horizons": "-5",
+    "center": "Sun",
+    "to": "2015-12-07"
+   },
+   "rest": {
+    "body": "Venus"
+   }
+  },
+  {
+   "key": "grail",
+   "name": "GRAIL",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "planetary",
+   "launch": "2011-09-10",
+   "vehicle": "Delta II, Cape Canaveral",
+   "ended": "2012-12-17",
+   "end_word": "into the Moon",
+   "about": "Twin craft, Ebb and Flow, that chased each other around the Moon, measuring the distance between them to map the Moon's gravity. Shown here by GRAIL-A (Ebb).",
+   "end": "Low on fuel, both were flown into a mountain near the Moon's north pole on December 17, 2012; the site was named after Sally Ride.",
+   "timeline": [
+    [
+     "2011-09",
+     "Launched"
+    ],
+    [
+     "2012-01",
+     "Both enter orbit around the Moon"
+    ],
+    [
+     "2012-12",
+     "Both end on the Moon"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: GRAIL",
+     "url": "https://science.nasa.gov/mission/grail/"
+    }
+   ],
+   "route": {
+    "horizons": "-177",
+    "center": "Earth"
+   },
+   "rest": {
+    "body": "Moon"
+   }
+  },
+  {
+   "key": "ladee",
+   "name": "LADEE",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "planetary",
+   "launch": "2013-09-07",
+   "vehicle": "Minotaur V, Wallops",
+   "ended": "2014-04-18",
+   "end_word": "into the Moon",
+   "about": "Studied the Moon's extremely thin atmosphere and the dust floating above its surface.",
+   "end": "Planned from the start: at the end of its mission it dropped lower and lower until it hit the far side of the Moon on April 18, 2014.",
+   "timeline": [
+    [
+     "2013-09",
+     "Launched"
+    ],
+    [
+     "2013-10",
+     "Enters orbit around the Moon"
+    ],
+    [
+     "2014-04",
+     "Ends on the Moon"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: LADEE",
+     "url": "https://science.nasa.gov/mission/ladee/"
+    }
+   ],
+   "route": {
+    "horizons": "-12",
+    "center": "Earth"
+   },
+   "rest": {
+    "body": "Moon"
+   },
+   "size": "small"
+  },
+  {
+   "key": "maven",
+   "name": "MAVEN",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "planetary",
+   "launch": "2013-11-18",
+   "vehicle": "Atlas V, Cape Canaveral",
+   "ended": "2026-06-03",
+   "end_word": "silent, orbiting Mars",
+   "about": "Studied how Mars lost most of its air to space, and relayed messages from the rovers, for more than ten years.",
+   "end": "On December 6, 2025, it went behind Mars and never called back; tracking data suggested it was turning in an unexpected way. NASA ended the mission on June 3, 2026.",
+   "timeline": [
+    [
+     "2013-11",
+     "Launched"
+    ],
+    [
+     "2014-09",
+     "Enters orbit around Mars"
+    ],
+    [
+     "2025-12",
+     "Last contact"
+    ],
+    [
+     "2026-06",
+     "Mission ended"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: MAVEN",
+     "url": "https://science.nasa.gov/mission/maven/"
+    }
+   ],
+   "route": {
+    "horizons": "-202",
+    "center": "Sun",
+    "to": "2014-09-22"
+   },
+   "rest": {
+    "body": "Mars"
+   }
+  },
+  {
+   "key": "gaia",
+   "name": "Gaia",
+   "agencies": [
+    "ESA"
+   ],
+   "kind": "telescope",
+   "launch": "2013-12-19",
+   "vehicle": "Soyuz-Fregat, Kourou",
+   "ended": "2025-03-27",
+   "end_word": "switched off, circling the Sun",
+   "about": "Measured the positions, distances and motions of nearly two billion stars from L2: the most precise map of the Milky Way.",
+   "end": "Its fuel almost spent, it ended science on January 15, 2025, was pushed away from L2 into an orbit around the Sun and switched off on March 27, 2025.",
+   "timeline": [
+    [
+     "2013-12",
+     "Launched"
+    ],
+    [
+     "2016-09",
+     "First star catalogue published"
+    ],
+    [
+     "2025-01",
+     "Science ends"
+    ],
+    [
+     "2025-03",
+     "Switched off"
+    ]
+   ],
+   "links": [
+    {
+     "label": "ESA: Gaia",
+     "url": "https://www.esa.int/Science_Exploration/Space_Science/Gaia"
+    }
+   ],
+   "route": {
+    "horizons": "-139479",
+    "center": "Earth"
+   },
+   "rest": "drift",
+   "size": "big"
+  },
+  {
+   "key": "insight",
+   "name": "InSight",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "surface",
+   "launch": "2018-05-05",
+   "vehicle": "Atlas V, Vandenberg",
+   "ended": "2022-12-21",
+   "end_word": "on Mars, Elysium Planitia",
+   "about": "A lander that listened for marsquakes: it recorded more than 1,300 and mapped Mars's crust, mantle and core.",
+   "end": "Dust slowly covered its solar panels until there was too little power; it missed two calls in a row and NASA ended the mission on December 21, 2022.",
+   "timeline": [
+    [
+     "2018-05",
+     "Launched"
+    ],
+    [
+     "2018-11",
+     "Lands on Mars"
+    ],
+    [
+     "2019-04",
+     "Records the first marsquake"
+    ],
+    [
+     "2022-12",
+     "Mission ended"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: InSight",
+     "url": "https://science.nasa.gov/mission/insight/"
+    }
+   ],
+   "route": {
+    "horizons": "-189",
+    "center": "Sun",
+    "to": "2018-11-26"
+   },
+   "rest": {
+    "body": "Mars",
+    "site": [
+     4.5,
+     135.62
+    ]
+   }
+  },
+  {
+   "key": "dart",
+   "name": "DART",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "planetary",
+   "launch": "2021-11-24",
+   "vehicle": "Falcon 9, Vandenberg",
+   "ended": "2022-09-26",
+   "end_word": "into the asteroid Dimorphos",
+   "about": "The first test of planetary defence: it crashed into the small asteroid Dimorphos on purpose, to see if a hit could change an asteroid's path.",
+   "end": "It hit Dimorphos at 6.1 km/s on September 26, 2022, and shortened its 11 hour 55 minute orbit around its larger partner by 33 minutes.",
+   "timeline": [
+    [
+     "2021-11",
+     "Launched"
+    ],
+    [
+     "2022-09",
+     "Hits Dimorphos"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: DART",
+     "url": "https://science.nasa.gov/mission/dart/"
+    }
+   ],
+   "route": {
+    "horizons": "-135",
+    "center": "Sun"
+   },
+   "rest": null
+  },
+  {
+   "key": "artemis1",
+   "name": "Artemis I",
+   "agencies": [
+    "NASA",
+    "ESA"
+   ],
+   "kind": "capsule",
+   "launch": "2022-11-16",
+   "vehicle": "SLS, Kennedy Space Center",
+   "ended": "2022-12-11",
+   "end_word": "back on Earth",
+   "about": "The first flight of NASA's SLS rocket and an Orion capsule without a crew: a 25-day trip around the Moon to test them for people.",
+   "end": "Orion splashed down in the Pacific off Baja California on December 11, 2022; its heat shield's wear led to changes for Artemis II.",
+   "timeline": [
+    [
+     "2022-11",
+     "Launched"
+    ],
+    [
+     "2022-11",
+     "Flies 130 km over the Moon"
+    ],
+    [
+     "2022-12",
+     "Splashes down in the Pacific"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: Artemis I",
+     "url": "https://www.nasa.gov/mission/artemis-i/"
+    }
+   ],
+   "route": {
+    "horizons": "-1023",
+    "center": "Earth"
+   },
+   "rest": null,
+   "size": "big"
+  },
+  {
+   "key": "artemis2",
+   "name": "Artemis II",
+   "agencies": [
+    "NASA",
+    "CSA",
+    "ESA"
+   ],
+   "kind": "capsule",
+   "launch": "2026-04-01",
+   "vehicle": "SLS, Kennedy Space Center",
+   "ended": "2026-04-11",
+   "end_word": "back on Earth",
+   "about": "The first crewed flight to the Moon since 1972: Reid Wiseman, Victor Glover, Christina Koch and Jeremy Hansen flew around the Moon in Orion.",
+   "end": "After nearly ten days and a loop behind the far side of the Moon, Orion splashed down in the Pacific off San Diego on April 10, 2026, at 8:07 p.m. EDT (00:07 UTC on April 11).",
+   "timeline": [
+    [
+     "2026-04",
+     "Launched"
+    ],
+    [
+     "2026-04",
+     "Passes behind the far side of the Moon"
+    ],
+    [
+     "2026-04",
+     "Splashes down in the Pacific"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: Artemis II",
+     "url": "https://www.nasa.gov/mission/artemis-ii/"
+    }
+   ],
+   "route": {
+    "horizons": "-1024",
+    "center": "Earth"
+   },
+   "rest": null,
+   "size": "big",
+   "crewed": true
+  }
+ ]
+}

@@ -10,6 +10,11 @@
 #                   ecliptic J2000 frame (Horizons REF_PLANE=ECLIPTIC, ICRF), whole kilometres.
 #   tle.json        the latest orbital elements (two-line element sets) of the craft in Earth orbit, from CelesTrak
 #                   (celestrak.org), for the SGP4 model run in the browser.
+#   routes.json     past missions (past.json, added Nov 14, 2026): each one's whole route from launch to its end (or
+#                   landing), 600 equal steps from Horizons, relative to its "parent"; worked out once and kept while
+#                   the mission's entry in past.json is unchanged ("sig"). For past craft still drifting around the
+#                   Sun ("rest": "drift"), "now" holds their positions around today, renewed on every run, when
+#                   Horizons still follows them.
 #   links.json      the catalogue's links that did not answer (HTTP 404 or 410), which the page leaves out.
 # A craft that cannot be found is left out of the files and named in the log; the page shows only what was found.
 # Run by hand:  python3 spacecraft/fetch_spacecraft.py   (standard library only)
@@ -97,6 +102,58 @@ def vectors(hid, center, start, stop, step):
         'START_TIME': "'%s'" % start.replace(' ', '%20'), 'STOP_TIME': "'%s'" % stop.replace(' ', '%20'), 'STEP_SIZE': "'%s'" % step.replace(' ', '%20'),
         'OUT_UNITS': 'KM-S', 'REF_PLANE': 'ECLIPTIC', 'REF_SYSTEM': 'ICRF', 'VEC_TABLE': '1', 'CSV_FORMAT': 'YES', 'OBJ_DATA': 'NO'})
     return res.get('result', '') + res.get('error', '')
+
+
+def table(hid, center, rng, step):
+    """Horizons vectors over rng (a two-item list, changed in place to the dates Horizons covers): (lines, text)."""
+    text = ''
+    for _ in range(3):
+        text = vectors(hid, center, rng[0], rng[1], step)
+        if '$$SOE' in text:
+            break
+        m1 = re.search(r'(?:prior to|before)\s+A\.D\.\s+(\d{4}-[A-Z]{3}-\d{2})(?:\s+(\d{2}:\d{2}))?', text)
+        m2 = re.search(r'after\s+A\.D\.\s+(\d{4}-[A-Z]{3}-\d{2})(?:\s+(\d{2}:\d{2}))?', text)
+        fix = lambda d, t: dt.datetime.strptime(d.title() + ' ' + (t or '00:00'), '%Y-%b-%d %H:%M')
+        if m1:
+            rng[0] = (fix(m1.group(1), m1.group(2)) + dt.timedelta(hours=2)).strftime('%Y-%m-%d %H:%M')
+        if m2:
+            rng[1] = (fix(m2.group(1), m2.group(2)) - dt.timedelta(hours=1)).strftime('%Y-%m-%d %H:%M')
+        if not (m1 or m2) or rng[0] >= rng[1]:
+            break
+        time.sleep(1)
+    if '$$SOE' not in text:
+        return None, text
+    rows = []
+    for line in text.split('$$SOE', 1)[1].split('$$EOE', 1)[0].strip().splitlines():
+        p = [v.strip() for v in line.split(',')]
+        if len(p) >= 5:
+            rows.append((float(p[0]), round(float(p[2])), round(float(p[3])), round(float(p[4]))))
+    return rows, text
+
+
+def route_for(p, now):
+    """A past mission's whole route: 600 equal steps from launch to its end (or route.to), relative to route.center."""
+    r = p['route']
+    start = dt.datetime.fromisoformat(r.get('from', p['launch'])) + dt.timedelta(hours=12)
+    stop = min(dt.datetime.fromisoformat(r.get('to', p['ended'])) + dt.timedelta(hours=12), now)
+    rng = [start.strftime('%Y-%m-%d %H:%M'), stop.strftime('%Y-%m-%d %H:%M')]
+    rows, text = table(r['horizons'], r['center'], rng, '600')
+    if not rows or len(rows) < 3:
+        print('  %-28s %s: no route (%s)' % (p['name'], r['horizons'], text.strip()[:160].replace('\n', ' ')))
+        return None
+    xyz = [v for row in rows for v in row[1:]]
+    step = (rows[-1][0] - rows[0][0]) / (len(rows) - 1)
+    print('  %-28s %s: route of %d points around %s, %s to %s' % (p['name'], r['horizons'], len(rows), r['center'], rng[0][:10], rng[1][:10]))
+    return {'horizons': r['horizons'], 'parent': r['center'], 'jd0': rows[0][0], 'step': step, 'xyz': xyz}
+
+
+def drift_now(p, now):
+    """A drifting past craft around today, around the Sun, every 5 days, when Horizons still follows it."""
+    rng = [(now - dt.timedelta(days=60)).strftime('%Y-%m-%d %H:%M'), (now + dt.timedelta(days=365)).strftime('%Y-%m-%d %H:%M')]
+    rows, _ = table(p['route']['horizons'], 'Sun', rng, '5 d')
+    if not rows or len(rows) < 3 or not (rows[0][0] <= 2440587.5 + now.timestamp() / 86400 + 0.01 <= rows[-1][0]):
+        return None
+    return {'parent': 'Sun', 'jd0': rows[0][0], 'step': (rows[-1][0] - rows[0][0]) / (len(rows) - 1), 'xyz': [v for row in rows for v in row[1:]]}
 
 
 def samples_for(c, now):
@@ -277,12 +334,54 @@ def main():
         print('  failed: %s' % e)
         ok = False
 
+    print('Past missions:')
+    try:
+        with open(os.path.join(HERE, 'past.json')) as fh:
+            past = json.load(fh)['craft']
+    except (OSError, ValueError, KeyError) as e:
+        print('  past.json could not be read: %s' % e)
+        past = []
+    try:
+        with open(os.path.join(DATA, 'routes.json')) as fh:
+            old = json.load(fh).get('craft', {})
+    except (OSError, ValueError):
+        old = {}
+    routes, drift = {}, {}
+    for p in past:
+        sig = json.dumps([p['route'], p['launch'], p['ended']], sort_keys=True)
+        if old.get(p['key'], {}).get('sig') == sig:
+            routes[p['key']] = old[p['key']]
+        else:
+            try:
+                r = route_for(p, now)
+            except Exception as e:
+                print('  %-28s failed: %s' % (p['name'], e))
+                r = None
+            if r:
+                routes[p['key']] = {**r, 'sig': sig}
+            elif p['key'] in old:
+                routes[p['key']] = old[p['key']]          # keep the earlier route rather than lose it
+            time.sleep(1)
+        if p.get('rest') == 'drift':
+            try:
+                d = drift_now(p, now)
+            except Exception as e:
+                print('  %-28s now: failed: %s' % (p['name'], e))
+                d = None
+            print('  %-28s now: %s' % (p['name'], 'followed' if d else 'no longer followed by Horizons'))
+            if d:
+                drift[p['key']] = d
+            time.sleep(1)
+    if routes:
+        write('routes.json', {'source': 'NASA/JPL Horizons (ssd.jpl.nasa.gov/api/horizons.api)', 'frame': 'ecliptic J2000 (ICRF), km, relative to "parent"',
+                              'updated': stamp, 'craft': routes, 'now': drift})
+
     # links once a day is plenty: when the last check is 20 hours old or more, when there is no file yet, or when the
     # catalogue has just changed (a push run). Decided Nov 14, 2026: by age, not by the hour of the run, because GitHub
     # often starts the morning run hours late, after midday, and the check was then skipped every day.
     if links_due(now):
         print('Links:')
-        write('links.json', {'updated': stamp, 'broken': check_links(cat)})
+        write('links.json', {'updated': stamp, 'broken': check_links(cat + past)})
     return 0 if ok else 1
 
 
