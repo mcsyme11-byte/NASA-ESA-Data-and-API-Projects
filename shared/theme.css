@@ -548,72 +548,74 @@ a.stage:hover { color: var(--ink); }
 :is(.light, .livestatus, .board-head, .job, .srcstate):is([data-state="late"], [data-state="partial"]) { --c: var(--amber); }
 :is(.light, .livestatus, .board-head, .job, .srcstate)[data-state="failed"] { --c: var(--red); }
 
-/* the light: a glowing dot; it breathes slowly when all is well and sends out rings while updating */
-.light { position: relative; display: inline-block; flex: none; vertical-align: middle; width: 10px; height: 10px; border-radius: 50%; background: var(--c);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--c) 16%, transparent), 0 0 14px color-mix(in srgb, var(--c) 50%, transparent);
+/* the light: a crisp dot with a faint halo; it breathes slowly when all is well and sends out rings while updating */
+.light { position: relative; display: inline-block; flex: none; vertical-align: middle; width: 9px; height: 9px; border-radius: 50%;
+  background: var(--c); box-shadow: 0 0 0 3px color-mix(in srgb, var(--c) 14%, transparent), 0 0 8px color-mix(in srgb, var(--c) 40%, transparent);
   transition: background-color .4s var(--ease), box-shadow .4s var(--ease); }
 .light[data-state="ok"] { animation: breathe 3.6s ease-in-out infinite; }
 .light[data-state="updating"]::before, .light[data-state="updating"]::after { content: ""; position: absolute; inset: 0; border-radius: 50%;
   border: 1.5px solid var(--c); animation: ring 2s cubic-bezier(.2, .6, .3, 1) infinite; }
 .light[data-state="updating"]::after { animation-delay: 1s; }
 .light[data-state="failed"] { animation: blink 1.4s steps(2, jump-none) infinite; }
-.light.large { width: 16px; height: 16px; }
-@keyframes breathe { 50% { box-shadow: 0 0 0 5px color-mix(in srgb, var(--c) 10%, transparent), 0 0 20px color-mix(in srgb, var(--c) 35%, transparent); } }
-@keyframes ring { from { transform: scale(1); opacity: .9; } to { transform: scale(3.4); opacity: 0; } }
+.light.large { width: 13px; height: 13px; }
+@keyframes breathe { 50% { box-shadow: 0 0 0 4px color-mix(in srgb, var(--c) 9%, transparent), 0 0 12px color-mix(in srgb, var(--c) 30%, transparent); } }
+@keyframes ring { from { transform: scale(1); opacity: .9; } to { transform: scale(3.2); opacity: 0; } }
 @keyframes blink { 50% { opacity: .45; } }
 
-/* the footer's live line (added by shared/footer.js on every page): light, label, state, and one detail */
-.livestatus { display: inline-flex; align-items: center; gap: var(--sp3); max-width: 100%; min-height: 40px; margin-top: var(--sp4);
-  padding: 0 var(--sp4) 0 var(--sp4); border: 1px solid var(--line2); border-radius: var(--r-pill); color: var(--ink2); font-size: 14px;
-  background: linear-gradient(100deg, color-mix(in srgb, var(--c) 9%, transparent), transparent 55%), var(--bg2); }
-.livestatus:hover { color: var(--ink); border-color: color-mix(in srgb, var(--c) 55%, var(--line2)); }
-.livestatus .ls-k { font-size: 10.5px; letter-spacing: .24em; text-transform: uppercase; color: var(--brass); white-space: nowrap; }
-.livestatus .ls-t { color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex-shrink: 0; }
+/* the footer's live line (added by shared/footer.js on every page): on the credit line's row, opposite it, in the
+   footer's own quiet type; a light, the state, and when the newest data arrived. An arrow shows on hover. */
+.footer .fbottom { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 var(--sp6); margin-top: var(--sp2); }
+.footer .fbottom .fnote { margin: 0; }
+.livestatus { position: relative; display: inline-flex; align-items: center; gap: 10px; min-height: 40px; max-width: 100%; color: var(--ink2); font-size: 13px; }
+.livestatus:hover { color: var(--ink); }
+.livestatus .ls-t { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex-shrink: 0; }
 .livestatus .ls-s { color: var(--muted); font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
-.livestatus .ls-s::before { content: "·"; margin-right: var(--sp3); color: var(--faint); font-style: normal; }
-.livestatus::after { content: "›"; color: var(--brass); font-size: 19px; line-height: 1; margin: -2px 0 0 calc(-1 * var(--sp1)); }
-.livestatus[aria-current] { border-color: var(--brass-dim); }
-@media (max-width: 600px) { .livestatus .ls-s, .livestatus .ls-k { display: none; } .livestatus .ls-t { flex-shrink: 1; } }
+.livestatus .ls-s::before { content: "·"; margin-right: var(--sp2); color: var(--faint); font-style: normal; }
+.livestatus::after { content: "→"; position: absolute; left: 100%; margin-left: var(--sp2); color: var(--brass); opacity: 0; transform: translateX(-4px);
+  transition: opacity .15s var(--ease), transform .15s var(--ease); }
+.livestatus:hover::after, .livestatus:focus-visible::after { opacity: 1; transform: none; }
+.livestatus[aria-current] { color: var(--ink); }
+@media (max-width: 600px) { .livestatus .ls-t { flex-shrink: 1; } }
 
 /* the status board: a head with the overall state, then one row per data job */
 .board { background: var(--deep); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
-.board-head { display: flex; align-items: center; gap: var(--sp4); flex-wrap: wrap; padding: var(--sp5) var(--sp5);
+.board-head { display: flex; align-items: flex-start; gap: var(--sp4); flex-wrap: wrap; padding: var(--sp5) var(--sp5);
   border-bottom: 1px solid var(--line);
   background: radial-gradient(520px 180px at 0 0, color-mix(in srgb, var(--c) 13%, transparent), transparent 75%); }
 .board-head > div:not(.actions) { flex: 1 1 260px; min-width: 0; }
-.board-head > .actions { margin-left: auto; }
+.board-head > .actions { margin-left: auto; align-self: center; }
+.board-head > .light { margin-top: 9px; }      /* centred on the headline's first line */
 .board-head h3 { font-size: 24px; }
 .board-head .caption { margin: var(--sp1) 0 0; }
 .board-head .actions { gap: var(--sp2); }
 .jobs { list-style: none; margin: 0; padding: 0; }
-.job { display: grid; grid-template-columns: 16px minmax(0, 1.55fr) minmax(0, 1fr) auto; gap: var(--sp2) var(--sp5);
-  align-items: center; padding: var(--sp4) var(--sp5); border-bottom: 1px solid var(--line);
+.job { display: grid; grid-template-columns: 16px minmax(0, 1.55fr) minmax(0, 1fr) 9.5em; gap: var(--sp2) var(--sp5);
+  align-items: start; padding: var(--sp5) var(--sp5); border-bottom: 1px solid var(--line);
   transition: background-color .2s var(--ease); }
 .job:last-child { border-bottom: 0; }
 .job:hover { background: rgba(255, 255, 255, .02); }
-.job > .light { justify-self: center; }
+.job > .light { justify-self: center; margin-top: 7px; }   /* centred on the job's name */
 .job h3 { font-size: 18px; }
 .job h3 a { color: var(--ink); }
 .job h3 a:hover { color: var(--brass-bright); }
 .job .job-meta { margin: 2px 0 var(--sp2); font-size: 13.5px; font-style: italic; color: var(--muted); }
 .job .job-srcs { display: flex; flex-wrap: wrap; gap: 6px; }
-.job-when { display: grid; grid-template-columns: 7em 1fr; gap: 2px var(--sp3); align-items: baseline; margin: 0; font-size: 14.5px; }
+.job-when { display: grid; grid-template-columns: 7em 1fr; gap: 2px var(--sp3); align-items: baseline; margin: 2px 0 0; font-size: 14.5px; }
 .job-when dt { font-size: 10.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
 .job-when dd { margin: 0; color: var(--ink); white-space: nowrap; }
-.job-side { display: flex; flex-direction: column; align-items: flex-end; gap: var(--sp2); }
+.job-side { display: flex; flex-direction: column; align-items: flex-end; gap: var(--sp3); padding-top: 3px; }
 .job-state { font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--c); white-space: nowrap; }
 @media (max-width: 860px) {
   .job { grid-template-columns: 12px minmax(0, 1fr); padding: var(--sp4); gap: var(--sp3) var(--sp3); }
-  .job > .light { align-self: start; margin-top: 7px; }
   .job-when, .job-side { grid-column: 2; }
-  .job-side { flex-direction: row-reverse; justify-content: space-between; align-items: center; }
+  .job-side { flex-direction: row-reverse; justify-content: space-between; align-items: center; padding-top: 0; }
   .board-head { padding: var(--sp4); }
 }
 
 /* a source's state inside a job row */
 .srcstate { display: inline-flex; align-items: center; gap: 6px; min-height: 24px; padding: 0 9px; border: 1px solid var(--line2);
   border-radius: var(--r-pill); font-size: 12.5px; color: var(--ink2); white-space: nowrap; }
-.srcstate::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--c); }
+.srcstate::before { content: ""; flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--c); }
 .srcstate[data-state="failed"] { border-color: color-mix(in srgb, var(--red) 55%, transparent); color: var(--ink); }
 
 /* the latest runs, oldest on the left: one bar per run, green done, red failed, grey cancelled, brass running */

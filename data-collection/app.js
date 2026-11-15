@@ -4,7 +4,7 @@
 // day's schedule in the visitor's time zone and the list of what each job collects. Refreshed every 3 minutes while
 // the page is open; the clocks on the board are kept current every second. Rules in docs/DATA-UPDATES.md.
 
-import * as ds from '../shared/datastatus.js?v=2026111401';
+import * as ds from '../shared/datastatus.js?v=2026111402';
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));

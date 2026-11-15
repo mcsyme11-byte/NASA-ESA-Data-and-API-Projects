@@ -114,7 +114,7 @@ function wireScrollRows() {
 }
 
 // The live data status (shared/datastatus.js, rules in docs/DATA-UPDATES.md): a light and one line at the foot of the
-// footer, refreshed every 3 minutes while the page is open; the times in it are kept current every 30 seconds.
+// footer, on the credit line's row, refreshed every 3 minutes while the page is open; the times in it are kept current every 30 seconds.
 async function addLiveStatus() {
   const footer = document.querySelector('footer.footer');
   if (!footer || footer.querySelector('.livestatus')) return;
@@ -126,9 +126,16 @@ async function addLiveStatus() {
   a.href = new URL('data-collection/', root).href;
   if (location.pathname.includes('/data-collection/')) a.setAttribute('aria-current', 'page');
   a.dataset.state = 'unknown';
-  a.innerHTML = '<span class="light" data-state="unknown" aria-hidden="true"></span><span class="ls-k">Live data</span>'
-    + '<span class="ls-t">Checking…</span><span class="ls-s"></span>';
-  footer.append(a);
+  a.innerHTML = '<span class="light" data-state="unknown" aria-hidden="true"></span><span class="ls-t">Checking the data…</span>'
+    + '<span class="ls-s" hidden></span>';
+  // on the credit line's row, opposite it (a page without a credit line gets it at the end)
+  const note = footer.querySelector(':scope > .fnote');
+  if (note) {
+    const row = document.createElement('div');
+    row.className = 'fbottom';
+    note.replaceWith(row);
+    row.append(note, a);
+  } else footer.append(a);
   const [t, sub, light] = [a.querySelector('.ls-t'), a.querySelector('.ls-s'), a.querySelector('.light')];
   let last = null;
   const paint = () => {
@@ -137,9 +144,8 @@ async function addLiveStatus() {
     a.dataset.state = light.dataset.state = last.state;
     t.textContent = last.headline;
     const l = last.latest;
-    sub.textContent = { ok: l ? 'newest: ' + l.name.toLowerCase() + ', ' + ds.ago(l.changed, now) : '',
-      updating: 'new data in a few minutes', late: 'the latest saved data is shown', partial: 'previous data kept',
-      failed: 'previous data kept', unknown: '' }[last.state];
+    sub.textContent = { ok: l ? 'updated ' + ds.ago(l.changed, now) : '', updating: '', late: 'latest data shown',
+      partial: 'previous data kept', failed: 'previous data kept', unknown: '' }[last.state];
     sub.hidden = !sub.textContent;
     a.setAttribute('aria-label', 'Live data status: ' + last.headline + (sub.textContent ? ', ' + sub.textContent : '') + '. How the data is collected.');
   };

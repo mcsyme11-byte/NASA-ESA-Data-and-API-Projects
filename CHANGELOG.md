@@ -1,5 +1,15 @@
 # Change log
 
+## November 14, 2026 — live data line and status board refined
+
+- The footer's live data line moved onto the credit line's row, opposite "Data courtesy of NASA and ESA", in the
+  footer's own quiet type: a light, the state and when the data was last updated ("All data is up to date · updated 12
+  min ago"), with an arrow on hover. It replaces the separate bordered pill below the footer, which looked out of
+  place. On phones it sits under the credit line.
+- Status board: each light now sits on the line of its job's name (it was centred on the whole row), the headline's
+  light on the headline, and the lights are smaller and crisper, with a fainter halo; job rows align to the top.
+- Version tag raised to 2026111402.
+
 ## November 14, 2026 — live data status and How the data is collected
 
 - **Every footer** now ends with a live data line: a status light (green up to date, brass with rings while updating,
