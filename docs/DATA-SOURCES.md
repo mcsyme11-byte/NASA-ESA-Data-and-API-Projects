@@ -683,8 +683,11 @@ archives to the Picture library. Checked with requests from GitHub's servers and
 
 ### Link check
 
-- On the morning run, every catalogue link is requested (HEAD, then GET); links answering 404 or 410 are written to
-  `spacecraft/data/links.json` and left off the page. Other answers (403, 429, timeouts) keep the link.
+- Once a day (when the last check is 20 hours old or more, and after every catalogue change), every catalogue link is
+  requested (HEAD, then GET); links answering 404 or 410 are written to `spacecraft/data/links.json` and left off the
+  page. Other answers (403, 429, timeouts) keep the link. Until Nov 14, 2026 the check ran only on a run starting
+  before 12:00 UTC; GitHub started the morning run after midday on Nov 13 and 14, so the check was skipped. The daily
+  Data health check lists every broken link (docs/DATA-UPDATES.md).
 
 ## Sky Finder (`sky-finder/`), added Nov 12, 2026
 

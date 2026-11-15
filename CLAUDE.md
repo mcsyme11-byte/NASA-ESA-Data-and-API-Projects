@@ -82,6 +82,17 @@ inside its own folder.
 - Explain things with examples and clear, concise, correct notes. When teaching a method, give a clear set of rules
   saying which formula or step to use in which situation.
 
+## Data updates (since Nov 14, 2026)
+
+Automatic data updates for the whole project are looked after by the "Data updates" chat, following
+`docs/DATA-UPDATES.md`. That chat owns the scheduled data workflows in `.github/workflows/`, `dev/datajob.py`,
+`dev/data_health.py`, `dev/data_jobs.json` and the status files in `shared/data/status/`. Project chats keep their page
+code, fetch and cleaning scripts and data sources. Before adding or changing a data job, a schedule, or the format or
+place of a data file, follow `docs/DATA-UPDATES.md`: every job keeps the previous file when a source fails, ends with
+the `dev/datajob.py` step (data guard, status file, standard commit message) and is listed in `dev/data_jobs.json`.
+Problems with schedules, failures and stale data are reported by the daily Data health check in one GitHub issue
+labelled `data-health`, and are handled by the Data updates chat.
+
 ## Project Record (since Nov 11, 2026)
 
 `docs/NASA and ESA Data Projects - Project Record.pdf` is the whole project as one PDF, built from the repository by

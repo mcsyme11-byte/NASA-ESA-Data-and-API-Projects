@@ -1,5 +1,35 @@
 # Change log
 
+## November 14, 2026 — automatic data updates on one standard
+
+Every data job now follows one standard, set out in `docs/DATA-UPDATES.md`, and a daily health check reports any job
+or source that stops.
+
+- **Last step for every data job:** `dev/datajob.py` checks each changed data file before it is saved (JSON reads, CSV
+  has rows, nothing emptied, no large file shrunk to under a fifth, no folder half emptied; a refused file is put back
+  to its previous version), writes the job's status file in `shared/data/status/` (each source's state and since
+  when, notes from the log) and commits with the job's standard message, retrying the push up to five times.
+- **Data health:** a new daily job (`data-health.yml`, `dev/data_health.py`, the list in `dev/data_jobs.json`)
+  reports workflows switched off, jobs without a recent successful run, failed runs, sources failing past their grace
+  time, new "not found" notes, the spacecraft catalogue's broken links and due reviews (the spacecraft catalogue every
+  90 days, the data sources every 180), in one GitHub issue labelled `data-health`, emailed when its list changes and
+  closed when it is empty.
+- **Asteroid data, Spacecraft data, Mars data:** a step per source, the new last step; the Mars job's failure issue
+  replaced by the health check (its new-data issue stays).
+- **Astronaut photos:** a second daily run (19:11 UTC), the previous file kept when the photos cannot be read, the
+  push retried.
+- **Place and map lists** (formerly "Build smaller places", `build-places.yml`): runs four times a year (January,
+  April, July and October 2) instead of by hand only, and now also rebuilds the globe's places and the Natural Earth
+  lists (natural features, map lines, countries and names); each part's files go back to their previous versions if
+  that part fails.
+- **Spacecraft links:** checked when the last check is 20 hours old or more (and after a catalogue change), instead
+  of only on a run starting before 12:00 UTC, which GitHub's late starts had skipped since Nov 12.
+- GitHub's own actions moved to their current versions (`checkout@v6`, `setup-python@v6`, `setup-node@v6`), ahead of
+  the end of Node.js 20 on GitHub's runners.
+- The Project Record is not rebuilt for status files (`shared/data/**`); `docs/DATA-UPDATES.md` is a new Part,
+  "Data Updates". Watching the run logs by hand is gone from the roadmap; the remaining data to-dos are in its new
+  section 4.
+
 ## November 13, 2026 — Sky Finder reworked
 
 Sky Finder rebuilt on the shared components (version 2 of the look) and the site's legal structure.

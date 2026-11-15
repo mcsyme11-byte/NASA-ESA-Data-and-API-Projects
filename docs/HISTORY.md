@@ -135,3 +135,12 @@ How NASA and ESA Data Projects came about, in order.
 - Every page was rebuilt on one set of shared components (`shared/theme.css`, shown on the component page `design/`),
   with real headings, one spacing scale and boxes only for things that are opened or for a single chart, map or
   table. Page styles were removed everywhere, and a new automatic check (`dev/check_styles.py`) keeps them out.
+
+## November 14, 2026 — automatic data updates on one standard
+
+- Automatic data updates for the whole project were given one home, the "Data updates" chat, and one set of rules,
+  `docs/DATA-UPDATES.md`. Every data job now checks its files before saving, keeps the previous copy when a source
+  fails, records each source's state in a status file and commits in the same way.
+- A daily Data health check took over watching the run logs by hand: it reports in one GitHub issue, emailed when
+  something changes.
+- The place and map lists, built by hand until then, are rebuilt four times a year.

@@ -5,10 +5,13 @@
 #   positions.json  positions from NASA/JPL Horizons, each relative to the Sun, Earth, the Moon or Mars
 #   tle.json        orbital elements of the craft in Earth orbit from CelesTrak (also used by Sky Finder for the
 #                   space stations' passes)
-#   links.json      catalogue links that no longer answer (checked on the morning run)
+#   links.json      catalogue links that no longer answer (checked once a day, and after a catalogue change)
 # Twice a day because orbital elements of low satellites age quickly and the Mars and Moon orbiters' positions cover
 # about a day and a half; the browser works out every position in between.
 # Run by hand: Actions › Spacecraft data › Run workflow.
+# Follows the data-job standard in docs/DATA-UPDATES.md: the last step (dev/datajob.py) checks the files before they are
+# saved, records the state in shared/data/status/spacecraft-data.json, with every "not found" line of the log as a
+# note for the daily Data health check, and commits with the standard message.
 
 name: Spacecraft data
 
@@ -27,6 +30,10 @@ on:
 permissions:
   contents: write
 
+defaults:
+  run:
+    shell: bash
+
 concurrency:
   group: spacecraft-data
   cancel-in-progress: false
@@ -36,25 +43,18 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       # If one source cannot be read, the run is marked with a warning but what was read is still saved (the
       # previous file is kept for the other).
       - name: Fetch spacecraft positions and orbital elements
+        id: fetch
         continue-on-error: true
-        run: python3 spacecraft/fetch_spacecraft.py
-      - name: Commit if changed
-        run: |
-          git add -A spacecraft/data/
-          if git diff --cached --quiet; then
-            echo "No change in the data."
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Spacecraft data: positions and orbital elements update"
-          for attempt in 1 2 3 4 5; do
-            git pull --rebase --quiet && git push && exit 0
-            echo "Push attempt $attempt did not succeed; retrying."
-            sleep $((attempt * 10))
-          done
-          exit 1
+        run: python3 spacecraft/fetch_spacecraft.py | tee "$RUNNER_TEMP/spacecraft.log"
+      - name: Check, record and commit
+        if: always()
+        run: >-
+          python3 dev/datajob.py --job spacecraft-data
+          --message "Spacecraft data: positions and orbital elements update"
+          --paths spacecraft/data
+          --source horizons-and-celestrak=${{ steps.fetch.outcome }}
+          --log "$RUNNER_TEMP/spacecraft.log" --watch "not found"

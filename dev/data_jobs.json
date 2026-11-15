@@ -1,0 +1,21 @@
+{
+ "about": "The data jobs the daily Data health check watches (dev/data_health.py; rules in docs/DATA-UPDATES.md). max_age_hours: the longest time allowed since the job's last successful run; grace_hours: how long a source may stay failed before it is reported (0: at once). known_notes: notes from a job's log that are already known and listed in docs/ROADMAP.md, left out of the report. reviews: tasks done by hand on a cycle; after doing one, set its last_done to that date.",
+ "jobs": {
+  "asteroid-data": {"name": "Asteroid data", "runs": "twice a day", "max_age_hours": 30, "grace_hours": 24},
+  "spacecraft-data": {"name": "Spacecraft data", "runs": "twice a day", "max_age_hours": 30, "grace_hours": 24},
+  "astronaut-photos": {"name": "Astronaut photos", "runs": "twice a day", "max_age_hours": 30, "grace_hours": 48},
+  "mars-data": {"name": "Mars data", "runs": "Mondays and Thursdays", "max_age_hours": 108, "grace_hours": 0},
+  "build-places": {"name": "Place and map lists", "runs": "four times a year", "max_age_hours": 2400, "grace_hours": 0}
+ },
+ "known_notes": [
+  {"match": "Tianwen-1", "reason": "not in Horizons (ROADMAP: added if Horizons lists it later)"},
+  {"match": "Tianwen-2", "reason": "not in Horizons (ROADMAP: added if Horizons lists it later)"},
+  {"match": "TESS", "reason": "not at CelesTrak (ROADMAP: added if CelesTrak lists it later)"},
+  {"match": "tess ", "reason": "not at CelesTrak (ROADMAP: added if CelesTrak lists it later)"},
+  {"match": "#43435", "reason": "TESS by catalogue number, not at CelesTrak"}
+ ],
+ "reviews": [
+  {"what": "Spacecraft catalogue (spacecraft/catalogue.json): ended missions taken off, new missions added", "every_days": 90, "last_done": "2026-11-12"},
+  {"what": "Data sources (docs/DATA-SOURCES.md): each address, limit and credit line still matches the agency's documentation", "every_days": 180, "last_done": "2026-11-12"}
+ ]
+}

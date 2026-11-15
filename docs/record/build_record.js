@@ -32,6 +32,7 @@ const PARTS = [
   { title: 'Image Explorer', intro: 'Project 2: the Earth from orbit, a globe inside the sky, and the picture libraries of NASA and ESA.', docs: [['image-explorer/README.md', {}]] },
   { title: 'Mars Data', intro: 'Project 3: weather measured on Mars, cleaned, organised, analysed and charted.', docs: [['mars-data/README.md', {}], ['mars-data/analysis/CLEANING.md', { title: 'Mars Data: cleaning rules' }], ['mars-data/analysis/CLEANING-MEDA.md', { title: 'Mars Data: cleaning rules for Perseverance' }], ['mars-data/analysis/CLEANING-MEX.md', { title: 'Mars Data: Mars Express profiles' }]] },
   { title: 'Data Sources', intro: 'Every NASA and ESA source the projects use: addresses, keys, limits, terms and credit lines.', docs: [['docs/DATA-SOURCES.md', { title: 'Data sources' }]] },
+  { title: 'Data Updates', intro: 'How the data is kept up to date automatically: the data jobs, their standard, the status files and the daily health check.', docs: [['docs/DATA-UPDATES.md', { title: 'Data updates' }]] },
   { title: 'Design Language', intro: 'The navy, brass and cream look every page follows.', docs: [['docs/DESIGN.md', {}]] },
   { title: 'Decisions and Working Rules', generated: 'decisions', docs: [['docs/PROJECT-NOTES.md', { title: 'Project notes and decisions' }]] },
   { title: 'The Site\'s Pages', intro: 'The About, Privacy, Terms of use, Credits and Contact pages, as they appear on the site.', generated: 'legal' },

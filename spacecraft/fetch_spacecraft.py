@@ -231,6 +231,17 @@ def check_links(cat):
     return bad
 
 
+def links_due(now):
+    if os.environ.get('GITHUB_EVENT_NAME') == 'push':
+        return True
+    try:
+        with open(os.path.join(DATA, 'links.json')) as fh:
+            last = dt.datetime.strptime(json.load(fh)['updated'], '%Y-%m-%d %H:%M UTC')
+    except (OSError, ValueError, KeyError):
+        return True
+    return (now - last).total_seconds() >= 20 * 3600
+
+
 def main():
     os.makedirs(DATA, exist_ok=True)
     with open(os.path.join(HERE, 'catalogue.json')) as fh:
@@ -266,8 +277,10 @@ def main():
         print('  failed: %s' % e)
         ok = False
 
-    # links once a day is plenty: only on the morning run (or when there is no file yet)
-    if now.hour < 12 or not os.path.exists(os.path.join(DATA, 'links.json')):
+    # links once a day is plenty: when the last check is 20 hours old or more, when there is no file yet, or when the
+    # catalogue has just changed (a push run). Decided Nov 14, 2026: by age, not by the hour of the run, because GitHub
+    # often starts the morning run hours late, after midday, and the check was then skipped every day.
+    if links_due(now):
         print('Links:')
         write('links.json', {'updated': stamp, 'broken': check_links(cat)})
     return 0 if ok else 1

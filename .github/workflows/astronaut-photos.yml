@@ -5,17 +5,25 @@
 # GitHub Pages then republishes the site. The API needs a free key, kept as the repository secret EOL_API_KEY
 # (Settings › Secrets and variables › Actions); without it the job reads the site's public Latest ISS Imagery set.
 # Web pages cannot call this API (no CORS headers), which is why the data is fetched here.
+# Two daily times (since Nov 14, 2026): the second run catches up when GitHub delays or skips the first.
+# Follows the data-job standard in docs/DATA-UPDATES.md: the last step (dev/datajob.py) checks the file before it is
+# saved, records the state in shared/data/status/astronaut-photos.json and commits with the standard message.
 # Run by hand: Actions › Astronaut photos › Run workflow.
 
 name: Astronaut photos
 
 on:
   schedule:
-    - cron: '41 7 * * *'   # 07:41 UTC daily
+    - cron: '41 7 * * *'    # 07:41 UTC daily
+    - cron: '11 19 * * *'   # 19:11 UTC daily, the backup
   workflow_dispatch:
 
 permissions:
   contents: write
+
+defaults:
+  run:
+    shell: bash
 
 concurrency:
   group: astronaut-photos
@@ -26,20 +34,18 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
+      # If the photos cannot be read, the previous file is kept and the state is recorded.
       - name: Fetch astronaut photos
+        id: photos
+        continue-on-error: true
         env:
           EOL_API_KEY: ${{ secrets.EOL_API_KEY }}
         run: python3 image-explorer/fetch_astronaut_photos.py
-      - name: Commit if changed
-        run: |
-          git add image-explorer/data/astronaut.json
-          if git diff --cached --quiet; then
-            echo "No change in the photos."
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Astronaut photos: daily update"
-          git pull --rebase
-          git push
+      - name: Check, record and commit
+        if: always()
+        run: >-
+          python3 dev/datajob.py --job astronaut-photos
+          --message "Astronaut photos: daily update"
+          --paths ${{ steps.photos.outcome == 'success' && 'image-explorer/data/astronaut.json' || '' }}
+          --source astronaut-photos=${{ steps.photos.outcome }}

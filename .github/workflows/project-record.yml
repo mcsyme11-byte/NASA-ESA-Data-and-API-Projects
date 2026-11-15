@@ -4,7 +4,7 @@
 # "Project Record rebuilt (automatic)". This is the only place the record is built (since Nov 11, 2026), so chats
 # never build or commit the PDF themselves and never clash over it.
 # Skipped (decided Nov 11, 2026): pushes that change only data files (the daily asteroid, spacecraft and astronaut-photo updates and
-# other data refreshes, in the data/ folders) or only the record itself; none of those files are in the record. A push
+# other data refreshes, in the data/ folders, and the data jobs' status files in shared/data/status/) or only the record itself; none of those files are in the record. A push
 # that also changes anything else rebuilds it as usual.
 # If several pushes arrive close together, only the newest one is built. Its own commit doesn't start another run.
 # Run it by hand: GitHub › Actions › Project Record › Run workflow.
@@ -20,6 +20,7 @@ on:
       - 'image-explorer/data/**'
       - 'mars-data/data/**'
       - 'spacecraft/data/**'
+      - 'shared/data/**'
   workflow_dispatch:
 
 concurrency:
@@ -35,18 +36,18 @@ jobs:
     timeout-minutes: 25
     steps:
       - name: Get the repository (full history, for the Repository History chapter)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: '22'
 
       # its own Python, so the packages below are seen by the build's "python3 -I" (which ignores per-user packages)
       - name: Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.12'
 

@@ -1,29 +1,54 @@
-# NASA and ESA Data Projects · builds the Image Explorer's list of smaller natural features from GeoNames.
-# Run by hand (Actions › Build smaller places › Run workflow); the result, image-explorer/data/features-more.json,
-# is checked (valid places only) and committed to main.
-name: Build smaller places
+# NASA and ESA Data Projects · Image Explorer place and map lists · © 2026 Malcolm Syme · mcsyme11@gmail.com
+#
+# Four times a year (since Nov 14, 2026; before that by hand only), rebuilds the Image Explorer's lists that come from
+# slowly changing sources, and commits them when they have changed:
+#   features-more.json   smaller natural features, from GeoNames (build_geonames_features.py)
+#   globe-spots.json     the globe's volcanoes, natural wonders and launch sites, from features-more.json
+#                        (build_globe_spots.py)
+#   features.json        natural features for place search, from Natural Earth 1:10m (build_features.py)
+#   shapes.json, countries.json, labels.json   the Earth map's lines, countries and names, from Natural Earth 1:50m
+#                        (build_shapes.py)
+# Each part runs on its own: if one source cannot be read, the others are still saved and the state is recorded.
+# Follows the data-job standard in docs/DATA-UPDATES.md: the last step (dev/datajob.py) checks the files before they are
+# saved, records each part's state in shared/data/status/build-places.json and commits with the standard message.
+# Run by hand: Actions › Place and map lists › Run workflow.
+
+name: Place and map lists
+
 on:
+  schedule:
+    - cron: '37 3 2 1,4,7,10 *'   # 03:37 UTC on January, April, July and October 2
   workflow_dispatch:
     inputs:
       limit:
-        description: Most places to keep
+        description: Most GeoNames places to keep
         default: '400000'
+
 permissions:
   contents: write
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: build-places
+  cancel-in-progress: false
+
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
     steps:
-      - uses: actions/checkout@v4
-      - name: Download GeoNames (allCountries.zip, alternateNamesV2.zip)
+      - uses: actions/checkout@v6
+      - name: Smaller natural features (GeoNames)
+        id: geonames
+        continue-on-error: true
         run: |
-          curl -sSfL -o allCountries.zip https://download.geonames.org/export/dump/allCountries.zip
-          curl -sSfL -o alternateNamesV2.zip https://download.geonames.org/export/dump/alternateNamesV2.zip
-          ls -l *.zip
-      - name: Build features-more.json
-        run: python3 image-explorer/tools/build_geonames_features.py allCountries.zip alternateNamesV2.zip "${{ inputs.limit }}"
-      - name: Check the list
-        run: |
+          curl -sSfL -o "$RUNNER_TEMP/allCountries.zip" https://download.geonames.org/export/dump/allCountries.zip
+          curl -sSfL -o "$RUNNER_TEMP/alternateNamesV2.zip" https://download.geonames.org/export/dump/alternateNamesV2.zip
+          python3 image-explorer/tools/build_geonames_features.py "$RUNNER_TEMP/allCountries.zip" \
+            "$RUNNER_TEMP/alternateNamesV2.zip" "${{ inputs.limit || '400000' }}"
           python3 - <<'PY'
           import json, re
           d = json.load(open('image-explorer/data/features-more.json', encoding='utf-8'))
@@ -33,15 +58,39 @@ jobs:
               assert not re.search(r'[<>]', r[0] + r[1]), r
           print(len(d), 'places checked')
           PY
-      - name: Commit if changed
+      - name: Globe places (volcanoes, natural wonders, launch sites)
+        id: spots
+        if: steps.geonames.outcome == 'success'
+        continue-on-error: true
+        run: python3 image-explorer/tools/build_globe_spots.py
+      - name: Natural features, map lines, countries and names (Natural Earth)
+        id: naturalearth
+        continue-on-error: true
         run: |
-          git add image-explorer/data/features-more.json
-          if git diff --cached --quiet; then
-            echo "No change in the list."
-            exit 0
+          ne="$RUNNER_TEMP/naturalearth"
+          mkdir -p "$ne"
+          for f in ne_10m_lakes ne_10m_rivers_lake_centerlines ne_10m_geography_regions_points \
+                   ne_10m_geography_regions_elevation_points ne_10m_geography_regions_polys ne_10m_geography_marine_polys; do
+            curl -sSfL -o "$ne/$f.geojson" "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/$f.geojson"
+          done
+          python3 image-explorer/tools/build_features.py "$ne"
+          python3 image-explorer/tools/build_shapes.py "$ne"
+      # a part that failed half-way may have written some of its files: those go back to their previous versions
+      - name: Put back the files of any part that failed
+        if: always()
+        run: |
+          if [ "${{ steps.geonames.outcome }}" = failure ]; then git checkout -- image-explorer/data/features-more.json; fi
+          if [ "${{ steps.spots.outcome }}" = failure ]; then git checkout -- image-explorer/data/globe-spots.json; fi
+          if [ "${{ steps.naturalearth.outcome }}" = failure ]; then
+            git checkout -- image-explorer/data/features.json image-explorer/data/shapes.json \
+              image-explorer/data/countries.json image-explorer/data/labels.json
           fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Image Explorer: smaller natural features rebuilt from GeoNames"
-          git pull --rebase
-          git push
+      - name: Check, record and commit
+        if: always()
+        run: >-
+          python3 dev/datajob.py --job build-places
+          --message "Place and map lists: quarterly rebuild from GeoNames and Natural Earth"
+          --paths image-explorer/data
+          --source geonames=${{ steps.geonames.outcome }}
+          --source globe-places=${{ steps.spots.outcome }}
+          --source natural-earth=${{ steps.naturalearth.outcome }}

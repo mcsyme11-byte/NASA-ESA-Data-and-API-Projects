@@ -4,6 +4,16 @@ How NASA and ESA Data Projects is built, the decisions made so far, and how to r
 
 ## Decisions
 
+- **Decided Nov 14, 2026 (data updates):** automatic data updates for the whole project are looked after in one
+  place, the "Data updates" chat, by the rules in [DATA-UPDATES.md](DATA-UPDATES.md). Every data job follows one
+  standard: a second daily run for daily data, a step per source, the previous good copy kept when a source fails,
+  and a last step (`dev/datajob.py`) that checks each changed file before it is saved, records each source's state in
+  `shared/data/status/` and commits with a standard message. A daily Data health job (`dev/data_health.py`) reports
+  stopped, late or failing jobs, failing sources, new "not found" notes, broken catalogue links and due reviews in one
+  GitHub issue, emailed when its list changes; it replaces watching the run logs by hand. The astronaut-photo job
+  gained a second daily run; the GeoNames and Natural Earth lists are rebuilt four times a year (before, by hand
+  only); the Mars job's own failure issue gave way to the health check. Project chats keep their page code, scripts
+  and sources.
 - **Decided Nov 12, 2026 (Asteroid Tracker home page):** the project's address opens a home page in the same layout as
   the Mars Data and Image Explorer home pages (mission, headline numbers, a card for each part, the data and its
   agencies, what you can do, how to use it); the tracker itself is `asteroid-tracker/tracker.html`, and old links

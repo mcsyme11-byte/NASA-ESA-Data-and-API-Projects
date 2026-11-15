@@ -1,0 +1,35 @@
+# NASA and ESA Data Projects · daily data health check · © 2026 Malcolm Syme · mcsyme11@gmail.com
+#
+# Once a day (since Nov 14, 2026), checks every data job listed in dev/data_jobs.json with dev/data_health.py: the
+# workflow switched on, a recent successful run, no failed latest run, no source failing past its grace time, no new
+# "not found" note, the spacecraft catalogue's broken links and the review tasks that are due. The result is kept in one
+# GitHub issue labelled "data-health", which GitHub emails to the repository's owner when it opens or its list
+# changes; it closes itself when everything is fine. It never changes the data. Rules in docs/DATA-UPDATES.md.
+# Run by hand: Actions › Data health › Run workflow.
+
+name: Data health
+
+on:
+  schedule:
+    - cron: '7 22 * * *'   # 22:07 UTC daily, after both daily runs of the data jobs
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+  issues: write
+
+concurrency:
+  group: data-health
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - name: Check every data job and update the data-health issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 dev/data_health.py

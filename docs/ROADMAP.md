@@ -23,20 +23,13 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
     in the camera view for switching target, and the Calibrate button's green or amber dot.
   - Spacecraft map (`spacecraft/`) and the home page's new panel: the five views, search, agency and kind filters,
     the card for several craft, Follow, the path, Share, time controls; the asteroid map link under the panel.
-- [ ] Read the first runs of the new "Spacecraft data" workflow and the "Fetch sky positions" step of "Asteroid data"
-  (Actions logs): every craft should be found; any "not found" line (Horizons name or CelesTrak name) needs its
-  `src` corrected in `spacecraft/catalogue.json`. Links reported broken in `spacecraft/data/links.json` need new
-  addresses.
+- [ ] Spacecraft catalogue: the links that no longer answer (listed in the `data-health` issue, from
+  `spacecraft/data/links.json`) need new addresses in `spacecraft/catalogue.json`; a craft reported "not found" in the
+  same issue needs its `src` corrected.
 - [ ] Spacecraft map: Tianwen-1 and Tianwen-2 are not in Horizons, and CelesTrak does not return TESS; add them if
-  either service lists them later (the run log names every craft not found).
-- [ ] Review `spacecraft/catalogue.json` every few months: take missions that have ended off the list, add new ones.
-- [ ] Watch the scheduled "Asteroid data" runs (06:17 and the 14:47 backup, added Nov 9, 2026): at least one should
-  run each day.
-- [ ] Confirm the monthly refresh of `data/famous.json` on the 1st of the month (the "Asteroid data" log shows
-  "famous.json written").
-- [ ] Watch the "Fetch impact-risk lists and ESA close approaches" step in the "Asteroid data" runs: ESA calls its
-  automated access experimental, so a change of format stops the step (the previous files are kept) and needs a fix
-  in `fetch_risk.py`.
+  either service lists them later (listed as known notes in `dev/data_jobs.json`, so the health check leaves them out).
+- [ ] When the `data-health` issue reports the "risk-lists" source failing (ESA calls its automated access
+  experimental, so a change of format stops the step and the previous files are kept), fix `fetch_risk.py`.
 - [ ] Optional: if ESA's credit form or terms for the NEOCC figures are in doubt, ask the NEOCC by email
   (`neocc@esa.int`) and record the answer in `docs/DATA-SOURCES.md`.
 
@@ -98,12 +91,29 @@ Plan confirmed Nov 11, 2026 (see PROJECT-NOTES.md): three missions, updated auto
 - [x] Checks before saving (`validate.py`): expected columns, values within physical limits, sol count never
   decreasing, no duplicate sols, the season advancing, no single-hour glitch left (rule 11), no full sol with an air
   low below 170 K, and a cleaning report for every processed chunk.
-- [x] Email notice: a run that finds new data, or fails, opens a GitHub issue ("New Mars data: …"), which GitHub
-  emails to people watching the repository.
+- [x] Email notice: a run that finds new data opens a GitHub issue ("Mars data: new data …"), which GitHub emails to
+  people watching the repository; a failed run is reported by the daily Data health check (since Nov 14, 2026).
 - [x] The charts page shows "Data up to sol X … NASA's archive checked [date]".
-- [ ] Reduce the job to weekly once it has run without trouble for a few weeks.
+- Reducing the job to weekly is listed under Data updates (section 4).
 
 **Page**
 - [x] Page live (Nov 12, 2026) with the whole record, sols 1–4843.
 - [ ] A short write-up on the page of what the patterns show, once the whole record is in.
 - [ ] `CREDITS.md`, the Credits page and the Privacy page updated for the new sources in the same change.
+
+## 4. Data updates (since Nov 14, 2026)
+
+The standard and the jobs are in [DATA-UPDATES.md](DATA-UPDATES.md); the daily Data health check reports problems in
+one GitHub issue labelled `data-health`.
+
+- [ ] Developer: check that the first `data-health` issue arrives by email (on its first day it lists the spacecraft
+  catalogue's broken links). If no email arrives: on GitHub, the repository's Watch button › All activity (or Custom ›
+  Issues).
+- [ ] Confirm over the first days: the Astronaut photos 19:11 backup run, a daily Data health run, and the status files
+  appearing in `shared/data/status/` as each job runs.
+- [ ] Confirm the monthly refresh of `asteroid-tracker/data/famous.json` on December 1, 2026 (the "Asteroid data" log
+  shows "famous.json written").
+- [ ] Confirm the first scheduled run of "Place and map lists" on January 2, 2027.
+- [ ] Mars data: reduce the job to weekly once it has run without trouble for a few weeks (from about December 10,
+  2026); change `mars-data.yml` and `max_age_hours` in `dev/data_jobs.json` (to 192) together.
+- [ ] Optional: a "Data checked [date]" line on each project's page, read from the status files (mock-up first).
