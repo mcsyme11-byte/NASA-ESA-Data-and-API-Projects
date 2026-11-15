@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<!-- NASA and ESA Data Projects · Mars Data · mock-up for approval: "Above the surface" (ESA Mars Express profiles) ·
+     © 2026 Malcolm Syme · mcsyme11@gmail.com -->
+<!-- Layout only. The numbers are generated in this page and are NOT ESA data. Once approved and ESA's data is read
+     (analysis/run_mex.py), this section joins the charts page and reads data/mex/profiles.csv and profiles.json. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex">
+  <title>Mock-up: Above the surface · Mars Data · NASA and ESA Data Projects</title>
+  <meta name="theme-color" content="#141B26">
+  <link rel="icon" href="../shared/emblem.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111307">
+  <script type="module" src="../shared/footer.js?v=2026111307"></script>
+  <link rel="stylesheet" href="mars.css?v=2026111307">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../" aria-label="NASA and ESA Data Projects, home">
+        <svg class="emblem" width="26" height="26" viewBox="0 0 64 64" aria-hidden="true"><use href="../shared/emblem.svg#e"/></svg><span class="bname">NASA and ESA Data Projects</span></a>
+      <nav class="nav" aria-label="Projects">
+        <a href="../">Home</a>
+        <a href="../asteroid-tracker/">Asteroids</a>
+        <a href="./" aria-current="page">Mars</a>
+        <a href="../image-explorer/">Images</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <a class="backlink" id="back" href="charts/">Charts</a>
+    <header class="pagehead compact">
+      <div class="kicker"><a href="./">Project 3 · Mars Data</a></div>
+      <h1>Above the surface</h1>
+      <p class="lede">Mock-up for approval: a new section of the charts page, from ESA's Mars Express.</p>
+    </header>
+
+    <div class="notice"><div class="t"><b>Mock-up.</b> <b>Every number on this page is made up</b>, to show the layout only; it is not ESA data. ESA's archive is down for maintenance; the real profiles replace these once they can be read and checked. On the charts page this becomes a fifth section, "Above the surface", with its own place in the section menu, and the home page's "Above the surface" card changes from Planned to Open.</div></div>
+
+    <!-- ===================== ABOVE THE SURFACE ===================== -->
+    <div class="section-head first" id="above"><div><h2>Above the surface</h2></div><span class="aside">ESA's Mars Express, from near the ground to about 45 km up</span></div>
+    <p class="intro">The rovers measure the air where they stand. ESA's Mars Express orbiter measures it from above: as the orbiter passes behind Mars, its radio signal to Earth crosses the atmosphere and bends, and the bending gives the temperature and pressure at each height. Each pass is one <b>profile</b>, at one place and one time.</p>
+
+    <div class="panels">
+      <figure class="panel chartcard wide">
+        <div class="ph"><h3>Temperature with height</h3><span class="aside">one line per profile</span></div>
+        <div class="pb">
+          <div class="tools">
+            <div class="seg" role="group" aria-label="Season">
+              <button class="chip" data-s="all" aria-pressed="true">All seasons</button>
+              <button class="chip" data-s="0" aria-pressed="false">Northern spring</button>
+              <button class="chip" data-s="1" aria-pressed="false">Northern summer</button>
+              <button class="chip" data-s="2" aria-pressed="false">Northern autumn</button>
+              <button class="chip" data-s="3" aria-pressed="false">Northern winter</button>
+            </div>
+          </div>
+          <div class="legend" id="tLegend"></div>
+          <div class="chartbox"><svg id="cTemp" class="chart" role="img" aria-label="Temperature against height for each Mars Express profile (sample numbers)"></svg></div>
+        </div>
+        <figcaption class="pf caption"><span class="badge warn">Sample numbers</span> Source once live: ESA Planetary Science Archive, Mars Express MaRS, level 5 profiles (cleaned).</figcaption>
+        <details class="howto"><summary>How to read this</summary>
+          <p>Height goes up the side, temperature along the bottom. Near the ground the air is warmest; it cools by about 2–3 °C for every kilometre up, then levels off higher up. Each colour is a season; choose one to bring its profiles forward.</p>
+          <p>Point at a line (or tap it) to see where and when that profile was taken. Heights are measured from Mars's mean surface level, so a profile over a deep crater can start below 0 km.</p>
+        </details>
+      </figure>
+
+      <figure class="panel chartcard">
+        <div class="ph"><h3>Pressure with height</h3><span class="aside">log scale</span></div>
+        <div class="pb">
+          <div class="chartbox"><svg id="cPres" class="chart" role="img" aria-label="Pressure against height for each Mars Express profile (sample numbers)"></svg></div>
+        </div>
+        <figcaption class="pf caption"><span class="badge warn">Sample numbers</span> The dashed band: the range of daily average pressure the rovers measure at the surface.</figcaption>
+        <details class="howto"><summary>How to read this</summary>
+          <p>Pressure halves about every 7–8 km of height, so on a log scale each profile is close to a straight line. At 40 km the air is about 1/100 as thick as at the ground.</p>
+        </details>
+      </figure>
+
+      <figure class="panel chartcard">
+        <div class="ph"><h3>Where and when</h3><span class="aside">one dot per profile</span></div>
+        <div class="pb">
+          <div class="chartbox"><svg id="cWhere" class="chart" role="img" aria-label="Latitude against season for each Mars Express profile (sample numbers)"></svg></div>
+        </div>
+        <figcaption class="pf caption"><span class="badge warn">Sample numbers</span> Mars Express can only measure when Earth sets or rises behind Mars, so profiles come in seasons of a few weeks.</figcaption>
+        <details class="howto"><summary>How to read this</summary>
+          <p>Each dot is one profile: the season (Ls) along the bottom, the latitude up the side. Gaps are times when the orbit and Earth were not lined up. Point at a dot to show that profile alone in the temperature chart.</p>
+        </details>
+      </figure>
+    </div>
+
+    <div class="section-head"><div><h2>What changes when this goes live</h2></div><span class="aside">for review</span></div>
+    <section class="panel pad">
+      <ul>
+        <li><b>Charts page:</b> this section after "The whole mission", and "Above the surface" in the section menu.</li>
+        <li><b>Home page:</b> the "Above the surface" card opens this section; the data table gains the Mars Express row with an ESA tag.</li>
+        <li><b>How the data is made:</b> a Mars Express section with its rules (X1–X4) and examples.</li>
+        <li><b>Credit:</b> ESA's credit line under the section and in the Credits page, exactly as recorded in DATA-SOURCES.md, with the CC BY-NC 3.0 IGO licence linked. No ESA logo.</li>
+        <li><b>Data:</b> read from ESA's archive once it returns, checked against ESA's documentation first.</li>
+      </ul>
+    </section>
+
+    <p class="srcline">Once live: Data courtesy of ESA, Mars Express MaRS (credit line as recorded in docs/DATA-SOURCES.md), CC BY-NC 3.0 IGO. This mock-up shows no ESA data.</p>
+    <footer class="footer">
+      <div class="ftop"><p class="copy">© 2026 <strong>Malcolm Syme</strong> · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></p></div>
+      <p class="fnote">Data courtesy of NASA and ESA. An independent project, not endorsed by NASA or ESA.</p>
+    </footer>
+  </main>
+  <div class="tip" id="tip" hidden></div>
+
+  <script>
+    const NS = "http://www.w3.org/2000/svg";
+    const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+    const SC = ["--s1", "--s2", "--s3", "--s4"].map(css);
+    const SEASONS = ["Northern spring", "Northern summer", "Northern autumn", "Northern winter"];
+    const K = 273.15, R_CO2 = 188.92, G = 3.711;
+
+    // ---- sample profiles (made up; deterministic so the page looks the same each time) ----
+    let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const profiles = [];
+    const windows = [[20, 45], [95, 120], [150, 175], [205, 230], [270, 300], [330, 355]];
+    windows.forEach(([a, b], wi) => {
+      for (let i = 0; i < 7; i++) {
+        const ls = a + (b - a) * rnd(), lat = -70 + 140 * rnd(), lon = 360 * rnd();
+        const z0 = -3 + 5 * rnd();
+        const warmSeason = Math.cos((ls - 250) * Math.PI / 180);           // dusty southern summer is warmest
+        const ts = 212 + 14 * Math.cos(lat * Math.PI / 180) + 9 * warmSeason + 4 * (rnd() - .5);
+        const top = 150 + 12 * warmSeason + 6 * (rnd() - .5);
+        const p0 = 610 * Math.exp(-z0 / 10.8) * (1 + .08 * Math.sin((ls - 150) * Math.PI / 180));
+        const pts = [];
+        let p = p0, T = ts;
+        for (let z = Math.ceil(z0); z <= 45; z++) {
+          // Cooling of about 2.6 K per km, easing into a nearly even temperature higher up, with a gentle wave.
+          const lin = ts - 2.6 * (z - z0), soft = top + 6 * Math.log1p(Math.exp((lin - top) / 6));
+          T = soft + 1.2 * Math.sin(z / 6 + wi + i) * Math.min(1, Math.max(0, (z - z0 - 10) / 10));
+          if (pts.length) p *= Math.exp(-1000 * G / (R_CO2 * T));
+          pts.push({ z, T, p });
+        }
+        const d = new Date(Date.UTC(2004 + wi * 3 + (i > 3 ? 1 : 0), Math.floor(rnd() * 12), 1 + Math.floor(rnd() * 27)));
+        profiles.push({ id: `${wi}-${i}`, ls, lat, lon, date: d.toISOString().slice(0, 10), season: Math.floor(ls / 90), pts });
+      }
+    });
+
+    // ---- drawing helpers (as on the charts page) ----
+    const tip = document.getElementById("tip");
+    const showTip = (e, html) => {
+      tip.innerHTML = html; tip.hidden = false;
+      const w = tip.offsetWidth, h = tip.offsetHeight, touch = e.pointerType === "touch";
+      const x = Math.max(8, Math.min(touch ? e.clientX - w / 2 : e.clientX + 14, innerWidth - w - 8));
+      let y = touch ? e.clientY - h - 32 : e.clientY + 14;
+      if (y < 72) y = e.clientY + 32;
+      if (y + h > innerHeight - 8) y = Math.max(72, e.clientY - h - 14);
+      tip.style.left = x + "px"; tip.style.top = y + "px";
+    };
+    const hideTip = () => { tip.hidden = true; };
+    addEventListener("scroll", hideTip, { passive: true });
+    function el(name, attrs = {}, parent) {
+      const n = document.createElementNS(NS, name);
+      for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
+      if (parent) parent.appendChild(n);
+      return n;
+    }
+    function frame(svg, { h = 360, x0, x1, y0, y1, xt, yt, xlab, ylab, xfmt = v => v, yfmt = v => v, xlog = false, m = { l: 58, r: 18, t: 16, b: 44 } }) {
+      const w = svg.parentElement.clientWidth || 900; h = Math.round(Math.min(h, Math.max(260, w * .85)));
+      svg.innerHTML = ""; svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+      const fx = v => xlog ? Math.log10(v) : v;
+      const X = v => m.l + (fx(v) - fx(x0)) / (fx(x1) - fx(x0)) * (w - m.l - m.r);
+      const Y = v => h - m.b - (v - y0) / (y1 - y0) * (h - m.t - m.b);
+      const g = el("g", { class: "grid" }, svg);
+      for (const t of yt) { el("line", { x1: m.l, x2: w - m.r, y1: Y(t), y2: Y(t) }, g); el("text", { x: m.l - 8, y: Y(t) + 4, "text-anchor": "end" }, svg).textContent = yfmt(t); }
+      for (const t of xt) { el("line", { x1: X(t), x2: X(t), y1: m.t, y2: h - m.b, opacity: .5 }, g); el("text", { x: X(t), y: h - m.b + 17, "text-anchor": "middle" }, svg).textContent = xfmt(t); }
+      el("text", { x: (m.l + w - m.r) / 2, y: h - 6, "text-anchor": "middle", class: "axt" }, svg).textContent = xlab;
+      el("text", { x: 14, y: (m.t + h - m.b) / 2, "text-anchor": "middle", class: "axt", transform: `rotate(-90 14 ${(m.t + h - m.b) / 2})` }, svg).textContent = ylab;
+      return { X, Y, w, h, m };
+    }
+    const fmt = (v, d = 0) => v.toLocaleString("en-CA", { maximumFractionDigits: d, minimumFractionDigits: d });
+    const latTxt = v => `${fmt(Math.abs(v))}° ${v >= 0 ? "N" : "S"}`;
+    const card = p => `<b>Profile ${p.date}</b><br>Ls ${fmt(p.ls)}° · ${SEASONS[p.season].toLowerCase()}<br>${latTxt(p.lat)}, ${fmt(p.lon)}° E<br>(sample numbers)`;
+
+    // ---- legend ----
+    document.getElementById("tLegend").innerHTML = SEASONS.map((s, i) => `<span><i style="background:${SC[i]}"></i>${s}</span>`).join(" ");
+
+    let only = "all", focus = null;
+    function drawTemp() {
+      const svg = document.getElementById("cTemp");
+      const f = frame(svg, { h: 420, x0: -140, x1: -20, y0: -5, y1: 45, xt: [-140, -120, -100, -80, -60, -40, -20], yt: [0, 10, 20, 30, 40],
+        xlab: "Temperature (°C)", ylab: "Height (km)", xfmt: v => v + "°", yfmt: v => v });
+      const order = [...profiles].sort((a, b) => (a.season === +only) - (b.season === +only));
+      for (const p of order) {
+        const on = focus ? p.id === focus : only === "all" || p.season === +only;
+        const d = p.pts.map((q, i) => (i ? "L" : "M") + f.X(q.T - K).toFixed(1) + "," + f.Y(q.z).toFixed(1)).join("");
+        el("path", { d, fill: "none", stroke: SC[p.season], "stroke-width": on ? 1.8 : 1, opacity: on ? .95 : .12 }, svg);
+        const hit = el("path", { d, fill: "none", stroke: "transparent", "stroke-width": 12 }, svg);
+        const at = e => {
+          const b = svg.getBoundingClientRect(), sy = (e.clientY - b.top) / b.height * f.h;
+          const q = p.pts.reduce((a, c) => Math.abs(f.Y(c.z) - sy) < Math.abs(f.Y(a.z) - sy) ? c : a);
+          showTip(e, card(p) + `<br>${fmt(q.z)} km: ${fmt(q.T - K)} °C (${fmt(q.T)} K), ${fmt(q.p, q.p < 10 ? 2 : 0)} Pa`);
+        };
+        if (on) { hit.addEventListener("pointermove", at); hit.addEventListener("pointerdown", at); hit.addEventListener("pointerleave", e => { if (e.pointerType !== "touch") hideTip(); }); }
+      }
+      el("text", { x: f.w - f.m.r - 6, y: f.m.t + 14, "text-anchor": "end", class: "lbl", fill: css("--red") }, svg).textContent = "SAMPLE NUMBERS";
+    }
+    function drawPres() {
+      const svg = document.getElementById("cPres");
+      const f = frame(svg, { x0: 1, x1: 1500, xlog: true, y0: -5, y1: 45, xt: [1, 10, 100, 1000], yt: [0, 10, 20, 30, 40],
+        xlab: "Pressure (Pa, log scale)", ylab: "Height (km)", xfmt: v => fmt(v) });
+      el("rect", { x: f.X(650), y: f.m.t, width: f.X(950) - f.X(650), height: f.h - f.m.t - f.m.b, fill: css("--brass"), opacity: .07 }, svg);
+      for (const x of [650, 950]) el("line", { x1: f.X(x), x2: f.X(x), y1: f.m.t, y2: f.h - f.m.b, stroke: css("--brass"), "stroke-dasharray": "4 4", opacity: .6 }, svg);
+      el("text", { x: f.X(780), y: f.m.t + 14, "text-anchor": "middle", class: "lbl", fill: css("--brass") }, svg).textContent = "rovers";
+      for (const p of profiles) {
+        const d = p.pts.map((q, i) => (i ? "L" : "M") + f.X(q.p).toFixed(1) + "," + f.Y(q.z).toFixed(1)).join("");
+        el("path", { d, fill: "none", stroke: SC[p.season], "stroke-width": 1.2, opacity: only === "all" || p.season === +only ? .8 : .12 }, svg);
+      }
+    }
+    function drawWhere() {
+      const svg = document.getElementById("cWhere");
+      const f = frame(svg, { x0: 0, x1: 360, y0: -90, y1: 90, xt: [0, 90, 180, 270, 360], yt: [-90, -45, 0, 45, 90],
+        xlab: "Season (Ls, degrees)", ylab: "Latitude", xfmt: v => v + "°", yfmt: v => v === 0 ? "0°" : latTxt(v) });
+      for (const p of profiles) {
+        const c = el("circle", { cx: f.X(p.ls), cy: f.Y(p.lat), r: focus === p.id ? 7 : 5, fill: SC[p.season], opacity: only === "all" || p.season === +only ? .9 : .2 }, svg);
+        const at = e => showTip(e, card(p));
+        c.addEventListener("pointermove", at);
+        c.addEventListener("pointerdown", e => { at(e); focus = focus === p.id ? null : p.id; drawAll(); });
+        c.addEventListener("pointerleave", e => { if (e.pointerType !== "touch") hideTip(); });
+      }
+    }
+    function drawAll() { drawTemp(); drawPres(); drawWhere(); }
+    document.querySelectorAll("[data-s]").forEach(b => b.addEventListener("click", () => {
+      only = b.dataset.s; focus = null;
+      document.querySelectorAll("[data-s]").forEach(x => x.setAttribute("aria-pressed", x === b ? "true" : "false"));
+      drawAll();
+    }));
+    drawAll();
+    let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(drawAll, 150); });
+  </script>
+</body>
+</html>

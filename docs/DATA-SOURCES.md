@@ -226,8 +226,16 @@ Checked Nov 12, 2026, from GitHub's servers.
   ESA's archive was down for maintenance (psa.esa.int: "The PSA is currently down for maintenance"). ESA's other
   documented routes, the web view `psaftp.esac.esa.int` (an interactive application) and anonymous SFTP (a password
   prompt), are not usable from a script without credentials, so the profiles wait until the simplified site returns.
-  NASA's PDS Geosciences Node also lists Mars Express MaRS data (not yet checked). The reader (`run_mex.py`) and its
-  rules (`CLEANING-MEX.md`) are ready.
+  The reader (`run_mex.py`) and its rules (`CLEANING-MEX.md`) are ready. **Checked Nov 15, 2026:** psa.esa.int still
+  shows "down for maintenance", with no return date published; the update job's test run on Nov 12 reached
+  `psaftp.esac.esa.int` but found no data sets listed.
+- **NASA's copy (checked Nov 15, 2026, not used):** through a cooperative agreement between ESA and NASA, the PDS
+  Geosciences Node hosts a copy of the MaRS archive (`pds-geosciences.wustl.edu/missions/mars_express/mars.htm`),
+  including the reduced occultation profiles, `mex-m-mrs-5-occ-v1`, with one volume per occultation season (for
+  example `MEX-M-MRS-5-OCC-9102-V1.0`, the same data set identifiers as ESA's). Seasons listed: April–August 2004,
+  December 2004–January 2005, July–December 2005, April–June 2007 and May–June 2022. Its file layout, completeness
+  against ESA's list and credit have not been checked; ESA's archive stays the source unless a decision is made to
+  use the copy.
 - **Credit line, exactly as ESA's terms page gives it:** "Credit: ESA, M. Plätzold, K. Pieter". The archive itself names
   the principal investigator as Martin Pätzold (written "Paetzold"); the line is used as ESA gives it unless ESA confirms
   a corrected form.
