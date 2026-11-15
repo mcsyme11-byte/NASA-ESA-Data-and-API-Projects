@@ -11,18 +11,10 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
 
 ## 1. Asteroid Tracker (version 1 live Nov 8, 2026)
 
-- [ ] Developer testing: the Asteroid Tracker's home page (`asteroid-tracker/`) on phone, tablet and computer; each
-  card's link; an old link such as `asteroid-tracker/#risk` opening the tracker.
-- [ ] **Developer testing of the Nov 12, 2026 additions** (built and published Nov 12, 2026):
-  - Asteroid Tracker, "Visible from here" tab: "Use my location" and a typed town; the passes list, the night chart,
-    "Find it ›" opening Sky Finder; "Forget this place".
-  - Sky Finder (`sky-finder/`), on a phone outdoors at night: add to the home screen (iPhone and Android); the safety
-    notice; camera, location and motion prompts; calibration on the Moon or a planet; the markers lining up with the
-    real Moon, planets and bright stars; an asteroid's diamond and path; red light; the ISS or Tiangong passes; the
-    how-to page. Since the Nov 13, 2026 rework: tonight's figures strip, the list grouped by night, the row of names
-    in the camera view for switching target, and the Calibrate button's green or amber dot.
-  - Spacecraft map (`spacecraft/`) and the home page's new panel: the five views, search, agency and kind filters,
-    the card for several craft, Follow, the path, Share, time controls; the asteroid map link under the panel.
+- [ ] **Developer testing, Sky Finder outdoors at night** (everything else in the Nov 12–13, 2026 additions passed
+  on Nov 14, 2026): calibration on the Moon or a planet and the Calibrate button's dot turning green; the markers
+  lining up with the real Moon, planets and bright stars; an asteroid's diamond and path; switching target with the
+  row of names in the camera view; the ISS or Tiangong passes.
 - [ ] Spacecraft map: Tianwen-1 (Horizons id -9901491 holds only its cruise, to Feb 10, 2021), Tianwen-2 and
   Chang'e 7 are not in Horizons now, and CelesTrak does not return TESS; they appear by themselves if either service
   lists them later. For the Data updates chat: Chang'e 7 to be added to the known notes in `dev/data_jobs.json`.

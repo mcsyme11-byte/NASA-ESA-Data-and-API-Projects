@@ -1,5 +1,11 @@
 # Change log
 
+## November 14, 2026 — Asteroid Tracker testing
+
+- Developer testing passed for the Asteroid Tracker's home page, the "Visible from here" tab, the spacecraft map and
+  Sky Finder indoors (home screen, safety notice, permissions, tonight's figures, grouped list, red light, how-to
+  page). Sky Finder's outdoor test is still to do.
+
 ## November 14, 2026 — spacecraft map: 18 more craft
 
 - **Added** (100 craft in all): ESCAPADE now shown as its two craft, Blue and Gold; MMX (launched Oct 20, 2026) and
