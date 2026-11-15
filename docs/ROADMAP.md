@@ -108,11 +108,11 @@ Plan confirmed Nov 11, 2026 (see PROJECT-NOTES.md): three missions, updated auto
 The standard and the jobs are in [DATA-UPDATES.md](DATA-UPDATES.md); the daily Data health check reports problems in
 one GitHub issue labelled `data-health`.
 
-- [ ] Developer: check that the first `data-health` issue arrives by email (on its first day it lists the spacecraft
-  catalogue's broken links). If no email arrives: on GitHub, the repository's Watch button › All activity (or Custom ›
-  Issues).
-- [ ] Confirm over the first days: the Astronaut photos 19:11 backup run, a daily Data health run, and the status files
-  appearing in `shared/data/status/` as each job runs.
+- [ ] Developer: check that the first `data-health` issue arrives by email, whenever the check first finds
+  something (its first run, on Nov 15, 2026, found nothing to report). If no email arrives: on GitHub, the
+  repository's Watch button › All activity (or Custom › Issues).
+- [ ] Confirm over the first days: the Astronaut photos 19:11 backup run and a daily Data health run. (Every job's
+  first run on the new standard succeeded on Nov 15, 2026 and wrote its status file.)
 - [ ] Confirm the monthly refresh of `asteroid-tracker/data/famous.json` on December 1, 2026 (the "Asteroid data" log
   shows "famous.json written").
 - [ ] Confirm the first scheduled run of "Place and map lists" on January 2, 2027.
