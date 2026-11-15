@@ -160,6 +160,16 @@ looked at. Fixed:
 - The explorer itself moved to `image-explorer/explore.html`; `#earth`, `#globe` and `#library` open that tab, and
   switching tabs updates the address. Its back button leads to the project's home page.
 
+## November 15, 2026 — Mars Data: "Above the surface" (ESA Mars Express)
+
+- The charts page has a fifth section, "Above the surface", built from the approved mock-up: temperature with height,
+  pressure with height (log scale, with the range the rovers measure at the surface) and where and when each profile
+  was taken, one line or dot per profile, with a season choice. It is in the section menu (`charts/#above`).
+- The section reads ESA's Mars Express profiles (`data/mex/`, written by `analysis/run_mex.py`) and stays switched off
+  (`MEX_LIVE = false`), showing a waiting note, until the first real profiles have been read and checked; ESA's
+  Planetary Science Archive is down for maintenance. ESA's credit line appears with the charts once they are on.
+- "How the data is made" lists the Mars Express rules (X1–X4).
+
 ## November 12, 2026 — Mars Data: cleaning rules 1.2 and automatic updates
 
 - **Rule 11:** single-hour air-temperature glitches (the evening readings of about −118 °C) are removed

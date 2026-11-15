@@ -44,7 +44,7 @@
     </div>
 
     <nav class="secnav" id="secnav" aria-label="Sections of this page">
-      <div class="secrow" data-hscroll><a href="#year">The year</a><a href="#craters">Two craters</a><a href="#sol">One sol</a><a href="#mission">The whole mission</a><a href="../method/">How it's made</a></div>
+      <div class="secrow" data-hscroll><a href="#year">The year</a><a href="#craters">Two craters</a><a href="#sol">One sol</a><a href="#mission">The whole mission</a><a href="#above">Above the surface</a><a href="../method/">How it's made</a></div>
     </nav>
     <p class="caption words">New to sol, Ls and Mars Year? <a href="../#words">The four words used on every chart</a> are on the Mars Data home page.</p>
 
@@ -203,7 +203,63 @@
       </figure>
     </div>
 
+
+    <!-- ===================== ABOVE THE SURFACE (ESA Mars Express) ===================== -->
+    <div class="section-head" id="above"><div><h2>Above the surface</h2></div><span class="aside">ESA's Mars Express, from near the ground to about 45 km up</span></div>
+    <p class="intro">The rovers measure the air where they stand. ESA's Mars Express orbiter measures it from above: as the orbiter passes behind Mars, its radio signal to Earth crosses the atmosphere and bends, and the bending gives the temperature and pressure at each height. Each pass is one <b>profile</b>, at one place and one time.</p>
+    <div class="panels" id="mexWait">
+      <figure class="panel chartcard wide">
+        <div class="pb"><div class="empty">The Mars Express profiles appear here once they have been read from ESA's Planetary Science Archive and checked.</div></div>
+      </figure>
+    </div>
+    <div class="panels" id="mexPanels" hidden>
+      <figure class="panel chartcard wide">
+        <div class="ph"><h3>Temperature with height</h3><span class="aside">one line per profile</span></div>
+        <div class="pb">
+          <div class="tools">
+            <div class="seg" role="group" aria-label="Season">
+              <button class="chip" data-mex="all" aria-pressed="true">All seasons</button>
+              <button class="chip" data-mex="0" aria-pressed="false">Northern spring</button>
+              <button class="chip" data-mex="1" aria-pressed="false">Northern summer</button>
+              <button class="chip" data-mex="2" aria-pressed="false">Northern autumn</button>
+              <button class="chip" data-mex="3" aria-pressed="false">Northern winter</button>
+            </div>
+          </div>
+          <div class="legend" id="mexLegend"></div>
+          <div class="chartbox"><svg id="cMexT" class="chart" role="img" aria-label="Temperature against height for each Mars Express profile"></svg></div>
+        </div>
+        <figcaption class="pf caption" id="mexNote">Source: ESA Planetary Science Archive, Mars Express MaRS, level 5 profiles (cleaned).</figcaption>
+        <details class="howto"><summary>How to read this</summary>
+          <p>Height goes up the side, temperature along the bottom. Near the ground the air is warmest; it cools by a few degrees for every kilometre up, then levels off higher up. Each colour is a season; choose one to bring its profiles forward.</p>
+          <p>Point at a line (or tap it) to see where and when that profile was taken, and its temperature and pressure at that height.</p>
+        </details>
+      </figure>
+
+      <figure class="panel chartcard">
+        <div class="ph"><h3>Pressure with height</h3><span class="aside">log scale</span></div>
+        <div class="pb">
+          <div class="chartbox"><svg id="cMexP" class="chart" role="img" aria-label="Pressure against height for each Mars Express profile"></svg></div>
+        </div>
+        <figcaption class="pf caption">The dashed band: the range of daily average pressure the rovers measure at the surface.</figcaption>
+        <details class="howto"><summary>How to read this</summary>
+          <p>Pressure halves about every 7–8 km of height, so on a log scale each profile is close to a straight line. At 40 km the air is about 1/100 as thick as at the ground.</p>
+        </details>
+      </figure>
+
+      <figure class="panel chartcard">
+        <div class="ph"><h3>Where and when</h3><span class="aside">one dot per profile</span></div>
+        <div class="pb">
+          <div class="chartbox"><svg id="cMexWhere" class="chart" role="img" aria-label="Latitude against season for each Mars Express profile"></svg></div>
+        </div>
+        <figcaption class="pf caption">Mars Express can only measure when Earth sets or rises behind Mars, so profiles come in seasons of a few weeks.</figcaption>
+        <details class="howto"><summary>How to read this</summary>
+          <p>Each dot is one profile: the season (Ls) along the bottom, the latitude up the side. Gaps are times when the orbit and Earth were not lined up. Tap a dot to show that profile alone in the temperature chart; tap it again to show them all.</p>
+        </details>
+      </figure>
+    </div>
+
     <p class="srcline">Data courtesy of NASA/JPL-Caltech and the REMS team (Centro de Astrobiología), and NASA/JPL-Caltech and the MEDA team (Centro de Astrobiología), NASA Planetary Data System, Atmospheres Node.</p>
+    <p class="srcline" id="mexCredit" hidden>Mars Express profiles: Credit: ESA, M. Plätzold, K. Pieter. ESA Planetary Science Archive, Mars Express MaRS, licensed under <a href="https://creativecommons.org/licenses/by-nc/3.0/igo/" target="_blank" rel="noopener">CC BY-NC 3.0 IGO ↗</a>.</p>
     <footer class="footer">
       <div class="ftop"><p class="copy">© 2026 <strong>Malcolm Syme</strong> · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></p></div>
       <p class="fnote">Data courtesy of NASA and ESA. An independent project, not endorsed by NASA or ESA.</p>
@@ -472,8 +528,87 @@
       document.getElementById("twoNote").textContent = `Full sols only. Perseverance: sols ${MD.meta.first_sol}–${fmt(MD.meta.last_sol)} (${MD.meta.first_date} to ${MD.meta.last_date}). Sources: NASA Planetary Data System, Curiosity REMS and Perseverance MEDA (cleaned).`;
     }
 
+
+    // ---- above the surface: ESA Mars Express profiles (data/mex/, written by analysis/run_mex.py) ----
+    // MEX_LIVE stays false until the first real profiles have been read and checked (CLEANING-MEX.md), including
+    // the reference of ESA's height column; until then the section shows a waiting note.
+    const MEX_LIVE = false;
+    const SEASONS = ["Northern spring", "Northern summer", "Northern autumn", "Northern winter"];
+    let MX = null, mexOnly = "all", mexFocus = null;
+    const latTxt = v => `${fmt(Math.abs(v))}° ${v >= 0 ? "N" : "S"}`;
+    const lonTxt = v => `${fmt(Math.abs(v))}° ${v >= 0 ? "E" : "W"}`;
+    async function loadMex() {
+      if (!MEX_LIVE) return;
+      try {
+        const [c, j] = await Promise.all(["../data/mex/profiles.csv", "../data/mex/profiles.json"].map(u => fetch(u, { cache: "no-cache" }).then(x => { if (!x.ok) throw new Error(x.status); return u.endsWith(".csv") ? x.text() : x.json(); })));
+        const [head, ...lines] = c.trim().split("\n"); const cols = head.split(",");
+        const list = lines.map(l => Object.fromEntries(l.split(",").map((v, i) => [cols[i], v === "" ? null : (isNaN(v) ? v : +v)])))
+          .filter(p => j[p.id] && j[p.id].length).map(p => ({ ...p, s: Math.floor(p.ls / 90) % 4, pts: j[p.id] }));
+        if (!list.length) return;
+        MX = list;
+        document.getElementById("mexWait").hidden = true;
+        document.getElementById("mexPanels").hidden = false;
+        document.getElementById("mexCredit").hidden = false;
+        const d = list.map(p => p.utc).sort();
+        document.getElementById("mexNote").textContent = `${fmt(list.length)} profiles, ${d[0].slice(0, 10)} to ${d.at(-1).slice(0, 10)}. Source: ESA Planetary Science Archive, Mars Express MaRS, level 5 profiles (cleaned).`;
+        document.getElementById("mexLegend").innerHTML = SEASONS.map((n, i) => `<span><i style="background:${S[i]}"></i>${n}</span>`).join("");
+        drawMex(); goToHash();
+      } catch (e) { /* the waiting note stays */ }
+    }
+    const mexCard = p => `<b>Profile ${p.utc} UTC</b><br>Ls ${fmt(p.ls, 1)}° · Mars Year ${p.mars_year}<br>${latTxt(p.lat)}, ${lonTxt(p.lon)}`;
+    const mexOn = p => mexFocus ? p.id === mexFocus : mexOnly === "all" || p.s === +mexOnly;
+    function drawMex() {
+      if (!MX) return;
+      // temperature with height: each profile is [height km, temperature K, pressure Pa] every 1 km
+      let svg = document.getElementById("cMexT");
+      const ts = MX.flatMap(p => p.pts.map(q => q[1] - K)), zs = MX.flatMap(p => p.pts.map(q => q[0]));
+      const t0 = Math.floor(Math.min(...ts) / 20) * 20, t1 = Math.ceil(Math.max(...ts) / 20) * 20;
+      const z0 = Math.floor(Math.min(...zs) / 5) * 5, z1 = Math.ceil(Math.max(...zs) / 5) * 5;
+      let f = frame(svg, { h: 420, x0: t0, x1: t1, y0: z0, y1: z1, xlab: "Temperature (°C)", ylab: "Height (km)", xfmt: v => v + "°" });
+      for (const p of [...MX].sort((a, b) => mexOn(a) - mexOn(b))) {
+        const on = mexOn(p), d = p.pts.map((q, i) => (i ? "L" : "M") + f.X(q[1] - K).toFixed(1) + "," + f.Y(q[0]).toFixed(1)).join("");
+        el("path", { d, fill: "none", stroke: S[p.s], "stroke-width": on ? 1.8 : 1, opacity: on ? .95 : .12 }, svg);
+        if (!on) continue;
+        const hit = el("path", { d, fill: "none", stroke: "transparent", "stroke-width": 12 }, svg), F = f, SV = svg;
+        const at = e => {
+          const b = SV.getBoundingClientRect(), sy = (e.clientY - b.top) / b.height * F.h;
+          const q = p.pts.reduce((a, c) => Math.abs(F.Y(c[0]) - sy) < Math.abs(F.Y(a[0]) - sy) ? c : a);
+          showTip(e, mexCard(p) + `<br>${fmt(q[0])} km: ${fmt(q[1] - K)} °C (${fmt(q[1])} K), ${fmt(q[2], q[2] < 10 ? 2 : 0)} Pa`);
+        };
+        hit.addEventListener("pointermove", at); hit.addEventListener("pointerdown", at);
+        hit.addEventListener("pointerleave", e => { if (e.pointerType !== "touch") hideTip(); });
+      }
+      // pressure with height, log scale (drawn as log10 of the pressure)
+      svg = document.getElementById("cMexP");
+      const ps = MX.flatMap(p => p.pts.map(q => q[2])).filter(v => v > 0);
+      const l0 = Math.floor(Math.log10(Math.min(...ps))), l1 = Math.ceil(Math.log10(Math.max(...ps, 1000)));
+      f = frame(svg, { w: 520, h: 360, x0: l0, x1: l1, y0: z0, y1: z1, xt: Array.from({ length: l1 - l0 + 1 }, (_, i) => l0 + i), xlab: "Pressure (Pa, log scale)", ylab: "Height (km)", xfmt: v => fmt(10 ** v, v < 0 ? 2 : 0) });
+      const sp = fullP.map(r => r.pressure_mean), lo = Math.log10(Math.min(...sp)), hi = Math.log10(Math.max(...sp));
+      el("rect", { x: f.X(lo), y: f.m.t, width: f.X(hi) - f.X(lo), height: f.h - f.m.t - f.m.b, fill: css("--brass"), opacity: .07 }, svg);
+      for (const x of [lo, hi]) el("line", { x1: f.X(x), x2: f.X(x), y1: f.m.t, y2: f.h - f.m.b, stroke: css("--brass"), "stroke-dasharray": "4 4", opacity: .6 }, svg);
+      for (const p of MX) {
+        const d = p.pts.filter(q => q[2] > 0).map((q, i) => (i ? "L" : "M") + f.X(Math.log10(q[2])).toFixed(1) + "," + f.Y(q[0]).toFixed(1)).join("");
+        el("path", { d, fill: "none", stroke: S[p.s], "stroke-width": 1.2, opacity: mexOn(p) ? .8 : .12 }, svg);
+      }
+      // where and when
+      svg = document.getElementById("cMexWhere");
+      f = frame(svg, { w: 520, h: 360, x0: 0, x1: 360, y0: -90, y1: 90, xt: [0, 90, 180, 270, 360], yt: [-90, -45, 0, 45, 90], xlab: "Season (Ls, degrees)", ylab: "Latitude", xfmt: v => v + "°", yfmt: v => v === 0 ? "0°" : latTxt(v) });
+      for (const p of MX) {
+        const c = el("circle", { cx: f.X(p.ls), cy: f.Y(p.lat), r: mexFocus === p.id ? 7 : 5, fill: S[p.s], opacity: mexOn(p) ? .9 : .2 }, svg);
+        c.addEventListener("pointermove", e => showTip(e, mexCard(p)));
+        c.addEventListener("pointerdown", e => { showTip(e, mexCard(p)); mexFocus = mexFocus === p.id ? null : p.id; drawMex(); });
+        c.addEventListener("pointerleave", e => { if (e.pointerType !== "touch") hideTip(); });
+      }
+    }
+    document.querySelectorAll("[data-mex]").forEach(b => b.addEventListener("click", () => {
+      mexOnly = b.dataset.mex; mexFocus = null;
+      document.querySelectorAll("[data-mex]").forEach(x => x.setAttribute("aria-pressed", x === b ? "true" : "false"));
+      drawMex();
+    }));
+    loadMex();
+
     function drawAll() {
-      drawTwo();
+      drawTwo(); drawMex();
       drawPressure(); drawRange(); drawHeat(); drawHiLo(); drawClimb(); drawSol();
       seasonal("cHum", "humFrame", "humidity_max", "Relative humidity (%)", "%", 0, "Humidity appears here after the sols are re-processed with cleaning rules 1.1.");
       seasonal("cUV", "uvFrame", "uv_abc_max", "UV (W/m²)", "W/m²", 1, "Corrected UV appears here after the UV files are processed.");

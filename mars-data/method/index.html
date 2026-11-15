@@ -160,11 +160,27 @@
       </table>
     </section>
 
+    <!-- ============ MARS EXPRESS ============ -->
+    <div class="section-head"><div><h2>Mars Express: which rule for which situation</h2></div><span class="aside">ESA MaRS profiles, cleaning rules version 1.0</span></div>
+    <section class="panel pad">
+      <p class="intro">ESA's Mars Express orbiter, from its radio science experiment (MaRS): one file per occultation, the atmosphere from about 45 km down to a few kilometres above the ground. These rules apply once the profiles are read from ESA's Planetary Science Archive; until then the charts page shows a waiting note.</p>
+      <table class="rules">
+        <thead><tr><th>Situation</th><th>Rule</th><th>What happens</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td>A row does not have 26 columns</td><td class="n" data-label="Rule">X1 · Format</td><td data-label="What happens">Removed</td><td class="ex" data-label="Example">A row cut short at the end of a file.</td></tr>
+          <tr><td>ESA gives each profile three times, from three assumptions about the top</td><td class="n" data-label="Rule">X2 · Version</td><td data-label="What happens">The middle assumption is used</td><td class="ex" data-label="Example">The three agree closely below about 30 km and differ above it.</td></tr>
+          <tr><td>Temperature outside 100–320 K, its uncertainty over 10 K, or no pressure</td><td class="n" data-label="Rule">X3 · Rows</td><td data-label="What happens">Row removed</td><td class="ex" data-label="Example">A reading near the top of a profile with an uncertainty of ±14 K.</td></tr>
+          <tr><td>Fewer than 10 rows left in a profile</td><td class="n" data-label="Rule">X3 · Profiles</td><td data-label="What happens">Profile not used</td><td class="ex" data-label="Example">A pass cut short by a lost signal.</td></tr>
+          <tr><td>Each profile kept</td><td class="n" data-label="Rule">X4 · Summary</td><td data-label="What happens">Time, place, season and the profile every 1 km of height</td><td class="ex" data-label="Example">Pressure between two heights is found on a log scale, as it falls by about half every 7–8 km.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
     <!-- ============ MORE ============ -->
     <div class="section-head"><div><h2>Read more</h2></div><span class="aside">in the project's source code</span></div>
     <section class="panel pad">
       <ul class="links">
-        <li>The full rules: <a href="https://github.com/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/blob/main/mars-data/analysis/CLEANING.md" target="_blank" rel="noopener">Curiosity ↗</a> and <a href="https://github.com/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/blob/main/mars-data/analysis/CLEANING-MEDA.md" target="_blank" rel="noopener">Perseverance ↗</a>.</li>
+        <li>The full rules: <a href="https://github.com/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/blob/main/mars-data/analysis/CLEANING.md" target="_blank" rel="noopener">Curiosity ↗</a>, <a href="https://github.com/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/blob/main/mars-data/analysis/CLEANING-MEDA.md" target="_blank" rel="noopener">Perseverance ↗</a> and <a href="https://github.com/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/blob/main/mars-data/analysis/CLEANING-MEX.md" target="_blank" rel="noopener">Mars Express ↗</a>.</li>
         <li>The cleaning reports, one per batch of sols: <a href="https://github.com/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/tree/main/mars-data/data/rems/reports" target="_blank" rel="noopener">Curiosity ↗</a> and <a href="https://github.com/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/tree/main/mars-data/data/meda/reports" target="_blank" rel="noopener">Perseverance ↗</a>.</li>
         <li>The code that applies them: <a href="https://github.com/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/tree/main/mars-data/analysis" target="_blank" rel="noopener">mars-data/analysis ↗</a>.</li>
         <li>The charts made from the result: <a href="../charts/">Charts</a>.</li>

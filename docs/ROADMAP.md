@@ -77,9 +77,13 @@ Plan confirmed Nov 11, 2026 (see PROJECT-NOTES.md): three missions, updated auto
 - [ ] Mars Express MaRS profiles (ESA): waiting for ESA's archive (down for maintenance since at least Nov 12, 2026; no
   return date published as of Nov 15); then run `run_mex.py`. NASA's PDS Geosciences Node holds a copy (checked Nov
   15, 2026, not used; see DATA-SOURCES.md).
-- [ ] "Above the surface" chart for the Mars Express profiles: mock-up with sample numbers
-  (`mars-data/mockup-mex.html`, Nov 15, 2026) waiting for the developer's approval; built with the real profiles once
-  they can be read.
+- [x] "Above the surface" section of the charts page (ESA Mars Express profiles): mock-up approved and built (Nov 15,
+  2026). It reads `data/mex/profiles.csv` and `profiles.json` and shows a waiting note until then.
+- [ ] When the first real Mars Express profiles are read: check them against `CLEANING-MEX.md` and the report, confirm
+  from the AIX label what the height column is measured from (geopotential height; reference surface to be stated
+  in the chart's notes), then set `MEX_LIVE = true` in `mars-data/charts/index.html`, open the home page's "Above the
+  surface" card and add the Mars Express row to its data table, and add the source to `CREDITS.md` and the Credits
+  page in the same change.
 
 **Automatic updates**
 - [x] GitHub Actions job "Mars data" (`.github/workflows/mars-data.yml`), live Nov 12, 2026: Mondays and Thursdays
