@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<!-- NASA and ESA Data Projects · Spacecraft map · mock-up for approval: past missions, route playback, Earth-orbit fleet, mission filters ·
+     © 2026 Malcolm Syme · mcsyme11@gmail.com -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Mock-up: more spacecraft · NASA and ESA Data Projects</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#141B26">
+  <link rel="icon" href="../shared/emblem.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111402">
+  <script type="module" src="../shared/footer.js?v=2026111402"></script>
+  <link rel="stylesheet" href="spacecraft.css?v=2026111402">
+  <!-- Mock-up only: the new pieces, drawn here so they can be judged before they join spacecraft.css. -->
+  <style>
+    .mk-note { border: 1px dashed var(--brass-dim); border-radius: var(--r-card); padding: 14px 18px; margin: 0 0 22px; color: var(--ink2); font-size: 15px; line-height: 1.55; }
+    .mk-note b { color: var(--brass-bright); font-weight: 400; }
+    .mk-note ol { margin: 8px 0 0; padding-left: 20px; }
+    .mk-n { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--brass); color: var(--on-brass); font-size: 12px; margin-right: 6px; vertical-align: 2px; }
+    .sc-row .past { color: var(--muted); font-style: italic; }
+    .sc-row.is-past .n { color: var(--ink2); }
+    .sc-row .n small { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-left: 6px; }
+    .mk-map { display: block; width: 100%; height: 100%; }
+    .cc-end { margin: 12px 0; padding: 12px 14px; border-left: 2px solid var(--brass-dim); background: rgba(192,160,98,.05); color: var(--ink2); font-size: 15px; line-height: 1.55; }
+    .cc-end .lbl { display: block; margin-bottom: 4px; }
+    .sc-play { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px 14px; margin-top: 12px; padding: 12px 14px;
+      border: 1px solid var(--brass-dim); border-radius: var(--r-card); background: var(--card); }
+    .sc-play .pp { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--brass); background: var(--brass); color: var(--on-brass); font-size: 16px; cursor: pointer; }
+    .sc-play .what { font-size: 14px; color: var(--ink2); }
+    .sc-play .what b { color: var(--ink); font-weight: 400; }
+    .sc-play input[type="range"] { grid-column: 1 / -1; width: 100%; accent-color: var(--brass); }
+    .sc-play .marks { grid-column: 1 / -1; display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-top: -6px; }
+    .sc-play .seg { grid-column: 1 / -1; justify-self: start; }
+    @media (max-width: 600px) { .sc-play { grid-template-columns: auto 1fr; } .sc-play .x { grid-column: 1 / -1; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../" aria-label="NASA and ESA Data Projects, home">
+        <svg class="emblem" width="26" height="26" viewBox="0 0 64 64" aria-hidden="true"><use href="../shared/emblem.svg#e"/></svg><span class="bname">NASA and ESA Data Projects</span></a>
+      <nav class="nav" aria-label="Projects">
+        <a href="../">Home</a>
+        <a href="../asteroid-tracker/">Asteroids</a>
+        <a href="../mars-data/">Mars</a>
+        <a href="../image-explorer/">Images</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <a class="backlink" id="back" href="./">Spacecraft map</a>
+
+    <div class="mk-note">
+      <b>Mock-up for approval (Nov 14, 2026).</b> A still picture of the spacecraft map with the planned additions; nothing
+      here works yet, and the route drawing is a sketch, not real positions. The numbered parts:
+      <ol>
+        <li><b>Show:</b> chips that switch on past missions and the Earth-orbit fleet (relay and weather satellites). Active
+          craft stay on by default. Added under the Kind chips; nothing on the page switches groups of craft today.</li>
+        <li><b>Mission:</b> a new chip row for big missions, small missions, satellites (anything circling Earth) and crewed
+          missions. It works together with Agency and Kind, like those rows do now.</li>
+        <li><b>The list</b> marks past missions in grey with their years ("1997–2017") and how they ended in a word.</li>
+        <li><b>The card</b> of a past mission gets a short "How it ended" paragraph in place of the live figures.</li>
+        <li><b>Replay its route:</b> a play bar under the map draws the route from launch to the end, with the date, a
+          slider to scrub and the speed buttons the map already has. It replaces "Show its path" for past missions.</li>
+      </ol>
+    </div>
+
+    <header class="pagehead compact sc-head">
+      <div>
+        <div class="kicker">Spacecraft map</div>
+        <h1>Spacecraft, right now</h1>
+        <p class="updated">96 active spacecraft and stations · about 40 past missions · 38 in the Earth-orbit fleet</p>
+      </div>
+      <nav class="seg views" aria-label="View" data-hscroll>
+        <button type="button" aria-pressed="true">Solar system</button>
+        <button type="button" aria-pressed="false">Near Earth</button>
+        <button type="button" aria-pressed="false">Earth orbit</button>
+        <button type="button" aria-pressed="false">Moon</button>
+        <button type="button" aria-pressed="false">Mars</button>
+      </nav>
+    </header>
+
+    <div class="sc-grid">
+      <aside class="sc-side" aria-label="Find a spacecraft">
+        <label class="lbl" for="scQ">Find a spacecraft</label>
+        <input id="scQ" type="search" placeholder="Name, agency or place" value="Cassini">
+        <div class="lbl sc-gap">Agency</div>
+        <div class="chips" data-hscroll>
+          <button type="button" class="chip" aria-pressed="true">All</button><button type="button" class="chip">NASA</button><button type="button" class="chip">ESA</button><button type="button" class="chip">JAXA</button><button type="button" class="chip">ISRO</button><button type="button" class="chip">CNSA</button><button type="button" class="chip">Other</button>
+        </div>
+        <div class="lbl sc-gap">Kind</div>
+        <div class="chips" data-hscroll>
+          <button type="button" class="chip" aria-pressed="true">All</button><button type="button" class="chip">Stations</button><button type="button" class="chip">Telescopes</button><button type="button" class="chip">Planet missions</button><button type="button" class="chip">Sun</button><button type="button" class="chip">Landers and rovers</button><button type="button" class="chip">Earth watchers</button>
+        </div>
+        <div class="lbl sc-gap"><span class="mk-n">1</span>Show</div>
+        <div class="chips" data-hscroll>
+          <button type="button" class="chip" aria-pressed="true">Active</button><button type="button" class="chip" aria-pressed="true">Past missions</button><button type="button" class="chip" aria-pressed="false">Earth-orbit fleet</button>
+        </div>
+        <div class="lbl sc-gap"><span class="mk-n">2</span>Mission</div>
+        <div class="chips" data-hscroll>
+          <button type="button" class="chip" aria-pressed="true">All</button><button type="button" class="chip">Big</button><button type="button" class="chip">Small</button><button type="button" class="chip">Satellites</button><button type="button" class="chip">Crewed</button>
+        </div>
+        <div class="sc-lh"><h2 class="lbl"><span class="mk-n">3</span>Spacecraft</h2><span class="aside">137 · by distance from Earth</span></div>
+        <div class="sc-list" role="list">
+          <button class="sc-row" type="button"><span class="n">Juno</span><span class="d">5.6 au</span><span class="a">NASA</span></button>
+          <button class="sc-row is-past" type="button" aria-pressed="true"><span class="n">Cassini<small>past</small></span><span class="d past">1997–2017</span><span class="a">NASA · ESA · ASI · into Saturn</span></button>
+          <button class="sc-row is-past" type="button"><span class="n">Galileo<small>past</small></span><span class="d past">1989–2003</span><span class="a">NASA · into Jupiter</span></button>
+          <button class="sc-row is-past" type="button"><span class="n">Pioneer 11<small>past</small></span><span class="d past">1973–1995</span><span class="a">NASA · silent, still flying</span></button>
+          <button class="sc-row" type="button"><span class="n">Voyager 2</span><span class="d">143 au</span><span class="a">NASA</span></button>
+        </div>
+      </aside>
+
+      <section class="sc-mapcol" aria-label="The map">
+        <div class="sc-frame">
+          <svg class="mk-map" viewBox="40 60 640 520" preserveAspectRatio="xMinYMid meet" role="img" aria-label="Sketch: Cassini's route from Earth past Venus twice, Earth and Jupiter to Saturn, drawn up to the Jupiter flyby">
+            <g fill="none" stroke="rgba(232,224,207,.16)">
+              <circle cx="330" cy="320" r="38"/><circle cx="330" cy="320" r="52"/><circle cx="330" cy="320" r="150"/><circle cx="330" cy="320" r="262"/>
+            </g>
+            <circle cx="330" cy="320" r="9" fill="#E9C46A"/>
+            <!-- the route: launch, Venus, Venus, Earth, Jupiter, Saturn -->
+            <path d="M 382 320 C 380 270, 300 270, 292 315 C 285 365, 360 380, 374 340 C 390 300, 345 262, 300 288 C 255 320, 300 380, 382 330 C 470 270, 470 190, 405 182 C 300 172, 160 230, 112 330 C 80 400, 90 470, 120 520"
+                  fill="none" stroke="rgba(192,160,98,.25)" stroke-width="1.5" stroke-dasharray="4 5"/>
+            <path d="M 382 320 C 380 270, 300 270, 292 315 C 285 365, 360 380, 374 340 C 390 300, 345 262, 300 288 C 255 320, 300 380, 382 330 C 470 270, 470 190, 405 182"
+                  fill="none" stroke="#C0A062" stroke-width="2.2"/>
+            <circle cx="405" cy="182" r="6" fill="#F3D9A0" stroke="#141B26" stroke-width="2"/>
+            <g font-family="Georgia, serif" font-size="13" fill="#E8E0CF" paint-order="stroke" stroke="#0B0F16" stroke-width="3">
+              <text x="414" y="176">Cassini · 30 Dec 2000</text>
+              <circle cx="403" cy="181" r="4" fill="#C9A27E" stroke="none"/><text x="374" y="166" font-size="12" fill="#B9AE98">Jupiter flyby</text>
+              <text x="296" y="262" font-size="11.5" fill="#9E9480">Venus ×2</text>
+              <text x="388" y="336" font-size="11.5" fill="#9E9480">Earth flyby</text>
+              <circle cx="120" cy="520" r="5" fill="#D8C08A" stroke="none"/><text x="130" y="525" font-size="12" fill="#B9AE98">Saturn, 2004</text>
+            </g>
+          </svg>
+          <section class="sc-card" aria-label="Cassini">
+            <div class="cc-top"><div><div class="lbl">NASA · ESA · ASI · Planetary mission · past</div>
+              <h3>Cassini</h3><div class="cc-full">Cassini–Huygens</div></div>
+              <button class="cc-x" type="button" aria-label="Close">×</button></div>
+            <dl class="cc-fig cc-launch"><div><dt>Launched</dt><dd>October 1997<span>Titan IVB, Cape Canaveral</span></dd></div>
+              <div><dt>Ended</dt><dd>15 September 2017<span>after 20 years</span></dd></div></dl>
+            <p class="cc-about">Orbited Saturn for 13 years, studying the planet, its rings and moons; it carried ESA's Huygens probe, which landed on Titan.</p>
+            <div class="cc-end"><span class="lbl"><span class="mk-n">4</span>How it ended</span>Nearly out of fuel, Cassini was steered into Saturn's
+              atmosphere on purpose, so it could never crash into and contaminate Enceladus or Titan, moons that might suit life. It sent data
+              until it broke apart, after a last season of 22 dives between the planet and its rings.</div>
+            <div class="lbl">Timeline</div>
+            <ol class="cc-tl"><li><span>Oct 1997</span>Launched</li><li><span>Jul 2004</span>Enters orbit around Saturn</li><li><span>Jan 2005</span>Huygens lands on Titan</li><li><span>Apr 2017</span>The Grand Finale dives begin</li><li><span>Sep 2017</span>Ends in Saturn's atmosphere</li></ol>
+            <div class="cc-act">
+              <button class="btn" type="button" aria-pressed="true"><span class="mk-n">5</span>Replay its route</button>
+              <button class="btn ghost" type="button">Share</button>
+            </div>
+          </section>
+        </div>
+        <div class="sc-play" aria-label="Route replay">
+          <button class="pp" type="button" aria-label="Pause">❚❚</button>
+          <div class="what"><b>Cassini</b> · 30 December 2000 · Jupiter flyby, 9.7 million km away</div>
+          <button class="btn quiet small x" type="button">Close replay</button>
+          <input type="range" min="0" max="100" value="17" aria-label="Date in the route">
+          <div class="marks"><span>Oct 1997 launch</span><span>Jul 2004 Saturn</span><span>Sep 2017 end</span></div>
+          <div class="seg" role="group" aria-label="Replay speed" data-hscroll>
+            <button type="button">1 week/s</button><button type="button" aria-pressed="true">1 month/s</button><button type="button">1 year/s</button>
+          </div>
+        </div>
+        <p class="caption sc-help">Past missions are drawn where they ended (or, for those still flying silently, where they are now) in grey.</p>
+      </section>
+    </div>
+
+    <section class="section prose">
+      <div class="kicker">Planned contents</div>
+      <h2 class="gap">What the switches add</h2>
+      <p><b>Past missions</b> (about 40, all with routes in NASA/JPL Horizons): Pioneer 10 and 11, Voyager-era and later deep-space
+        craft such as Galileo, Cassini, Ulysses, NEAR Shoemaker, Stardust, Deep Impact, MESSENGER, Rosetta, Dawn, Kepler, Spitzer,
+        Herschel, Planck, Venus Express, Akatsuki, Spirit, Opportunity, Phoenix, InSight, MAVEN, Mars Global Surveyor, LCROSS, LADEE,
+        GRAIL, DART, LICIACube, OSIRIS-REx's sample capsule, Artemis I and Artemis II, Swift, Gaia and others. Each gets its years,
+        how it ended in a short paragraph, and its route to replay.</p>
+      <p><b>Earth-orbit fleet</b> (switched off by default, to keep Earth orbit readable): NASA's TDRS relay satellites, the older
+        GOES and Meteosat weather satellites and other working relay and weather satellites with published orbits.</p>
+      <p><b>Mission sizes:</b> "Big" means the agencies' large flagship-class missions (for example Webb, Hubble, Cassini, Europa
+        Clipper, the space stations); "Small" means small satellites and CubeSats (for example CAPSTONE, MarCO, Pandora). Each craft's
+        size class is recorded in the catalogue and shown on its card.</p>
+    </section>
+
+    <p class="srcline">Mock-up only. Positions courtesy of NASA/JPL (Horizons) and CelesTrak. Data courtesy of NASA. Not endorsed by any of these agencies.</p>
+    <footer class="footer">
+      <div class="ftop"><p class="copy">© 2026 <strong>Malcolm Syme</strong> · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></p></div>
+      <p class="fnote">Data courtesy of NASA and ESA. An independent project, not endorsed by NASA or ESA.</p>
+    </footer>
+  </main>
+</body>
+</html>
