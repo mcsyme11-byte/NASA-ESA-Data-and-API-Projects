@@ -1,5 +1,12 @@
 # Change log
 
+## November 14, 2026 — spacecraft links
+
+- Three links on the spacecraft map's cards replaced after the link check reported them gone: ESA's SOHO page (now
+  the SOHO mission page), the Japan Meteorological Agency's Himawari page (now its English satellite page) and
+  ISRO's NISAR page (now the NISAR mission page). Every other craft in the catalogue was found by its source, apart
+  from the three already known (Tianwen-1, Tianwen-2 and TESS).
+
 ## November 14, 2026 — Image Explorer: fainter galaxies, globe keyboard, astronaut photos kept
 
 - **Fainter galaxies:** the globe's sky now has every galaxy to magnitude 13 (3,265 sky objects, up from 1,347);

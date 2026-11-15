@@ -538,7 +538,7 @@
    "links": [
     {
      "label": "ESA: SOHO",
-     "url": "https://www.esa.int/Science_Exploration/Space_Science/SOHO/SOHO_overview"
+     "url": "https://www.esa.int/Science_Exploration/Space_Science/SOHO"
     },
     {
      "label": "NASA: SOHO",
@@ -2141,7 +2141,7 @@
    "links": [
     {
      "label": "Japan Meteorological Agency: Himawari",
-     "url": "https://www.data.jma.go.jp/mscweb/en/himawari89/index.html"
+     "url": "https://www.jma.go.jp/jma/jma-eng/satellite/index.html"
     }
    ],
    "src": {
@@ -2345,7 +2345,7 @@
     },
     {
      "label": "ISRO: NISAR",
-     "url": "https://www.isro.gov.in/NISAR.html"
+     "url": "https://www.isro.gov.in/Mission_GSLVF16_NISAR_Home.html"
     }
    ],
    "src": {

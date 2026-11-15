@@ -23,9 +23,6 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
     in the camera view for switching target, and the Calibrate button's green or amber dot.
   - Spacecraft map (`spacecraft/`) and the home page's new panel: the five views, search, agency and kind filters,
     the card for several craft, Follow, the path, Share, time controls; the asteroid map link under the panel.
-- [ ] Spacecraft catalogue: the links that no longer answer (listed in the `data-health` issue, from
-  `spacecraft/data/links.json`) need new addresses in `spacecraft/catalogue.json`; a craft reported "not found" in the
-  same issue needs its `src` corrected.
 - [ ] Spacecraft map: Tianwen-1 and Tianwen-2 are not in Horizons, and CelesTrak does not return TESS; add them if
   either service lists them later (listed as known notes in `dev/data_jobs.json`, so the health check leaves them out).
 - [ ] When the `data-health` issue reports the "risk-lists" source failing (ESA calls its automated access
