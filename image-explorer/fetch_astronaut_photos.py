@@ -18,6 +18,10 @@
 #
 # Keeps cataloged photos (those with a photo centre point and a place name, from the "frames" table) taken in the last
 # 90 days, or the last year if fewer than 60, with half the sky or less in cloud: the newest 400.
+# Since Nov 14, 2026 each run adds its photos to those already saved, so the pins build up over time: a photo seen again
+# takes its newest details (a photo first placed below the Station moves to its centre point once cataloged), one photo
+# is kept a day for each 1° square, and photos older than a year or beyond the newest 2,000 are dropped. A run that
+# finds no photos leaves the saved file as it is.
 #   python3 image-explorer/fetch_astronaut_photos.py            (reads EOL_API_KEY from the environment)
 
 import csv, http.cookiejar, io, json, os, re, sys, urllib.parse, urllib.request
@@ -29,6 +33,7 @@ OUT = Path(__file__).resolve().parent / 'data' / 'astronaut.json'
 FIELDS = ['frames|mission', 'frames|roll', 'frames|frame', 'frames|pdate', 'frames|ptime', 'frames|lat', 'frames|lon',
           'frames|geon', 'frames|feat', 'frames|cldp', 'frames|tilt', 'images|directory', 'images|filename', 'images|width']
 KEEP, MAX_CLOUD = 400, 50
+HOLD_DAYS, HOLD_MAX = 365, 2000                    # how long and how many saved photos are kept
 
 def query(key, since):
     params = {'query': f'frames|pdate|ge|{since}', 'return': '|'.join(FIELDS), 'key': key}
@@ -126,17 +131,34 @@ def main():
         for days in (90, 365):
             photos = group(query(key, (today - timedelta(days=days)).strftime('%Y%m%d')))
             if len(photos) >= 60: break
-    try:                                                  # nothing new: leave the file (and the repository) alone
-        if json.loads(OUT.read_text(encoding='utf-8')).get('photos') == json.loads(json.dumps(photos[:KEEP])):
-            print('No change in the photos.'); return
-    except (OSError, ValueError): pass
+    if not photos:
+        print('No photos read: the saved file is kept.'); return
+    photos = json.loads(json.dumps(photos[:KEEP]))
+    try: old = json.loads(OUT.read_text(encoding='utf-8')).get('photos') or []
+    except (OSError, ValueError): old = []
+    merged = merge(old, photos, (today - timedelta(days=HOLD_DAYS)).isoformat())
+    if merged == old:                                     # nothing new: leave the file (and the repository) alone
+        print('No change in the photos.'); return
     data = {'updated': today.isoformat(),
             'source': 'Image courtesy of the Earth Science and Remote Sensing Unit, NASA Johnson Space Center (eol.jsc.nasa.gov)',
             'fields': ['id', 'date (UTC)', 'time (UTC)', 'lat', 'lon', 'place', 'features', 'cloud %', 'small image', 'large image',
                        'position: centre of the photo, or below the Station'],
-            'photos': photos[:KEEP]}
+            'photos': merged}
     OUT.write_text(json.dumps(data, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
-    print(f'{len(photos[:KEEP])} photos written ({len(photos)} found).')
+    print(f'{len(merged)} photos written ({len(photos)} read this run, {len(old)} saved before).')
+
+def merge(old, new, since):
+    """Saved and new photos together, newest first: the new copy of a photo wins, one a day for each 1° square,
+    nothing taken before `since`, at most HOLD_MAX."""
+    by_id = {p[0]: p for p in old}
+    by_id.update({p[0]: p for p in new})
+    out, seen = [], set()
+    for p in sorted(by_id.values(), key=lambda p: (p[1], p[2], p[0]), reverse=True):
+        if p[1] < since: continue
+        key = (p[1], round(p[3]), round(p[4]))
+        if key in seen: continue
+        seen.add(key); out.append(p)
+    return out[:HOLD_MAX]
 
 if __name__ == '__main__':
     main()

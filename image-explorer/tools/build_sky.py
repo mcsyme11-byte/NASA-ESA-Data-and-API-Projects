@@ -9,7 +9,8 @@
 # Writes, in image-explorer/data/:
 #   stars.json   [ra, dec, magnitude, colour index] for the 5,044 stars to magnitude 6
 #   sky.json     galaxies, nebulae and star clusters: every Messier object, every object with a common name, and
-#                every galaxy to magnitude 12, plus a few famous Hubble and Webb targets the catalogue lacks
+#                every galaxy to magnitude 13 (12 until Nov 14, 2026), plus a few famous Hubble and Webb targets the
+#                catalogue lacks
 #   constellations.json   the 88 constellations' lines and the position of each name
 # Right ascension is stored from 0 to 360 degrees (the source uses -180 to 180).
 
@@ -98,7 +99,7 @@ for f in load('dsos.14.json')['features']:
     named = fid in names
     k, t = kind(p['type'])
     mag = num(p.get('mag'))
-    if not named and not (k == 'galaxy' and mag is not None and mag <= 12): continue
+    if not named and not (k == 'galaxy' and mag is not None and mag <= 13): continue
     ra, dec = f['geometry']['coordinates']
     if any(sep((ra, dec), m) < 0.2 for m in taken): continue          # already listed as a Messier object
     name = RENAME.get(fid) or (tidy(names[fid]['name']) if named else p.get('desig') or fid)

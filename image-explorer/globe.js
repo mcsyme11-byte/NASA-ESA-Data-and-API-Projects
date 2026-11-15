@@ -1,7 +1,7 @@
 /* NASA and ESA Data Projects · Image Explorer · the Globe tab · © 2026 Malcolm Syme · mcsyme11@gmail.com
  *
  * The Earth (NASA Blue Marble from GIBS), turned to the current sidereal time, inside the real sky: 5,044 stars to
- * magnitude 6, the 88 constellations' lines and about 1,350 galaxies, nebulae and star clusters (data/, built by
+ * magnitude 6, the 88 constellations' lines and about 3,250 galaxies, nebulae and star clusters (data/, built by
  * tools/build_sky.py from d3-celestial). Pins on the Earth are the natural events NASA EONET reported in the last
  * 30 days, and astronaut photos of Earth (data/astronaut.json, refreshed daily by fetch_astronaut_photos.py). Uses app.js's show(), nice(), esc(), search(), openViewer(), libSearch(), focusEarth() and A.
  */
@@ -335,8 +335,10 @@ function draw() {
     const dir = o.pos.clone().sub(cam).normalize(), b = cam.dot(dir), disc = b * b - (cam.lengthSq() - 1);
     if (disc > 0 && -b - Math.sqrt(disc) > 0) continue;
     const at = place(o.pos, o, 9); if (!at) continue;
-    const [x, y] = at, sel = selected === o, hov = hover === o, big = o.famous || (o.mag != null && o.mag <= 9) || sel || hov, k = big ? 1 : 0.62;
-    ctx.globalAlpha = big ? 1 : 0.8;
+    /* galaxies fainter than magnitude 12 (added Nov 14, 2026) are drawn smaller and dimmer still */
+    const [x, y] = at, sel = selected === o, hov = hover === o, big = o.famous || (o.mag != null && o.mag <= 9) || sel || hov;
+    const faint = !big && o.mag != null && o.mag > 12, k = big ? 1 : faint ? 0.45 : 0.62;
+    ctx.globalAlpha = big ? 1 : faint ? 0.55 : 0.8;
     ctx.strokeStyle = ctx.fillStyle = sel || hov ? BRIGHT : o.kind === 'cluster' ? INK2 : BRASS;
     ctx.lineWidth = big ? 1.5 : 1.1;
     if (o.kind === 'galaxy') { ctx.beginPath(); ctx.ellipse(x, y, 6 * k, 3.6 * k, -0.5, 0, 7); ctx.stroke(); }
@@ -449,6 +451,37 @@ function goTo(it) {
 $('gIn').addEventListener('click', () => flyTo(camera.position.clone().multiplyScalar(0.75).clampLength(1.15, 40)));
 $('gOut').addEventListener('click', () => flyTo(camera.position.clone().multiplyScalar(1.4).clampLength(1.15, 40)));
 $('gHome').addEventListener('click', () => home());
+
+/* ---------- keyboard (added Nov 14, 2026): arrows turn the globe, + and − zoom, Home goes back, N and P step through
+   the points in view (nearest the middle first), Enter opens the one shown, Escape lets it go ---------- */
+let keyPick = -1;
+frame.addEventListener('keydown', e => {
+  if (!camera || e.altKey || e.ctrlKey || e.metaKey) return;
+  const k = e.key, step = 8 * D2R;
+  if (k.startsWith('Arrow')) {
+    if (vis.spin) setSpin(false);
+    const p = camera.position.clone(), up = new THREE.Vector3(0, 1, 0);
+    if (k === 'ArrowLeft' || k === 'ArrowRight') p.applyAxisAngle(up, k === 'ArrowLeft' ? -step : step);
+    else {
+      const side = new THREE.Vector3().crossVectors(up, p).normalize(), q = p.clone().applyAxisAngle(side, k === 'ArrowUp' ? -step : step);
+      if (Math.abs(q.clone().normalize().y) < 0.97) p.copy(q);       /* not over the poles */
+    }
+    camera.position.copy(p); controls.update();
+  } else if (k === '+' || k === '=') $('gIn').click();
+  else if (k === '-' || k === '_') $('gOut').click();
+  else if (k === 'Home') home();
+  else if (k === 'n' || k === 'N' || k === 'p' || k === 'P') {
+    const w = over.clientWidth / 2, h = over.clientHeight / 2, seen = new Set();
+    const list = hits.filter(t => !seen.has(t.item) && seen.add(t.item)).sort((a, b) => Math.hypot(a.x - w, a.y - h) - Math.hypot(b.x - w, b.y - h));
+    if (!list.length) return;
+    keyPick = (keyPick + (k.toLowerCase() === 'n' ? 1 : -1) + list.length) % list.length;
+    hover = list[keyPick].item;
+  } else if (k === 'Enter' && hover) select(hover);
+  else if (k === 'Escape') { hover = null; keyPick = -1; }
+  else return;
+  e.preventDefault();
+});
+frame.addEventListener('blur', () => { keyPick = -1; });
 
 /* ---------- the selected card ---------- */
 const raStr = ra => { const h = ra / 15, hh = Math.floor(h), mm = (h - hh) * 60; return `${hh}h ${mm.toFixed(1)}m`; };

@@ -461,8 +461,9 @@ Checked Nov 9, 2026 (live requests from the published site):
   `dsonames.json` (724 common names), `constellations.json` and `constellations.lines.json` (88 constellations, plus
   Serpens drawn in two parts: 89 entries).
 - **Chosen for the globe** (`image-explorer/tools/build_sky.py`): every Messier object, every object with a common
-  name, and every galaxy of magnitude 12 or brighter (bright enough for a backyard telescope): 1,347 objects
-  (1,001 galaxies, 165 nebulae, 181 star clusters) on Nov 9, 2026.
+  name, and every galaxy of magnitude 13 or brighter: 3,265 objects (2,919 galaxies, 165 nebulae, 181 star clusters)
+  since Nov 14, 2026. Until then the limit was magnitude 12 (bright enough for a backyard telescope; 1,347 objects);
+  galaxies between magnitude 12 and 13 are drawn smaller and dimmer.
 - Catalogue corrections made by the build: NGC 3372 named "Carina Nebula" (the catalogue says "η Car Nebula"),
   NGC 3132 "Southern Ring Nebula" (the catalogue gives the name "Eight-Burst Planetary Nebula" to NGC 3132 and
   "Southern Ring" to NGC 6563); objects split into several catalogue numbers (the Rosette Nebula, Stephan's Quintet)
@@ -507,6 +508,10 @@ Checked Nov 9, 2026 (live requests from the published site):
   with the key from the repository secret `EOL_API_KEY`, writes `image-explorer/data/astronaut.json` (the newest 400
   cataloged photos of the last 90 days, or the last year if fewer than 60, with 50% cloud or less). Without the
   secret the job changes nothing and the globe hides the astronaut photos.
+- Since Nov 14, 2026 each run adds its photos to those already saved, so the pins build up over time: a photo seen
+  again takes its newest details (a photo first placed below the Station moves to its centre point once cataloged),
+  one photo is kept a day for each 1° square, and photos older than a year or beyond the newest 2,000 are dropped. The
+  file's format is unchanged.
 
 ### Astronaut photos without a key: the "Latest ISS Imagery" set, checked Nov 11, 2026
 

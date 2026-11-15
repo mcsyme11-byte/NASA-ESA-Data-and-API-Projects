@@ -39,16 +39,14 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
   2026) would add cataloged photos with their centre points. Without it the job uses the public Latest ISS Imagery set
   (since Nov 11, 2026). If the key arrives: repository secret `EOL_API_KEY`, then Actions › Astronaut photos › Run
   workflow.
-- [ ] **Developer testing of the project's home page (Nov 12, 2026)** on a phone, a tablet and a computer: the three
-  "Open" buttons go to the right tab of the explorer, and the explorer's back button returns to the home page.
-- [ ] **Developer testing of the Nov 11, 2026 additions:** tapping the Earth map in a desert, at sea and near a town
-  (country, feature, distance); the gaps between satellite passes filled; Map lines and names (borders, coastlines,
-  rivers, names, grid) in all three views; the globe's earthquakes, volcanoes, launch sites, natural wonders and
-  astronaut photos.
-- [ ] **Developer testing of the Nov 10, 2026 additions,** on a computer and a phone: the Earth map's colour keys and
-  the note under the map when a layer shows another day; place search for smaller places (for example Moraine Lake,
-  Mount Rundle); the globe zoomed in close (sharper Earth) and the Day and night button; ESA videos with "Pictures and
-  videos" or "Videos".
+- [ ] **Developer testing, one pass for everything added Nov 10–14, 2026** (computer and phone):
+  - home page: the three "Open" buttons reach the right tab; the explorer's back button returns;
+  - Earth map: colour keys and the other-day note; tapping a desert, the sea and a town; no black gaps between
+    satellite passes; Map lines and names in all three views; place search for smaller places (Moraine Lake);
+  - globe: zoomed in close (sharper Earth); Day and night; earthquakes, volcanoes, launch sites, wonders, astronaut
+    photos; the fainter galaxies (small dim rings); keyboard (arrows, + and −, Home, N and P, Enter, Escape);
+  - picture library: ESA videos with "Pictures and videos" or "Videos";
+  - after a few days: the astronaut photo count on the globe grows instead of staying near 260.
 - [ ] Picture library: tune the ranking further as the developer reviews searches (the weights are in `scoreOf` in
   `image-explorer/app.js`).
 - [ ] Polar views: a sea ice layer that works through the polar night. GIBS's microwave sea-ice records ended
@@ -58,9 +56,8 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
 - [ ] Picture library: subtitles for videos (NASA's files cannot be attached from another site; would need a copy).
 - [ ] Shared parts used by both projects (tabs, "How to read this", the big search box, the tooltip) moved from
   `asteroid-tracker/tracker.css` into `shared/theme.css`; the page still loads `tracker.css` for them.
-- [ ] Globe: more sky objects (fainter galaxies), if wanted.
-- [ ] Keyboard use of the globe's markers (today they are reached through Find). With reduced motion set, the globe
-  does not turn by itself and moves without animation; to be rechecked on a phone.
+- [ ] With reduced motion set, the globe does not turn by itself and moves without animation; to be rechecked on a
+  phone.
 
 ## 3. Mars Data (third)
 

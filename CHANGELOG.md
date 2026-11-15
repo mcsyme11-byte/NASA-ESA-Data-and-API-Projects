@@ -1,5 +1,16 @@
 # Change log
 
+## November 14, 2026 — Image Explorer: fainter galaxies, globe keyboard, astronaut photos kept
+
+- **Fainter galaxies:** the globe's sky now has every galaxy to magnitude 13 (3,265 sky objects, up from 1,347);
+  those fainter than magnitude 12 are drawn smaller and dimmer.
+- **Keyboard on the globe:** once the globe is selected, the arrow keys turn it, + and − zoom, Home goes back to the
+  start, N and P step through the points in view (nearest the middle first), Enter opens the one shown and Escape
+  lets it go. Listed in "How to read this".
+- **Astronaut photos build up:** `fetch_astronaut_photos.py` adds each run's photos to those already saved (one a day
+  for each 1° square, up to a year and 2,000 photos); a photo later cataloged moves to its centre point. A run that
+  reads no photos keeps the saved file. The data file's format and the job's schedule are unchanged.
+
 ## November 14, 2026 — automatic data updates on one standard
 
 Every data job now follows one standard, set out in `docs/DATA-UPDATES.md`, and a daily health check reports any job

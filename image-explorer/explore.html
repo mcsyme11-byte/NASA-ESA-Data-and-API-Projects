@@ -175,7 +175,7 @@
       </div>
 
       <div class="gwrap">
-        <div class="frame globeframe" id="globeFrame">
+        <div class="frame globeframe" id="globeFrame" tabindex="0" aria-describedby="gKeys">
           <div id="globe" aria-label="A globe of the Earth inside the sky, with NASA events and the sky's best-known galaxies, nebulae and star clusters"></div>
           <canvas id="gOver" aria-hidden="true"></canvas>
           <div class="maptag" id="gTag">Loading the globe…</div>
@@ -204,6 +204,9 @@
         <p><b>Astronaut photos</b> (blue squares) are photos of Earth taken from the space station, placed at the centre of
           what each one shows, from NASA's Gateway to Astronaut Photography of Earth; the newest are added every day.</p>
         <p><b>Constellations</b> are drawn as faint lines between their main stars, to help find your way around.</p>
+        <p id="gKeys"><b>Keyboard:</b> select the globe (click it or press Tab), then the <b>arrow keys</b> turn it, <b>+</b> and
+          <b>−</b> zoom, <b>Home</b> goes back to the start, <b>N</b> and <b>P</b> step through the points in view, nearest the
+          middle first, <b>Enter</b> opens the one shown and <b>Escape</b> lets it go.</p>
         <p><b>Drag</b> to turn, <b>scroll or pinch</b> to zoom. Far objects are drawn on the sky's sphere; their true
           distances run from hundreds to millions of light-years.</p>
         <p><b>Out under the real sky?</b> <a href="../sky-finder/">Sky Finder</a> turns a phone into a pointer for tonight's
