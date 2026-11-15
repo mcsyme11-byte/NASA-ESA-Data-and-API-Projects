@@ -28,6 +28,14 @@ page styles inside most pages). Since then:
 7. **Nothing added without something considered for removal.** A new section or control says what it replaces; if it
    repeats what is already on the page (a list of what the page can do beside cards that say the same), it is left out.
 
+## 1a. Icons
+
+- **The site (NEDAP):** `shared/icons/` — `icon.svg` (the source), `icon-192.png`, `icon-512.png`,
+  `apple-touch-icon.png` (180 px, square: iOS rounds the corners) and `maskable-512.png` (square, the emblem inside
+  the central safe circle). The emblem in brass on the night-sky tile.
+- **Sky Finder:** `sky-finder/icons/`, the same tile with Sky Finder's sight.
+- The browser-tab icon stays `shared/emblem.svg`.
+
 ## 2. Colour
 
 | Role | Token | Value |

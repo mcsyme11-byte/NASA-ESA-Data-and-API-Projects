@@ -1,5 +1,13 @@
 # Change log
 
+## November 14, 2026 — app icon and short name (NEDAP)
+
+- **Home-screen icon** for the site: the site's emblem (a planet with its orbit ring) in brass on the same night-sky
+  tile as Sky Finder's icon, in every size phones use (`shared/icons/`).
+- **Short name NEDAP** (NASA and ESA Data and API Projects) under the icon on a phone's home screen, recorded as the
+  project's short name for any abbreviated use.
+- Every page outside Sky Finder links the icon and the new `site.webmanifest`; the style check requires them.
+
 ## November 14, 2026 — Asteroid Tracker testing
 
 - Developer testing passed for the Asteroid Tracker's home page, the "Visible from here" tab, the spacecraft map and

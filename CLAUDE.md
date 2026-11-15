@@ -1,7 +1,9 @@
 # Instructions for Claude working in this repo
 
 This repository is Malcolm Syme's **NASA and ESA Data Projects**: three learning-and-exploring projects built on the open data
-and APIs of NASA and ESA (the European Space Agency), one folder each:
+and APIs of NASA and ESA (the European Space Agency), one folder each. **Short name: NEDAP** (NASA and ESA Data and
+API Projects, decided Nov 14, 2026), used wherever the full name does not fit: the app label under the home-screen
+icon, and any other short or abbreviated use.
 
 | Project | Folder | What it is |
 |---|---|---|

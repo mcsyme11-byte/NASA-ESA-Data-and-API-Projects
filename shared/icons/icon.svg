@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- NEDAP (NASA and ESA Data and API Projects) app icon: the site's emblem, a planet with an orbit ring and a small body on it, in brass on the night-sky tile shared with Sky Finder. © 2026 Malcolm Syme -->
+  <defs>
+    <radialGradient id="g" cx="50%" cy="38%" r="70%"><stop offset="0" stop-color="#22304A"/><stop offset="1" stop-color="#0F1520"/></radialGradient>
+    <linearGradient id="b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E2C88E"/><stop offset="1" stop-color="#C0A062"/></linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#g)"/>
+  <circle cx="122" cy="118" r="6" fill="#EDE6D3"/><circle cx="404" cy="400" r="5" fill="#EDE6D3"/><circle cx="96" cy="372" r="4" fill="#EDE6D3"/><circle cx="420" cy="132" r="3.5" fill="#EDE6D3" opacity=".8"/>
+  <g transform="translate(256 256)" fill="none" stroke="url(#b)" stroke-linecap="round">
+    <circle r="168" stroke-width="7" opacity=".45"/>
+    <circle r="70" stroke-width="15"/>
+    <ellipse rx="146" ry="52" stroke-width="13" transform="rotate(-22)"/>
+  </g>
+  <circle cx="389" cy="197" r="18" fill="url(#b)"/>
+</svg>

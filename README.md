@@ -5,6 +5,9 @@ Designed by **Malcolm Syme** and built with Claude.
 
 **The site:** https://mcsyme11-byte.github.io/NASA-ESA-Data-and-API-Projects/
 
+**Short name:** NEDAP (NASA and ESA Data and API Projects), the name under the site's icon on a phone's home screen
+and wherever the full name does not fit.
+
 ## The projects
 
 | Project | What it is | Data | Status |

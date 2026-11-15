@@ -4,6 +4,12 @@ How NASA and ESA Data Projects is built, the decisions made so far, and how to r
 
 ## Decisions
 
+- **Decided Nov 14, 2026 (short name and app icon):** the project's short name is **NEDAP** (NASA and ESA Data and
+  API Projects), used wherever the full name does not fit. The site has its own home-screen icon: the site's emblem
+  in brass on the night-sky tile Sky Finder's icon uses (`shared/icons/`). Every page outside Sky Finder links it
+  with `site.webmanifest` (name, short name NEDAP, icons; display "minimal-ui", so on an iPhone the icon opens the
+  site in Safari as before) and `<meta name="apple-mobile-web-app-title" content="NEDAP">`; `dev/check_styles.py`
+  refuses a page without them. Sky Finder keeps its own icon and manifest.
 - **Decided Nov 14, 2026 (live data status):** the site shows the state of its automatic data updates to every
   visitor: a live line at the foot of every footer (a status light and one sentence: up to date, updating now, late,
   partly failed or failed), and a page, How the data is collected (`data-collection/`), with a live status board,
