@@ -23,8 +23,16 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
     in the camera view for switching target, and the Calibrate button's green or amber dot.
   - Spacecraft map (`spacecraft/`) and the home page's new panel: the five views, search, agency and kind filters,
     the card for several craft, Follow, the path, Share, time controls; the asteroid map link under the panel.
-- [ ] Spacecraft map: Tianwen-1 and Tianwen-2 are not in Horizons, and CelesTrak does not return TESS; add them if
-  either service lists them later (listed as known notes in `dev/data_jobs.json`, so the health check leaves them out).
+- [ ] Spacecraft map: Tianwen-2, MMX and Chang'e 7 are not in Horizons, and CelesTrak does not return TESS; they
+  appear by themselves if either service lists them later. Tianwen-1 is in Horizons since Nov 2026 (id -9901491) and
+  is now read by its id. For the Data updates chat: MMX and Chang'e 7 to be added to the known notes in
+  `dev/data_jobs.json`, and Tianwen-1 removed from them.
+- [ ] **Spacecraft map, more craft (requested Nov 14, 2026):** as many craft as possible, to make the map easier to use
+  than NASA's own trackers. Done: 18 active craft added (100 in all). Next, after an approved mock-up: past missions
+  (how each one ended, and a playback of its route; Horizons keeps the paths of Cassini, Galileo, Rosetta, Dawn,
+  MESSENGER, Pioneer 10 and 11, Spitzer, Kepler, MAVEN, Artemis I and II and others), a switch for the Earth-orbit
+  fleet (TDRS relays, older GOES and other weather satellites), and filters for big missions, small missions,
+  satellites and crewed missions.
 - [ ] When the `data-health` issue reports the "risk-lists" source failing (ESA calls its automated access
   experimental, so a change of format stops the step and the previous files are kept), fix `fetch_risk.py`.
 - [ ] Optional: if ESA's credit form or terms for the NEOCC figures are in doubt, ask the NEOCC by email

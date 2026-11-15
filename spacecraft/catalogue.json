@@ -1,5 +1,5 @@
 {
- "note": "Facts checked Nov 12, 2026. Statuses change: missions that end are removed.",
+ "note": "Facts checked Nov 12, 2026; 18 craft added and checked Nov 14, 2026. Statuses change: missions that end are removed.",
  "craft": [
   {
    "key": "iss",
@@ -428,6 +428,35 @@
    }
   },
   {
+   "key": "pandora",
+   "name": "Pandora",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "telescope",
+   "launch": "2026-01-11",
+   "vehicle": "Falcon 9, Vandenberg",
+   "about": "A small telescope that watches planets pass in front of their stars, to tell the planets' atmospheres apart from spots and flares on the stars.",
+   "timeline": [
+    [
+     "2026-01",
+     "Launched"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: Pandora",
+     "url": "https://science.nasa.gov/mission/pandora/"
+    }
+   ],
+   "src": {
+    "tle": [
+     "PANDORA",
+     "#67395"
+    ]
+   }
+  },
+  {
    "key": "jwst",
    "name": "James Webb",
    "full": "James Webb Space Telescope",
@@ -651,6 +680,116 @@
    }
   },
   {
+   "key": "dscovr",
+   "name": "DSCOVR",
+   "full": "Deep Space Climate Observatory",
+   "agencies": [
+    "NOAA",
+    "NASA",
+    "US Space Force"
+   ],
+   "kind": "earth",
+   "launch": "2015-02-11",
+   "vehicle": "Falcon 9, Cape Canaveral",
+   "where": "L1",
+   "about": "Watches the whole sunlit face of Earth from L1, 1.5 million km towards the Sun (its EPIC camera), and measures the solar wind on its way to Earth.",
+   "timeline": [
+    [
+     "2015-02",
+     "Launched"
+    ],
+    [
+     "2015-06",
+     "Reaches L1"
+    ],
+    [
+     "2015-07",
+     "First full-disc picture of Earth from EPIC"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NOAA: DSCOVR",
+     "url": "https://www.nesdis.noaa.gov/our-satellites/currently-flying/dscovr-deep-space-climate-observatory"
+    },
+    {
+     "label": "NASA: EPIC pictures",
+     "url": "https://epic.gsfc.nasa.gov/"
+    }
+   ],
+   "src": {
+    "horizons": "-78",
+    "center": "Earth"
+   }
+  },
+  {
+   "key": "solar1",
+   "name": "SOLAR-1",
+   "full": "Space Weather Observations at L1 to Advance Readiness 1 (formerly SWFO-L1)",
+   "agencies": [
+    "NOAA",
+    "NASA"
+   ],
+   "kind": "sun",
+   "launch": "2025-09-24",
+   "vehicle": "Falcon 9, Kennedy Space Center",
+   "where": "L1",
+   "about": "America's first satellite built only for space weather: from L1 it watches the solar wind and the Sun's eruptions (coronal mass ejections) heading for Earth, for NOAA's forecasters.",
+   "timeline": [
+    [
+     "2025-09",
+     "Launched with IMAP and Carruthers"
+    ],
+    [
+     "2026-01",
+     "Reaches L1; renamed from SWFO-L1"
+    ],
+    [
+     "2026-06",
+     "In operational service"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NOAA: SOLAR-1",
+     "url": "https://www.nesdis.noaa.gov/our-satellites/currently-flying/solar-1-launch"
+    }
+   ],
+   "src": {
+    "horizons": "-231",
+    "center": "Earth"
+   }
+  },
+  {
+   "key": "carruthers",
+   "name": "Carruthers",
+   "full": "Carruthers Geocorona Observatory",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "earth",
+   "launch": "2025-09-24",
+   "vehicle": "Falcon 9, Kennedy Space Center",
+   "where": "L1",
+   "about": "Photographs the geocorona, the faint ultraviolet glow of hydrogen at the very top of Earth's atmosphere, which reaches far out into space, from L1.",
+   "timeline": [
+    [
+     "2025-09",
+     "Launched with IMAP and SOLAR-1"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: Carruthers Geocorona Observatory",
+     "url": "https://science.nasa.gov/mission/carruthers-geocorona-observatory/"
+    }
+   ],
+   "src": {
+    "horizons": "-171",
+    "center": "Earth"
+   }
+  },
+  {
    "key": "parker",
    "name": "Parker Solar Probe",
    "agencies": [
@@ -737,6 +876,159 @@
     "horizons": "-234",
     "center": "Sun",
     "step": 4
+   }
+  },
+  {
+   "key": "sdo",
+   "name": "SDO",
+   "full": "Solar Dynamics Observatory",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "sun",
+   "launch": "2010-02-11",
+   "vehicle": "Atlas V, Cape Canaveral",
+   "about": "Takes a picture of the whole Sun in ten colours of light every few seconds, from a high orbit over America; the source of most close-up pictures of the Sun.",
+   "timeline": [],
+   "links": [
+    {
+     "label": "NASA: SDO",
+     "url": "https://science.nasa.gov/mission/sdo/"
+    }
+   ],
+   "src": {
+    "tle": [
+     "SDO",
+     "#36395"
+    ]
+   }
+  },
+  {
+   "key": "iris",
+   "name": "IRIS",
+   "full": "Interface Region Imaging Spectrograph",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "sun",
+   "launch": "2013-06-27",
+   "vehicle": "Pegasus XL, Vandenberg",
+   "about": "Looks closely at the thin layer between the Sun's surface and its corona, where the Sun's atmosphere is heated to millions of degrees.",
+   "timeline": [],
+   "links": [
+    {
+     "label": "NASA: IRIS",
+     "url": "https://science.nasa.gov/mission/iris/"
+    }
+   ],
+   "src": {
+    "tle": [
+     "IRIS",
+     "#39197"
+    ]
+   }
+  },
+  {
+   "key": "hinode",
+   "name": "Hinode",
+   "full": "Hinode (Solar-B)",
+   "agencies": [
+    "JAXA",
+    "NASA",
+    "ESA",
+    "UKSA"
+   ],
+   "kind": "sun",
+   "launch": "2006-09-22",
+   "vehicle": "M-V, Uchinoura",
+   "about": "A Japanese solar observatory, built with NASA and the UK, studying the Sun's magnetic fields and the outbursts they cause.",
+   "timeline": [],
+   "links": [
+    {
+     "label": "NASA: Hinode",
+     "url": "https://science.nasa.gov/mission/hinode/"
+    }
+   ],
+   "src": {
+    "tle": [
+     "HINODE (SOLAR-B)",
+     "HINODE",
+     "#29479"
+    ]
+   }
+  },
+  {
+   "key": "mms",
+   "name": "MMS",
+   "full": "Magnetospheric Multiscale (four craft)",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "sun",
+   "launch": "2015-03-13",
+   "vehicle": "Atlas V, Cape Canaveral",
+   "about": "Four identical spacecraft flying in a tight pyramid on a long loop around Earth, studying how magnetic fields snap and reconnect, the process behind auroras and solar flares. Shown here by MMS 1.",
+   "timeline": [],
+   "links": [
+    {
+     "label": "NASA: MMS",
+     "url": "https://science.nasa.gov/mission/magnetospheric-multiscale/"
+    }
+   ],
+   "src": {
+    "tle": [
+     "MMS 1",
+     "#40482"
+    ]
+   }
+  },
+  {
+   "key": "themis",
+   "name": "THEMIS",
+   "full": "Time History of Events and Macroscale Interactions during Substorms (three craft)",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "sun",
+   "launch": "2007-02-17",
+   "vehicle": "Delta II, Cape Canaveral",
+   "about": "Three craft (A, D and E) on long loops around Earth, timing the bursts in Earth's magnetic field that make the aurora flare up. Their two siblings now orbit the Moon as ARTEMIS. Shown here by THEMIS A.",
+   "timeline": [],
+   "links": [
+    {
+     "label": "NASA: THEMIS",
+     "url": "https://science.nasa.gov/mission/themis/"
+    }
+   ],
+   "src": {
+    "tle": [
+     "THEMIS A"
+    ]
+   }
+  },
+  {
+   "key": "timed",
+   "name": "TIMED",
+   "full": "Thermosphere Ionosphere Mesosphere Energetics and Dynamics",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "sun",
+   "launch": "2001-12-07",
+   "vehicle": "Delta II, Vandenberg",
+   "about": "Studies the upper atmosphere, 60 to 180 km up, and how the Sun heats and changes it.",
+   "timeline": [],
+   "links": [
+    {
+     "label": "NASA: TIMED",
+     "url": "https://science.nasa.gov/mission/timed/"
+    }
+   ],
+   "src": {
+    "tle": [
+     "TIMED",
+     "#26998"
+    ]
    }
   },
   {
@@ -1289,8 +1581,8 @@
    }
   },
   {
-   "key": "escapade",
-   "name": "ESCAPADE",
+   "key": "escapade-blue",
+   "name": "ESCAPADE Blue",
    "full": "Escape and Plasma Acceleration and Dynamics Explorers",
    "agencies": [
     "NASA"
@@ -1298,7 +1590,7 @@
    "kind": "planetary",
    "launch": "2025-11-13",
    "vehicle": "New Glenn, Cape Canaveral",
-   "about": "Two small identical spacecraft, Blue and Gold, built to study how the solar wind strips Mars's atmosphere, from two orbits at once. They reach Mars in 2027.",
+   "about": "One of two small identical spacecraft, Blue and Gold, built to study how the solar wind strips Mars's atmosphere, from two orbits at once. They reach Mars in 2027.",
    "timeline": [
     [
      "2025-11",
@@ -1320,10 +1612,91 @@
     }
    ],
    "src": {
+    "horizons": "-9",
+    "center": "Sun",
+    "step": 2
+   }
+  },
+  {
+   "key": "escapade-gold",
+   "name": "ESCAPADE Gold",
+   "full": "Escape and Plasma Acceleration and Dynamics Explorers",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "planetary",
+   "launch": "2025-11-13",
+   "vehicle": "New Glenn, Cape Canaveral",
+   "about": "The twin of ESCAPADE Blue. Flying together, the pair will measure Mars's upper atmosphere and the solar wind at two places at the same moment.",
+   "timeline": [
+    [
+     "2025-11",
+     "Launched"
+    ],
+    [
+     "2026-11",
+     "Earth flyby, then the burns towards Mars"
+    ],
+    [
+     "2027-09",
+     "Arrives at Mars"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: ESCAPADE",
+     "url": "https://science.nasa.gov/mission/escapade/"
+    }
+   ],
+   "src": {
+    "horizons": "-10",
+    "center": "Sun",
+    "step": 2
+   }
+  },
+  {
+   "key": "mmx",
+   "name": "MMX",
+   "full": "Martian Moons eXploration",
+   "agencies": [
+    "JAXA",
+    "NASA",
+    "ESA",
+    "CNES",
+    "DLR"
+   ],
+   "kind": "planetary",
+   "launch": "2026-10-20",
+   "vehicle": "H3, Tanegashima",
+   "about": "Japan's mission to Mars's moons: it is to orbit Phobos, land, collect at least 10 g of its surface and bring the sample to Earth in 2031, the first return from the Mars system.",
+   "timeline": [
+    [
+     "2026-10",
+     "Launched"
+    ],
+    [
+     "2027",
+     "Arrives at Mars"
+    ],
+    [
+     "2031",
+     "Sample returns to Earth"
+    ]
+   ],
+   "links": [
+    {
+     "label": "JAXA: MMX",
+     "url": "https://www.mmx.jaxa.jp/en/"
+    },
+    {
+     "label": "ESA: MMX",
+     "url": "https://www.esa.int/Science_Exploration/Space_Science/MMX"
+    }
+   ],
+   "src": {
     "horizons_name": [
-     "ESCAPADE",
-     "ESCAPADE Blue",
-     "ESCAPADE-Blue"
+     "MMX",
+     "Martian Moons eXploration"
     ],
     "center": "Sun",
     "step": 2
@@ -1472,10 +1845,7 @@
     }
    ],
    "src": {
-    "horizons_name": [
-     "Tianwen-1",
-     "Tianwen 1"
-    ],
+    "horizons": "-9901491",
     "center": "Mars",
     "local": true
    }
@@ -1601,6 +1971,108 @@
    ],
    "src": {
     "horizons": "-155",
+    "center": "Moon",
+    "local": true
+   }
+  },
+  {
+   "key": "artemis-p1",
+   "name": "ARTEMIS P1",
+   "full": "THEMIS-B, renamed ARTEMIS P1",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "sun",
+   "launch": "2007-02-17",
+   "vehicle": "Delta II, Cape Canaveral",
+   "where": "Moon",
+   "about": "Launched as one of five THEMIS craft studying the aurora, then sent to the Moon in 2011 with its twin P2; the pair measure the solar wind and Earth's magnetic tail around the Moon.",
+   "timeline": [
+    [
+     "2007-02",
+     "Launched as THEMIS-B"
+    ],
+    [
+     "2011-06",
+     "Enters orbit around the Moon"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: ARTEMIS",
+     "url": "https://science.nasa.gov/mission/artemis-themis/"
+    }
+   ],
+   "src": {
+    "horizons": "-192",
+    "center": "Moon",
+    "local": true
+   }
+  },
+  {
+   "key": "artemis-p2",
+   "name": "ARTEMIS P2",
+   "full": "THEMIS-C, renamed ARTEMIS P2",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "sun",
+   "launch": "2007-02-17",
+   "vehicle": "Delta II, Cape Canaveral",
+   "where": "Moon",
+   "about": "The twin of ARTEMIS P1, on a different orbit around the Moon, so the two measure the space around it at two places at once.",
+   "timeline": [
+    [
+     "2007-02",
+     "Launched as THEMIS-C"
+    ],
+    [
+     "2011-07",
+     "Enters orbit around the Moon"
+    ]
+   ],
+   "links": [
+    {
+     "label": "NASA: ARTEMIS",
+     "url": "https://science.nasa.gov/mission/artemis-themis/"
+    }
+   ],
+   "src": {
+    "horizons": "-193",
+    "center": "Moon",
+    "local": true
+   }
+  },
+  {
+   "key": "change7",
+   "name": "Chang'e 7",
+   "agencies": [
+    "CNSA"
+   ],
+   "kind": "planetary",
+   "launch": "2026-08-24",
+   "vehicle": "Long March 5, Wenchang",
+   "where": "Moon",
+   "about": "China's mission to the Moon's south pole, with an orbiter, a lander, a rover and a small hopping probe, to look for water ice in the shadowed craters.",
+   "timeline": [
+    [
+     "2026-08",
+     "Launched"
+    ]
+   ],
+   "links": [
+    {
+     "label": "CNSA (China National Space Administration)",
+     "url": "https://www.cnsa.gov.cn/english/"
+    }
+   ],
+   "src": {
+    "horizons_name": [
+     "Chang'e 7",
+     "Chang'e-7",
+     "Change 7",
+     "CE-7"
+    ],
     "center": "Moon",
     "local": true
    }
@@ -2223,6 +2695,88 @@
    "src": {
     "tle": [
      "PACE"
+    ]
+   }
+  },
+  {
+   "key": "oco2",
+   "name": "OCO-2",
+   "full": "Orbiting Carbon Observatory 2",
+   "agencies": [
+    "NASA"
+   ],
+   "kind": "earth",
+   "launch": "2014-07-02",
+   "vehicle": "Delta II, Vandenberg",
+   "about": "Measures carbon dioxide in the air around the world, and the faint glow plants give off as they grow.",
+   "timeline": [],
+   "links": [
+    {
+     "label": "NASA: OCO-2",
+     "url": "https://science.nasa.gov/mission/oco-2/"
+    }
+   ],
+   "src": {
+    "tle": [
+     "OCO 2",
+     "OCO-2",
+     "#40059"
+    ]
+   }
+  },
+  {
+   "key": "jason3",
+   "name": "Jason-3",
+   "agencies": [
+    "NOAA",
+    "NASA",
+    "EUMETSAT",
+    "CNES"
+   ],
+   "kind": "earth",
+   "launch": "2016-01-17",
+   "vehicle": "Falcon 9, Vandenberg",
+   "about": "Measures the height of the sea surface to a few centimetres, continuing a record of sea level that began in 1992.",
+   "timeline": [],
+   "links": [
+    {
+     "label": "NASA: Jason-3",
+     "url": "https://science.nasa.gov/mission/jason-3/"
+    }
+   ],
+   "src": {
+    "tle": [
+     "JASON-3",
+     "#41240"
+    ]
+   }
+  },
+  {
+   "key": "sentinel6b",
+   "name": "Sentinel-6B",
+   "agencies": [
+    "ESA",
+    "NASA",
+    "EUMETSAT",
+    "NOAA",
+    "CNES",
+    "EU"
+   ],
+   "kind": "earth",
+   "launch": "2025-11-17",
+   "vehicle": "Falcon 9, Vandenberg",
+   "about": "The second of two identical sea-level satellites, following Sentinel-6 Michael Freilich, to carry the sea-level record into the 2030s.",
+   "timeline": [],
+   "links": [
+    {
+     "label": "ESA: Sentinel-6",
+     "url": "https://www.esa.int/Applications/Observing_the_Earth/Copernicus/Sentinel-6"
+    }
+   ],
+   "src": {
+    "tle": [
+     "SENTINEL-6B",
+     "SENTINEL 6B"
     ]
    }
   },
