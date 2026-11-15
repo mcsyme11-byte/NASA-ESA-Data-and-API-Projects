@@ -1,0 +1,28 @@
+{
+ "job": "build-places",
+ "workflow": ".github/workflows/build-places.yml",
+ "last_data_change": "2026-11-15T02:43:06Z",
+ "sources": {
+  "checks": {
+   "state": "ok",
+   "since": "2026-11-15T02:43:06Z",
+   "note": ""
+  },
+  "geonames": {
+   "state": "ok",
+   "since": "2026-11-15T02:43:06Z",
+   "note": ""
+  },
+  "globe-places": {
+   "state": "ok",
+   "since": "2026-11-15T02:43:06Z",
+   "note": ""
+  },
+  "natural-earth": {
+   "state": "ok",
+   "since": "2026-11-15T02:43:06Z",
+   "note": ""
+  }
+ },
+ "notes": []
+}
