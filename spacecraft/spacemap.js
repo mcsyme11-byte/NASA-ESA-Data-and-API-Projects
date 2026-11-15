@@ -10,6 +10,9 @@
 //   Moon   lunar orbiters: Horizons samples every 5 minutes, relative to the Moon; the Moon itself from shared/sky.js
 //          (Meeus, chapter 47), its longitude moved back to the J2000 ecliptic (precession: 1.39697° a century)
 //   Mars   orbiters and rovers: Horizons samples every 5 or 30 minutes, relative to Mars
+// Past missions (added Nov 14, 2026): drawn in grey where they rest now (at their planet or the Moon, at their landing
+// site on Mars, or, for craft still drifting around the Sun, where Horizons places them today); in a replay, along
+// their route from NASA/JPL Horizons, with every other craft hidden.
 // All positions: ecliptic J2000, astronomical units (au), the Sun at the centre, as on the asteroid map.
 
 import { SolarMap, spacecraftAt, craftTrack } from '../asteroid-tracker/skymap.js';
@@ -70,7 +73,7 @@ export function craftPos(c, jd, earth) {
 
 // ---------------------------------------------------------------- icons
 // Small drawings, about 2.6·s across, of what each kind of craft looks like: solar panels, dishes, tubes, wheels.
-const PANEL = '#5D7FA3', PANEL_EDGE = '#9FB8D2';
+const PANEL = '#5D7FA3', PANEL_EDGE = '#9FB8D2', PAST = '#8F8A7E';
 export function craftIcon(ctx, kind, x, y, s, col = '#EDE6D3', military = false) {
   ctx.save(); ctx.translate(x, y);
   ctx.lineJoin = 'round'; ctx.lineCap = 'round';
@@ -125,6 +128,7 @@ export class SpaceMap extends SolarMap {
     this.showPath = true;
     this.minR = 0.000012;             // zoom limit: about 3,600 km across, for the Moon's orbiters
     this.far = new Set(['voyager1', 'voyager2', 'newhorizons']);
+    this.replay = null;               // the key of the past craft being replayed, or null
   }
   setView(v) {
     super.setView(v);
@@ -141,7 +145,15 @@ export class SpaceMap extends SolarMap {
     return super.centerPos();
   }
   byKey(key) { return this.craft.find((c) => c.key === key); }
-  pos(c, jd = this.jd) { return craftPos(c, jd, (j) => this.earthAt(j)); }
+  pos(c, jd = this.jd) {
+    const earth = (j) => this.earthAt(j);
+    if (!c.past) return craftPos(c, jd, earth);
+    if (this.replay === c.key) return c.route ? craftPos(c.route, jd, earth) : null;
+    const r = c.rest;
+    if (!r) return null;
+    if (r.body) return r.body === 'Moon' ? parentAt('Moon', jd, earth) : planetPosition(r.body, jd);
+    return craftPos(r, jd, earth);                    // a landing site on Mars, or the drift samples around today
+  }
 
   draw() {
     const onFrame = this.onFrame; this.onFrame = null;
@@ -174,11 +186,11 @@ export class SpaceMap extends SolarMap {
     const clusters = {}, s = 5.2 * dpr;
     this.craftScreen = [];
     for (const c of this.craft) {
-      if (this.shown && !this.shown.has(c.key) && c.key !== this.sel) continue;
+      if (this.replay ? c.key !== this.replay : this.shown && !this.shown.has(c.key) && c.key !== this.sel) continue;
       const p = this.pos(c); if (!p) continue;
       const q = proj(p[0], p[1], p[2]);
       c._q = q;
-      if (c.parent !== 'Sun' && c.key !== this.sel) {
+      if (c.parent !== 'Sun' && c.key !== this.sel && !this.replay) {
         const pq = parentQ[c.parent] || parentQ.Earth, group = c.parent === 'Moon' ? 'Earth' : c.parent;
         const gq = parentQ[group];
         if (Math.hypot(q[0] - gq[0], q[1] - gq[1]) < 9 * dpr && Math.hypot(pq[0] - gq[0], pq[1] - gq[1]) < 9 * dpr) {
@@ -190,16 +202,17 @@ export class SpaceMap extends SolarMap {
       if (!on(q)) continue;
       const isSel = c.key === this.sel;
       if (isSel) { ctx.strokeStyle = '#E2C88E'; ctx.lineWidth = 1.2 * dpr; ctx.setLineDash([3 * dpr, 3 * dpr]); ctx.beginPath(); ctx.arc(q[0], q[1], s * 2.6, 0, 7); ctx.stroke(); ctx.setLineDash([]); }
-      craftIcon(ctx, c.info.kind, q[0], q[1], isSel ? s * 1.25 : s, isSel ? '#E2C88E' : '#EDE6D3', (c.info.tags || []).includes('military'));
-      this.bodies.push({ kind: 'craft', key: c.key, name: c.info.name, x: q[0], y: q[1], r: s * 1.9, col: isSel ? '#E2C88E' : '#EDE6D3' });
+      const col = isSel ? '#E2C88E' : c.past ? PAST : '#EDE6D3';
+      craftIcon(ctx, c.info.kind, q[0], q[1], isSel ? s * 1.25 : s, col, (c.info.tags || []).includes('military'));
+      this.bodies.push({ kind: 'craft', key: c.key, name: c.info.name, x: q[0], y: q[1], r: s * 1.9, col: isSel ? '#E2C88E' : c.past ? '#A39C8C' : '#EDE6D3' });
       this.craftScreen.push(c.key);
     }
     // a "group" of one is just drawn as itself
     for (const [g, cl] of Object.entries(clusters)) {
       if (cl.n > 1) continue;
       const [c, q] = cl.list[0];
-      craftIcon(ctx, c.info.kind, q[0], q[1], s, '#EDE6D3', (c.info.tags || []).includes('military'));
-      this.bodies.push({ kind: 'craft', key: c.key, name: c.info.name, x: q[0], y: q[1], r: s * 1.9, col: '#EDE6D3' });
+      craftIcon(ctx, c.info.kind, q[0], q[1], s, c.past ? PAST : '#EDE6D3', (c.info.tags || []).includes('military'));
+      this.bodies.push({ kind: 'craft', key: c.key, name: c.info.name, x: q[0], y: q[1], r: s * 1.9, col: c.past ? '#A39C8C' : '#EDE6D3' });
       delete clusters[g];
     }
     // groups of craft too close together to draw apart: a ring with the count
@@ -215,7 +228,7 @@ export class SpaceMap extends SolarMap {
     // far craft off the map: an arrow at the edge
     this.edges = [];
     for (const c of this.craft) {
-      if (!((this.far.has(c.key) && this.viewR > 1) || c.key === this.sel) || (this.shown && !this.shown.has(c.key) && c.key !== this.sel)) continue;
+      if (this.replay ? c.key !== this.replay : !((this.far.has(c.key) && this.viewR > 1) || c.key === this.sel) || (this.shown && !this.shown.has(c.key) && c.key !== this.sel)) continue;
       const q = c._q; if (!q || on(q, 0)) continue;
       const cx = W / 2, cy = H / 2, ang = Math.atan2(q[1] - cy, q[0] - cx), m = 26 * dpr;
       const t = Math.min((W / 2 - m) / Math.abs(Math.cos(ang) || 1e-6), (H / 2 - m) / Math.abs(Math.sin(ang) || 1e-6));
@@ -246,6 +259,7 @@ export class SpaceMap extends SolarMap {
   // The selected craft's path: for Earth satellites one orbit around this moment, for the rest the stretch of their
   // samples (deep-space craft: up to the date shown, and ahead faintly), drawn relative to the parent's current place.
   _path(c) {
+    if (c.past) { if (!c.route) return; c = c.route; }   // a past mission: its whole route, bright up to the date shown
     const ctx = this.ctx, dpr = this.dpr, proj = this.proj, earth = (j) => this.earthAt(j);
     const P = parentAt(c.parent, this.jd, earth), pts = [], ahead = [];
     if (c.rec) {

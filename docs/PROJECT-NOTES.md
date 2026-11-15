@@ -43,6 +43,11 @@ How NASA and ESA Data Projects is built, the decisions made so far, and how to r
   a public position that the hand-checked catalogue lists; military craft only where CelesTrak publishes the orbit;
   no communication or navigation constellations (Starlink, GPS). Each craft is drawn relative to its parent (the
   Sun, Earth, the Moon or Mars), so orbiters stay on their planets at any zoom. Ended missions come off the list.
+- **Decided Nov 14, 2026 (spacecraft map, more craft):** as many craft as possible, to be easier to use than NASA's
+  own trackers. Ended missions move to `spacecraft/past.json`: drawn in grey where they rest, with how each ended and
+  a replay of its route from Horizons. A switch adds the Earth-orbit fleet (relay and weather satellites). Mission
+  chips: big (flagship-class and crewed stations), small (under about 500 kg at launch), satellites, crewed. Built
+  from the approved mock-up of Nov 14, 2026.
 - **Decided Nov 12, 2026 ("Visible from here"):** a pass counts as visible when the asteroid is at least 10° up while
   the Sun is at least 12° below the horizon; what is needed follows magnitude (naked eye ≤ 6, binoculars 6–9, small
   telescope 9–12, large telescope 12–15, too faint above 15). The place is kept in the browser and shared with Sky

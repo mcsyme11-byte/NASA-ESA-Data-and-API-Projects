@@ -97,3 +97,22 @@
   .cc-top h3 { font-size: 21px; }
   .cc-fig dd { font-size: 16px; }
 }
+
+/* past missions and the route replay (added Nov 14, 2026, from the approved mock-up) */
+.sc-row .n small { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-left: 6px; }
+.sc-row.is-past .n { color: var(--ink2); }
+.sc-row.is-past .d { color: var(--muted); font-style: italic; }
+.cc-end { margin: 12px 0; padding: 12px 14px; border-left: 2px solid var(--brass-dim); background: rgba(192,160,98,.05); color: var(--ink2); font-size: 15px; line-height: 1.55; }
+.cc-end .lbl { display: block; margin-bottom: 4px; }
+.sc-play { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px 14px; margin-top: 12px; padding: 12px 14px;
+  border: 1px solid var(--brass-dim); border-radius: var(--r-card); background: var(--card); }
+.sc-play[hidden] { display: none; }
+.sc-pp { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--brass); background: var(--brass); color: var(--on-brass); font-size: 16px; cursor: pointer; transition: background .12s, transform .08s; }
+.sc-pp:hover { background: var(--brass-bright); }
+.sc-pp:active { transform: scale(.95); }
+.sc-pwhat { font-size: 14px; color: var(--ink2); min-width: 0; }
+.sc-pwhat b { color: var(--ink); font-weight: 400; }
+.sc-play input[type="range"] { grid-column: 1 / -1; width: 100%; min-height: 40px; accent-color: var(--brass); }
+.sc-pmarks { grid-column: 1 / -1; display: flex; justify-content: space-between; gap: 8px; font-size: 12px; color: var(--muted); margin-top: -8px; }
+.sc-play .seg { grid-column: 1 / -1; justify-self: start; }
+@media (max-width: 600px) { .sc-play { grid-template-columns: auto 1fr; } .sc-px { grid-column: 1 / -1; justify-self: start; } }

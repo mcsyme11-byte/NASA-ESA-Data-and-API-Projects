@@ -18,12 +18,14 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
 - [ ] Spacecraft map: Tianwen-1 (Horizons id -9901491 holds only its cruise, to Feb 10, 2021), Tianwen-2 and
   Chang'e 7 are not in Horizons now, and CelesTrak does not return TESS; they appear by themselves if either service
   lists them later. For the Data updates chat: Chang'e 7 to be added to the known notes in `dev/data_jobs.json`.
-- [ ] **Spacecraft map, more craft (requested Nov 14, 2026):** as many craft as possible, to make the map easier to use
-  than NASA's own trackers. Done: 18 active craft added (100 in all). Next, after an approved mock-up: past missions
-  (how each one ended, and a playback of its route; Horizons keeps the paths of Cassini, Galileo, Rosetta, Dawn,
-  MESSENGER, Pioneer 10 and 11, Spitzer, Kepler, MAVEN, Artemis I and II and others), a switch for the Earth-orbit
-  fleet (TDRS relays, older GOES and other weather satellites), and filters for big missions, small missions,
-  satellites and crewed missions.
+- [ ] **Developer testing of the spacecraft map's Nov 14, 2026 additions** (computer and phone): Show › Past missions
+  and Earth-orbit fleet; the Mission chips; a past mission's card ("How it ended"); Replay its route (Cassini,
+  Artemis II, Spirit), with play and pause, the slider, the speeds and Close replay.
+- [ ] For the Data updates chat: `spacecraft/past.json` to be added to the paths that start `spacecraft-data.yml`,
+  and `data/routes.json` to the job's row in `docs/DATA-UPDATES.md` (a new file in the same folder, written by the
+  same script, since Nov 14, 2026).
+- [ ] Spacecraft map, more past missions as they end or as Horizons adds routes (for example Swift and other
+  Earth-orbit craft have no route in Horizons; Chandrayaan-1's route there begins only in 2016).
 - [ ] When the `data-health` issue reports the "risk-lists" source failing (ESA calls its automated access
   experimental, so a change of format stops the step and the previous files are kept), fix `fetch_risk.py`.
 - [ ] Optional: if ESA's credit form or terms for the NEOCC figures are in doubt, ask the NEOCC by email

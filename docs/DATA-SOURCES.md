@@ -679,6 +679,22 @@ archives to the Picture library. Checked with requests from GitHub's servers and
   (18.44° N, 77.45° E) and turns it with Mars (IAU rotation model: pole α₀ = 317.269°, δ₀ = 54.433°, prime meridian
   W = 176.050° + 350.8919824° a day).
 
+### Past missions' routes (Horizons), added Nov 14, 2026
+
+- `spacecraft/past.json` lists 35 past missions with Horizons ids, checked against the Horizons list of spacecraft
+  (`COMMAND='MB'`) on Nov 14, 2026. For each, the job asks Horizons once for the route from launch (or `route.from`)
+  to the end (or `route.to`, the landing for the Mars landers and the arrival for orbiters whose orbits would only be
+  a tangle at this scale), `STEP_SIZE='600'` (600 equal steps), relative to the Sun or, for missions near Earth and
+  the Moon, to Earth; written to `spacecraft/data/routes.json` and kept while the mission's entry is unchanged.
+- Coverage found on Nov 14, 2026: Hayabusa from Jan 26, 2009 only; WMAP to Apr 7, 2009; Mariner 2 to Dec 31, 1962;
+  Stardust to Mar 12, 2011; Artemis II from Apr 2, 2026 (after leaving Earth orbit); Chandrayaan-1 only from
+  Jul 2, 2016 (the radar track that found it again), so it has no route on the map. For craft still circling the Sun,
+  Horizons follows Pioneer 10 and 11, Ulysses, Spitzer, Kepler, Herschel, Planck and Gaia today; Mariner 2, Deep
+  Space 1, Stardust, Deep Impact and WMAP are no longer followed and are not drawn.
+- Landing sites on Mars (degrees, east longitude): Mars Pathfinder 19.13 N 326.78 E; Spirit −14.60 175.52 E (its
+  last place); Opportunity −2.28 354.53 E (its last place, Perseverance Valley); Phoenix 68.22 N 234.25 E; InSight
+  4.50 N 135.62 E.
+
 ### CelesTrak orbital elements, checked Nov 12, 2026
 
 - `https://celestrak.org/NORAD/elements/gp.php?GROUP=<group>&FORMAT=tle` (no key), the groups `stations`, `science`,

@@ -1,5 +1,20 @@
 # Change log
 
+## November 14, 2026 — spacecraft map: past missions, route replay, Earth-orbit fleet, mission filters
+
+Built from the mock-up approved the same day.
+
+- **Past missions** (35, under Show): from Mariner 2 (1962) to Artemis II (2026), including Pioneer 10 and 11,
+  Galileo, Cassini, MESSENGER, Rosetta, Dawn, Spirit, Opportunity, Kepler, Spitzer, Gaia, MAVEN and DART. Drawn in grey
+  where they rest; each card says how the mission ended.
+- **Replay its route:** the whole journey from NASA/JPL Horizons, with play and pause, a slider and speeds from a day
+  to a year a second; the planets and the Moon move with the date.
+- **Earth-orbit fleet** (under Show): NASA's TDRS 8, 10, 11, 12 and 13, the spare GOES-16 and GOES-17, Metop-B and
+  Metop-C and Himawari-8.
+- **Mission filter:** big, small, satellites, crewed.
+- `fetch_spacecraft.py` writes `data/routes.json`; facts in the new `spacecraft/past.json`. Version tags raised to
+  2026111403.
+
 ## November 14, 2026 — app icon and short name (NEDAP)
 
 - **Home-screen icon** for the site: the site's emblem (a planet with its orbit ring) in brass on the same night-sky

@@ -12,10 +12,10 @@
   <link rel="manifest" href="../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111402">
-  <script type="module" src="../shared/footer.js?v=2026111402"></script>
-  <link rel="stylesheet" href="spacecraft.css?v=2026111402">
-  <script type="module" src="app.js?v=2026111202"></script>
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111403">
+  <script type="module" src="../shared/footer.js?v=2026111403"></script>
+  <link rel="stylesheet" href="spacecraft.css?v=2026111403">
+  <script type="module" src="app.js?v=2026111403"></script>
 </head>
 <body>
   <header class="topbar">
@@ -56,6 +56,10 @@
         <div class="chips" id="scAgency" role="group" aria-label="Agency" data-hscroll></div>
         <div class="lbl sc-gap">Kind</div>
         <div class="chips" id="scKind" role="group" aria-label="Kind" data-hscroll></div>
+        <div class="lbl sc-gap">Show</div>
+        <div class="chips" id="scShow" role="group" aria-label="Show" data-hscroll></div>
+        <div class="lbl sc-gap">Mission</div>
+        <div class="chips" id="scMission" role="group" aria-label="Mission" data-hscroll></div>
         <div class="sc-lh"><h2 class="lbl">Spacecraft</h2><span class="aside" id="scListN"></span></div>
         <div class="sc-list" id="scList" role="list"><div class="state small">Loading…</div></div>
       </aside>
@@ -72,6 +76,19 @@
           </div>
           <div class="sc-angle seg" role="group" aria-label="Angle">
             <button type="button" data-a="top">Top</button><button type="button" data-a="tilt" aria-pressed="true">Tilted</button><button type="button" data-a="side">Side</button>
+          </div>
+        </div>
+        <div class="sc-play" id="scPlay" hidden aria-label="Route replay">
+          <button class="sc-pp" type="button" id="rpPlay" aria-label="Pause">❚❚</button>
+          <div class="sc-pwhat" id="rpWhat" aria-live="polite"></div>
+          <button class="btn quiet small sc-px" type="button" id="rpClose">Close replay</button>
+          <input type="range" id="rpRange" min="0" max="1000" value="0" aria-label="Date in the route">
+          <div class="sc-pmarks" id="rpMarks"></div>
+          <div class="seg" role="group" aria-label="Replay speed" data-hscroll id="rpSpeed">
+            <button type="button" data-rp="1">1 day/s</button>
+            <button type="button" data-rp="7">1 week/s</button>
+            <button type="button" data-rp="30.44">1 month/s</button>
+            <button type="button" data-rp="365.25">1 year/s</button>
           </div>
         </div>
         <div class="sc-time">
@@ -94,11 +111,18 @@
       <p>Every active spacecraft with a public position that this map follows: crewed stations, telescopes, missions to the Sun,
         the Moon, Mars, Jupiter and beyond, and satellites watching Earth. Military satellites appear only where their orbits are
         published; ordinary communication and navigation satellites (such as Starlink or GPS) are left out.</p>
+      <p><b>Past missions</b> (switch them on under Show) are drawn in grey where they rest: at the planet or moon where they
+        ended, at their landing site on Mars, or, for craft still drifting around the Sun, where NASA/JPL Horizons places them
+        today. Each card says how the mission ended, and "Replay its route" draws its whole journey from launch to the end.
+        <b>The Earth-orbit fleet</b> adds working relay and weather satellites, such as NASA's TDRS relays and the spare GOES
+        weather satellites. Under Mission, <b>Big</b> means flagship-class missions and the crewed stations, <b>Small</b> means
+        craft under about 500 kg at launch, <b>Satellites</b> means everything circling Earth, and <b>Crewed</b> means craft
+        that carry or carried people.</p>
       <p>Positions of deep-space craft and those near the Lagrange points, the Moon and Mars come from NASA/JPL Horizons, copied
         twice a day; satellites in Earth orbit are worked out in your browser from CelesTrak's published orbital elements with
         the SGP4 model. Sizes are not to scale: each craft is drawn as an icon, while the Sun, planets and Moon are drawn at
         their true size once you zoom in far enough.</p>
-      <p class="caption">Mission facts checked November 12 and 14, 2026. A mission that ends is taken off the map.</p>
+      <p class="caption">Mission facts checked November 12 and 14, 2026. A mission that ends moves to the past missions.</p>
     </section>
 
     <p class="srcline">Positions courtesy of NASA/JPL (Horizons) and CelesTrak; mission facts from NASA, ESA, JAXA, ISRO, CNSA and the other agencies, linked from each craft. Data courtesy of NASA. Not endorsed by any of these agencies.</p>

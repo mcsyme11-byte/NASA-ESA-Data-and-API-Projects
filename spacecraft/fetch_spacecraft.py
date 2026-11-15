@@ -348,6 +348,8 @@ def main():
         old = {}
     routes, drift = {}, {}
     for p in past:
+        if 'route' not in p:                              # Horizons has no route for it (Chandrayaan-1: only since 2016)
+            continue
         sig = json.dumps([p['route'], p['launch'], p['ended']], sort_keys=True)
         if old.get(p['key'], {}).get('sig') == sig:
             routes[p['key']] = old[p['key']]
@@ -362,7 +364,7 @@ def main():
             elif p['key'] in old:
                 routes[p['key']] = old[p['key']]          # keep the earlier route rather than lose it
             time.sleep(1)
-        if p.get('rest') == 'drift':
+        if p.get('rest') == 'drift' and 'route' in p:
             try:
                 d = drift_now(p, now)
             except Exception as e:

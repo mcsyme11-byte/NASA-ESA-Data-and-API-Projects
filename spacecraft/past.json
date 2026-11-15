@@ -1024,10 +1024,6 @@
      "url": "https://www.isro.gov.in/Chandrayaan_1.html"
     }
    ],
-   "route": {
-    "horizons": "-86",
-    "center": "Earth"
-   },
    "rest": {
     "body": "Moon"
    }
@@ -1473,15 +1469,19 @@
    "end": "Orion splashed down in the Pacific off Baja California on December 11, 2022; its heat shield's wear led to changes for Artemis II.",
    "timeline": [
     [
-     "2022-11",
+     "2022-11-16",
      "Launched"
     ],
     [
-     "2022-11",
+     "2022-11-21",
      "Flies 130 km over the Moon"
     ],
     [
-     "2022-12",
+     "2022-11-25",
+     "Enters a distant orbit around the Moon"
+    ],
+    [
+     "2022-12-11",
      "Splashes down in the Pacific"
     ]
    ],
@@ -1515,15 +1515,19 @@
    "end": "After nearly ten days and a loop behind the far side of the Moon, Orion splashed down in the Pacific off San Diego on April 10, 2026, at 8:07 p.m. EDT (00:07 UTC on April 11).",
    "timeline": [
     [
-     "2026-04",
+     "2026-04-01",
      "Launched"
     ],
     [
-     "2026-04",
-     "Passes behind the far side of the Moon"
+     "2026-04-02",
+     "Leaves Earth orbit for the Moon"
     ],
     [
-     "2026-04",
+     "2026-04-06",
+     "Passes behind the far side of the Moon; farthest humans have travelled"
+    ],
+    [
+     "2026-04-11",
      "Splashes down in the Pacific"
     ]
    ],
