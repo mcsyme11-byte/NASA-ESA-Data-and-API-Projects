@@ -23,10 +23,9 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
     in the camera view for switching target, and the Calibrate button's green or amber dot.
   - Spacecraft map (`spacecraft/`) and the home page's new panel: the five views, search, agency and kind filters,
     the card for several craft, Follow, the path, Share, time controls; the asteroid map link under the panel.
-- [ ] Spacecraft map: Tianwen-2, MMX and Chang'e 7 are not in Horizons, and CelesTrak does not return TESS; they
-  appear by themselves if either service lists them later. Tianwen-1 is in Horizons since Nov 2026 (id -9901491) and
-  is now read by its id. For the Data updates chat: MMX and Chang'e 7 to be added to the known notes in
-  `dev/data_jobs.json`, and Tianwen-1 removed from them.
+- [ ] Spacecraft map: Tianwen-1 (Horizons id -9901491 holds only its cruise, to Feb 10, 2021), Tianwen-2 and
+  Chang'e 7 are not in Horizons now, and CelesTrak does not return TESS; they appear by themselves if either service
+  lists them later. For the Data updates chat: Chang'e 7 to be added to the known notes in `dev/data_jobs.json`.
 - [ ] **Spacecraft map, more craft (requested Nov 14, 2026):** as many craft as possible, to make the map easier to use
   than NASA's own trackers. Done: 18 active craft added (100 in all). Next, after an approved mock-up: past missions
   (how each one ended, and a playback of its route; Horizons keeps the paths of Cassini, Galileo, Rosetta, Dawn,

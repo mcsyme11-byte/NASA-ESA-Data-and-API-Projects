@@ -1687,10 +1687,6 @@
     {
      "label": "JAXA: MMX",
      "url": "https://www.mmx.jaxa.jp/en/"
-    },
-    {
-     "label": "ESA: MMX",
-     "url": "https://www.esa.int/Science_Exploration/Space_Science/MMX"
     }
    ],
    "src": {
@@ -1845,7 +1841,10 @@
     }
    ],
    "src": {
-    "horizons": "-9901491",
+    "horizons_name": [
+     "Tianwen-1",
+     "Tianwen 1"
+    ],
     "center": "Mars",
     "local": true
    }
@@ -1999,8 +1998,8 @@
    ],
    "links": [
     {
-     "label": "NASA: ARTEMIS",
-     "url": "https://science.nasa.gov/mission/artemis-themis/"
+     "label": "NASA: THEMIS and ARTEMIS",
+     "url": "https://science.nasa.gov/mission/themis/"
     }
    ],
    "src": {
@@ -2033,8 +2032,8 @@
    ],
    "links": [
     {
-     "label": "NASA: ARTEMIS",
-     "url": "https://science.nasa.gov/mission/artemis-themis/"
+     "label": "NASA: THEMIS and ARTEMIS",
+     "url": "https://science.nasa.gov/mission/themis/"
     }
    ],
    "src": {

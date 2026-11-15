@@ -3,10 +3,9 @@
 ## November 14, 2026 — spacecraft map: 18 more craft
 
 - **Added** (100 craft in all): ESCAPADE now shown as its two craft, Blue and Gold; MMX (launched Oct 20, 2026) and
-  Chang'e 7 (launched Aug 24, 2026), shown once Horizons lists them; at L1, DSCOVR, SOLAR-1 (formerly SWFO-L1) and
+  Chang'e 7 (launched Aug 24, 2026; shown once Horizons lists it); at L1, DSCOVR, SOLAR-1 (formerly SWFO-L1) and
   the Carruthers Geocorona Observatory; around the Moon, ARTEMIS P1 and P2; in Earth orbit, SDO, IRIS, Hinode, MMS,
   THEMIS, TIMED, Pandora, OCO-2, Jason-3 and Sentinel-6B.
-- **Tianwen-1** is read by its Horizons id (-9901491), listed by Horizons since November 2026.
 - Statuses checked Nov 14, 2026: MAVEN (mission ended June 3, 2026) and Swift (re-entered Nov 4, 2026) are not
   active and are left for the planned past-missions group.
 
