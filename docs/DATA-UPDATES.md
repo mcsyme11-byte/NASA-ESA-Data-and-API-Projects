@@ -19,7 +19,7 @@ files and the daily health check. Decided Nov 14, 2026.
 | Job (workflow) | Runs (UTC) | Sources | Files written | Status file |
 |---|---|---|---|---|
 | Asteroid data (`asteroid-data.yml`) | 06:17 and 14:47 daily; after a fetch script changes | NASA/JPL CAD, SBDB, Horizons, Sentry; ESA NEOCC; NASA NeoWs (key: `NASA_API_KEY`) | `asteroid-tracker/data/` | `asteroid-data.json` |
-| Spacecraft data (`spacecraft-data.yml`) | 05:23 and 17:53 daily; after a catalogue change | NASA/JPL Horizons, CelesTrak; link check once a day | `spacecraft/data/` | `spacecraft-data.json` |
+| Spacecraft data (`spacecraft-data.yml`) | 05:23 and 17:53 daily; after a change to the catalogue or the past missions | NASA/JPL Horizons, CelesTrak; link check once a day; reads `spacecraft/catalogue.json` and `spacecraft/past.json` (both edited by hand) | `spacecraft/data/` (`positions.json`, `tle.json`, `links.json`, `routes.json`) | `spacecraft-data.json` |
 | Astronaut photos (`astronaut-photos.yml`) | 07:41 and 19:11 daily | NASA Gateway to Astronaut Photography of Earth (key: `EOL_API_KEY`, or the public Latest ISS Imagery set) | `image-explorer/data/astronaut.json` | `astronaut-photos.json` |
 | Mars data (`mars-data.yml`) | 09:23 Mondays and Thursdays | NASA PDS (Curiosity REMS, Perseverance MEDA); ESA PSA (Mars Express MaRS) | `mars-data/data/` | `mars-data.json` |
 | Place and map lists (`build-places.yml`) | 03:37 on January, April, July and October 2 | GeoNames; Natural Earth | `image-explorer/data/` (features, globe places, map lines, countries, names) | `build-places.json` |

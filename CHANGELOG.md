@@ -1,5 +1,12 @@
 # Change log
 
+## November 15, 2026 — spacecraft job runs after a past-missions edit
+
+- `spacecraft-data.yml` now also starts after a change to `spacecraft/past.json`, so an edit to the past missions
+  reaches the map straight away; its header lists `routes.json` among the files it writes.
+- `docs/DATA-UPDATES.md`: the spacecraft job's row names its four files, including `routes.json`, and the two
+  hand-edited files it reads.
+
 ## November 15, 2026 — first data health report resolved
 
 The first `data-health` issue (#2) listed four items to review, all on the spacecraft map:

@@ -19,9 +19,6 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
   Chang'e 7 are not in Horizons now, and CelesTrak does not return TESS; they appear by themselves if either service
   lists them later. All four are known notes in `dev/data_jobs.json` (Chang'e 7 since Nov 15, 2026), so the health
   check leaves them out.
-- [ ] For the Data updates chat: `spacecraft/past.json` to be added to the paths that start `spacecraft-data.yml`,
-  and `data/routes.json` to the job's row in `docs/DATA-UPDATES.md` (a new file in the same folder, written by the
-  same script, since Nov 14, 2026).
 - [ ] Spacecraft map, more past missions as they end or as Horizons adds routes (for example Swift and other
   Earth-orbit craft have no route in Horizons; Chandrayaan-1's route there begins only in 2016).
 - [ ] When the `data-health` issue reports the "risk-lists" source failing (ESA calls its automated access

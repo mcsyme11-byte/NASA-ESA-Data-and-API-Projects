@@ -6,8 +6,11 @@
 #   tle.json        orbital elements of the craft in Earth orbit from CelesTrak (also used by Sky Finder for the
 #                   space stations' passes)
 #   links.json      catalogue links that no longer answer (checked once a day, and after a catalogue change)
+#   routes.json     the routes of the past missions in spacecraft/past.json (edited by hand), from NASA/JPL Horizons
 # Twice a day because orbital elements of low satellites age quickly and the Mars and Moon orbiters' positions cover
 # about a day and a half; the browser works out every position in between.
+# Also runs after a change to the fetch script, the catalogue or the past missions (spacecraft/past.json, since
+# Nov 15, 2026), so an edit is on the map straight away.
 # Run by hand: Actions › Spacecraft data › Run workflow.
 # Follows the data-job standard in docs/DATA-UPDATES.md: the last step (dev/datajob.py) checks the files before they are
 # saved, records the state in shared/data/status/spacecraft-data.json, with every "not found" line of the log as a
@@ -24,6 +27,7 @@ on:
     paths:
       - 'spacecraft/fetch_spacecraft.py'
       - 'spacecraft/catalogue.json'
+      - 'spacecraft/past.json'
       - '.github/workflows/spacecraft-data.yml'
   workflow_dispatch:
 
