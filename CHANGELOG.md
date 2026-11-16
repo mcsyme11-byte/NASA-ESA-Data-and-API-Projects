@@ -26,6 +26,7 @@ Built from the mock-up approved the same day.
 - **Mission filter:** big, small, satellites, crewed.
 - `fetch_spacecraft.py` writes `data/routes.json`; facts in the new `spacecraft/past.json`. Version tags raised to
   2026111403.
+- **Developer testing passed (Nov 15, 2026)** on a computer and a phone.
 
 ## November 14, 2026 — app icon and short name (NEDAP)
 
