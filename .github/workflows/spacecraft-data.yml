@@ -49,11 +49,12 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       # If one source cannot be read, the run is marked with a warning but what was read is still saved (the
-      # previous file is kept for the other).
+      # previous file is kept for the other). "-u" writes the log line by line, so a run that is stopped still shows
+      # how far it got.
       - name: Fetch spacecraft positions and orbital elements
         id: fetch
         continue-on-error: true
-        run: python3 spacecraft/fetch_spacecraft.py | tee "$RUNNER_TEMP/spacecraft.log"
+        run: python3 -u spacecraft/fetch_spacecraft.py | tee "$RUNNER_TEMP/spacecraft.log"
       - name: Check, record and commit
         if: always()
         run: >-

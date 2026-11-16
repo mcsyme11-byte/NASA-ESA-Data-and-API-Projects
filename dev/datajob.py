@@ -145,6 +145,7 @@ def main():
         old = {}
     sources = dict(old.get('sources', {}))
     outcomes = dict(s.split('=', 1) for s in a.source)
+    complete = all(o in ('success', 'failure') for o in outcomes.values())
     if paths:                             # the guard ran: record its result
         outcomes['checks'] = 'failure' if refused else 'success'
     for name, outcome in outcomes.items():
@@ -164,7 +165,8 @@ def main():
         'workflow': '.github/workflows/%s.yml' % a.job,
         'last_data_change': stamp if data_changed else old.get('last_data_change', ''),
         'sources': dict(sorted(sources.items())),
-        'notes': notes_from(a.log, a.watch) if a.watch else old.get('notes', []),
+        # a run stopped part-way has an incomplete log: its notes are kept from the last complete run
+        'notes': notes_from(a.log, a.watch) if a.watch and complete else old.get('notes', []),
     }
     os.makedirs(os.path.join(ROOT, STATUS_DIR), exist_ok=True)
     text = json.dumps(status, indent=1, ensure_ascii=False) + '\n'

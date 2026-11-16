@@ -1,5 +1,13 @@
 # Change log
 
+## November 15, 2026 — spacecraft job log and notes
+
+- A spacecraft data run after a push on Nov 16, 2026 (04:16 UTC) reached its 30-minute limit and was stopped. Its
+  log was empty, because the script's output, passed through `tee`, was held back until the end; the fetch now runs
+  with `python3 -u`, so a stopped run shows how far it got.
+- `dev/datajob.py` keeps a job's notes from its last complete run when a source was stopped or skipped (that run had
+  cleared the spacecraft job's "not found" notes, which were put back).
+
 ## November 15, 2026 — spacecraft job runs after a past-missions edit
 
 - `spacecraft-data.yml` now also starts after a change to `spacecraft/past.json`, so an edit to the past missions
