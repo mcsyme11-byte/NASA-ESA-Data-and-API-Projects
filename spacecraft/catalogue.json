@@ -988,7 +988,7 @@
    "links": [
     {
      "label": "NASA: MMS",
-     "url": "https://science.nasa.gov/mission/magnetospheric-multiscale/"
+     "url": "https://science.nasa.gov/mission/mms/"
     }
    ],
    "src": {
@@ -3209,7 +3209,7 @@
    "links": [
     {
      "label": "JMA: Himawari",
-     "url": "https://www.data.jma.go.jp/mscweb/en/himawari89/"
+     "url": "https://www.jma.go.jp/jma/jma-eng/satellite/himawari89.html"
     }
    ],
    "src": {

@@ -276,7 +276,9 @@ def check_links(cat):
                     break
                 except urllib.error.HTTPError as e:
                     code = e.code
-                    if e.code not in (403, 405, 429, 501):
+                    # Decided Nov 15, 2026: any refusal of HEAD is tried again with GET, because some sites answer
+                    # HEAD with 404 for pages that load (seen on esa.int); only a GET decides that a link is gone.
+                    if method == 'GET' or e.code not in (403, 404, 405, 410, 429, 501):
                         break
                 except Exception as e:
                     code = str(e)[:60]

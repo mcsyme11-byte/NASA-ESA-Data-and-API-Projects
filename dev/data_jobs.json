@@ -55,7 +55,8 @@
   {"match": "Tianwen-2", "reason": "not in Horizons (ROADMAP: added if Horizons lists it later)"},
   {"match": "TESS", "reason": "not at CelesTrak (ROADMAP: added if CelesTrak lists it later)"},
   {"match": "tess ", "reason": "not at CelesTrak (ROADMAP: added if CelesTrak lists it later)"},
-  {"match": "#43435", "reason": "TESS by catalogue number, not at CelesTrak"}
+  {"match": "#43435", "reason": "TESS by catalogue number, not at CelesTrak"},
+  {"match": "Chang'e 7", "reason": "not in Horizons (ROADMAP: added if Horizons lists it later)"}
  ],
  "reviews": [
   {"what": "Spacecraft catalogue (spacecraft/catalogue.json): ended missions taken off, new missions added", "every_days": 90, "last_done": "2026-11-12"},

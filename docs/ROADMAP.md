@@ -17,7 +17,8 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
   row of names in the camera view; the ISS or Tiangong passes.
 - [ ] Spacecraft map: Tianwen-1 (Horizons id -9901491 holds only its cruise, to Feb 10, 2021), Tianwen-2 and
   Chang'e 7 are not in Horizons now, and CelesTrak does not return TESS; they appear by themselves if either service
-  lists them later. For the Data updates chat: Chang'e 7 to be added to the known notes in `dev/data_jobs.json`.
+  lists them later. All four are known notes in `dev/data_jobs.json` (Chang'e 7 since Nov 15, 2026), so the health
+  check leaves them out.
 - [ ] **Developer testing of the spacecraft map's Nov 14, 2026 additions** (computer and phone): Show › Past missions
   and Earth-orbit fleet; the Mission chips; a past mission's card ("How it ended"); Replay its route (Cassini,
   Artemis II, Spirit), with play and pause, the slider, the speeds and Close replay.

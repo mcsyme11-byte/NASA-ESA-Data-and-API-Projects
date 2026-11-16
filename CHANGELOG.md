@@ -1,5 +1,15 @@
 # Change log
 
+## November 15, 2026 — first data health report resolved
+
+The first `data-health` issue (#2) listed four items to review, all on the spacecraft map:
+
+- Chang'e 7 is not in Horizons: added to the known notes in `dev/data_jobs.json`, like Tianwen-2 and TESS.
+- MMS: the NASA page moved to `science.nasa.gov/mission/mms/`; Himawari-8: the JMA page moved to
+  `jma.go.jp/jma/jma-eng/satellite/himawari89.html`. Both replaced in `spacecraft/catalogue.json`.
+- ESA's Sentinel-6 page loads normally but answered the link check's HEAD request with 404. The link check now tries
+  GET after any refusal of HEAD, and reports a link only when GET also answers 404 or 410.
+
 ## November 14, 2026 — spacecraft map: past missions, route replay, Earth-orbit fleet, mission filters
 
 Built from the mock-up approved the same day.
