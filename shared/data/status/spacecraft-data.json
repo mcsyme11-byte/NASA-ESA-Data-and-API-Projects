@@ -1,7 +1,7 @@
 {
  "job": "spacecraft-data",
  "workflow": ".github/workflows/spacecraft-data.yml",
- "last_data_change": "2026-11-16T02:08:30Z",
+ "last_data_change": "2026-11-16T04:47:01Z",
  "sources": {
   "checks": {
    "state": "ok",
@@ -14,12 +14,5 @@
    "note": ""
   }
  },
- "notes": [
-  "Tianwen-2 not found in Horizons (Tianwen-2, Tianwen 2)",
-  "Tianwen-1 not found in Horizons (Tianwen-1, Tianwen 1)",
-  "Chang'e 7 not found in Horizons (Chang'e 7, Chang'e-7, Change 7, CE-7)",
-  "CelesTrak name 'TESS': HTTP Error 404: Not Found",
-  "CelesTrak name '#43435': HTTP Error 404: Not Found",
-  "tess not found at CelesTrak"
- ]
+ "notes": []
 }
