@@ -2797,8 +2797,12 @@
    "timeline": [],
    "links": [
     {
-     "label": "ESA: Sentinel-6",
-     "url": "https://www.esa.int/Applications/Observing_the_Earth/Copernicus/Sentinel-6"
+     "label": "NASA: Sentinel-6",
+     "url": "https://science.nasa.gov/mission/sentinel-6/"
+    },
+    {
+     "label": "ESA: Copernicus",
+     "url": "https://www.esa.int/Applications/Observing_the_Earth/Copernicus"
     }
    ],
    "src": {
