@@ -1,7 +1,7 @@
 {
  "job": "spacecraft-data",
  "workflow": ".github/workflows/spacecraft-data.yml",
- "last_data_change": "2026-11-16T04:47:01Z",
+ "last_data_change": "2026-11-16T04:53:42Z",
  "sources": {
   "checks": {
    "state": "ok",
