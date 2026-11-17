@@ -1,5 +1,10 @@
 # Change log
 
+## November 17, 2026 — mission patch
+
+- Added `brand/patch/` with the project's mission patch (SVG and a 1024 px PNG with a transparent background), made for
+  the developer's portfolio. Not used on any page yet.
+
 ## November 15, 2026 — spacecraft job log and notes
 
 - A spacecraft data run after a push on Nov 16, 2026 (04:16 UTC) reached its 30-minute limit and was stopped. Its
