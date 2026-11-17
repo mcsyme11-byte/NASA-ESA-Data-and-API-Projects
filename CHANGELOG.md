@@ -1,5 +1,12 @@
 # Change log
 
+
+## November 17, 2026 — Mars Data: write-up mock-up; Privacy page
+
+- Mock-up of "What the record shows" (`mars-data/mockup-patterns.html`): six short paragraphs on the clearest
+  seasonal and daily patterns, each linked to its chart, with figures from the cleaned record. Waiting for approval.
+- The Privacy page says the Mars Data pages read only files on this site (their data copied from NASA's Planetary Data
+  System, and ESA's archive once available).
 ## November 17, 2026 — taller job links on phones, footer arrow, run checks
 
 - How the data is collected: the job names on the status board (20 px tall on phones) and in "What each job collects"
