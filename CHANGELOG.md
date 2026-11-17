@@ -1,5 +1,18 @@
 # Change log
 
+## November 17, 2026 — taller job links on phones, footer arrow, run checks
+
+- How the data is collected: the job names on the status board (20 px tall on phones) and in "What each job collects"
+  (27 px) now have a tap area of at least 40 px on phones, without moving the text (the shared phone rule in
+  `shared/theme.css`). Checked at 320, 375, 390, 768, 1024, 1280 and 1440 px: nothing runs off the screen, and every
+  link outside running text is 40 px or taller on phones.
+- The footer's hover arrow, which sits just past the live data line, made every page 1 px wider than a phone's screen
+  (a slight sideways scroll). It is left out on touch screens and below 600 px.
+- The live status names several jobs as "A, B and C" (it read "A and B and C").
+- Roadmap section 4: the first runs of the Astronaut photos backup, Data health and Mars data recorded, and the first
+  `data-health` email confirmed.
+- Version tag raised to 2026111702.
+
 ## November 17, 2026 — developer testing passed
 
 - The developer tested the site-wide redesign (version 2 of the look), the NEDAP logo and the live data status line

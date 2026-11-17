@@ -582,6 +582,9 @@ a.stage:hover { color: var(--ink); }
 .livestatus:hover::after, .livestatus:focus-visible::after { opacity: 1; transform: none; }
 .livestatus[aria-current] { color: var(--ink); }
 @media (max-width: 600px) { .livestatus .ls-t { flex-shrink: 1; } }
+/* no hover on touch screens, and no room past the line on a phone: the arrow, which sits outside the line, is left out
+   (it made every page 1 px wider than a phone's screen; fixed Nov 17, 2026) */
+@media (hover: none), (max-width: 600px) { .livestatus::after { display: none; } }
 
 /* the status board: a head with the overall state, then one row per data job */
 .board { background: var(--deep); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
@@ -640,6 +643,8 @@ a.stage:hover { color: var(--ink); }
   .display-link { padding-top: 8px; }
   /* small links inside kickers, callout titles and asides: a taller tap area without moving the text */
   .kicker a, .callout h4 a, .aside a, .notice .t a { display: inline-block; padding: 12px 0; margin: -12px 0; }
+  /* the job names on the status board and in the list of sources (added Nov 17, 2026): 40 px and more */
+  .job h3 a, .sources .s .n a { display: inline-block; padding: 10px 0; margin: -10px 0; }
 }
 
 /* ============================================================== motion: quick, quiet feedback on everything pressable */

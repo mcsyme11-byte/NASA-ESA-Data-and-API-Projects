@@ -116,6 +116,8 @@ export const WORDS = {
   ok: 'Up to date', updating: 'Updating now', late: 'Late', partial: 'Partly failed', failed: 'Failed', unknown: 'Unknown',
 };
 const RANK = { failed: 5, partial: 4, updating: 3, late: 2, ok: 1, unknown: 0 };
+// "A", "A and B", "A, B and C"
+const list = (xs) => (xs.length < 3 ? xs.join(' and ') : xs.slice(0, -1).join(', ') + ' and ' + xs[xs.length - 1]);
 
 // ---------------------------------------------------------------- the status
 // Returns { jobs: [...], state, headline, detail, latest, api, checked }. Never throws: what cannot be read is
@@ -180,11 +182,11 @@ export async function load({ fresh = false } = {}) {
     detail = 'The previous data from ' + (n === 1 ? 'it' : 'them') + ' stays on the site; everything else is up to date.';
   } else if (state === 'updating') {
     const u = of('updating');
-    headline = 'Updating ' + u.map(name).join(' and ') + ' now';
+    headline = 'Updating ' + list(u.map(name)) + ' now';
     detail = 'New data appears on the site a minute or two after the update finishes.';
   } else if (state === 'late') {
     const l = of('late');
-    headline = l.map((j) => j.name).join(' and ') + (l.length === 1 ? ' is' : ' are') + ' running late';
+    headline = list(l.map((j, k) => (k ? name(j) : j.name))) + (l.length === 1 ? ' is' : ' are') + ' running late';
     detail = 'GitHub sometimes starts scheduled runs hours late; the data shown is the latest saved.';
   } else if (state === 'ok') {
     headline = 'All data is up to date';
