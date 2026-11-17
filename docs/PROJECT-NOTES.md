@@ -73,6 +73,9 @@ How NASA and ESA Data Projects is built, the decisions made so far, and how to r
 - **Decided Nov 12, 2026 (Mars Data):** the "Mars data" job runs on main on Mondays and Thursdays at 09:23 UTC,
   publishes only after `validate.py` passes, and reports new data or a failure by opening a GitHub issue, which GitHub
   emails to people watching the repository.
+- **Decided Nov 17, 2026 (Mars Data):** the charts page opens with "What the record shows", a short plain-English
+  write-up of the clearest patterns, each paragraph linked to its chart. Its figures are worked out from the published
+  data and rounded so they stay true as sols are added; they are checked again when the cleaning rules change.
 - **Decided Nov 15, 2026 (Mars Data):** the "Above the surface" section (ESA Mars Express profiles: temperature and
   pressure with height, and where and when each was taken) was approved as a mock-up with sample numbers and built
   into the charts page behind a switch (`MEX_LIVE`), turned on only after the first real profiles are read and checked.

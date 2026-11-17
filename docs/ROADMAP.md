@@ -87,11 +87,9 @@ Plan confirmed Nov 11, 2026 (see PROJECT-NOTES.md): three missions, updated auto
 
 **Page**
 - [x] Page live (Nov 12, 2026) with the whole record, sols 1–4843.
-- [ ] A short write-up on the page of what the patterns show: the record counts as complete for the rovers
-  (Curiosity sols 1–4843, every sol NASA has released; Perseverance sols 1–1859; corrected ultraviolet to sol 3423,
-  where NASA's corrected files end); only ESA's Mars Express profiles are missing (archive down). Mock-up of "What the
-  record shows" (`mars-data/mockup-patterns.html`, Nov 17, 2026), waiting for the developer's approval; once approved,
-  it becomes the first section of the charts page and the mock-up is deleted.
+- [x] "What the record shows" (Nov 17, 2026): six short paragraphs on the clearest seasonal and daily patterns, each
+  linked to its chart, first on the charts page. The record counts as complete for the rovers; a paragraph on ESA's
+  Mars Express profiles is added when they go live.
 - [x] `CREDITS.md` and the Credits page list REMS, MEDA and pandas; the Privacy page says the Mars Data pages read
   only this site's files (Nov 17, 2026). Mars Express is added to both when its data goes live.
 

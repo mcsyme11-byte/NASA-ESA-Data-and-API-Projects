@@ -14,9 +14,9 @@
   <link rel="manifest" href="../../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../../shared/theme.css?v=2026111703">
-  <script type="module" src="../../shared/footer.js?v=2026111703"></script>
-  <link rel="stylesheet" href="../mars.css?v=2026111703">
+  <link rel="stylesheet" href="../../shared/theme.css?v=2026111704">
+  <script type="module" src="../../shared/footer.js?v=2026111704"></script>
+  <link rel="stylesheet" href="../mars.css?v=2026111704">
 </head>
 <body>
   <header class="topbar">
@@ -49,9 +49,23 @@
     </div>
 
     <nav class="secnav" id="secnav" aria-label="Sections of this page">
-      <div class="secrow" data-hscroll><a href="#year">The year</a><a href="#craters">Two craters</a><a href="#sol">One sol</a><a href="#mission">The whole mission</a><a href="#above">Above the surface</a><a href="../method/">How it's made</a></div>
+      <div class="secrow" data-hscroll><a href="#shows">What it shows</a><a href="#year">The year</a><a href="#craters">Two craters</a><a href="#sol">One sol</a><a href="#mission">The whole mission</a><a href="#above">Above the surface</a><a href="../method/">How it's made</a></div>
     </nav>
     <p class="caption words">New to sol, Ls and Mars Year? <a href="../#words">The four words used on every chart</a> are on the Mars Data home page.</p>
+
+    <!-- ===================== WHAT THE RECORD SHOWS ===================== -->
+    <!-- Figures worked out from data/summary.json and data/meda.json (Curiosity sols 1–4843, Perseverance sols 1–1859)
+         and rounded, so they stay true as new sols arrive. Approved by the developer, Nov 17, 2026. -->
+    <div class="section-head" id="shows"><div><h2>What the record shows</h2></div><span class="aside">Curiosity, sols 1–4843; Perseverance, sols 1–1859</span></div>
+    <div class="prose">
+        <p><b>The air thickens and thins with the seasons.</b> Each Mars year, the air pressure at Gale Crater falls and rises again by about a fifth. It is thinnest around Ls 140–150°, in southern winter, when carbon dioxide freezes out of the air onto the south polar cap: about 745 Pa at the landing site's height. It is thickest around Ls 250°, when that ice turns back to gas: about 925 Pa. A smaller rise and fall in between comes from the northern cap. <a href="#year">Air pressure through the year</a></p>
+        <p><b>The cycle repeats almost exactly, year after year.</b> Lined up by season and corrected for the rover's climb, the Mars Years usually lie within about 6 Pa of each other, under 1 %. Even in Mars Year 34 (2018), when dust covered the whole planet, the pressure kept to its usual line. The dust showed in the sunlight instead: in that season the midday ultraviolet fell to about a quarter of its usual level, about 5 W/m² against 19–21 in other years. <a href="#year">Air pressure through the year</a>, <a href="#year">Midday ultraviolet</a></p>
+        <p><b>A sol swings by about 60 °C.</b> On an average sol the air's low and high are about 60 °C apart. It is coldest just before sunrise, about −72 °C at 05:00, and warmest in mid-afternoon, about −20 °C at 15:00. The ground swings further, about 83 °C, and warms first, peaking around 13:00. <a href="#sol">One sol</a></p>
+        <p><b>Afternoons are warmest in southern spring and coolest in southern autumn.</b> Gale is just south of the equator. Daily highs average about −4 °C around Ls 180–210° and about −30 °C around Ls 60–90°, when Mars is farthest from the Sun. The nights change less: about −70 °C against −81 °C. <a href="#year">Season and time of day</a>, <a href="#mission">Daily highs and lows</a></p>
+        <p><b>Humidity peaks in the coldest hour.</b> Cold air holds less water, so the relative humidity is highest just before dawn, between 04:00 and 06:00 on most sols. Through the year it is highest around Ls 90–120°, about 50 %, and lowest around Ls 210–240°, about 9 % (preliminary data). <a href="#year">Humidity at night</a></p>
+        <p><b>Two craters, the same rhythm.</b> Perseverance at Jezero Crater sees the same seasonal rise and fall at the same times, but with about 85–105 Pa less pressure, roughly a tenth less, because Jezero's floor lies higher than Gale's. Height matters at Gale too: Curiosity has climbed about 990 m up Mount Sharp, which alone lowers its pressure by about 8–9 %. <a href="#craters">Air pressure at two sites</a>, <a href="#mission">Curiosity's climb</a></p>
+        <p class="caption">From the cleaned record: Curiosity's full sols (good data in at least 22 of 24 hours), ultraviolet to sol 3423 (the end of NASA's corrected ultraviolet), Perseverance's full sols. Figures rounded. ESA's Mars Express profiles are added in "Above the surface" once ESA's archive returns.</p>
+      </div>
 
     <!-- ===================== THE YEAR ===================== -->
     <div class="section-head" id="year"><div><h2>The Martian year</h2></div><span class="aside">how the seasons change the air</span></div>

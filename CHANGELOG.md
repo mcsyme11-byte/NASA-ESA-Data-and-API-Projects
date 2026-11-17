@@ -20,10 +20,14 @@
   picture library) and on the Asteroid Tracker's search and map pages was compared before and after at 320, 375,
   390, 768, 1024, 1280 and 1440 px: no visible difference. Version tags raised to 2026111703.
 
-## November 17, 2026 — Mars Data: write-up mock-up; Privacy page
+## November 17, 2026 — Mars Data: "What the record shows"; Privacy page
 
-- Mock-up of "What the record shows" (`mars-data/mockup-patterns.html`): six short paragraphs on the clearest
-  seasonal and daily patterns, each linked to its chart, with figures from the cleaned record. Waiting for approval.
+- "What the record shows" is the first section of the charts page (approved mock-up): six short paragraphs on the
+  clearest seasonal and daily patterns (the pressure cycle and how exactly it repeats, the 2018 dust storm in the
+  ultraviolet, the daily temperature swing, the warm and cool seasons, humidity before dawn, the two craters and the
+  climb), each linked to its chart, with figures from the cleaned record, rounded. "What it shows" is first in the
+  section menu; links to `#shows` and `#above` now stop below the menu (`mars.css`; version tag raised to 2026111704). The mock-up
+  file is removed.
 - The Privacy page says the Mars Data pages read only files on this site (their data copied from NASA's Planetary Data
   System, and ESA's archive once available).
 
