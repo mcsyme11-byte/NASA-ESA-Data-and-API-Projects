@@ -8,13 +8,14 @@
   <meta name="description" content="Every shared component of the site, drawn from the real style sheet, for building and checking pages.">
   <meta name="robots" content="noindex">
   <meta name="theme-color" content="#141B26">
-  <link rel="icon" href="../shared/emblem.svg" type="image/svg+xml">
+  <link rel="icon" href="../shared/icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="../shared/icons/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="../shared/icons/apple-touch-icon.png">
   <link rel="manifest" href="../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111403">
-  <script type="module" src="../shared/footer.js?v=2026111403"></script>
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111701">
+  <script type="module" src="../shared/footer.js?v=2026111701"></script>
 </head>
 <body>
   <header class="topbar">
@@ -38,6 +39,27 @@
       <p class="lede">Every shared component of the site, drawn from the real style sheet (<code>shared/theme.css</code>). Pages use only these; the rules are in <code>docs/DESIGN.md</code>.</p>
       <p class="meta"><span class="badge">Version 2</span><span class="badge">Nov 13, 2026</span></p>
     </header>
+
+    <section class="section" aria-labelledby="h-logo">
+      <div class="section-head"><div><div class="kicker">The mark</div><h2 id="h-logo">Logo</h2></div><p class="aside">The NEDAP mission patch and its two small versions (brand/patch/).</p></div>
+      <div class="cards three">
+        <div class="card">
+          <p class="logo-row"><img src="../brand/patch/nedap-patch.svg" width="160" height="160" alt="The NEDAP mission patch"></p>
+          <h3>Mission patch</h3>
+          <p class="small">64 px and larger: the home and Contact pages, the README, the Project Record cover. <code>nedap-patch.svg</code>, or the 1024 px PNG.</p>
+        </div>
+        <div class="card">
+          <p class="logo-row"><img src="../brand/patch/nedap-mark.svg" width="64" height="64" alt="The NEDAP mark at 64 px"> <img src="../brand/patch/nedap-mark.svg" width="48" height="48" alt="The NEDAP mark at 48 px"> <img src="../brand/patch/nedap-mark.svg" width="32" height="32" alt="The NEDAP mark at 32 px"></p>
+          <h3>Mark</h3>
+          <p class="small">32 to 64 px, no lettering: the top bar and the home-screen icon. <code>nedap-mark.svg</code>, and <code>shared/emblem.svg</code> for the top bar.</p>
+        </div>
+        <div class="card">
+          <p class="logo-row"><img src="../brand/patch/nedap-mark-small.svg" width="24" height="24" alt="The small NEDAP mark at 24 px"> <img src="../brand/patch/nedap-mark-small.svg" width="20" height="20" alt="The small NEDAP mark at 20 px"> <img src="../brand/patch/nedap-mark-small.svg" width="16" height="16" alt="The small NEDAP mark at 16 px"></p>
+          <h3>Small mark</h3>
+          <p class="small">16 to 24 px, a solid asteroid: the browser tab and the footer. <code>nedap-mark-small.svg</code> (<code>shared/icons/favicon.svg</code>).</p>
+        </div>
+      </div>
+    </section>
 
     <section class="section" aria-labelledby="h-type">
       <div class="section-head"><div><div class="kicker">Section 1</div><h2 id="h-type">Type</h2></div><p class="aside">Three heading sizes, five text sizes.</p></div>

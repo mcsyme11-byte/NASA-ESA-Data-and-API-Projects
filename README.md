@@ -1,3 +1,5 @@
+<p align="center"><img src="brand/patch/nedap-patch.svg" width="160" alt="The NEDAP mission patch"></p>
+
 # NASA and ESA Data Projects
 
 **Three ways to learn and explore with real data from NASA and ESA (the European Space Agency) and their APIs.**
@@ -33,7 +35,8 @@ NASA-ESA-Data-and-API-Projects/
 ├── index.html          home page linking the three projects
 ├── about/ legal/ privacy/ terms/ credits/ contact/   the site's information pages
 ├── design/             the component page: every shared component, from the real style sheet
-├── shared/             the look (theme.css, emblem), the NASA API helper (nasa.js), the footer links (footer.js),
+├── brand/patch/        the NEDAP mission patch, its two small marks and the script that draws them
+├── shared/             the look (theme.css, the top-bar mark emblem.svg, icons/), the NASA API helper (nasa.js), the footer links (footer.js),
 │                       the sky maths (sky.js, passes.js, sats.js, place.js) and satellite.js (vendor/)
 ├── asteroid-tracker/   Project 1
 ├── image-explorer/     Project 2
@@ -82,4 +85,5 @@ and Information System (ESDIS). An independent project, not endorsed by NASA or 
 
 **NASA and ESA Data Projects** · Created by **Malcolm Syme** · <mcsyme11@gmail.com>
 Copyright © 2026 Malcolm Syme. Released under the [MIT License](LICENSE.md); third-party data and libraries keep
-their own terms, listed in [CREDITS.md](CREDITS.md).
+their own terms, listed in [CREDITS.md](CREDITS.md). The NEDAP name and mission patch (`brand/patch/`) are the
+developer's marks and are not covered by the MIT License.

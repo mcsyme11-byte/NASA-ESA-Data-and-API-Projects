@@ -38,6 +38,13 @@ inside its own folder.
   and mcsyme11@gmail.com as the developer, copyright and contact credit.**
 - **Look:** the Flight Deck Suite's "old money" look (navy, brass, cream, serif type), as set out in `docs/DESIGN.md`
   and `shared/theme.css`. New pages and big visual changes start as mock-ups the developer approves.
+- **Logo (decided Nov 17, 2026):** the NEDAP mission patch (`brand/patch/`) is the project's logo everywhere: the
+  patch at 64 px and larger, the mark (no lettering) at about 32 to 64 px, the small mark at 16 to 24 px, as set out
+  in `brand/patch/README.md` and `docs/DESIGN.md` ("Logo and icons"). Pages reuse the shared copies
+  (`shared/emblem.svg` in the top bar, `shared/icons/` for icons; the footer mark is added by `shared/footer.js`) and
+  never add a logo of their own; the files are changed only by `brand/patch/build_patch.py`. The credit stays
+  "© 2026 Malcolm Syme · mcsyme11@gmail.com"; the NEDAP name and patch are the developer's marks, not covered by the
+  MIT License. Never put "NASA" or "ESA" into the logo.
 - **Shared components (version 2 of the look, decided Nov 13, 2026):** pages are built only from the components in
   `shared/theme.css`, listed in `docs/DESIGN.md` and shown on the component page (`design/index.html`). Pages carry
   no styles of their own (no `<style>` block, no `style="…"` attribute); project style sheets hold only the inside of

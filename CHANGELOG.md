@@ -1,9 +1,29 @@
 # Change log
 
+## November 17, 2026 — the NEDAP mission patch becomes the logo
+
+- **The mission patch is the project's logo everywhere**, replacing the planet-and-ring emblem: the patch above the
+  home and Contact page heads, in the README, on the Project Record cover and on the component page; the mark (no
+  lettering) in every page's top bar and on the NEDAP home-screen icon; the small mark in the browser tab and at the
+  start of every footer's copyright line.
+- **Two changes from the first version:** the ring reads "NEDAP · DATA PROJECTS" instead of "NASA · ESA DATA" (NASA's
+  name in a logo suggests endorsement and can't be part of the developer's mark), and the centre symbol is original
+  artwork, an irregular asteroid with three craters, in place of a free icon shape.
+- **Small sizes:** a mark without lettering for about 32 to 64 px, and a small mark with a solid asteroid for 16 to
+  24 px, where the ring lettering and thin lines can't be read.
+- **No live text:** the lettering is drawn as outlines from Gelasio (the open-licence twin of Georgia), so the files look
+  the same everywhere and in print. `brand/patch/build_patch.py` draws the patch, both marks and the site's copies.
+- **Credits:** "© 2026 Malcolm Syme · mcsyme11@gmail.com" stays on everything; the NEDAP name and patch are the
+  developer's marks and are excluded from the MIT License (`LICENSE.md`, the Terms and Legal pages, the README and
+  the Project Record cover). No ™ or ® sign until a trademark search and legal advice.
+- `docs/DESIGN.md` "Logo and icons", `brand/patch/README.md`, the component page and `CLAUDE.md` set out which version
+  goes where; a handoff (`docs/handoffs/2026-11-17 - all projects - NEDAP logo.md`) tells every chat. Version tags
+  raised to `2026111701`.
+
 ## November 17, 2026 — mission patch
 
 - Added `brand/patch/` with the project's mission patch (SVG and a 1024 px PNG with a transparent background), made for
-  the developer's portfolio. Not used on any page yet.
+  the developer's portfolio.
 
 ## November 15, 2026 — spacecraft job log and notes
 

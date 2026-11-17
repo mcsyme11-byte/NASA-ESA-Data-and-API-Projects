@@ -9,7 +9,7 @@
 #   1. no page has a <style> block or a style="…" attribute (a page's look comes from shared/theme.css and, for the
 #      inside of a tool, its project's style sheet; values worked out from data are set by the page's script);
 #   2. every page links shared/theme.css and shared/footer.js, and every versioned style file with the same version tag;
-#      every page outside Sky Finder carries the site's app icon, manifest and short name (NEDAP);
+#      every page outside Sky Finder carries the site's app icon, browser-tab icon, manifest and short name (NEDAP);
 #   3. no project style sheet redefines a shared component on its own (a rule such as ".btn { … }" or ".card { … }");
 #      a project may only adjust a component inside its own parts (".mapbar .seg { … }", ".chip.play { … }").
 import os, re, subprocess, sys
@@ -60,6 +60,8 @@ def main():
         if not f.startswith('sky-finder/') and not ('apple-touch-icon.png' in s and 'site.webmanifest' in s
                                                     and 'name="apple-mobile-web-app-title" content="NEDAP"' in s):
             problems.append(f'{f}: missing the site\'s app icon and short name (apple-touch-icon, site.webmanifest, NEDAP)')
+        if not f.startswith('sky-finder/') and 'shared/icons/favicon.svg' not in s:
+            problems.append(f'{f}: missing the NEDAP browser-tab icon (shared/icons/favicon.svg; see docs/DESIGN.md, "Logo and icons")')
         for m in re.finditer(r'(theme\.css|footer\.js|tracker\.css|explorer\.css|mars\.css|spacecraft\.css)\?v=(\d+)', s):
             tags.setdefault(m.group(2), []).append(f'{f} ({m.group(1)})')
     if len(tags) > 1:

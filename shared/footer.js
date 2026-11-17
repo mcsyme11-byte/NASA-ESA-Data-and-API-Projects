@@ -14,6 +14,8 @@
 // scroll sideways (wireScrollRows), and the live data status at the foot of the footer (addLiveStatus, since Nov 14,
 // 2026): a light and one line saying whether the site's data is up to date, updating now, late or failed, linked to
 // the data-collection page.
+// It also puts the NEDAP mark (shared/icons/favicon.svg, the small version of the mission patch) at the start of the
+// copyright line (since Nov 17, 2026).
 // Links are worked out from this file's own address, so they are right at any folder depth.
 
 const REPO = 'https://github.com/mcsyme11-byte/NASA-ESA-Data-and-API-Projects';
@@ -53,6 +55,16 @@ function addLinks() {
   // in front of the copyright line; a page with an older footer (no .ftop) gets the row at the top
   const top = footer.querySelector('.ftop');
   if (top) top.prepend(nav); else footer.prepend(nav);
+}
+
+// The NEDAP mark at the start of the copyright line; decorative, as the line itself names the developer.
+function addMark() {
+  const copy = document.querySelector('footer.footer .copy');
+  if (!copy || copy.querySelector('.fmark')) return;
+  const img = Object.assign(document.createElement('img'), {
+    className: 'fmark', src: new URL('shared/icons/favicon.svg', root).href, alt: '', width: 20, height: 20,
+  });
+  copy.prepend(img);
 }
 
 // A "‹ Back" button (<a class="backlink" id="back" href="<home>">Home</a>; the arrow is drawn by shared/theme.css) above
@@ -156,6 +168,6 @@ async function addLiveStatus() {
   document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(false); });
 }
 
-function start() { addLinks(); wireBack(); wireScrollRows(); addLiveStatus(); }
+function start() { addLinks(); addMark(); wireBack(); wireScrollRows(); addLiveStatus(); }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
 else start();

@@ -28,13 +28,28 @@ page styles inside most pages). Since then:
 7. **Nothing added without something considered for removal.** A new section or control says what it replaces; if it
    repeats what is already on the page (a list of what the page can do beside cards that say the same), it is left out.
 
-## 1a. Icons
+## 1a. Logo and icons
 
-- **The site (NEDAP):** `shared/icons/` — `icon.svg` (the source), `icon-192.png`, `icon-512.png`,
-  `apple-touch-icon.png` (180 px, square: iOS rounds the corners) and `maskable-512.png` (square, the emblem inside
-  the central safe circle). The emblem in brass on the night-sky tile.
-- **Sky Finder:** `sky-finder/icons/`, the same tile with Sky Finder's sight.
-- The browser-tab icon stays `shared/emblem.svg`.
+Decided Nov 17, 2026: the **NEDAP mission patch** is the project's logo everywhere, replacing the planet-and-ring
+emblem (Nov 8 to Nov 17, 2026). The files, the drawing script and the rules are in `brand/patch/` (its README).
+
+| Size | Version | Where |
+|---|---|---|
+| 64 px and larger | The patch (`brand/patch/nedap-patch.svg`; 512 and 1024 px PNG copies) | Above the centred page heads (home and Contact, `.medal`, 150 px, 120 px on phones), the README, the Project Record cover, the component page |
+| About 32 to 64 px | The mark, no lettering (`nedap-mark.svg`; `shared/emblem.svg` as a symbol) | The top bar (32 px), the home-screen icon |
+| 16 to 24 px | The small mark, a solid asteroid (`nedap-mark-small.svg`; `shared/icons/favicon.svg`) | The browser tab, the start of the footer's copyright line (20 px) |
+
+- **Icons:** `shared/icons/` holds `favicon.svg` and `favicon-32.png` (the browser tab), and `icon.svg` with its
+  copies `icon-192.png`, `icon-512.png`, `apple-touch-icon.png` (180 px, square: iOS rounds the corners) and
+  `maskable-512.png` (square, the mark inside the central safe circle): the mark on the night-sky tile, labelled
+  NEDAP. Every page outside Sky Finder links them, with `site.webmanifest`.
+- **Sky Finder** (`sky-finder/icons/`) keeps its own icon, the same tile with Sky Finder's sight: it is an app of its own.
+- The lettering is outlines, never live text. Below 64 px the ring lettering can't be read, so only the marks are used.
+- No page adds a logo of its own; the patch and the marks are used unchanged (no recolouring, stretching, cropping
+  or effects), with clear space of at least a tenth of their width.
+- The credit stays "© 2026 Malcolm Syme · mcsyme11@gmail.com" everywhere. The NEDAP name and patch are the developer's
+  marks and are not covered by the MIT License (`LICENSE.md`); no ™ or ® sign until a trademark search and legal
+  advice (`brand/patch/README.md`).
 
 ## 2. Colour
 
@@ -91,9 +106,9 @@ All in `shared/theme.css`, all shown on `design/index.html`. Use these; do not r
 
 | Component | Class | Use |
 |---|---|---|
-| Top bar | `.topbar`, `.brand` › `.emblem` + `.bname`, `.nav` | Sticky, 60 px; on phones only the emblem shows beside the four links |
+| Top bar | `.topbar`, `.brand` › `.emblem` + `.bname`, `.nav` | Sticky, 60 px; the NEDAP mark (32 px, `shared/emblem.svg`); on phones only the mark shows beside the four links |
 | Back | `.backlink#back` | Above the page head on every page except the site's home page; the arrow is drawn by the style sheet; named for the previous page by `shared/footer.js` |
-| Page head | `header.pagehead` › `.kicker`, `h1`, `.lede`, `.meta` | `.compact` for tool pages, `.center` for the home and Contact pages, `.medal` for the emblem above a centred head |
+| Page head | `header.pagehead` › `.kicker`, `h1`, `.lede`, `.meta` | `.compact` for tool pages, `.center` for the home and Contact pages, `.medal` for the NEDAP patch above a centred head |
 | Section | `section.section` › `.section-head` › `div` (`.kicker` + `h2`), then `.aside` or a button | `.section-head.sub` for a heading inside a tool view |
 | View heading | `.viewhead` › `h2`, `.lede` | The top of one tab of a tool |
 | Stats | `.stats` › `.stat` › `.label`, `.value` (unit in `small`), `.note` | A strip of up to five figures, not boxes; `.tiles`/`.tile` are the same component under their older names |
@@ -121,7 +136,7 @@ All in `shared/theme.css`, all shown on `design/index.html`. Use these; do not r
 | Chart parts | `svg.chart` (`.grid`, `.axt` axis titles, `.dim`), `.legend` (`.s1`–`.s6` swatches), `.tip` | Axis text, gridlines, a chart's key and its tooltip |
 | Callout, stage | `.pf.callout` › `.t` + a button; `a.stage` › `canvas` | A line of text with one action, at the foot of a panel; a canvas that fills a panel and opens something |
 | Data credits | `p.srcline` | A page's detailed credits, just above the footer |
-| Footer | `.footer` › `.ftop` › `.copy`, `.fnote` (links and the live data line added by `shared/footer.js`) | Decided Nov 12, 2026: one row of links and the copyright, then one short credit line; since Nov 14, 2026 also the live data line, on the credit line's row; nothing else |
+| Footer | `.footer` › `.ftop` › `.copy`, `.fnote` (links and the live data line added by `shared/footer.js`) | Decided Nov 12, 2026: one row of links and the copyright, then one short credit line; since Nov 14, 2026 also the live data line, on the credit line's row; since Nov 17, 2026 the small NEDAP mark (`.fmark`, 20 px) at the start of the copyright; nothing else |
 | Live data status | `.light[data-state]`, `.fbottom` › `.fnote` + `a.livestatus` › `.light`, `.ls-t`, `.ls-s`; `.board` › `.board-head`, `ol.jobs` › `li.job` › `.light`, `.job-meta`, `.job-srcs` › `.srcstate`, `dl.job-when`, `.job-side` › `.job-state`, `.ticks` › `i[data-r]` | Added Nov 14, 2026 (the developer waived the mock-up). The state of the automatic data updates (`shared/datastatus.js`): `data-state` is `ok` (green), `updating` (brass, pulsing rings), `late` or `partial` (amber), `failed` (red) or `unknown` (grey). The footer line sits on the credit line's row, opposite it, in the footer's own type (revised Nov 14, 2026, from a separate pill below the footer, which looked out of place); the board is on How the data is collected (`data-collection/`). Replaces nothing: no earlier component shows a state that changes while the page is open |
 
 ## 6. Page styles

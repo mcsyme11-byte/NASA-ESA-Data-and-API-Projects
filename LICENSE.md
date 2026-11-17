@@ -27,3 +27,7 @@ from third parties (NASA, JPL and ESA data and imagery, the d3-celestial star ca
 Earth, OpenLayers, proj4js, three.js) keep their own terms, listed in [CREDITS.md](CREDITS.md). NASA's and ESA's
 names, NASA's insignia and logotype and ESA's logo are not covered by this licence, and the project is not endorsed by
 NASA or ESA.
+
+The NEDAP name and the NEDAP mission patch and its marks (the files in `brand/`, `shared/emblem.svg` and
+`shared/icons/`) are not covered by this licence either: they are the developer's marks, © 2026 Malcolm Syme
+(mcsyme11@gmail.com), all rights reserved. They may be shown unchanged to refer to this project.

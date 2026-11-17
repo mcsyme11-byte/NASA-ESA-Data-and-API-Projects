@@ -7,6 +7,12 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
 
 - [ ] Developer testing: the site-wide redesign of Nov 13, 2026 (version 2 of the look) on phone, tablet and
   computer, page by page, and the component page (`design/`).
+- [ ] Developer testing: the NEDAP logo (Nov 17, 2026) on phone, tablet and computer: the browser-tab icon, the top
+  bar, the patch on the home and Contact pages, the footer mark, and the home-screen icon (remove the old NEDAP icon,
+  then Share › Add to Home Screen again).
+- [ ] The portfolio project: replace its copy of the patch with `brand/patch/nedap-patch.svg` (handoff of Nov 17, 2026).
+- [ ] Before any trademark filing: a trademark search on "NEDAP" (a company called Nedap N.V. exists) and advice from
+  a trademark lawyer on the name and the patch (`brand/patch/README.md`).
 
 
 ## 1. Asteroid Tracker (version 1 live Nov 8, 2026)

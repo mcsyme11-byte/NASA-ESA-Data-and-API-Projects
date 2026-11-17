@@ -4,6 +4,12 @@ How NASA and ESA Data Projects is built, the decisions made so far, and how to r
 
 ## Decisions
 
+- **Decided Nov 17, 2026 (logo):** the NEDAP mission patch (`brand/patch/`) is the project's logo everywhere,
+  replacing the planet-and-ring emblem: the patch at 64 px and larger, a mark without lettering at about 32 to 64 px
+  and a small mark at 16 to 24 px (`docs/DESIGN.md`, "Logo and icons"). The ring reads "NEDAP · DATA PROJECTS" (no
+  agency names in the logo) and the centre symbol is original artwork; the lettering is outlines. The NEDAP name and
+  patch are the developer's marks, excluded from the MIT License; no ™ or ® sign until a trademark search ("Nedap" is
+  already a company name) and legal advice.
 - **Decided Nov 14, 2026 (short name and app icon):** the project's short name is **NEDAP** (NASA and ESA Data and
   API Projects), used wherever the full name does not fit. The site has its own home-screen icon: the site's emblem
   in brass on the night-sky tile Sky Finder's icon uses (`shared/icons/`). Every page outside Sky Finder links it

@@ -144,3 +144,12 @@ How NASA and ESA Data Projects came about, in order.
 - A daily Data health check took over watching the run logs by hand: it reports in one GitHub issue, emailed when
   something changes.
 - The place and map lists, built by hand until then, are rebuilt four times a year.
+
+## November 17, 2026 — the NEDAP mission patch
+
+- A mission patch drawn for the developer's portfolio became the project's logo, replacing the planet-and-ring emblem
+  used since the site began. Before it was adopted, its ring text was changed from "NASA · ESA DATA" to "NEDAP · DATA
+  PROJECTS", since NASA's name can't be part of the developer's own mark, and its centre symbol, which followed a free
+  icon shape, was redrawn as original artwork.
+- The patch, a mark without lettering and a small mark for icons now appear on every page, the home-screen icon, the
+  README and the Project Record cover, all drawn from one script (`brand/patch/build_patch.py`).
