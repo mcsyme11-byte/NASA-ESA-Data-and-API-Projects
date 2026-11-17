@@ -120,6 +120,7 @@ All in `shared/theme.css`, all shown on `design/index.html`. Use these; do not r
 | Text button | `.linkbtn` | An underlined action inside text ("Try again") |
 | Segmented control | `.seg` › `button` (or `.chip`), optional `.lbl` inside | One choice of a few (a time step, a view, a distance); scrolls sideways with a fade if it does not fit |
 | Chips | `.chips` › `.chip[aria-pressed]` | Filters that turn on and off independently |
+| Quick picks | `.searchopts` › `.popular` › `.barlbl` + `.chip` | A labelled row of chips under a search box (popular searches, missions); scrolls sideways on phones. Moved into the theme from the Asteroid Tracker's style sheet on Nov 17, 2026, unchanged, as both projects use it |
 | Tabs | `nav.tabs` | The views of one tool; wrap to a second line when they don't fit |
 | Period bar | `.periodbar` › `.seg`, `.period` (`.lbl` + `strong` or a field), `.grow`, a button | Step through weeks, years or days |
 | Filters | `.filters` › `.seg`, `label` + `select`/`input`, `.count` | The filter row above a chart or list |

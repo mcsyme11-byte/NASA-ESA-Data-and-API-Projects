@@ -278,10 +278,7 @@ dl.mini dd { margin: 0; }
 /* ============================================================== search */
 .searchhead { margin-bottom: var(--sp5); }
 .searchhead .bigsearch { min-height: 60px; } .searchhead .bigsearch input { min-height: 56px; font-size: 20px; }
-.searchopts { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp3) var(--sp5); margin-top: var(--sp3); }
-.popular { display: flex; flex-wrap: wrap; gap: var(--sp2); align-items: center; }
-.searchopts .popular { flex: 1; min-width: 0; }
-.popular > .barlbl { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
+/* .searchopts and .popular (the quick picks under a search) are in shared/theme.css since Nov 17, 2026 */
 .decodebar { margin-top: var(--sp3); padding: 10px var(--sp4); border-left: 2px solid var(--brass); background: rgba(192, 160, 98, .06); color: var(--ink2); font-size: 15.5px; }
 .decodebar b { font-weight: 400; color: var(--brass-bright); letter-spacing: .04em; }
 .results { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--sp4); }
@@ -303,8 +300,6 @@ dl.mini dd { margin: 0; }
 .nametable th { text-align: left; vertical-align: top; color: var(--brass-bright); font-weight: 400; padding: 6px var(--sp4) 6px 0; white-space: nowrap; font-size: 16px; }
 .nametable td { padding: 6px 0; border-bottom: 1px solid var(--line); }
 @media (max-width: 760px) {
-  .popular { flex-wrap: nowrap; }
-  .popular .chip { flex: none; }
   .searchopts .speed { width: 100%; justify-content: space-between; }
   .nametable { margin: 4px var(--sp4) var(--sp4); }
 }

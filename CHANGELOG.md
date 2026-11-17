@@ -1,5 +1,14 @@
 # Change log
 
+## November 17, 2026 — Image Explorer: no longer loads the Asteroid Tracker's style sheet
+
+- `image-explorer/explore.html` no longer loads `asteroid-tracker/tracker.css`. The last parts it used from it, the
+  quick picks under a search box (`.searchopts`, `.popular`, `.barlbl`), moved unchanged into `shared/theme.css`
+  (both projects use them; listed in `docs/DESIGN.md` and shown on the component page); the Earth map's pointer and
+  focus ring are in `image-explorer/explorer.css`. Every element's computed style on the explorer (Earth map, globe,
+  picture library) and on the Asteroid Tracker's search and map pages was compared before and after at 320, 375,
+  390, 768, 1024, 1280 and 1440 px: no visible difference. Version tags raised to 2026111703.
+
 ## November 17, 2026 — Mars Data: write-up mock-up; Privacy page
 
 - Mock-up of "What the record shows" (`mars-data/mockup-patterns.html`): six short paragraphs on the clearest
