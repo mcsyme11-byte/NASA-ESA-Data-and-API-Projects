@@ -1,5 +1,10 @@
 # Change log
 
+## November 17, 2026 — developer testing passed
+
+- The developer tested the site-wide redesign (version 2 of the look), the NEDAP logo and the live data status line
+  on phone, tablet and computer; all passed. Sky Finder's outdoor test at night remains open.
+
 ## November 17, 2026 — the NEDAP mission patch becomes the logo
 
 - **The mission patch is the project's logo everywhere**, replacing the planet-and-ring emblem: the patch above the

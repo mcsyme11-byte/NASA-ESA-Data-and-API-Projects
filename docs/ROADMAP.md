@@ -5,11 +5,6 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
 
 ## 0. Repository (set up Nov 8, 2026)
 
-- [ ] Developer testing: the site-wide redesign of Nov 13, 2026 (version 2 of the look) on phone, tablet and
-  computer, page by page, and the component page (`design/`).
-- [ ] Developer testing: the NEDAP logo (Nov 17, 2026) on phone, tablet and computer: the browser-tab icon, the top
-  bar, the patch on the home and Contact pages, the footer mark, and the home-screen icon (remove the old NEDAP icon,
-  then Share › Add to Home Screen again).
 - [ ] The portfolio project: replace its copy of the patch with `brand/patch/nedap-patch.svg` (handoff of Nov 17, 2026).
 - [ ] Before any trademark filing: a trademark search on "NEDAP" (a company called Nedap N.V. exists) and advice from
   a trademark lawyer on the name and the patch (`brand/patch/README.md`).
@@ -112,6 +107,3 @@ one GitHub issue labelled `data-health`.
 - [ ] Confirm the first scheduled run of "Place and map lists" on January 2, 2027.
 - [ ] Mars data: reduce the job to weekly once it has run without trouble for a few weeks (from about December 10,
   2026); change `mars-data.yml` and `max_age_hours` in `dev/data_jobs.json` (to 192) together.
-- [ ] Developer testing of the live data status (Nov 14, 2026): the footer line on a few pages, on a phone and a
-  computer; How the data is collected (`data-collection/`) at every width; the line turning brass while a job runs
-  (Actions › any data job › Run workflow, then reload a page).
