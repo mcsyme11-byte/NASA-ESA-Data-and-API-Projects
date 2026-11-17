@@ -14,9 +14,11 @@ const APP = [
   '../shared/sats.js', '../shared/datastatus.js', '../shared/vendor/satellite.min.js', '../asteroid-tracker/orbit.js', '../shared/emblem.svg', '../shared/icons/favicon.svg',
 ];
 const DATA = ['/asteroid-tracker/data/sky.json', '/spacecraft/data/tle.json', '/image-explorer/data/places.json'];
+// saved on the first visit too, so the list and the space stations work offline after one visit
+const DATA_FIRST = ['../asteroid-tracker/data/sky.json', '../spacecraft/data/tle.json', '../image-explorer/data/places.json'];
 
 self.addEventListener('install', (e) => {
-  e.waitUntil(caches.open(VERSION).then((c) => Promise.allSettled(APP.map((u) => c.add(new Request(u, { cache: 'reload' }))))).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(VERSION).then((c) => Promise.allSettled([...APP, ...DATA_FIRST].map((u) => c.add(new Request(u, { cache: 'reload' }))))).then(() => self.skipWaiting()));
 });
 self.addEventListener('activate', (e) => {
   e.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((k) => k.startsWith('sky-finder-') && k !== VERSION).map((k) => caches.delete(k)))).then(() => self.clients.claim()));

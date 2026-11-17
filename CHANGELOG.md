@@ -1,5 +1,16 @@
 # Change log
 
+## November 17, 2026 — Sky Finder after the redesign
+
+- Sky Finder checked on phone-sized screens (320, 375, 390 and 430 px) after the Nov 13 redesign and the Nov 17
+  logo: the app, its camera view, the how-to page and the footer's NEDAP mark (20 px, at the start of the copyright)
+  show correctly, with nothing wider than the screen.
+- Fixed: after a first visit, Sky Finder opened offline without its asteroid list and space stations, because the
+  data files were saved only when fetched by a page the offline copy already controlled. The offline copy
+  (`sky-finder-2026111703`) now also saves tonight's sky data, the space stations' orbits and the town list when it
+  is first installed. Checked offline after one visit: the list, tonight's figures, the how-to page, a link with an
+  asteroid named and the camera view all open.
+
 ## November 17, 2026 — Image Explorer: no longer loads the Asteroid Tracker's style sheet
 
 - `image-explorer/explore.html` no longer loads `asteroid-tracker/tracker.css`. The last parts it used from it, the
