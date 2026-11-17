@@ -1,5 +1,19 @@
 # Change log
 
+## November 17, 2026 — Image Explorer: picture-library ranking, second round
+
+From the developer's review of 23 test searches (`scoreOf` in `image-explorer/app.js`):
+
+- **The words searched count:** +2 when a picture's title holds every word searched (plurals included: "rover" finds
+  "rovers", "galaxy" finds "galaxies"), −3 when neither its title nor its keywords hold any. A mission button's own
+  phrasings skip this test.
+- **ESA's bonus** lowered from +2 to +1 (its archives also return loosely matched pictures).
+- **Space Shuttle frames taken in orbit** (`sts…`) +2, like Apollo and Space Station frames.
+- **"Honor", "anniversary" and "memorial"** count as people and events.
+- Before and after, on the same results: off-topic pictures left the top five for "pluto" (the Ring Nebula),
+  "hurricane" and "volcano" (galaxies and nebulas), "earth from space", "moon", "sun", "galaxy" and "space shuttle";
+  "apollo 11", "artemis", "iss", "iceland" and "hubble" are unchanged.
+
 ## November 17, 2026 — Sky Finder after the redesign
 
 - Sky Finder checked on phone-sized screens (320, 375, 390 and 430 px) after the Nov 13 redesign and the Nov 17

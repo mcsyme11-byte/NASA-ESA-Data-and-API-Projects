@@ -722,16 +722,34 @@ Object.assign(CENTRES, { JPL: 'Jet Propulsion Laboratory', KSC: 'Kennedy Space C
 /* ---------- ranking: pictures taken in space or of space first; launches, people, events and illustrations behind the scenes ----------
  * Decided Nov 9, 2026. NASA's library holds far more pictures of people, rockets and events than of space, and its own order
  * puts them first. Each result gets a score from what NASA records with it; 0 or more goes in the main results, below 0
- * goes under "Behind the scenes". The weights were tuned by hand on searches for Hubble, Saturn, Voyager, Cassini and Iceland. */
+ * goes under "Behind the scenes". The weights were tuned by hand on searches for Hubble, Saturn, Voyager, Cassini and Iceland.
+ * Revised Nov 17, 2026, from the developer's review of 23 test searches: the words searched count (+2 when the title holds
+ * every one, -3 when neither the title nor the keywords hold any, since ESA's archives also return loosely matched
+ * pictures); ESA's bonus lowered from +2 to +1; Space Shuttle frames taken in orbit count like Apollo and Station frames;
+ * "honor", "anniversary" and "memorial" count as people and events. A mission button's own phrasings skip the word test. */
 const ART = /\b(artist'?s?|illustrations?|concepts?|animation|logos?|posters?|renderings?|infographic)\b/;
 const SCI = /\b(nebulae?|galax(?:y|ies)|clusters?|supernovae?|planets?|exoplanets?|mercury|venus|mars|martian|jupiter|jovian|saturn|uranus|neptune|pluto|charon|moons?|lunar|craters?|comets?|asteroids?|sun|solar|corona|flares?|auroras?|aurorae|eclipse|earthrise|deep field|stars?|stellar|black hole|quasars?|rings?|surface|terrain|dunes?|mosaic|panorama|infrared|x-ray|ultraviolet|true colou?r|false colou?r|hurricane|cyclone|typhoon|volcano|wildfires?|glaciers?|ice sheet|earth observations?|from orbit|night lights|city lights)\b/g;
-const PPL = /\b(launch(?:es|ed|ing)?|liftoff|lifts? off|rollout|rolls? out|press|media|reporters|invit\w*|briefings?|conferences?|ceremony|visits?|visitors|tours?|training|trains|portraits?|awards?|employees|students|interns|events?|panel|meeting|speaks|speech|administrator|deputy|director|reception|celebrat\w*|team|engineers?|technicians?|workers|prepar\w*|hangar|clean ?room|launch pad|stacking|stacked|transport\w*|arrives?|arrival|mock-?up|test stand|hearing|congress\w*|signing|workshop|exhibit\w*|outreach)\b/g;
-function scoreOf(x) {
+const PPL = /\b(launch(?:es|ed|ing)?|liftoff|lifts? off|rollout|rolls? out|press|media|reporters|invit\w*|briefings?|conferences?|ceremony|visits?|visitors|tours?|training|trains|portraits?|awards?|employees|students|interns|events?|panel|meeting|speaks|speech|administrator|deputy|director|reception|celebrat\w*|team|engineers?|technicians?|workers|prepar\w*|hangar|clean ?room|launch pad|stacking|stacked|transport\w*|arrives?|arrival|mock-?up|test stand|hearing|congress\w*|signing|workshop|exhibit\w*|outreach|honou?r\w*|anniversary|memorial)\b/g;
+const STOP = new Set(['the', 'of', 'a', 'an', 'and', 'from', 'in', 'on', 'at', 'to', 'for', 'with', 'by']);
+/* the words of a search, for the word test: folded, without small words */
+const wordsOf = q => fold(q).split(/[^a-z0-9]+/).filter(w => w.length > 1 && !STOP.has(w));
+/* a whole word, singular or plural: "rover" finds "rovers", "galaxy" finds "galaxies", "sun" does not find "sunset" */
+const has = (text, w) => {
+  const b = w.length > 3 ? w.replace(/(ies|es|s)$/, m => (m === 'ies' ? 'y' : '')) : w;
+  return new RegExp(`\\b(${/y$/.test(b) ? b.slice(0, -1) + '(?:y|ies)' : b + '(?:e?s)?'})\\b`).test(text);
+};
+function scoreOf(x, words) {
   const [id, title, , centre, photographer, keywords] = x, text = (title + ' ' + keywords.join(' ')).toLowerCase();
   let s = 0;
+  if (words && words.length) {
+    const t = fold(title), all = fold(title + ' ' + keywords.join(' '));
+    if (words.every(w => has(t, w))) s += 2;
+    else if (!words.some(w => has(all, w))) s -= 3;
+  }
   if (/^PIA\d/i.test(id)) s += 2;                                   /* NASA's Planetary Photojournal */
   if (/^STScI/i.test(centre)) s += 3;                               /* the Hubble and Webb science institute */
   if (/^(AS\d+-|iss\d+e)/i.test(id)) s += 3;                        /* frames from Apollo and the Space Station */
+  if (/^sts\d/i.test(id)) s += 2;                                   /* Space Shuttle frames taken in orbit */
   if (/^(NHQ|KSC|jsc)/i.test(id)) s -= 3;                           /* headquarters, Kennedy and Johnson event photography */
   if (/^NASA\//i.test(photographer)) s -= 1;                        /* a staff photographer's credit */
   s += Math.min(4, (text.match(SCI) || []).length);
@@ -970,7 +988,8 @@ async function mixedPics(term, n = 6) {
   for (const k of Object.keys(ESA)) jobs.push(cachedEsa(k, term, 1).then(r => ({ who: ESA[k].name, ...r })));
   const got = (await Promise.allSettled(jobs)).filter(g => g.status === 'fulfilled').map(g => g.value);
   if (!got.length) throw new Error('out of reach');
-  const lists = got.map(g => g.list.map(x => { x.score = scoreOf(x) + (x.lib ? 2 : 0); return x; }).filter(x => x.score >= 0).sort((a, b) => b.score - a.score));
+  const w = wordsOf(term);
+  const lists = got.map(g => g.list.map(x => { x.score = scoreOf(x, w) + (x.lib ? 1 : 0); return x; }).filter(x => x.score >= 0).sort((a, b) => b.score - a.score));
   const list = [];
   for (let i = 0; list.length < n && lists.some(l => l[i]); i++) for (const l of lists) if (l[i] && list.length < n) list.push(l[i]);
   return { list, counts: got.filter(g => g.total).map(g => [g.who, g.total]) };
@@ -979,7 +998,7 @@ async function mixedPics(term, n = 6) {
    Pictures are sorted by score, taking turns between the libraries within the same score. */
 async function runSearch(q, page, st) {
   const f = filters(), from = fromSel(), key = fold(q);
-  const terms = PRESETS[key] || [q], size = terms.length > 1 ? 18 : 24;
+  const terms = PRESETS[key] || [q], size = terms.length > 1 ? 18 : 24, words = PRESETS[key] ? null : wordsOf(q);
   const kinds = { image: ['images'], 'image,video': ['images', 'videos'], video: ['videos'] }[f.media_type] || ['images'];
   const esaAsk = from === 'nasa' ? [] : (ESA_PRESETS[key] || (PRESETS[key] ? [] : Object.keys(ESA).map(k => [k, q])))
     .flatMap(([k, w]) => kinds.map(kind => [k, w, kind]));
@@ -1006,7 +1025,7 @@ async function runSearch(q, page, st) {
       const id = (x.lib || 'nasa') + ' ' + x[7] + ' ' + x[0];
       if (ids.has(id) || (x.lib && byYear && !(x.year >= y0 && x.year <= y1))) continue;
       ids.add(id); seen[j.who === 'nasa' ? 'nasa' : x.lib] = (seen[j.who === 'nasa' ? 'nasa' : x.lib] || 0) + 1;
-      x.score = scoreOf(x) + (x.lib ? 2 : 0);                    /* ESA's archives are telescope science pictures */
+      x.score = scoreOf(x, words) + (x.lib ? 1 : 0);             /* ESA's archives are telescope science pictures */
       x.n = seen[j.who === 'nasa' ? 'nasa' : x.lib]; list.push(x);
     }
   });

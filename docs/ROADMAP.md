@@ -34,7 +34,8 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
   (since Nov 11, 2026). If the key arrives: repository secret `EOL_API_KEY`, then Actions › Astronaut photos › Run
   workflow.
 - [ ] Picture library: tune the ranking further as the developer reviews searches (the weights are in `scoreOf` in
-  `image-explorer/app.js`).
+  `image-explorer/app.js`; second round applied Nov 17, 2026). Still seen after it: "Comet Scientists Honor
+  Colleagues" stays second for "comet", because scores are capped at 4 when sorting and many pictures tie there.
 - [ ] Polar views: a sea ice layer that works through the polar night. GIBS's microwave sea-ice records ended
   (SSMIS Aug 2021, AMSR2 Sep 2025); the current one is MODIS (a camera, daylight only). Ice surface temperature
   (`MODIS_Terra_Ice_Surface_Temp_Night`, thermal) is an option to consider.
