@@ -12,6 +12,7 @@ Checked November 8, 2026 (Image Explorer sources: November 9, 2026). Each projec
 | PDS Atmospheres Node (Mars weather) | No (file downloads) | Mars Data |
 | GIBS (satellite imagery tiles) | No | Image Explorer |
 | NASA Image and Video Library | No | Image Explorer |
+| NASA Solar System Treks (Moon and Mars map tiles) | No | Planetary Maps |
 
 ## api.nasa.gov
 
@@ -729,6 +730,94 @@ archives to the Picture library. Checked with requests from GitHub's servers and
 - Moon, planets and Sun: computed in the browser (`shared/sky.js`).
 - Nothing is requested from any other service; the camera, location and motion readings stay on the device.
 
+## Planetary Maps (`planet-maps/`), checked Nov 17, 2026
+
+Moon and Mars map viewers (roadmap section 5d). Every source below was checked on Nov 17, 2026 against the service's
+own capabilities files and catalogue, and loaded from a page on the project's site (`mcsyme11-byte.github.io`) to
+confirm that visitors' browsers may read it. No key, no account, free.
+
+### NASA Solar System Treks: Moon Trek and Mars Trek map tiles
+
+- **What:** NASA's planetary map portals, run by the Solar System Treks team at JPL for NASA's Solar System Exploration
+  Research Virtual Institute (SSERVI). The same tiles are listed on api.nasa.gov ("Vesta/Moon/Mars Trek WMTS").
+- **Documentation:** `https://trek.nasa.gov/tiles/apidoc/trekAPI.html` (WMTS, REST). Each layer has a capabilities file
+  at `https://trek.nasa.gov/tiles/<Body>/EQ/<Layer>/1.0.0/WMTSCapabilities.xml`.
+- **Tile address:** `https://trek.nasa.gov/tiles/<Body>/EQ/<Layer>/1.0.0/default/default028mm/{z}/{row}/{col}.<jpg|png>`,
+  `<Body>` `Moon` or `Mars`. The extension is the one in the layer's `ResourceURL` (JPEG or PNG; it differs by layer).
+- **Grid:** equirectangular (simple cylindrical, planetocentric latitude, east longitude −180° to 180°), 256-pixel
+  tiles, top-left corner (−180°, 90°). Level `z` is `2^(z+1)` tiles across and `2^z` down, so one pixel is
+  `360 / (256 × 2^(z+1))` degrees. Level 0 is two tiles; regional layers use the same grid and have tiles only inside
+  their bounding box ("If the image tile is missing, that means there is no data coverage in that area").
+- **Polar views:** the same service has north- and south-pole (stereographic) versions of many layers; not used yet.
+- **Catalogue:** `https://trek.nasa.gov/<moon|mars>/TrekServices/ws/index/eq/searchItems?key=<words>&start=0&rows=<n>`
+  (JSON: layer name, title, description, bounding box; also landing-site bookmarks and IAU feature names). Readable
+  from trek.nasa.gov's own pages only (no CORS header), so it is used by hand and by build scripts, never by the page.
+- **CORS:** tile requests from the project's site succeed (`fetch` in CORS mode returned 200 for every layer below).
+- **Limits:** none published. The page loads only the tiles on screen.
+- **Terms and credit:** the Trek documentation states no licence or credit line ("© 2016 Trek" only). The tiles are NASA
+  mission data; each layer is shown with its mission's usual credit (below) and "Map tiles: NASA Solar System Treks".
+  Material credited to ESA keeps ESA's credit and licence.
+- **Privacy:** visitors' browsers contact `trek.nasa.gov` for tiles, so it is added to the Privacy page before the page
+  is published.
+
+Layers chosen (all checked Nov 17, 2026; levels as listed in each capabilities file):
+
+| Body | Layer (`<Layer>`) | What it is | Sharpness | Levels | Format | Credit line |
+|---|---|---|---|---|---|---|
+| Moon | `LRO_WAC_Mosaic_Global_303ppd_v02` | LRO Wide Angle Camera photo mosaic (Nov 2009 to Feb 2011) | 303 px/°, about 100 m a pixel | 0–8 | JPEG | NASA/GSFC/Arizona State University |
+| Moon | `LRO_LOLA_ClrShade_Global_128ppd_v04` | LRO laser altimeter (LOLA) height, coloured and shaded | 128 px/°, about 237 m | 0–5 | PNG | NASA/GSFC (LOLA) |
+| Moon | `LRO_NAC_Apollo11_Mosaic_p`, `LRO_NAC_Apollo12_Mosaic_p`, `LRO_NAC_Apollo15_Mosaic_p`, `LRO_NAC_Apollo16_Mosaic_p`, `M129086118.nd.gcs` (Apollo 17) | LRO Narrow Angle Camera close-ups of the Apollo landing sites | about 0.5 m | 0–14 to 0–16 | PNG | NASA/GSFC/Arizona State University |
+| Mars | `Mars_Viking_MDIM21_ClrMosaic_global_232m` | Viking orbiters' colour mosaic (MDIM 2.1) | 232 m | 0–7 | JPEG | NASA/JPL/USGS |
+| Mars | `Mars_MGS_MOLA_ClrShade_merge_global_463m` | Mars Global Surveyor laser altimeter (MOLA) height, coloured and shaded | 463 m | 0–7 | JPEG | NASA/JPL/GSFC (MOLA Science Team) |
+| Mars | `Mars_MOLA_blend200ppx_HRSC_ClrShade_clon0dd_200mpp_lzw` | MOLA blended with ESA Mars Express's stereo camera (HRSC) heights | 200 m | 0–8 | JPEG | NASA/JPL/GSFC (MOLA); ESA/DLR/FU Berlin, CC BY-SA 3.0 IGO (HRSC) |
+| Mars | `JEZ_hirise_soc_006_orthoMosaic_25cm_Eqc_latTs0_lon0_first_dd` | HiRISE close-up of Jezero crater's floor and delta, made by USGS for Perseverance's landing | 25 cm | 0–17 | PNG | NASA/JPL-Caltech/University of Arizona; USGS |
+| Mars | `JEZ_ctx_B_soc_008_orthoMosaic_6m_Eqc_latTs0_lon0` | CTX mosaic of the Jezero area, made by USGS for Perseverance's landing | 6 m | 0–13 | PNG | NASA/JPL-Caltech/MSSS; USGS |
+| Mars | `Gale_CTX_BlockAdj_dd` | CTX mosaic of Gale crater | about 6 m | 0–12 | PNG | NASA/JPL-Caltech/MSSS |
+
+- Bounding boxes (degrees, east longitude): Jezero HiRISE 77.223–77.584 E, 18.307–18.669 N; Jezero CTX
+  77.160–77.699 E, 18.211–18.721 N; Gale CTX 135.18–139.24 E, 6.57–2.81 S; Apollo 11 23.448–23.540 E,
+  0.146–1.115 N; Apollo 12 23.445–23.357 W, 3.472–2.502 S; Apollo 15 3.581–3.689 E, 25.796–26.763 N;
+  Apollo 16 15.379–15.555 E, 9.606–8.662 S; Apollo 17 30.686–30.844 E, 20.029–20.366 N. Trek has no Narrow Angle
+  Camera mosaic of the Apollo 14 site.
+- Seen on Nov 17, 2026: Perseverance (77.23 E, 18.44 N) has driven past the western edge of the 25 cm HiRISE mosaic;
+  the 6 m CTX mosaic still covers it.
+- **Not used (decided Nov 17, 2026):** `CTX_beta01_uncontrolled_5m_Caltech`, the 5 m CTX mosaic of all of Mars
+  (preliminary, credited "NASA/JPL/MSSS/The Caltech Murray Lab/Esri"). The regional mosaics above cover both rovers.
+- **USGS-made layers (approved Nov 17, 2026):** the Viking mosaic and the Jezero mosaics were produced by the US
+  Geological Survey from NASA mission data and are served by NASA's Trek; the developer approved their use.
+
+### Landing sites and the rovers' routes (NASA/JPL), checked Nov 17, 2026
+
+- **What:** the maps on NASA's "Where is the rover?" pages read GeoJSON files from `mars.nasa.gov/mmgis-maps/`:
+  - `https://mars.nasa.gov/mmgis-maps/MSL/Layers/json/MSL_traverse.json` (Curiosity's drives; 1,317 features,
+    1.36 MB on Nov 17, 2026) and `MSL_waypoints_current.json` (its latest position);
+  - `https://mars.nasa.gov/mmgis-maps/M20/Layers/json/M20_traverse.json` (Perseverance's drives; 559 features,
+    1.72 MB) and `M20_waypoints_current.json` (latest position); `M20_waypoints.json` (every stop, 603 KB).
+  - `MSL_waypoints.json` (the older name) no longer answers.
+- **Fields of the latest position:** `sol`, `site`, `drive`, `lat`, `lon` (degrees, east longitude), `elev_geoid` (m),
+  `dist_total_m` (distance driven since landing). On Nov 17, 2026: Curiosity sol 5,073, 38,638 m driven, at
+  4.826° S, 137.389° E; Perseverance sol 2,022, 45,246 m driven, at 18.436° N, 77.233° E.
+- **Traverse:** `LineString`/`MultiLineString` features, one per drive (Perseverance's carry `sol`, `fromRMC`, `toRMC`,
+  `length` in m).
+- **CORS:** readable from the project's site. The page reads a small copy made by a data job instead (hand-off of
+  Nov 17, 2026 to the Data updates chat), so visitors' browsers do not contact mars.nasa.gov and do not download 3 MB.
+- **Terms:** NASA material, credit "NASA/JPL-Caltech". Not a published data product: the files may move without
+  notice, so the job keeps the previous copy when they fail (DATA-UPDATES.md).
+- **Landing sites:** the coordinates in the place list are checked by hand against Trek's landing-site bookmarks and
+  NASA's mission pages (Apollo 11, for example, 0.674° N, 23.473° E).
+
+### Place names (IAU, via Trek and the USGS Gazetteer), approved Nov 17, 2026
+
+- Official names of craters, mountains, valleys and plains are set by the International Astronomical Union's Working
+  Group for Planetary System Nomenclature; the list is kept by the US Geological Survey (Gazetteer of Planetary
+  Nomenclature). Trek's catalogue carries them as `nomenclature` items (name, kind, point; for example Gale, crater,
+  137.811° E, 5.3672° S).
+- Use: names are taken from Trek's catalogue, or from the USGS Gazetteer where Trek's do not cover them (approved by
+  the developer, Nov 17, 2026), built once into `planet-maps/data/` and refreshed quarterly with Place and map lists
+  (hand-off of Nov 17, 2026). Visitors' browsers do not contact either service. Credit: "Feature names: IAU Working
+  Group for Planetary System Nomenclature (USGS Gazetteer of Planetary Nomenclature)".
+- The Gazetteer's own address, format and terms are confirmed before the build script is written.
+
 ## Using NASA material
 
 - NASA data and imagery are generally free to use and not under copyright in the United States, but NASA's insignia
@@ -757,6 +846,18 @@ NEO Coordination Centre's risk lists and close approaches (Asteroid Tracker, ent
   so it is never used. These projects use their own emblem.
 - **ESA/Webb and ESA/Hubble** (esawebb.org, esahubble.org) publish their own picture terms (CC BY 4.0 for most images,
   with their own credit lines); check each archive's terms before using it.
+
+### Mars Express HRSC on the Moon and Mars maps, checked Nov 17, 2026
+
+Used by Planetary Maps (`planet-maps/`): the "Height, sharper" layer of the Mars map blends NASA's MOLA heights with
+heights from ESA Mars Express's High Resolution Stereo Camera (HRSC), served by NASA's Mars Trek (see "Planetary
+Maps"). Place cards may show a Mars Express picture of a place (for example Gale and Jezero craters).
+- **Licence:** HRSC images are released by ESA, DLR and FU Berlin under CC BY-SA 3.0 IGO (since December 2014, applied
+  to every HRSC image released before then too). Credit line: "ESA/DLR/FU Berlin, CC BY-SA 3.0 IGO", with a link to
+  the licence, shown wherever the layer or a picture appears. A picture resized for the site keeps the same licence.
+- **Sources of pictures:** ESA's own pages (esa.int, ESA Multimedia), for example "Gale Crater" (2012, 100 m a pixel)
+  and "Jezero crater through the eyes of Mars Express" (2021). Each picture's page is checked for its exact credit
+  before it is used.
 
 ### ESA NEO Coordination Centre (NEOCC): risk lists and close approaches, checked Nov 9, 2026
 

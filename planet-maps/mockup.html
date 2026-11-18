@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<!-- NASA and ESA Data Projects · Planetary Maps · mock-up for approval · © 2026 Malcolm Syme · mcsyme11@gmail.com -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Planetary Maps (mock-up) · NASA and ESA Data Projects</title>
+  <meta name="description" content="Mock-up: zoomable maps of the Moon and Mars with every landing site, the rovers' routes and the best-known craters, volcanoes and valleys.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#141B26">
+  <link rel="icon" href="../shared/icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="../shared/icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../shared/icons/apple-touch-icon.png">
+  <link rel="manifest" href="../site.webmanifest">
+  <meta name="apple-mobile-web-app-title" content="NEDAP">
+  <meta name="application-name" content="NEDAP">
+  <link rel="stylesheet" href="../image-explorer/vendor/ol-10.11.0/ol.css">
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111705">
+  <script type="module" src="../shared/footer.js?v=2026111705"></script>
+  <!-- mock-up only: the map layout comes from Image Explorer's style sheet until the shared map is in shared/ -->
+  <link rel="stylesheet" href="../image-explorer/explorer.css?v=2026111705">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../" aria-label="NASA and ESA Data Projects, home">
+        <svg class="emblem" width="26" height="26" viewBox="0 0 64 64" aria-hidden="true"><use href="../shared/emblem.svg#e"/></svg><span class="bname">NASA and ESA Data Projects</span></a>
+      <nav class="nav" aria-label="Projects">
+        <a href="../">Home</a>
+        <a href="../asteroid-tracker/">Asteroids</a>
+        <a href="../mars-data/">Mars</a>
+        <a href="../image-explorer/">Images</a>
+        <a href="../space-watch/" aria-current="page">Space Watch</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <a class="backlink" id="back" href="../space-watch/">Space Watch</a>
+    <header class="pagehead compact">
+      <div class="kicker"><a href="../space-watch/">Orbit &amp; Space Watch</a> · Planetary Maps</div>
+      <h1>The Moon and Mars, mapped</h1>
+      <p class="lede">Zoom from the whole world down to the rocks a rover drove past: every landing site, the rovers' routes and the best-known craters, volcanoes and valleys, on NASA's own maps.</p>
+    </header>
+
+    <div class="notice warn" role="note"><p><b>Mock-up for approval.</b> The maps and the rovers' routes are real and live; the place list and texts are samples, checked against the official lists when the page is built.</p></div>
+
+    <nav class="tabs" role="tablist" aria-label="World">
+      <button role="tab" aria-selected="false" aria-pressed="false" data-b="moon">The Moon</button>
+      <button role="tab" aria-selected="true" aria-pressed="true" data-b="mars">Mars</button>
+    </nav>
+
+    <div class="tiles" id="pTiles"></div>
+
+    <div class="explore">
+      <div class="side">
+        <div class="ctl place">
+          <h2>Find a place</h2>
+          <label class="bigsearch">
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="1.6"/></svg>
+            <input type="search" id="pFind" placeholder="A crater, a volcano or a mission" autocomplete="off" spellcheck="false" aria-label="Find a place">
+          </label>
+          <p class="caption">In the page: every official feature name, or coordinates. In the mock-up: the places on the map.</p>
+        </div>
+        <div class="ctl">
+          <h2>Map</h2>
+          <div class="seg" id="pLayers" role="group" aria-label="Map"></div>
+          <p class="caption" id="pLayerNote"></p>
+        </div>
+        <div class="ctl">
+          <h2>On the map</h2>
+          <div class="chips" id="pOn" role="group" aria-label="On the map">
+            <button class="chip" aria-pressed="true" data-k="land">Landing sites</button>
+            <button class="chip" aria-pressed="true" data-k="route">Rovers' routes</button>
+            <button class="chip" aria-pressed="true" data-k="crater">Craters</button>
+            <button class="chip" aria-pressed="true" data-k="volc">Volcanoes</button>
+            <button class="chip" aria-pressed="true" data-k="valley">Valleys and plains</button>
+            <button class="chip" aria-pressed="false" data-k="grid">Grid</button>
+          </div>
+          <p class="caption">Tap a place to read about it. More names appear as you zoom in.</p>
+        </div>
+      </div>
+
+      <div class="mapcol">
+        <div class="frame mapframe">
+          <div id="map" tabindex="0" aria-label="Map of the surface"></div>
+        </div>
+        <p class="caption after" id="pSrc"></p>
+        <details class="howto">
+          <summary>How to read this</summary>
+          <p><b>Flat, like a world map.</b> The globe is unrolled so that lines of latitude and longitude form a square grid.
+            Places near the poles are stretched sideways, so polar craters look wider than they are.</p>
+          <p><b>Photo or height.</b> "Photo" is thousands of orbiter pictures joined into one. "Height" is coloured by
+            altitude (blue low, red and white high) and shaded as if lit from one side, so hills and craters stand out.</p>
+          <p><b>Close-ups.</b> Around Jezero, Gale and the Apollo sites, much sharper pictures appear as you zoom in. Outside
+            them, zooming further only makes the pixels bigger.</p>
+        </details>
+      </div>
+    </div>
+
+    <section class="panel" id="pCard" aria-live="polite"></section>
+
+    <section class="section" aria-labelledby="hHow">
+      <div class="section-head"><div><div class="kicker">The method</div><h2 id="hHow">How these maps were made</h2></div></div>
+      <ol class="steps">
+        <li><b>Photograph strip by strip.</b> An orbiter circles from pole to pole while the world turns beneath it, so
+          each orbit adds a new strip. NASA's Lunar Reconnaissance Orbiter photographs the whole Moon in a month.</li>
+        <li><b>Measure the height.</b> A laser altimeter fires pulses at the ground and times their return: MOLA on Mars
+          Global Surveyor made more than 600 million measurements of Mars, LOLA on the Lunar Reconnaissance Orbiter does
+          the same for the Moon.</li>
+        <li><b>Join and flatten.</b> The pictures are fitted to the height map, corrected for the angle they were taken
+          from, and joined into one mosaic on a latitude–longitude grid.</li>
+        <li><b>Cut into tiles.</b> NASA's Trek service cuts each mosaic into squares of 256 pixels at every zoom level, so
+          the map loads only what is on the screen.</li>
+      </ol>
+      <div class="panel">
+        <div class="ph"><h3>Rules: how sharp is a map?</h3></div>
+        <div class="pb">
+          <dl class="terms">
+            <dt>Rule 1</dt><dd>One degree of longitude at the equator is 2π × radius ÷ 360. <i>Moon: 2π × 1,737.4 km ÷ 360 = 30.3 km. Mars: 2π × 3,396.2 km ÷ 360 = 59.3 km.</i></dd>
+            <dt>Rule 2</dt><dd>When a map is given in pixels per degree: metres per pixel = one degree in metres ÷ pixels per degree. <i>The Moon photo, 303 pixels per degree: 30,323 m ÷ 303 = 100 m a pixel.</i></dd>
+            <dt>Rule 3</dt><dd>When it is given in metres per pixel: the smallest thing you can make out is about 3 pixels across. <i>The Jezero close-up, 25 cm a pixel: about 75 cm, a large rock. Perseverance is 3 m long.</i></dd>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="hSrc">
+      <div class="section-head">
+        <div><div class="kicker">Sources</div><h2 id="hSrc">Where the maps come from</h2></div>
+        <span class="aside">NASA's Solar System Treks (JPL), free and public</span>
+      </div>
+      <div class="sources">
+        <div class="s"><div class="n">Moon photo, height and Apollo close-ups (LRO) <span class="badge nasa">NASA</span></div><div class="d">Wide Angle Camera mosaic, LOLA laser altimeter, Narrow Angle Camera close-ups</div><div class="u">NASA/GSFC/Arizona State University</div></div>
+        <div class="s"><div class="n">Mars photo (Viking) and height (MOLA) <span class="badge nasa">NASA</span></div><div class="d">The Viking orbiters' colour mosaic; Mars Global Surveyor's laser altimeter</div><div class="u">NASA/JPL/USGS · NASA/JPL/GSFC</div></div>
+        <div class="s"><div class="n">Mars height, sharper (HRSC) <span class="badge esa">ESA</span> <span class="badge nasa">NASA</span></div><div class="d">ESA Mars Express's stereo camera, blended with MOLA</div><div class="u">ESA/DLR/FU Berlin, CC BY-SA 3.0 IGO</div></div>
+        <div class="s"><div class="n">Close-ups of Jezero and Gale (MRO) <span class="badge nasa">NASA</span></div><div class="d">HiRISE and CTX cameras on the Mars Reconnaissance Orbiter</div><div class="u">NASA/JPL-Caltech/University of Arizona · MSSS · USGS</div></div>
+        <div class="s"><div class="n">Rovers' routes <span class="badge nasa">NASA</span></div><div class="d">Curiosity and Perseverance, every drive since landing</div><div class="u" id="pRouteDate">NASA/JPL-Caltech</div></div>
+      </div>
+    </section>
+
+    <p class="srcline">Map tiles: NASA Solar System Treks (JPL, for NASA's Solar System Exploration Research Virtual Institute). Moon: NASA/GSFC/Arizona State University. Mars: NASA/JPL/USGS; NASA/JPL/GSFC; NASA/JPL-Caltech/University of Arizona; NASA/JPL-Caltech/MSSS. Mars Express HRSC: ESA/DLR/FU Berlin, <a href="https://creativecommons.org/licenses/by-sa/3.0/igo/" target="_blank" rel="noopener">CC BY-SA 3.0 IGO</a>. Rovers' routes: NASA/JPL-Caltech. Feature names: IAU Working Group for Planetary System Nomenclature. Map: OpenLayers.</p>
+
+    <footer class="footer">
+      <div class="ftop"><p class="copy">© 2026 <strong>Malcolm Syme</strong> · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></p></div>
+      <p class="fnote">Data courtesy of NASA and ESA. An independent project, not endorsed by NASA or ESA.</p>
+    </footer>
+  </main>
+
+  <script src="../image-explorer/vendor/ol-10.11.0/ol.js"></script>
+  <script src="mockup.js?v=2026111705"></script>
+</body>
+</html>

@@ -1,5 +1,16 @@
 # Change log
 
+## November 17, 2026 — Planetary Maps: sources and mock-up
+
+- **Planetary Maps (`planet-maps/`), sources checked and recorded** in `docs/DATA-SOURCES.md`: NASA's Moon Trek and Mars
+  Trek map tiles (LRO photo and height, Apollo-site close-ups; Viking photo, MOLA height, MOLA with ESA Mars Express
+  HRSC heights, HiRISE and CTX close-ups of Jezero and Gale), the rovers' routes from NASA/JPL, and the IAU place
+  names. The 5 m CTX mosaic of all of Mars is not used.
+- **Mock-up for approval,** `planet-maps/mockup.html`: the Moon and Mars on NASA's tiles with sample places and the
+  rovers' real routes. Not listed in the site map until the page is built.
+- **Hand-off to the Data updates chat:** the rovers' routes daily, the place names built once and then quarterly
+  (`docs/handoffs/2026-11-17 - planetary maps - data jobs.md`).
+
 ## November 17, 2026 — the site-map footer, the menu and Space Watch
 
 - **A site map at the foot of every page:** the NEDAP mark and name with the live data status; a column for each part

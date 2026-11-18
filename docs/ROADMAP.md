@@ -190,5 +190,11 @@ a visitor's browser contacts, in the same change; data jobs handed to the Data u
   rovers' routes.
 - [ ] Links: Image Explorer's globe ("Moon and Mars maps"), Mars Data's "Two craters" chart (Gale and Jezero), and the
   spacecraft map's Moon and Mars orbiters.
-- [ ] Hand-off to the Data updates chat: the rovers' routes added to the Mars data job; the place names built once,
-  then refreshed quarterly with Place and map lists.
+- [x] Sources checked and recorded in `docs/DATA-SOURCES.md` (Nov 17, 2026): Trek layers, rovers' routes, place
+  names, ESA Mars Express HRSC. Not used: the 5 m CTX mosaic of all of Mars (credited to Caltech and Esri).
+- [x] Hand-off to the Data updates chat written (Nov 17, 2026, `docs/handoffs/2026-11-17 - planetary maps - data
+  jobs.md`): the rovers' routes daily (decided Nov 17, 2026, instead of with the Mars data job); the place names built
+  once, then refreshed quarterly with Place and map lists.
+- [ ] Mock-up (`planet-maps/mockup.html`, Nov 17, 2026): approval by the developer, on a phone and a computer.
+- [ ] Build the page once the shared map and globe are in `shared/`, with `planet-maps/fetch_routes.py` and
+  `planet-maps/tools/build_names.py` for the two data jobs; the Privacy page (trek.nasa.gov) and the credits first.
