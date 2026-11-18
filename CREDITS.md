@@ -11,7 +11,7 @@ there in the same change.
 | Source | Used for | Terms |
 |---|---|---|
 | NASA NeoWs (api.nasa.gov) | Asteroid Tracker: close approaches, sizes, the hazard flag | NASA data; generally not under copyright in the United States |
-| NASA/JPL Solar System Dynamics: Close-Approach Data, Small-Body Database, Horizons, approximate planetary elements, Sentry | Asteroid Tracker: approaches, orbits, spacecraft and planet positions, NASA's impact-risk list, the positions behind "Visible from here"; spacecraft map: deep-space, Lagrange-point, Moon and Mars positions; Sky Finder: asteroid positions | NASA/JPL data |
+| NASA/JPL Solar System Dynamics: Close-Approach Data, Small-Body Database (orbits, spectral types, spin, albedo), Horizons, approximate planetary elements, Sentry, NHATS (round trips) | Asteroid Tracker: approaches, orbits, spacecraft and planet positions, NASA's impact-risk list, the positions behind "Visible from here", the round trips and spectral types on "Within reach"; spacecraft map: deep-space, Lagrange-point, Moon and Mars positions; Sky Finder: asteroid positions | NASA/JPL data |
 | CelesTrak (celestrak.org), general perturbations orbital elements | Spacecraft map: satellites in Earth orbit; Sky Finder: the space stations' passes | Published orbital data; credit "CelesTrak" |
 | NASA GIBS (Global Imagery Browse Services), including Blue Marble | Image Explorer: the Earth map, the polar views, the globe's surface | NASA imagery; acknowledgement required (below) |
 | NASA Image and Video Library | Image Explorer: the picture library | NASA material; some items carry their own credit or rights, shown with each item |

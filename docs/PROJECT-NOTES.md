@@ -12,6 +12,11 @@ How NASA and ESA Data Projects is built, the decisions made so far, and how to r
   `soon: true`. The menu gained Space Watch; every label stays on one line at every width. The section page
   `space-watch/` and the home page's "Orbit & Space Watch" section are live, the four tools marked "In preparation"
   until each is published. Approved from mock-ups the same day.
+- **Decided Nov 17, 2026 (the mining view, "Within reach"):** `asteroid-tracker/mining.html`, a tab in the tracker,
+  and a section on every asteroid page, approved from a mock-up. Round trips from NASA/JPL's NHATS study and spectral
+  types, spin and albedo from the Small-Body Database, both copied monthly into data files (`fetch_reach.py`); the
+  verdict follows four written rules (`reach.js`) and always says mining is not realistic today. Mission facts come
+  from NASA and ESA only; Hayabusa2's from NASA's reports rather than JAXA's site. No price or "worth" figures.
 - **Decided Nov 17, 2026 (Orbit & Space Watch):** a new section of the site, planned in the developer's portfolio
   project: **Orbit Watch** (satellite and space-debris tracker, collision simulator, cleanup explainer, `orbit-watch/`),
   **Space Weather** (`space-weather/`), **Exoplanets** (`exoplanets/`) and **Planetary Maps** (`planet-maps/`), each

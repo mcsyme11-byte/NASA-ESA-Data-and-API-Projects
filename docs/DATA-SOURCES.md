@@ -267,6 +267,73 @@ Checked Nov 12, 2026, from GitHub's servers.
   link comets to JPL's lookup page instead.
 - Size: about 5.5 MB as JSON, about 1.8 MB as GitHub Pages sends it (compressed).
 
+### NHATS API (round trips, the "Within reach" page), checked Nov 17, 2026
+
+`https://ssd-api.jpl.nasa.gov/nhats.api` (no key; documentation `https://ssd-api.jpl.nasa.gov/doc/nhats.html`, version
+1.3; assumptions at `https://cneos.jpl.nasa.gov/nhats/caveats.html`). Fetched by `asteroid-tracker/fetch_reach.py` into
+`asteroid-tracker/data/reach.json`; read by `mining.html` and the asteroid pages (`reach.js`).
+- **What NHATS counts:** an asteroid is listed if at least one round trip from Earth meets all of: Earth departure
+  between 2020-01-01 and 2045-12-31; departure C3 at most 60 km²/s²; total delta-v at most 12 km/s, made of the
+  departure from a circular 400 km Earth orbit, matching the asteroid's speed on arrival, leaving it, and, if needed, a
+  burn to keep the Earth entry speed in check; round trip at most 450 days; at least 8 days at the asteroid; entry
+  speed at most 12 km/s at 125 km altitude. Trajectories are Lambert solutions on 8-day grids (patched conics, JPL
+  Horizons ephemerides); mid-course burns, gravity assists and electric propulsion are left out, so NASA states the
+  list is not complete and is not a mission selection.
+- **List (mode S, no parameters):** `count` and `data`, one object per asteroid: `des`, `fullname`, `h`, `min_size`
+  and `max_size` (m, from H), `size` and `size_sigma` (m, measured, for some), `occ` (orbit condition code),
+  `min_dv` and `min_dur` (each `{dv km/s, dur days}`: the cheapest and the shortest trip), `n_via_traj`, and the next
+  optical and radar opportunities. Numbers come as strings. Nov 17, 2026: 7,219 asteroids; 132 at 4.5 km/s or less,
+  729 at 6 or less, 3,183 at 9 or less; 1,247 up to at least 100 m across.
+- **One asteroid (mode O, `des=` plus optional `launch=`):** adds `computed` (the date NHATS last worked it out, for
+  example 2021-08-14 for Bennu) and `min_dv_traj` and `min_dur_traj`: `launch`, `dur_out`, `dur_at`, `dur_ret`,
+  `dur_total`, `dv_total`, `dv_dep_park` (leaving Earth orbit), `vrel_arr_neo`, `vrel_dep_neo`, `vrel_arr_earth`,
+  `v_arr_earth` (entry speed), `c3`, `tid`. The four burns add up to `dv_total` (2000 SG344: 3.246 + 0.137 + 0.166 +
+  0.000 = 3.549 km/s). `launch` takes NHATS's five-year periods (2020-2025 … 2040-2045); a period's cheapest trip can
+  fall in its last year, which the next period can return as well (Bennu: 2030-03-21 in both 2025-2030 and
+  2030-2035), so the launch windows are de-duplicated by `tid`. An asteroid not on the list answers
+  `{"error": "specified NHATS object not found"}` (for example 65803 Didymos).
+- **Limits:** none documented. Observed Nov 17, 2026: about 800 requests in about a minute (three at a time) were
+  answered with HTTP 403 from JPL's load balancer for the rest of that session. The script therefore asks one at a
+  time, one a second, stops at the first 403 or 429, and keeps the previous windows of asteroids not reached.
+- **Launch windows** are fetched for numbered asteroids, asteroids with measured physical data, asteroids at least
+  300 m across, and asteroids at least 10 m across with a round trip of 4.5 km/s or less (about 600 on Nov 17, 2026;
+  four requests each). The others link to JPL's page, `https://cneos.jpl.nasa.gov/nhats/details.html#?des=<des>`.
+- **CORS:** none (a request from the live site failed on Nov 17, 2026), so visitors' browsers never contact JPL; no
+  change to the Privacy page.
+- **Credit line:** "Round trips: NASA/JPL CNEOS, NHATS (Near-Earth Object Human Space Flight Accessible Targets
+  Study)". JPL's Solar System Dynamics group asks data to be referenced as "Solar System Dynamics. (Downloaded …).
+  (Title of the page). https://ssd.jpl.nasa.gov"; the source line and `CREDITS.md` name JPL and the service.
+
+### SBDB Query API: physical data (the "Within reach" page), checked Nov 17, 2026
+
+The same API as above (`https://ssd-api.jpl.nasa.gov/sbdb_query.api`, version 1.0; field list in
+`https://ssd-api.jpl.nasa.gov/doc/sbdb_filter.html`), asked by `fetch_reach.py` for
+`fields=spkid,pdes,spec_B,spec_T,rot_per,albedo,density,diameter,extent`, `sb-group=neo` and
+`sb-cdata={"OR":["spec_B|DF","spec_T|DF","rot_per|DF","albedo|DF"]}` (DF: the value is defined). Written to
+`asteroid-tracker/data/phys.json` (about 175 KB).
+- Fields: `spec_B` SMASSII spectral type, `spec_T` Tholen spectral type, `rot_per` synodic rotation period (hours),
+  `albedo` geometric albedo, `density` (g/cm³), `diameter` (km), `extent` (km, tri- or bi-axial, as text).
+- Nov 17, 2026: 3,040 near-Earth objects; 313 with an SMASSII type, 37 with a Tholen type, 2,189 with a rotation
+  period, 1,209 with an albedo, 10 with a density. Among NHATS's 7,219 asteroids, 23 have a measured type. Types
+  carry `:` when uncertain (`S:`) and Tholen's mixed classes (`SMU`, `TCG:`). Examples: Bennu B, 4.296 h, albedo
+  0.044, 1.194 g/cm³, 0.484 km; Ryugu Cb, 7.63 h, 1.19 g/cm³; Didymos S, 2.2593 h, 2.17 g/cm³, 0.78 km.
+- The page groups types by rule (`reach.js`): C group (B, C, Cb, Cg, Ch, F, G…), S group (S, Sq, Q, K, L, A…), X group
+  split by albedo as Tholen's E, M and P, V, D and T, others rare.
+
+### "Within reach": comparisons and mission facts, checked Nov 17, 2026
+
+- **Moon comparisons:** a round trip to lunar orbit needs about 5 km/s and to the lunar surface about 9 km/s, from
+  NASA's NHATS team ("Putting Accessibility Into Context", NASA Technical Reports Server 20150009390), measured the
+  same way as NHATS's totals.
+- **Mission facts** (`MISSIONS` in `asteroid-tracker/reach.js`, edited by hand): OSIRIS-REx returned 121.6 g from
+  Bennu on Sept 24, 2023, the largest asteroid sample collected in space (NASA, Feb 2024); Hayabusa2 (JAXA) returned
+  5.4 g from Ryugu in December 2020, figures from NASA's own reports (NASA, Bennu sample exchange with JAXA; decided
+  Nov 17, 2026: NASA's reports are used rather than JAXA's site); Psyche launched Oct 13, 2023 and arrives in 2029,
+  the asteroid about 280 km at its widest (NASA, JPL press kit); Hera launched Oct 7, 2024, arrival at Didymos planned
+  for November 2026 (ESA, "Hera targets early arrival"). Once ESA confirms Hera's arrival, the line is updated.
+- **Not used:** ESA NEOCC's physical properties, available only one asteroid at a time through an interface ESA marks
+  experimental, with no catalogue file found; and any price or "worth" of an asteroid (no agency publishes one).
+
 ### Horizons API (spacecraft), checked Nov 8–9, 2026
 
 `https://ssd.jpl.nasa.gov/api/horizons.api` (no key; no CORS headers; fetched by `fetch_map_data.py`).

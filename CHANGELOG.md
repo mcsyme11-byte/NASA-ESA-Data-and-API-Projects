@@ -1,5 +1,19 @@
 # Change log
 
+## November 17, 2026 — Asteroid Tracker: "Within reach", the mining view
+
+- New page `asteroid-tracker/mining.html`, a tab in the tracker and a card on its home page, approved from a mock-up:
+  every near-Earth asteroid NASA/JPL's NHATS study finds reachable for a round trip from Earth orbit (7,219), cheapest
+  first, with its measured spectral type where JPL's Small-Body Database has one, filters by material, size and
+  delta-v, the rules for reading it, the maths (the rocket equation, mass from size) and four real missions
+  (OSIRIS-REx, Hayabusa2, Psyche, Hera).
+- Every asteroid page gains "Could we go there, and mine it?": a verdict worked out by four written rules, the round
+  trip next to the Moon's orbit and surface, launch windows with the four burns, what it is likely made of, size,
+  mass and spin. The mining verdict is always "not realistic today".
+- New script `asteroid-tracker/fetch_reach.py` and data files `reach.json` and `phys.json`, built once from JPL's
+  replies; the monthly step is handed to the Data updates chat. Sources recorded in `docs/DATA-SOURCES.md`; Credits
+  updated; the footer's site map and Back names list the page. Version tags raised to 2026111706.
+
 ## November 17, 2026 — Planetary Maps: sources and mock-up
 
 - **Planetary Maps (`planet-maps/`), sources checked and recorded** in `docs/DATA-SOURCES.md`: NASA's Moon Trek and Mars

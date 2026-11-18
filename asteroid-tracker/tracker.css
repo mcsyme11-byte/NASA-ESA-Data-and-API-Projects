@@ -357,3 +357,13 @@ dl.mini dd { margin: 0; }
   .needrules { grid-template-columns: 1fr; gap: 2px; } .needrules > span:nth-child(even) { margin-bottom: var(--sp2); }
 }
 .bigsearch + .note, .bigsearch + .caption, .bigsearch + p { margin-top: var(--sp2); }
+
+/* ---------------------------------------------------------------- reach and resources: the delta-v bars (object.js) */
+.dvchart .lab { font-size: 13px; fill: var(--ink2); }
+.dvchart .val { font-size: 13px; fill: var(--ink); }
+.dvchart rect.me { fill: var(--brass); }
+.dvchart rect.ref { fill: var(--line2); }
+.dvchart .axis { stroke: var(--line); }
+.dvchart .tick { font-size: 12px; fill: var(--muted); }
+.dvchart .limit { stroke: var(--red); stroke-dasharray: 4 4; }
+.dvchart .limitlab { font-size: 12px; fill: var(--red); }

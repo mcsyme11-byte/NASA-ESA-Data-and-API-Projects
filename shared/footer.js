@@ -27,7 +27,7 @@ const pageFooter = () => [...document.querySelectorAll('footer.footer')].pop() |
 const SECTIONS = [
   ['Asteroid Tracker', [['Overview', 'asteroid-tracker/'], ['This week', 'asteroid-tracker/tracker.html'],
     ['Impact risk', 'asteroid-tracker/tracker.html#risk'], ['Visible from here', 'asteroid-tracker/tracker.html#visible'],
-    ['Solar system map', 'asteroid-tracker/map.html']]],
+    ['Within reach', 'asteroid-tracker/mining.html'], ['Solar system map', 'asteroid-tracker/map.html']]],
   ['Image Explorer', [['Overview', 'image-explorer/'], ['Earth map', 'image-explorer/explore.html#earth'],
     ['Globe', 'image-explorer/explore.html#globe'], ['Picture library', 'image-explorer/explore.html#library']]],
   ['Mars Data', [['Overview', 'mars-data/'], ['Charts', 'mars-data/charts/'], ['How the data is made', 'mars-data/method/']]],
@@ -114,7 +114,7 @@ function buildFooter() {
 // the heading. When the previous page in this tab is a page of this site, it is named for that page and uses the browser's own Back, so that page returns
 // where it was left; otherwise it keeps its fallback, the home page.
 const NAMES = [
-  [/\/asteroid-tracker\/map\.html$/, 'the map'], [/\/asteroid-tracker\/object\.html$/, 'the asteroid'],
+  [/\/asteroid-tracker\/map\.html$/, 'the map'], [/\/asteroid-tracker\/mining\.html$/, 'Within reach'], [/\/asteroid-tracker\/object\.html$/, 'the asteroid'],
   [/\/asteroid-tracker\/tracker\.html$/, 'the Asteroid Tracker'], [/\/asteroid-tracker\/(index\.html)?$/, 'the Asteroid Tracker home page'], [/\/image-explorer\/explore\.html$/, 'the Image Explorer'],
   [/\/image-explorer\/(index\.html)?$/, 'the Image Explorer home page'], [/\/mars-data\/charts\//, 'the Mars charts'],
   [/\/mars-data\/method\//, 'How the data is made'], [/\/mars-data\//, 'Mars Data'], [/\/about\//, 'About'], [/\/privacy\//, 'Privacy'], [/\/terms\//, 'Terms'],

@@ -20,6 +20,9 @@ Every near-Earth object passing Earth, sorted by size and distance, with graphs 
 - **Solar System Map** (`map.html`): all 43,186 near-Earth objects, the planets and eleven spacecraft, turnable and
   zoomable at 60 frames a second, with a discovery timeline ("Found by the end of"), "Close to Earth in", Find and
   filters. A live preview runs on the home page.
+- **Within reach** (`mining.html`, and a section on every asteroid page): the asteroids NASA/JPL's NHATS study
+  finds reachable for a round trip from Earth orbit, what each is likely made of (spectral type), and a verdict on
+  mining them by four written rules.
 - **Search:** results with every letter, a "Found in" filter, and a guide to how asteroids are named, with each code
   decoded (2024 YR4: found December 16–31, 2024, the 117th new small body given a code in that half-month).
 - **Visible from here** (since Nov 12, 2026): from the visitor's place (device location or a town), the passes of
@@ -50,6 +53,7 @@ Every near-Earth object passing Earth, sorted by size and distance, with graphs 
 | JPL approximate planetary elements | The orbit diagram's and the map's planets | none | Copied into `orbit.js` (valid 1800–2050) |
 | NASA/JPL Small-Body Database Query API | Map and search | none | Daily file `data/neos.json` (and `data/preview.json`) |
 | NASA/JPL Horizons | The map's spacecraft and famous close passes | none | Daily file `data/spacecraft.json`; monthly `data/famous.json` |
+| NASA/JPL NHATS (`ssd-api.jpl.nasa.gov/nhats.api`) and SBDB physical data | Within reach | none | Monthly files `data/reach.json` and `data/phys.json` |
 | NASA/JPL Sentry (`ssd-api.jpl.nasa.gov/sentry.api`) | Impact risk (NASA's list) | none | Daily file `data/risk.json` |
 | ESA NEO Coordination Centre (`neo.ssa.esa.int`) | Impact risk (ESA's list), ESA's close-approach distances | none | Daily files `data/risk.json` and `data/esa_close.json` (ESA's server blocks calls from web pages) |
 
@@ -64,6 +68,7 @@ asteroid-tracker/
 ├── tracker.html                 the tracker: This week, By year, Impact risk, Visible from here and Search tabs
 ├── object.html                  one asteroid: facts, the orbit diagram, every close approach
 ├── map.html                     the solar system map
+├── mining.html                  Within reach: the asteroids easiest to reach, what they are made of, the verdict
 ├── tracker.css                  styles for all three pages (on top of shared/theme.css)
 ├── app.js                       the tracker's data, filters, sorting, tables and tabs
 ├── object.js                    the asteroid page: loading, the diagram's controls, the approaches chart and list
@@ -85,12 +90,15 @@ asteroid-tracker/
 ├── risk.js                      the Impact risk tab: ESA's and NASA's lists side by side, filters, sorting, details
 ├── neows.js                     reads the daily copy of NeoWs (data/neows/) for the week view and the asteroid page
 ├── esa.js                       reads ESA's close approaches and both risk lists for the week's details, the asteroid page and the map
+├── reach.js                     Within reach's rules and data: reach, material, size, mass, the verdict, the missions
+├── mining.js                    the Within reach page: list, filters, sorting
 ├── visible.js                   the "Visible from here" tab: place, passes, night chart, the rules
 ├── share.js                     "Share this view" and "Share this week": the view as a link, opened by the share sheet or copied
 ├── fetch_close_approaches.py    writes data/YYYY.json and data/years.json (daily, GitHub Actions)
 ├── fetch_map_data.py            writes data/neos.json, data/preview.json, data/spacecraft.json, data/soon.json (daily), data/famous.json (monthly)
 ├── fetch_neows.py               writes data/neows/: NeoWs weeks around today and their asteroids' pages (secret NASA_API_KEY)
 ├── fetch_sky.py                 writes data/sky.json: positions seen from Earth around the coming passes (daily)
+├── fetch_reach.py               writes data/reach.json (NASA/JPL NHATS) and data/phys.json (SBDB physical data) (monthly)
 ├── fetch_risk.py                writes data/risk.json (ESA NEOCC and NASA/JPL Sentry) and data/esa_close.json (daily)
 ├── data/                        the files above
 └── README.md                    this file

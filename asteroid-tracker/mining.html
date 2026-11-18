@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<!-- NASA and ESA Data Projects · Asteroid Tracker · within reach (the mining view) · © 2026 Malcolm Syme · mcsyme11@gmail.com -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Within reach · Asteroid Tracker · NASA and ESA Data Projects</title>
+  <meta name="description" content="The near-Earth asteroids easiest to reach for a round trip, what each is likely made of, and an honest verdict on mining them, from NASA/JPL data.">
+  <meta name="theme-color" content="#141B26">
+  <link rel="icon" href="../shared/icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="../shared/icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../shared/icons/apple-touch-icon.png">
+  <link rel="manifest" href="../site.webmanifest">
+  <meta name="apple-mobile-web-app-title" content="NEDAP">
+  <meta name="application-name" content="NEDAP">
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111706">
+  <script type="module" src="../shared/footer.js?v=2026111706"></script>
+  <link rel="stylesheet" href="tracker.css?v=2026111706">
+  <script type="module" src="mining.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../" aria-label="NASA and ESA Data Projects, home">
+        <svg class="emblem" width="26" height="26" viewBox="0 0 64 64" aria-hidden="true"><use href="../shared/emblem.svg#e"/></svg><span class="bname">NASA and ESA Data Projects</span></a>
+      <nav class="nav" aria-label="Projects">
+        <a href="../">Home</a>
+        <a href="./" aria-current="page">Asteroids</a>
+        <a href="../mars-data/">Mars</a>
+        <a href="../image-explorer/">Images</a>
+        <a href="../space-watch/">Space Watch</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <a class="backlink" id="back" href="./">Asteroid Tracker</a>
+    <header class="pagehead compact">
+      <div class="kicker"><a href="./">Project 1 · Asteroid Tracker</a></div>
+      <h1>Within reach</h1>
+      <p class="lede">Which near-Earth asteroids a spacecraft could reach and come back from, what each is likely made of, and an honest answer to "could we mine it?".</p>
+    </header>
+
+    <nav class="tabs" aria-label="Asteroid Tracker">
+      <a href="tracker.html">This week</a>
+      <a href="tracker.html#year">By year</a>
+      <a href="tracker.html#risk">Impact risk</a>
+      <a href="tracker.html#visible">Visible from here</a>
+      <a href="mining.html" aria-current="page">Within reach</a>
+      <a href="map.html">Map</a>
+      <a href="tracker.html#search">Search</a>
+    </nav>
+
+    <div class="viewhead">
+      <h2>The asteroids easiest to reach</h2>
+      <p class="lede">NASA's NHATS study checks every near-Earth asteroid for round trips from a 400 km orbit around Earth: there and back within 450 days, at least 8 days at the asteroid, and a total speed change of 12 km/s or less. These are the asteroids that pass, cheapest trip first, with what each is likely made of.</p>
+    </div>
+
+    <div id="notice"></div>
+    <div class="tiles" id="tiles"></div>
+
+    <div class="filters">
+      <div class="seg" role="group" aria-label="Made of" id="typeSeg"></div>
+      <label>Size <select id="size">
+        <option value="0">Any size</option><option value="10">10 m or more</option><option value="50">50 m or more</option>
+        <option value="100">100 m or more</option><option value="300">300 m or more</option></select></label>
+      <label>Round trip <select id="dv">
+        <option value="12">Up to 12 km/s</option><option value="9">Up to 9 km/s</option><option value="6">Up to 6 km/s</option><option value="4.5">Up to 4.5 km/s</option></select></label>
+      <label>Name <input type="search" id="q" placeholder="e.g. Bennu, 2000 SG344" autocomplete="off" spellcheck="false"></label>
+      <span class="aside count" id="count" aria-live="polite"></span>
+    </div>
+
+    <div class="panel tablecard">
+      <table class="neo" id="table">
+        <thead><tr>
+          <th data-k="name" tabindex="0">Name</th>
+          <th data-k="size" tabindex="0" class="num">Size</th>
+          <th data-k="type" tabindex="0">Made of</th>
+          <th data-k="dv" tabindex="0" class="num" aria-sort="ascending">Round trip</th>
+          <th data-k="dur" tabindex="0" class="num">Trip length</th>
+          <th data-k="launch" tabindex="0">Cheapest launch</th>
+        </tr></thead>
+        <tbody><tr><td colspan="6"><div class="loading">Loading NASA/JPL's list…</div></td></tr></tbody>
+      </table>
+      <details class="howto"><summary>How to read this: the rules</summary>
+        <p><b>Rule 1, round trip</b> is the total change in speed (delta-v) a spacecraft needs: leaving a 400 km orbit around Earth, matching the asteroid's speed, leaving it again, and slowing down for Earth's atmosphere. For comparison, a round trip to orbit around the Moon needs about 5 km/s, and a landing on the Moon and back about 9 km/s.</p>
+        <p><b>Rule 2, trip length</b> is for the cheapest trip, including at least 8 days at the asteroid. Faster trips exist, but cost more delta-v.</p>
+        <p><b>Rule 3, made of</b> is the measured spectral type (its colour in sunlight). Most small asteroids have never had theirs measured, so "Unknown" is the usual answer, not a fault.</p>
+        <p><b>Rule 4, size</b> is a measurement where one exists; otherwise a range worked out from brightness, because a dark asteroid is bigger than a bright one of the same brightness.</p>
+        <p><b>Rule 5, cheapest launch</b> is the launch date of the cheapest trip still ahead, where JPL's launch windows for the asteroid are on this site; the others open on JPL's own page.</p>
+        <p><b>Rule 6, the list changes.</b> New discoveries join it, and better orbits move asteroids up, down or off it. It is a study of what is possible, not a list of planned missions.</p>
+      </details>
+    </div>
+    <div class="more"><button class="btn outline" id="more" hidden>Show more</button></div>
+    <p class="caption after">Tap a row for the asteroid's own page, with its launch windows and the verdict. <span id="updated"></span></p>
+
+    <section class="section" aria-labelledby="hVerdict">
+      <div class="section-head"><div><div class="kicker">Could we mine one?</div><h2 id="hVerdict">How the verdict is worked out</h2></div><span class="aside">the same rules on every asteroid's page</span></div>
+      <dl class="terms">
+        <div><dt>Reach</dt><dd>NHATS's cheapest round trip. Up to 5 km/s: about as easy as a trip to orbit around the Moon. 5 to 9 km/s: between that and a Moon landing. 9 to 12 km/s: harder than a Moon landing. Not on the list: no round trip within NHATS's limits.</dd></div>
+        <div><dt>Material</dt><dd>The measured type, by group. Carbon-rich (B, C, Cb, Cg, Ch, F, G): water bound in clay, and carbon. Stony (S, Sq, Q, K, L, A): rock with grains of nickel-iron. X group (X, Xc, Xe, Xk), split by albedo: below 0.1 dark rock, 0.1 to 0.3 possibly metal-rich, above 0.3 enstatite. V: basalt.</dd></div>
+        <div><dt>Size and spin</dt><dd>Under 10 m: a boulder, a target for a quick look, not for mining. Spinning once in less than 2.2 hours: faster than loose rubble can hold together, so probably one solid rock, harder to land on.</dd></div>
+        <div><dt>Mining today</dt><dd>Always "not realistic today": no mission has yet extracted resources from an asteroid, and the most brought back so far is 121.6 g. The verdict says how good a target an asteroid is for the next step, a sample mission.</dd></div>
+      </dl>
+      <details class="howto"><summary>The maths: why every km/s counts</summary>
+        <p><b>The rocket equation.</b> mass at start ÷ mass at end = e<sup>Δv ÷ v<sub>e</sub></sup>, where Δv is the change in speed and v<sub>e</sub> the speed of the engine's exhaust. Use it to find how much of a spacecraft must be propellant.</p>
+        <p><b>Example.</b> Δv = 5.0 km/s with a hydrogen-oxygen engine (v<sub>e</sub> ≈ 4.4 km/s): e<sup>5.0 ÷ 4.4</sup> = 3.1, so 1 − 1 ÷ 3.1 = 68% of the spacecraft leaving Earth orbit is propellant. At 9 km/s it is 87%: each extra km/s costs more than the one before.</p>
+        <p><b>Mass from size.</b> mass = (π ÷ 6) × diameter³ × density. Example, Bennu: (π ÷ 6) × (484 m)³ × 1,194 kg/m³ = 7.1 × 10<sup>10</sup> kg, about 71 million tonnes.</p>
+      </details>
+    </section>
+
+    <section class="section" aria-labelledby="hMissions">
+      <div class="section-head"><div><div class="kicker">What has been done</div><h2 id="hMissions">Real missions to asteroids</h2></div><span class="aside">each with its agency</span></div>
+      <div class="panel tablecard">
+        <table class="neo" id="missions">
+          <thead><tr><th>Mission</th><th>Target</th><th>Type, size</th><th>What it did</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <p class="srcline">Round trips: NASA/JPL CNEOS, NHATS (Near-Earth Object Human Space Flight Accessible Targets Study). Spectral types, spin, albedo and density: NASA/JPL Small-Body Database. Moon comparisons: NASA's NHATS team (NASA Technical Reports Server). Mission facts: NASA and ESA; Hayabusa2 (JAXA) from NASA's reports. Data courtesy of NASA.</p>
+    <footer class="footer">
+      <div class="ftop"><p class="copy">© 2026 <strong>Malcolm Syme</strong> · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></p></div>
+      <p class="fnote">Data courtesy of NASA and ESA. An independent project, not endorsed by NASA or ESA.</p>
+    </footer>
+  </main>
+</body>
+</html>

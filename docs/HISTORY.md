@@ -160,3 +160,11 @@ How NASA and ESA Data Projects came about, in order.
   and space-debris tracker, space weather, exoplanets, and maps of the Moon and Mars, with an asteroid mining view in
   the Asteroid Tracker. Each is built by its own chat; the plan sets what each reuses from the site so nothing is built
   twice, and which sources beyond NASA and ESA are used (CelesTrak, NOAA and the US Geological Survey).
+
+## November 17, 2026 — Asteroid Tracker: "Within reach"
+
+- The first tool of the Orbit & Space Watch plan went live in the Asteroid Tracker: which asteroids a spacecraft
+  could reach and come back from (NASA/JPL's NHATS study), what each is likely made of, and an honest verdict on
+  mining them, on a new page and on every asteroid's page.
+- Building it showed that JPL's servers refuse an address after several hundred quick requests, so the monthly data
+  step asks one question a second.

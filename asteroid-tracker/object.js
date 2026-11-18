@@ -16,6 +16,7 @@ import { OrbitView } from './orbitview.js';
 import { decodeName } from './search.js';
 import { esaApproach, riskOf } from './esa.js';
 import { chanceText, riskChart } from './risk.js';
+import { loadReach, loadPhys, reachOf, typeOf, sizeOf, massOf, tonnes, sizeText as reachSize, verdict, propellantShare, densityRange, nhatsPage, MISSIONS, MOON_ORBIT_DV, MOON_SURFACE_DV, NHATS_MAX_DV, SPIN_BARRIER_H } from './reach.js';
 
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => [...document.querySelectorAll(s)];
@@ -113,6 +114,7 @@ function render() {
   setDate(jdFromMs(startMs));
   renderApproaches();
   renderAbout();
+  renderReach(n, size);
   $('#caAside').textContent = state.approaches.length
     ? `${state.approaches.length} passes, ${new Date(state.approaches[0].t).getUTCFullYear()}–${new Date(state.approaches[state.approaches.length - 1].t).getUTCFullYear()}`
     : '';
@@ -329,6 +331,100 @@ function renderAbout() {
     ['NASA id', `${esc(n.id)}${n.designation ? ' · designation ' + esc(n.designation) : ''}`],
   ];
   $('#about').innerHTML = items.map(([t, d]) => `<div><dt>${t}</dt><dd>${d}</dd></div>`).join('');
+}
+
+// ---------------------------------------------------------------- reach and resources (rules in reach.js)
+async function renderReach(n, neowsSize) {
+  const box = $('#reach');
+  let reach, phys;
+  try {
+    [reach, phys] = await Promise.all([loadReach(), loadPhys()]);
+  } catch {
+    box.innerHTML = '<div class="notice error"><span class="t">NASA/JPL\'s round trips could not be loaded. Reload the page to try again.</span></div>';
+    return;
+  }
+  const des = String(n.designation || '');
+  const row = reach.byDes.get(des), p = phys.byDes.get(des);
+  const type = typeOf(p), size = sizeOf(row, p, neowsSize.dmax > 0 ? { min: neowsSize.dmin, max: neowsSize.dmax } : null);
+  const v = verdict(row, type, size, p);
+  const windows = row ? reach.windows[des] || [] : [];
+  const cheapest = windows.length ? windows.reduce((a, b) => (b.dv < a.dv ? b : a)) : null;
+  const mass = massOf(size, p, type);
+  const month = (iso) => new Date(iso + 'T00:00:00Z').toLocaleDateString('en-CA', { month: 'short', year: 'numeric', timeZone: 'UTC' });
+  const spin = p && p.rot ? (p.rot < 1 ? `${fmt(p.rot * 60, 0)} <small>min</small>` : `${fmt(p.rot, p.rot < 10 ? 1 : 0)} <small>h</small>`) : null;
+
+  const tilesHtml = [
+    { label: 'Round trip', value: row ? `${fmt(row.dv, 1)} <small>km/s</small>` : '—', note: row ? 'cheapest NHATS trip, from Earth orbit and back' : 'not on NHATS\'s list: over 12 km/s or 450 days' },
+    { label: 'Trip length', value: row ? `${fmt(row.dur)} <small>days</small>` : '—', note: row ? `for the cheapest trip; the fastest takes ${fmt(row.fastDur)} days at ${fmt(row.fastDv, 1)} km/s` : 'no round trip found within the limits' },
+    { label: 'Made of', value: type.measured ? esc(type.code) : 'Unknown', note: type.measured ? `${esc(type.label.toLowerCase())}, measured (${type.system})${type.uncertain ? ', uncertain' : ''}` : 'spectral type not measured' },
+    { label: 'Size and spin', value: size ? reachSize(size).replace(/^about /, '') : '—', note: spin ? `one turn every ${spin.replace(/<\/?small>/g, '')}` : 'spin not measured' },
+  ].map((t) => `<div class="tile"><div class="label">${t.label}</div><div class="value">${t.value}</div><div class="note">${t.note}</div></div>`).join('');
+
+  const windowsHtml = !row ? '' : windows.length ? `<div class="panel tablecard">
+      <div class="ph"><h3>Launch windows</h3><span class="aside">the cheapest round trip in each five-year launch period still ahead</span></div>
+      <table class="neo"><thead><tr><th>Launch period</th><th>Leave Earth</th><th class="num">Out · at it · back</th><th class="num">Round trip</th></tr></thead><tbody>
+      ${windows.map((w) => `<tr><td>${esc(w.period.replace('-', '–'))}</td><td>${month(w.launch)}${w === cheapest ? '<span class="s">cheapest ahead</span>' : ''}</td><td class="num">${w.out} · ${w.stay} · ${w.back} days</td><td class="num">${fmt(w.dv, 1)} km/s</td></tr>`).join('')}
+      </tbody></table>
+      <details class="howto"><summary>Where each km/s goes</summary>
+        <p>The cheapest trip ahead, launching ${month(cheapest.launch)}, as its four burns: leave Earth orbit <b>${fmt(cheapest.leave, 2)}</b>, match the asteroid's speed <b>${fmt(cheapest.arrive, 2)}</b>, leave it <b>${fmt(cheapest.depart, 2)}</b>, and slow down for Earth's atmosphere <b>${fmt(cheapest.ret, 2)}</b> km/s. Total <b>${fmt(cheapest.dv, 2)}</b> km/s, arriving home at ${fmt(cheapest.entry, 1)} km/s. With a hydrogen-oxygen engine, ${fmt(100 * propellantShare(cheapest.dv), 0)}% of the spacecraft leaving Earth orbit would be propellant (the rocket equation, on the <a href="mining.html">Within reach</a> page).</p>
+        <p>Worked out by NASA/JPL on ${esc(reach.computed[des] || 'an unknown date')} from the orbit known then.</p>
+      </details></div>`
+    : `<p class="note">Launch dates for this asteroid are on <a href="${nhatsPage(des)}" target="_blank" rel="noopener">JPL's NHATS page ›</a></p>`;
+
+  const typeTerms = type.measured
+    ? `<div><dt>Type</dt><dd><b>${esc(type.code)}</b> (${type.system}${type.uncertain ? ', marked uncertain' : ''}): ${esc(type.label.toLowerCase())}. Measured from its spectrum, its colour in sunlight.</dd></div>
+       <div><dt>What that means</dt><dd>${type.what}</dd></div>
+       <div><dt>Useful for</dt><dd>${type.use}</dd></div>${type.example ? `<div><dt>Seen up close</dt><dd>${type.example}</dd></div>` : ''}`
+    : `<div><dt>Type</dt><dd>Not measured: most small asteroids have never had their colour in sunlight measured, so what this one is made of is unknown.${type.hint ? ' ' + type.hint : ''}</dd></div>`;
+  const sizeTerms = `<div><dt>Size</dt><dd>${size ? (size.measured ? `About <b>${reachSize(size).replace(/^about /, '')}</b> across, measured.` : `<b>${reachSize(size)}</b> across, worked out from its brightness: a dark surface makes it the larger figure.`) : 'Unknown.'}</dd></div>
+    ${mass ? `<div><dt>Mass</dt><dd>${mass[0] === mass[1] ? `About <b>${tonnes(mass[0])}</b>` : `Between <b>${tonnes(mass[0])}</b> and <b>${tonnes(mass[1])}</b>`}: volume × density, with ${p && p.density ? `its measured density of ${fmt(p.density, 2)} g/cm³` : type.measured ? `a density of ${densityRange(type)} g/cm³, usual for ${esc(type.label.toLowerCase())} asteroids` : `a density of ${densityRange(type)} g/cm³, the usual range when the type is unknown`}.</dd></div>` : ''}
+    <div><dt>Spin</dt><dd>${p && p.rot ? `One turn every <b>${spin.replace(/<\/?small>/g, '')}</b>: ${p.rot < SPIN_BARRIER_H ? 'faster than loose rubble can hold together, so it is probably one solid rock, harder to land on or anchor to.' : 'slow enough for a spacecraft to touch down, as OSIRIS-REx did on Bennu (4.3 hours).'}` : 'Not measured.'} Asteroids larger than about 200 m almost never turn faster than once every ${SPIN_BARRIER_H} hours, because loose rubble would fly off.</dd></div>`;
+
+  box.innerHTML = `<div class="notice"><span class="t"><b>${esc(v.head)}. Mining it is not realistic today.</b> ${v.why.join(' ')}</span></div>
+    <div class="tiles">${tilesHtml}</div>
+    <div class="section-head sub"><h2>Getting there</h2><span class="aside">delta-v: the change in speed a spacecraft must make</span></div>
+    <div class="panel"><div class="ph"><h3>How much speed change a round trip needs</h3><span class="aside">km/s, from a 400 km orbit around Earth and back</span></div>
+      <div class="pb"><svg class="chart dvchart" id="dvChart" role="img"></svg></div>
+      <div class="pf"><p class="caption">${esc(v.reach.text)} Moon figures: NASA's NHATS team.</p></div></div>
+    ${windowsHtml}
+    <div class="section-head sub"><h2>What it's made of</h2><span class="aside">from its spectral type</span></div>
+    <dl class="terms">${typeTerms}</dl>
+    <div class="section-head sub"><h2>Size and spin</h2></div>
+    <dl class="terms">${sizeTerms}</dl>
+    <div class="section-head sub"><h2>How real missions compare</h2><a class="aside" href="mining.html">the rules and the maths ›</a></div>
+    <div class="panel tablecard"><table class="neo"><thead><tr><th>Mission</th><th>Target</th><th>Type, size</th><th>What it did</th></tr></thead><tbody>
+      ${MISSIONS.map((m) => `<tr><td>${esc(m.name)} <span class="badge ${m.badge}">${esc(m.agency)}</span></td><td>${m.des && m.des !== des ? `<a href="object.html?id=${2000000 + Number(m.des)}">${esc(m.target)}</a>` : esc(m.target)}</td><td>${esc(m.type)}, ${esc(m.size)}</td><td>${esc(m.did)}</td></tr>`).join('')}
+    </tbody></table></div>`;
+
+  const svg = $('#dvChart');
+  const draw = () => dvChart(svg, n.name, row);
+  draw();
+  let w = svg.parentElement.clientWidth;
+  new ResizeObserver(() => { const w2 = svg.parentElement.clientWidth; if (w2 !== w) { w = w2; draw(); } }).observe(svg.parentElement);
+}
+
+// bars: this asteroid's cheapest round trip, the Moon's orbit and surface for comparison, and NHATS's 12 km/s limit
+function dvChart(svg, name, row) {
+  const W = Math.max(280, svg.parentElement.clientWidth), narrow = W < 520;
+  const bars = [[row ? `${name.replace(/^\d+\s+/, '').replace(/^\((.*)\)$/, '$1')}` : `${name.replace(/^\d+\s+/, '')}: not on the list`, row ? row.dv : null, 'me'],
+    ['Moon orbit and back', MOON_ORBIT_DV, 'ref'], ['Moon surface and back', MOON_SURFACE_DV, 'ref']];
+  const left = narrow ? 6 : 190, top = narrow ? 18 : 4, rowH = narrow ? 50 : 38, right = 34;
+  const H = bars.length * rowH + top + 40, x0 = left, x1 = W - right, sx = (v) => x0 + (x1 - x0) * v / NHATS_MAX_DV;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.setAttribute('aria-label', `Round-trip delta-v: ${bars.map((b) => `${b[0]} ${b[1] === null ? 'more than 12' : b[1]} km/s`).join('; ')}; NHATS limit ${NHATS_MAX_DV} km/s`);
+  let out = '';
+  bars.forEach(([label, v, cls], i) => {
+    const y = i * rowH + top;
+    out += narrow ? `<text class="lab" x="${x0}" y="${y - 4}">${esc(label)}</text>` : `<text class="lab" x="0" y="${y + 15}">${esc(label)}</text>`;
+    if (v === null) out += `<text class="val" x="${x0}" y="${y + 15}">over ${NHATS_MAX_DV} km/s, or longer than 450 days</text>`;
+    else out += `<rect class="${cls}" x="${x0}" y="${y}" width="${Math.max(2, sx(v) - x0)}" height="20" rx="3"/><text class="val" x="${sx(v) + 8}" y="${y + 15}">${cls === 'ref' ? '≈ ' : ''}${fmt(v, cls === 'ref' ? 0 : 1)}</text>`;
+  });
+  const yAxis = bars.length * rowH + top - 8;
+  out += `<line class="limit" x1="${sx(NHATS_MAX_DV)}" x2="${sx(NHATS_MAX_DV)}" y1="${top - (narrow ? 14 : 4)}" y2="${yAxis}"/>`;
+  out += `<line class="axis" x1="${x0}" x2="${x1}" y1="${yAxis}" y2="${yAxis}"/>`;
+  for (const t of [0, 3, 6, 9, 12]) out += `<text class="tick" x="${sx(t)}" y="${yAxis + 16}" text-anchor="${t ? 'middle' : 'start'}">${t}</text>`;
+  out += `<text class="limitlab" x="${sx(NHATS_MAX_DV)}" y="${yAxis + 32}" text-anchor="end">NHATS limit, ${NHATS_MAX_DV} km/s</text>`;
+  svg.innerHTML = out;
 }
 
 load();
