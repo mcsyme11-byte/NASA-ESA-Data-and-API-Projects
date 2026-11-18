@@ -3,6 +3,19 @@
 For the four new chats (Orbit Watch, Space Weather, Exoplanets, Planetary Maps), the Asteroid Tracker, Image Explorer and
 Data updates chats, and the general chat.
 
+## Live since Nov 17, 2026 (read first)
+
+The site-map footer, the menu with Space Watch, the section page `space-watch/` and the home page's section are live.
+For every new page, in the same change as the page:
+
+- Copy the head, top bar, menu (Home, Asteroids, Mars, Images, Space Watch) and footer from any existing page. The
+  footer in the page's HTML is only the copyright line and the credit line; `shared/footer.js` builds the site map
+  around them. Never add links, a logo or anything else to a footer.
+- List the page in `SECTIONS` in `shared/footer.js`: one line in its section. A tool's line already exists with
+  `{ soon: true }`; remove that when the tool is published. Add the page's name to `NAMES` (the Back button).
+- When a tool is published, its card on `space-watch/` becomes a link ("Open") and its home-page card shows its
+  agencies instead of "Coming soon".
+
 ## Confirmed answers (Nov 17, 2026)
 
 1. **Folders:** `orbit-watch/`, `space-weather/`, `exoplanets/`, `planet-maps/`; the section page `space-watch/` (general
@@ -62,5 +75,5 @@ bodies, old satellites). Each links to the other.
   `orbit-watch/data/`); a new weekly Exoplanets job; the rovers' routes added to the Mars data job; the planetary place
   names (built once, then quarterly with Place and map lists); NHATS added monthly to the Asteroid data job; possibly a
   Space Weather fallback copy. Each new data folder goes into `paths-ignore` in `project-record.yml`.
-- **General chat:** the site-map footer, the menu, the home page section, the section page `space-watch/` and the card
-  illustrations, after the developer approves the mock-ups.
+- **General chat:** done Nov 17, 2026: the site-map footer, the menu, the home page section, the section page
+  `space-watch/` and the card illustrations.

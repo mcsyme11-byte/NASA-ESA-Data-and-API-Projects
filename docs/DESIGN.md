@@ -106,7 +106,7 @@ All in `shared/theme.css`, all shown on `design/index.html`. Use these; do not r
 
 | Component | Class | Use |
 |---|---|---|
-| Top bar | `.topbar`, `.brand` › `.emblem` + `.bname`, `.nav` | Sticky, 60 px; the NEDAP mark (32 px, `shared/emblem.svg`); on phones only the mark shows beside the four links |
+| Top bar | `.topbar`, `.brand` › `.emblem` + `.bname`, `.nav` | Sticky, 60 px; the NEDAP mark (32 px, `shared/emblem.svg`); the menu: Home, Asteroids, Mars, Images, Space Watch. Every label stays on one line: the site's name shows from 881 px, the Home link from 761 px (the mark is the way home), small phones close the letters up |
 | Back | `.backlink#back` | Above the page head on every page except the site's home page; the arrow is drawn by the style sheet; named for the previous page by `shared/footer.js` |
 | Page head | `header.pagehead` › `.kicker`, `h1`, `.lede`, `.meta` | `.compact` for tool pages, `.center` for the home and Contact pages, `.medal` for the NEDAP patch above a centred head |
 | Section | `section.section` › `.section-head` › `div` (`.kicker` + `h2`), then `.aside` or a button | `.section-head.sub` for a heading inside a tool view |
@@ -137,7 +137,7 @@ All in `shared/theme.css`, all shown on `design/index.html`. Use these; do not r
 | Chart parts | `svg.chart` (`.grid`, `.axt` axis titles, `.dim`), `.legend` (`.s1`–`.s6` swatches), `.tip` | Axis text, gridlines, a chart's key and its tooltip |
 | Callout, stage | `.pf.callout` › `.t` + a button; `a.stage` › `canvas` | A line of text with one action, at the foot of a panel; a canvas that fills a panel and opens something |
 | Data credits | `p.srcline` | A page's detailed credits, just above the footer |
-| Footer | `.footer` › `.ftop` › `.copy`, `.fnote` (links and the live data line added by `shared/footer.js`) | Decided Nov 12, 2026: one row of links and the copyright, then one short credit line; since Nov 14, 2026 also the live data line, on the credit line's row; since Nov 17, 2026 the small NEDAP mark (`.fmark`, 20 px) at the start of the copyright; nothing else |
+| Footer | `footer.footer` › `.copy`, `.fnote` in the page; `shared/footer.js` builds the rest: `.fmap` › `.fbrand` (NEDAP mark, name, `.ftag`, the live status) and `nav.fcols` › `details.fcol` (`summary.fhead`, the page links), then `.flegal` (the copyright, `nav.flinks`) | Decided Nov 17, 2026: the site map on every page, from the one list `SECTIONS` in `shared/footer.js`; the page you are on is marked. Below 1200 px the name sits above the columns, below 900 px the columns are in rows of three, on phones each section folds and opens from its heading |
 | Live data status | `.light[data-state]`, `.fbottom` › `.fnote` + `a.livestatus` › `.light`, `.ls-t`, `.ls-s`; `.board` › `.board-head`, `ol.jobs` › `li.job` › `.light`, `.job-meta`, `.job-srcs` › `.srcstate`, `dl.job-when`, `.job-side` › `.job-state`, `.ticks` › `i[data-r]` | Added Nov 14, 2026 (the developer waived the mock-up). The state of the automatic data updates (`shared/datastatus.js`): `data-state` is `ok` (green), `updating` (brass, pulsing rings), `late` or `partial` (amber), `failed` (red) or `unknown` (grey). The footer line sits on the credit line's row, opposite it, in the footer's own type (revised Nov 14, 2026, from a separate pill below the footer, which looked out of place); the board is on How the data is collected (`data-collection/`). Replaces nothing: no earlier component shows a state that changes while the page is open |
 
 ## 6. Page styles

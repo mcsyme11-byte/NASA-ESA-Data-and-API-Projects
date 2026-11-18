@@ -109,14 +109,19 @@ h4 { font-size: 17px; line-height: 1.35; }
 .brand .emblem { width: 32px; height: 32px; flex: none; }
 .nav { display: flex; gap: var(--sp1); }
 .nav a { display: flex; align-items: center; min-height: 60px; padding: 0 var(--sp3); border-bottom: 2px solid transparent;
-  font-size: 11.5px; letter-spacing: .22em; text-transform: uppercase; color: var(--ink2); }
+  font-size: 11.5px; letter-spacing: .22em; text-transform: uppercase; color: var(--ink2); white-space: nowrap; }
 .nav a:hover { color: var(--ink); }
 .nav a[aria-current] { color: var(--brass); border-bottom-color: var(--brass); }
+/* Every menu label stays on one line at every width (decided Nov 17, 2026): the site's name beside the mark shows from
+   881 px; below 761 px the Home link is hidden, as the mark is the way home; small phones close the letters up. */
+@media (max-width: 880px) { .brand .bname { display: none; } }
+@media (max-width: 760px) { .nav a:first-child { display: none; } }
 @media (max-width: 640px) {
-  .brand .bname { display: none; }
-  .nav a { padding: 0 var(--sp2); letter-spacing: .14em; }
+  .nav { gap: 0; }
+  .nav a { padding: 0 var(--sp2); letter-spacing: .1em; }
 }
-@media (max-width: 340px) { .nav a { padding: 0 6px; letter-spacing: .08em; font-size: 11px; } }
+@media (max-width: 420px) { .nav a { padding: 0 6px; letter-spacing: .06em; font-size: 10.5px; } }
+@media (max-width: 340px) { .nav a { padding: 0 4px; letter-spacing: .02em; } }
 
 /* ============================================================== page header: one pattern for every page */
 .pagehead, .phead { padding: var(--sp6) 0 var(--sp6); }
@@ -537,18 +542,48 @@ a.stage:hover { color: var(--ink); }
 /* ============================================================== data credits and footer */
 .srcline { margin: var(--sp7) 0 0; font-size: 13.5px; font-style: italic; color: var(--muted); }
 .srcline + .srcline { margin-top: var(--sp2); }
-.footer { margin-top: var(--sp5); padding: var(--sp5) 0 var(--sp7); border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
-.footer .ftop { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px var(--sp6); }
-.footer .copy { margin: 0; color: var(--ink2); }
-.footer .fmark { width: 20px; height: 20px; margin-right: var(--sp2); vertical-align: -5px; }   /* the NEDAP mark before the copyright */
+/* The site-map footer (decided Nov 17, 2026), built on every page by shared/footer.js from one list: the NEDAP mark,
+   name and live data status on the left; a column for each part of the site; then the copyright with the legal links
+   opposite, and the credit line. Below 1200 px the name sits above the columns; below 900 px the columns are in rows of three. Phones: one folded section each. */
+.footer { margin-top: var(--sp6); padding: var(--sp6) 0 var(--sp7); border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+.fmap { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: var(--sp6); }
+.fbrand .fhome { display: inline-flex; align-items: center; gap: var(--sp3); color: var(--ink); }
+.fbrand .fhome:hover { color: var(--brass-bright); }
+.fbrand .fhome img { flex: none; }
+.fbrand .fname { font-size: 17px; line-height: 1.3; }
+.fbrand .fname small { display: block; margin-top: 2px; font-size: 11px; letter-spacing: .24em; color: var(--brass); }
+.fbrand .ftag { margin: var(--sp3) 0 var(--sp2); font-size: 14px; font-style: italic; color: var(--muted); max-width: 26ch; }
+.fcols { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--sp5) var(--sp4); }
+.fhead { display: block; margin: 0 0 var(--sp3); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--brass);
+  line-height: 1.4; white-space: nowrap; list-style: none; }
+.fhead::-webkit-details-marker { display: none; }
+.fcol ul { list-style: none; margin: 0; padding: 0; }
+.fcol li a { display: inline-block; padding: 3px 0; font-size: 14.5px; line-height: 1.4; color: var(--ink2); }
+.fcol li a:hover { color: var(--ink); }
+.fcol li a[aria-current] { color: var(--brass-bright); }
+.flegal { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp2) var(--sp6);
+  margin-top: var(--sp6); padding-top: var(--sp4); border-top: 1px solid var(--line); }
+.flegal .copy { margin: 0; color: var(--ink2); }
+.flinks { display: flex; flex-wrap: wrap; gap: 0 var(--sp4); }
+.flinks a { display: inline-flex; align-items: center; min-height: 36px; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--ink2); }
+.flinks a:hover, .flinks a[aria-current] { color: var(--brass); }
+.flinks .ext { color: var(--brass-dim); letter-spacing: 0; margin-left: 2px; }
 .footer .fnote { margin: var(--sp2) 0 0; font-size: 13px; font-style: italic; }
-.sitelinks { display: flex; flex-wrap: wrap; gap: 0 var(--sp5); }
-.sitelinks a { font-size: 11.5px; letter-spacing: .22em; text-transform: uppercase; color: var(--ink2); min-height: 40px; display: inline-flex; align-items: center; }
-.sitelinks a:hover, .sitelinks a[aria-current] { color: var(--brass); }
-.sitelinks .ext { color: var(--brass-dim); letter-spacing: 0; margin-left: 2px; }
-@media (max-width: 600px) {
-  .sitelinks { gap: 0 var(--sp4); } .sitelinks a { letter-spacing: .16em; } .footer .copy { width: 100%; }
-  .footer .copy a { display: inline-flex; align-items: center; min-height: 40px; }
+@media (min-width: 761px) { .fhead { pointer-events: none; } }
+@media (max-width: 1199px) { .fmap { grid-template-columns: 1fr; gap: var(--sp5); } .fbrand .ftag { max-width: none; } }
+@media (max-width: 900px) { .fcols { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 760px) {
+  .fcols { grid-template-columns: 1fr; gap: 0; border-top: 1px solid var(--line); }
+  .fcol { border-bottom: 1px solid var(--line); }
+  .fhead { display: flex; align-items: center; justify-content: space-between; min-height: 48px; margin: 0; cursor: pointer; }
+  .fhead::after { content: "+"; font-size: 18px; letter-spacing: 0; color: var(--brass-dim); }
+  .fcol[open] .fhead::after { content: "–"; }
+  .fcol ul { columns: 2; column-gap: var(--sp4); padding-bottom: var(--sp3); }
+  .fcol li { break-inside: avoid; }
+  .fcol li a { display: flex; align-items: center; min-height: 40px; padding: 0; }
+  .flegal { flex-direction: column; align-items: flex-start; margin-top: var(--sp4); padding-top: 0; border-top: 0; }
+  .flegal .copy a { display: inline-flex; align-items: center; min-height: 40px; }
+  .flinks a { min-height: 40px; }
 }
 
 /* ============================================================== live data status (decided Nov 14, 2026)
@@ -575,10 +610,8 @@ a.stage:hover { color: var(--ink); }
 @keyframes ring { from { transform: scale(1); opacity: .9; } to { transform: scale(3.2); opacity: 0; } }
 @keyframes blink { 50% { opacity: .45; } }
 
-/* the footer's live line (added by shared/footer.js on every page): on the credit line's row, opposite it, in the
+/* the footer's live line (added by shared/footer.js on every page): under the NEDAP name in the site-map footer, in the
    footer's own quiet type; a light, the state, and when the newest data arrived. An arrow shows on hover. */
-.footer .fbottom { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 var(--sp6); margin-top: var(--sp2); }
-.footer .fbottom .fnote { margin: 0; }
 .livestatus { position: relative; display: inline-flex; align-items: center; gap: 10px; min-height: 40px; max-width: 100%; color: var(--ink2); font-size: 13px; }
 .livestatus:hover { color: var(--ink); }
 .livestatus .ls-t { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex-shrink: 0; }
@@ -655,7 +688,7 @@ a.stage:hover { color: var(--ink); }
 }
 
 /* ============================================================== motion: quick, quiet feedback on everything pressable */
-a, button, .btn, .chip, .badge, input, select, summary, .backlink, .back, .nav a, .sitelinks a, .tabs a, .seg button {
+a, button, .btn, .chip, .badge, input, select, summary, .backlink, .back, .nav a, .fcol a, .flinks a, .tabs a, .seg button {
   transition: color .15s var(--ease), background-color .15s var(--ease), border-color .15s var(--ease), box-shadow .15s var(--ease),
     opacity .15s var(--ease), transform .12s var(--ease); }
 .btn:active:not([disabled]), .chip:active:not(:disabled), .seg button:active, .back:active, .backlink:active { transform: translateY(1px); }

@@ -140,12 +140,11 @@ first; a mock-up approved before building; only the shared components; credits, 
 a visitor's browser contacts, in the same change; data jobs handed to the Data updates chat.
 
 **Section, menu and shared parts (general chat)**
-- [ ] The site-map footer on every page, the menu with "Space Watch", the home page's "Orbit & Space Watch" section
-  and the section page `space-watch/` (mock-ups of Nov 17, 2026; the footer, menu and redrawn Space Weather card
-  awaiting approval). The section page's live figures come from the tools as each goes live; a tool appears in the
-  footer, the menu's section page and the home page when it is built.
-- [ ] Card illustrations for the four tools in `shared/art/` (drafts in the mock-ups).
-- [ ] The new pages' names in `shared/footer.js` (Back button) as each goes live.
+- [ ] As each tool goes live (its own chat, in the same change): remove `soon: true` from its line in `SECTIONS` and add
+  its name to `NAMES` in `shared/footer.js`; turn its card on `space-watch/` into a link (`a.card`, "Open") and its
+  home-page card's "Coming soon" into its agencies (general chat, or the tool's chat with the same markup).
+- [ ] The section page's live figures (objects tracked, flares, storm level, planets), added once the tools publish
+  them.
 
 **Shared map and globe (Image Explorer chat, before Planetary Maps and Orbit Watch build theirs)**
 - [ ] Move Image Explorer's map set-up (OpenLayers on an equirectangular tile grid) and its three.js globe into

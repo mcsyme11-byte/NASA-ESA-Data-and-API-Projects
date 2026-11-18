@@ -1,70 +1,113 @@
-// NASA and ESA Data Projects · site links in every footer · © 2026 Malcolm Syme · mcsyme11@gmail.com
+// NASA and ESA Data Projects · the site-map footer on every page · © 2026 Malcolm Syme · mcsyme11@gmail.com
 //
-// Adds the row of site links (About, Legal, Contact and the source code) to the page's <footer class="footer">, in
-// front of the copyright line, so the links are written in one place for every page. Each page loads it with
+// Builds the footer of every page from one list (decided Nov 17, 2026): the NEDAP mark and name with the live data
+// status on the left, a column for each part of the site listing its pages, then the copyright with the legal links
+// opposite, and the credit line. Each page loads it with
 //   <script type="module" src="<path to>/shared/footer.js"></script>
-// and has this footer (decided Nov 12, 2026: a short footer; each page's detailed data credits sit above it, in
-// <p class="srcline"> lines next to the content they cover):
+// and has this footer (each page's detailed data credits sit above it, in <p class="srcline"> lines):
 //   <footer class="footer">
 //     <div class="ftop"><p class="copy">© 2026 <strong>Malcolm Syme</strong> · <a href="mailto:…">…</a></p></div>
 //     <p class="fnote">Data courtesy of NASA and ESA. An independent project, not endorsed by NASA or ESA.</p>
 //   </footer>
-// Privacy, Terms, Credits and the licence are reached through the Legal page (legal/).
+// The copyright line and the credit line stay in the page itself (they read without this script); everything else is
+// added here, once. A page is listed by adding it to SECTIONS below; a page that is not live yet is left out with
+// `soon: true` until it is published.
 // It also sets up the "‹ Back" button on pages that have one (see wireBack below), the soft edge fade on rows that
-// scroll sideways (wireScrollRows), and the live data status at the foot of the footer (addLiveStatus, since Nov 14,
-// 2026): a light and one line saying whether the site's data is up to date, updating now, late or failed, linked to
-// the data-collection page.
-// It also puts the NEDAP mark (shared/icons/favicon.svg, the small version of the mission patch) at the start of the
-// copyright line (since Nov 17, 2026).
+// scroll sideways (wireScrollRows), and the live data status (addLiveStatus, since Nov 14, 2026): a light and one line
+// saying whether the site's data is up to date, updating now, late or failed, linked to the data-collection page.
 // Links are worked out from this file's own address, so they are right at any folder depth.
 
 const REPO = 'https://github.com/mcsyme11-byte/NASA-ESA-Data-and-API-Projects';
 const root = new URL("../", import.meta.url.split("?")[0]);
 
-// `pages`: the folders that count as this link's own section (the Legal link is marked on its four pages too)
-const LINKS = [
-  { label: 'About', href: new URL('about/', root).href, pages: ['about'] },
-  { label: 'Legal', href: new URL('legal/', root).href, pages: ['legal', 'privacy', 'terms', 'credits'] },
-  { label: 'Contact', href: new URL('contact/', root).href, pages: ['contact'] },
-  { label: 'Source code', href: REPO, external: true },
+// the page's own footer: the last <footer class="footer"> (a page may show a footer's parts as an example above it)
+const pageFooter = () => [...document.querySelectorAll('footer.footer')].pop() || null;
+
+// [label, address from the site's top folder, options]; `soon: true` keeps a page out until it is live
+const SECTIONS = [
+  ['Asteroid Tracker', [['Overview', 'asteroid-tracker/'], ['This week', 'asteroid-tracker/tracker.html'],
+    ['Impact risk', 'asteroid-tracker/tracker.html#risk'], ['Visible from here', 'asteroid-tracker/tracker.html#visible'],
+    ['Solar system map', 'asteroid-tracker/map.html']]],
+  ['Image Explorer', [['Overview', 'image-explorer/'], ['Earth map', 'image-explorer/explore.html#earth'],
+    ['Globe', 'image-explorer/explore.html#globe'], ['Picture library', 'image-explorer/explore.html#library']]],
+  ['Mars Data', [['Overview', 'mars-data/'], ['Charts', 'mars-data/charts/'], ['How the data is made', 'mars-data/method/']]],
+  ['Space Watch', [['Overview', 'space-watch/'], ['Orbit Watch', 'orbit-watch/', { soon: true }],
+    ['Space Weather', 'space-weather/', { soon: true }], ['Exoplanets', 'exoplanets/', { soon: true }],
+    ['Planetary Maps', 'planet-maps/', { soon: true }]]],
+  ['More', [['Sky Finder', 'sky-finder/'], ['Spacecraft map', 'spacecraft/'], ['How the data is collected', 'data-collection/'],
+    ['About', 'about/'], ['Contact', 'contact/']]],
 ];
+const LEGAL = [['Legal', 'legal/'], ['Privacy', 'privacy/'], ['Terms', 'terms/'], ['Credits', 'credits/'],
+  ['MIT licence', REPO + '/blob/main/LICENSE.md', { external: true }], ['Source code', REPO, { external: true }]];
 
-function addLinks() {
-  const footer = document.querySelector('footer.footer');
-  if (!footer || footer.querySelector('.sitelinks')) return;
+// the same page whether written as folder/ or folder/index.html
+const norm = (p) => p.replace(/index\.html$/, '');
 
-  const here = location.pathname;
-  const nav = document.createElement('nav');
-  nav.className = 'sitelinks';
-  nav.setAttribute('aria-label', 'About this site');
-
-  for (const l of LINKS) {
-    const a = document.createElement('a');
-    a.href = l.href;
-    a.textContent = l.label;
-    if (l.external) {
-      a.target = '_blank';
-      a.rel = 'noopener';
-      a.append(Object.assign(document.createElement('span'), { className: 'ext', textContent: ' ↗' }));
-      a.setAttribute('aria-label', l.label + ' (on GitHub, opens in a new tab)');
-    } else if (l.pages.some((pg) => here.includes('/' + pg + '/'))) {
-      a.setAttribute('aria-current', here.includes('/' + l.pages[0] + '/') ? 'page' : 'true');
-    }
-    nav.append(a);
+function link(label, href, opt = {}) {
+  const a = document.createElement('a');
+  a.textContent = label;
+  if (opt.external) {
+    a.href = href; a.target = '_blank'; a.rel = 'noopener';
+    a.append(Object.assign(document.createElement('span'), { className: 'ext', textContent: ' ↗' }));
+    a.setAttribute('aria-label', label + ' (on GitHub, opens in a new tab)');
+    return a;
   }
-  // in front of the copyright line; a page with an older footer (no .ftop) gets the row at the top
-  const top = footer.querySelector('.ftop');
-  if (top) top.prepend(nav); else footer.prepend(nav);
+  const u = new URL(href, root);
+  a.href = u.href;
+  const samePath = norm(u.pathname) === norm(location.pathname);
+  // the page, or the view of it that is showing (#risk), is marked; the Earth map is the explorer's first view
+  if (samePath && (u.hash === location.hash || (u.hash === '#earth' && !location.hash))) a.setAttribute('aria-current', 'page');
+  // a view of the page already open: follow the address change, then reload if the page does not switch by itself
+  if (samePath && u.hash) a.addEventListener('click', () => setTimeout(() => {
+    if (location.hash !== u.hash) location.reload();
+  }, 50));
+  return a;
 }
 
-// The NEDAP mark at the start of the copyright line; decorative, as the line itself names the developer.
-function addMark() {
-  const copy = document.querySelector('footer.footer .copy');
-  if (!copy || copy.querySelector('.fmark')) return;
-  const img = Object.assign(document.createElement('img'), {
-    className: 'fmark', src: new URL('shared/icons/favicon.svg', root).href, alt: '', width: 20, height: 20,
-  });
-  copy.prepend(img);
+function buildFooter() {
+  const footer = pageFooter();
+  if (!footer || footer.querySelector('.fmap')) return;
+
+  const brand = Object.assign(document.createElement('div'), { className: 'fbrand' });
+  const home = Object.assign(document.createElement('a'), { className: 'fhome', href: root.href });
+  home.append(Object.assign(document.createElement('img'), {
+    src: new URL('brand/patch/nedap-mark.svg', root).href, alt: '', width: 52, height: 52 }));
+  home.insertAdjacentHTML('beforeend', '<span class="fname">NASA and ESA Data Projects<small>NEDAP</small></span>');
+  brand.append(home, Object.assign(document.createElement('p'), {
+    className: 'ftag', textContent: 'Learning and exploring with open data from NASA and ESA.' }));
+
+  // each section is a <details>: open on wider screens; on phones folded, except the one holding this page
+  const cols = Object.assign(document.createElement('nav'), { className: 'fcols' });
+  cols.setAttribute('aria-label', 'Site map');
+  for (const [title, items] of SECTIONS) {
+    const live = items.filter(([, , o]) => !(o && o.soon));
+    const col = Object.assign(document.createElement('details'), { className: 'fcol' });
+    col.append(Object.assign(document.createElement('summary'), { className: 'fhead', textContent: title }));
+    const ul = document.createElement('ul');
+    for (const [label, href, o] of live) { const li = document.createElement('li'); li.append(link(label, href, o)); ul.append(li); }
+    col.append(ul);
+    cols.append(col);
+  }
+  const wide = matchMedia('(min-width: 761px)');
+  const fold = () => cols.querySelectorAll('details').forEach((d) => { d.open = wide.matches || !!d.querySelector('[aria-current]'); });
+  fold();
+  wide.addEventListener('change', fold);
+
+  const map = Object.assign(document.createElement('div'), { className: 'fmap' });
+  map.append(brand, cols);
+
+  // the page's copyright line moves to the bottom row, with the legal links opposite; the credit line stays last
+  const legal = Object.assign(document.createElement('div'), { className: 'flegal' });
+  const copy = footer.querySelector('.copy');
+  const lnav = Object.assign(document.createElement('nav'), { className: 'flinks' });
+  lnav.setAttribute('aria-label', 'Legal');
+  for (const [label, href, o] of LEGAL) lnav.append(link(label, href, o));
+  if (copy) legal.append(copy);
+  legal.append(lnav);
+
+  const top = footer.querySelector('.ftop');
+  if (top) top.replaceWith(map); else footer.prepend(map);
+  map.after(legal);
 }
 
 // A "‹ Back" button (<a class="backlink" id="back" href="<home>">Home</a>; the arrow is drawn by shared/theme.css) above
@@ -75,7 +118,7 @@ const NAMES = [
   [/\/asteroid-tracker\/tracker\.html$/, 'the Asteroid Tracker'], [/\/asteroid-tracker\/(index\.html)?$/, 'the Asteroid Tracker home page'], [/\/image-explorer\/explore\.html$/, 'the Image Explorer'],
   [/\/image-explorer\/(index\.html)?$/, 'the Image Explorer home page'], [/\/mars-data\/charts\//, 'the Mars charts'],
   [/\/mars-data\/method\//, 'How the data is made'], [/\/mars-data\//, 'Mars Data'], [/\/about\//, 'About'], [/\/privacy\//, 'Privacy'], [/\/terms\//, 'Terms'],
-  [/\/credits\//, 'Credits'], [/\/data-collection\//, 'How the data is collected'], [/\/contact\//, 'Contact'], [/\/legal\//, 'Legal'], [/\/sky-finder\/how-to\.html$/, 'How to use Sky Finder'], [/\/sky-finder\//, 'Sky Finder'], [/\/spacecraft\//, 'the spacecraft map'], [/\/design\//, 'Components'],
+  [/\/credits\//, 'Credits'], [/\/data-collection\//, 'How the data is collected'], [/\/contact\//, 'Contact'], [/\/legal\//, 'Legal'], [/\/sky-finder\/how-to\.html$/, 'How to use Sky Finder'], [/\/sky-finder\//, 'Sky Finder'], [/\/spacecraft\//, 'the spacecraft map'], [/\/space-watch\//, 'Space Watch'], [/\/design\//, 'Components'],
 ];
 function wireBack() {
   const el = document.getElementById('back');
@@ -128,7 +171,7 @@ function wireScrollRows() {
 // The live data status (shared/datastatus.js, rules in docs/DATA-UPDATES.md): a light and one line at the foot of the
 // footer, on the credit line's row, refreshed every 3 minutes while the page is open; the times in it are kept current every 30 seconds.
 async function addLiveStatus() {
-  const footer = document.querySelector('footer.footer');
+  const footer = pageFooter();
   if (!footer || footer.querySelector('.livestatus')) return;
   const v = new URL(import.meta.url).search;
   let ds;
@@ -140,14 +183,9 @@ async function addLiveStatus() {
   a.dataset.state = 'unknown';
   a.innerHTML = '<span class="light" data-state="unknown" aria-hidden="true"></span><span class="ls-t">Checking the data…</span>'
     + '<span class="ls-s" hidden></span>';
-  // on the credit line's row, opposite it (a page without a credit line gets it at the end)
-  const note = footer.querySelector(':scope > .fnote');
-  if (note) {
-    const row = document.createElement('div');
-    row.className = 'fbottom';
-    note.replaceWith(row);
-    row.append(note, a);
-  } else footer.append(a);
+  // under the NEDAP name in the site map (a page without it gets the line at the end)
+  const brandBlock = footer.querySelector('.fbrand');
+  if (brandBlock) brandBlock.append(a); else footer.append(a);
   const [t, sub, light] = [a.querySelector('.ls-t'), a.querySelector('.ls-s'), a.querySelector('.light')];
   let last = null;
   const paint = () => {
@@ -168,6 +206,6 @@ async function addLiveStatus() {
   document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(false); });
 }
 
-function start() { addLinks(); addMark(); wireBack(); wireScrollRows(); addLiveStatus(); }
+function start() { buildFooter(); wireBack(); wireScrollRows(); addLiveStatus(); }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
 else start();

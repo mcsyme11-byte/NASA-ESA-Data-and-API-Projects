@@ -4,6 +4,14 @@ How NASA and ESA Data Projects is built, the decisions made so far, and how to r
 
 ## Decisions
 
+- **Decided Nov 17, 2026 (site-map footer and menu):** every page's footer is a site map, built by `shared/footer.js`
+  from one list: the NEDAP mark and name with the live data status; a column for each part of the site (Asteroid
+  Tracker, Image Explorer, Mars Data, Space Watch, More) listing its pages, with the current page marked; the
+  copyright with the legal links opposite; the credit line. It replaces the one-row footer of Nov 12, 2026. On phones
+  each section folds. A page is listed by adding a line to `SECTIONS`; pages not live yet are kept out with
+  `soon: true`. The menu gained Space Watch; every label stays on one line at every width. The section page
+  `space-watch/` and the home page's "Orbit & Space Watch" section are live, the four tools marked "In preparation"
+  until each is published. Approved from mock-ups the same day.
 - **Decided Nov 17, 2026 (Orbit & Space Watch):** a new section of the site, planned in the developer's portfolio
   project: **Orbit Watch** (satellite and space-debris tracker, collision simulator, cleanup explainer, `orbit-watch/`),
   **Space Weather** (`space-weather/`), **Exoplanets** (`exoplanets/`) and **Planetary Maps** (`planet-maps/`), each

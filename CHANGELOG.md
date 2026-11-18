@@ -1,5 +1,20 @@
 # Change log
 
+## November 17, 2026 — the site-map footer, the menu and Space Watch
+
+- **A site map at the foot of every page:** the NEDAP mark and name with the live data status; a column for each part
+  of the site listing its pages, with the page you are on marked; then the copyright with the legal links, and the
+  credit line. On phones each section folds and opens from its heading. Built once, in `shared/footer.js`; a new page
+  is listed by adding one line to its list.
+- **The menu** gains Space Watch. Every label stays on one line at every width from 320 px: the site's name beside the
+  mark shows from 881 px and the Home link from 761 px (the mark goes home).
+- **Orbit & Space Watch:** the section page `space-watch/` and a section of four cards on the home page, with new
+  illustrations; each tool is marked "In preparation" until it is published. The home page's introduction now
+  mentions the tools.
+- Image Explorer: a link to another of its tabs (from the footer) now switches to that tab.
+- Checked on every page at 320, 390, 768, 1024, 1280 and 1440 px: one footer each, no repeated links, nothing wider
+  than the screen, no menu label on two lines, no script errors. Version tags raised to `2026111705`.
+
 ## November 17, 2026 — Orbit & Space Watch planned
 
 - A new section of the site was planned and approved: Orbit Watch, Space Weather, Exoplanets and Planetary Maps, each in

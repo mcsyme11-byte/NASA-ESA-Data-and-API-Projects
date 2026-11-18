@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="A star with a planet passing in front of it, and its dip in brightness">
+  <!-- NASA and ESA Data Projects · illustration · © 2026 Malcolm Syme · mcsyme11@gmail.com -->
+  <defs><radialGradient id="bg" cx="40%" cy="50%" r="75%"><stop offset="0" stop-color="#1B1D2A"/><stop offset="1" stop-color="#0C1119"/></radialGradient>
+  <radialGradient id="st" cx="45%" cy="42%" r="70%"><stop offset="0" stop-color="#FFF4D6"/><stop offset=".55" stop-color="#E7C27C"/><stop offset="1" stop-color="#9C6A2C"/></radialGradient></defs>
+  <rect width="640" height="360" fill="url(#bg)"/><g fill="#EDE6D3" opacity=".45"><circle cx="40" cy="40" r="1"/><circle cx="90" cy="320" r=".8"/><circle cx="600" cy="40" r="1"/><circle cx="380" cy="30" r=".8"/><circle cx="610" cy="330" r=".8"/><circle cx="340" cy="330" r=".7"/><circle cx="30" cy="200" r=".7"/><circle cx="520" cy="300" r=".9"/></g>
+  <circle cx="190" cy="160" r="90" fill="url(#st)"/>
+  <circle cx="226" cy="146" r="16" fill="#0E1520"/>
+  <ellipse cx="190" cy="160" rx="150" ry="26" fill="none" stroke="#8AA9C9" stroke-opacity=".45" transform="rotate(-8 190 160)"/>
+  <g stroke="#EDE6D3" stroke-opacity=".15"><line x1="340" y1="280" x2="610" y2="280"/><line x1="340" y1="120" x2="340" y2="280"/></g>
+  <path d="M340 160 L440 160 L452 160 L462 200 L512 200 L522 160 L610 160" fill="none" stroke="#C0A062" stroke-width="2.5"/>
+  <g fill="#8AA9C9" opacity=".7"><circle cx="360" cy="158" r="1.6"/><circle cx="380" cy="162" r="1.6"/><circle cx="400" cy="159" r="1.6"/><circle cx="420" cy="161" r="1.6"/><circle cx="472" cy="198" r="1.6"/><circle cx="487" cy="202" r="1.6"/><circle cx="502" cy="199" r="1.6"/><circle cx="540" cy="161" r="1.6"/><circle cx="560" cy="158" r="1.6"/><circle cx="585" cy="160" r="1.6"/></g>
+</svg>

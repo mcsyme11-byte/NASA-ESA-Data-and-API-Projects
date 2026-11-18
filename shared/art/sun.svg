@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="The Sun sending a stream of particles to the Earth, with the aurora around its pole">
+  <!-- NASA and ESA Data Projects · illustration · © 2026 Malcolm Syme · mcsyme11@gmail.com -->
+  <defs>
+    <radialGradient id="bg" cx="25%" cy="50%" r="80%"><stop offset="0" stop-color="#2A1E16"/><stop offset=".55" stop-color="#151A24"/><stop offset="1" stop-color="#0C1119"/></radialGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%"><stop offset=".55" stop-color="#E8A75A" stop-opacity=".35"/><stop offset="1" stop-color="#E8A75A" stop-opacity="0"/></radialGradient>
+    <radialGradient id="s" cx="42%" cy="40%" r="65%"><stop offset="0" stop-color="#FBE3A6"/><stop offset=".55" stop-color="#E39A48"/><stop offset="1" stop-color="#A9541F"/></radialGradient>
+    <radialGradient id="e" cx="38%" cy="34%" r="75%"><stop offset="0" stop-color="#5C8FB8"/><stop offset=".6" stop-color="#22466B"/><stop offset="1" stop-color="#0E1E33"/></radialGradient>
+    <linearGradient id="stream" x1="0" x2="1"><stop offset="0" stop-color="#E2C88E" stop-opacity=".7"/><stop offset="1" stop-color="#E2C88E" stop-opacity=".05"/></linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#bg)"/>
+  <g fill="#EDE6D3" opacity=".45"><circle cx="380" cy="40" r=".9"/><circle cx="600" cy="40" r="1"/><circle cx="610" cy="330" r=".8"/><circle cx="340" cy="330" r=".7"/><circle cx="470" cy="60" r=".7"/><circle cx="560" cy="300" r=".8"/></g>
+  <circle cx="150" cy="180" r="150" fill="url(#glow)"/>
+  <!-- the stream of particles towards the Earth -->
+  <path d="M170 140 C 330 130, 410 150, 470 172 L 470 192 C 410 196, 330 222, 170 222 Z" fill="url(#stream)" opacity=".35"/>
+  <g fill="#E2C88E"><circle cx="300" cy="166" r="2"/><circle cx="332" cy="182" r="1.6"/><circle cx="356" cy="168" r="1.8"/><circle cx="388" cy="186" r="1.4"/><circle cx="410" cy="174" r="1.6"/><circle cx="436" cy="184" r="1.2"/><circle cx="318" cy="196" r="1.4"/><circle cx="372" cy="200" r="1.2"/></g>
+  <circle cx="150" cy="180" r="96" fill="url(#s)"/>
+  <!-- an eruption on the limb: a loop of hot gas -->
+  <path d="M228 128 C 262 92, 300 104, 284 150" fill="none" stroke="#FBE3A6" stroke-width="5" stroke-linecap="round" opacity=".85"/>
+  <path d="M232 134 C 258 108, 286 116, 276 148" fill="none" stroke="#E39A48" stroke-width="2.5" stroke-linecap="round" opacity=".8"/>
+  <!-- the Earth's magnetic field bends the stream around it -->
+  <g fill="none" stroke="#8AA9C9" stroke-opacity=".45" stroke-width="1.5">
+    <path d="M478 120 C 450 150, 450 210, 478 240"/>
+    <path d="M500 104 C 462 140, 462 220, 500 256"/>
+  </g>
+  <circle cx="530" cy="180" r="40" fill="url(#e)"/>
+  <path d="M510 168 q14 -10 30 -4 q10 4 20 -2 l2 12 q-16 10 -32 4 q-12 -4 -20 2z" fill="#8FB996" fill-opacity=".5"/>
+  <!-- the aurora: a green ring around the north pole -->
+  <ellipse cx="530" cy="150" rx="22" ry="6" fill="none" stroke="#8FB996" stroke-width="4" opacity=".9"/>
+  <ellipse cx="530" cy="150" rx="22" ry="6" fill="none" stroke="#C6E3C9" stroke-width="1.2" opacity=".9"/>
+  <circle cx="530" cy="180" r="40" fill="none" stroke="#8AA9C9" stroke-opacity=".5"/>
+</svg>

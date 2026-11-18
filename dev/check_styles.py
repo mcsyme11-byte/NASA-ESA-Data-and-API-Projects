@@ -22,7 +22,7 @@ PROJECT_CSS = ['asteroid-tracker/tracker.css', 'image-explorer/explorer.css', 'm
 # the shared components (shared/theme.css); a project style sheet may not restyle one of these by itself
 SHARED = ['btn', 'chip', 'chips', 'card', 'cards', 'panel', 'panels', 'seg', 'tabs', 'notice', 'badge', 'badges', 'pill',
           'tag', 'stat', 'stats', 'tile', 'tiles', 'pagehead', 'phead', 'back', 'backlink', 'howto', 'section',
-          'section-head', 'shead', 'footer', 'sitelinks', 'srcline', 'lede', 'kicker', 'eyebrow', 'bigsearch', 'qclear',
+          'section-head', 'shead', 'footer', 'fmap', 'fcol', 'fcols', 'fhead', 'flegal', 'flinks', 'fbrand', 'srcline', 'lede', 'kicker', 'eyebrow', 'bigsearch', 'qclear',
           'filters', 'periodbar', 'period', 'linkbtn', 'state', 'empty', 'loading', 'ctl', 'table', 'prose', 'list',
           'terms', 'sources', 'steps', 'split', 'legend', 'tip', 'note', 'caption', 'aside', 'lbl', 'wrap', 'topbar',
           'nav', 'brand', 'more', 'viewhead', 'actions', 'field', 'sr', 'hscroll', 'callout', 'stage', 'medal',

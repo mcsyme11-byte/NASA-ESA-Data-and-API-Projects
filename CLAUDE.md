@@ -57,9 +57,15 @@ inside its own folder.
   component page first, after an approved mock-up, and every addition to a page says what it replaces or why nothing
   already there fits. `python3 dev/check_styles.py` checks this, and GitHub runs it after every push.
 - **Free to run:** static pages on GitHub Pages and free NASA APIs; no paid services.
-- **Site pages (since Nov 9, 2026):** every page loads `shared/footer.js` (the links to About, Legal, Contact and the
-  source code; since Nov 12, 2026 the footer is one row of those links with the copyright, then one short credit
-  line, and Privacy, Terms, Credits and the licence are reached through the Legal page, `legal/`). Each page's
+- **Site pages (since Nov 9, 2026):** every page loads `shared/footer.js`. Since Nov 17, 2026 it builds a **site-map
+  footer** on every page from one list (`SECTIONS` in `shared/footer.js`): the NEDAP mark and name with the live data
+  status, a column for each part of the site listing its pages, then the copyright with the legal links (Legal,
+  Privacy, Terms, Credits, licence, source code) and the credit line. A page keeps only the footer's copyright and
+  credit lines in its own HTML (copy them from any page); it never adds links, a logo or other content to the footer.
+  **A new page is listed by adding one line to its section in `SECTIONS`** (a page not live yet carries
+  `{ soon: true }`, which keeps it out; remove it when the page is published), in the same change as the page, with
+  its name in the Back-button list (`NAMES`) of the same file. Every page's menu is Home, Asteroids, Mars, Images,
+  Space Watch (copy it from any page). Each page's
   detailed data credits sit above the footer in `<p class="srcline">` lines, never in the footer. A new data source or library is added to `CREDITS.md` and the Credits
   page (`credits/index.html`) in the same change; anything new the site stores or sends is added to the Privacy page
   first.

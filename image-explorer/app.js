@@ -577,6 +577,8 @@ document.querySelector('.tabs').addEventListener('click', e => { const b = e.tar
 /* explore.html#earth, #globe or #library opens that tab (the project's home page links here); once the globe's module
    has run, so it hears the change */
 window.addEventListener('DOMContentLoaded', () => { const v = location.hash.slice(1); if (v === 'globe' || v === 'library') show(v); });
+/* a link to another tab of this page (the site-map footer's Earth map, Globe, Picture library) switches to it */
+window.addEventListener('hashchange', () => { const v = location.hash.slice(1); if (v === 'earth' || v === 'globe' || v === 'library') show(v); });
 
 /* ---------- picture library: live search of NASA's Image and Video Library ---------- */
 const A = 'https://images-assets.nasa.gov/image/';
