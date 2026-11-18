@@ -1,5 +1,15 @@
 # Change log
 
+## November 17, 2026 — control room mock-up; footer fits phones again
+
+- Mock-up of the control room for approval (`control-room/mockup.html`, sample data, unlisted and `noindex`): what
+  needs attention with a "Copy for the chat" message, the last 7 days at a glance, every job and source, scheduled
+  against started times (GitHub timer against the outside clock), recent saves and refusals, and what is coming up.
+  Built from the shared components only; checked at 320 to 1440 px.
+- Every page was wider than a phone's screen (498 px at 375) since the site-map footer: the live data line, which
+  does not wrap, set the width of the footer's single column. The column is now `minmax(0, 1fr)` and the line wraps
+  on phones. Version tag raised to 2026111708.
+
 ## November 17, 2026 — "Within reach" data updated monthly
 
 - `asteroid-data.yml` has a second job, `reach`, which runs `asteroid-tracker/fetch_reach.py` (NASA/JPL NHATS launch

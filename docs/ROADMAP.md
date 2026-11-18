@@ -127,6 +127,13 @@ one GitHub issue labelled `data-health`.
 - [ ] "Within reach" (monthly, since Nov 17, 2026): confirm its first scheduled run, due about December 15, 2026 (28
   days after the files were built by hand): the Asteroid data run's job "reach" ran, saved `reach.json` and
   `phys.json` (or found them unchanged), and the status file shows both parts ok.
+- [ ] Control room (decided Nov 17, 2026): an unlisted page for the developer with every data job, source, start
+  time, save and coming run, and a button that copies a ready-made message for the Data updates chat when something
+  is wrong. Mock-up for approval: `control-room/mockup.html` (sample data). After approval: the live page at
+  `control-room/`, unlisted (not in `SECTIONS`, `noindex`).
+- [ ] Outside clock (decided Nov 17, 2026): free timers at cron-job.org start the data jobs on time through GitHub's
+  API (a fine-grained token limited to this repository's Actions); GitHub's own schedule stays as the backup. Waiting
+  for the developer's cron-job.org account; then a 2 to 3 day trial on Spacecraft data, then every job.
 - [ ] Mars data: reduce the job to weekly once it has run without trouble for a few weeks (from about December 10,
   2026); change `mars-data.yml` and `max_age_hours` in `dev/data_jobs.json` (to 192) together.
 
