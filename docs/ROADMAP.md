@@ -42,7 +42,6 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
   (SSMIS Aug 2021, AMSR2 Sep 2025); the current one is MODIS (a camera, daylight only). Ice surface temperature
   (`MODIS_Terra_Ice_Surface_Temp_Night`, thermal) is an option to consider.
 - [ ] Further rounds of changes to the globe, as the developer reviews it.
-- [ ] A "Moon and Mars maps" link on the globe, once Planetary Maps is live (hand-off of Nov 17, 2026).
 - [ ] Picture library: subtitles for videos (NASA's files cannot be attached from another site; would need a copy).
 - [ ] With reduced motion set, the globe does not turn by itself and moves without animation; to be rechecked on a
   phone.

@@ -1,5 +1,14 @@
 # Change log
 
+## November 17, 2026 — Image Explorer: links to the Moon and Mars maps
+
+- Under the globe, a "Moon and Mars maps" row opens Planetary Maps directly: the Moon's and Mars's globes, the Apollo
+  11 site, the Moon's south pole, and Jezero and Gale craters (`../planet-maps/#moon-globe`, `#mars-globe`,
+  `#moon-apollo11`, `#moon-south`, `#mars-jezero`, `#mars-gale`). Built from shared components only (a label, `.lbl`,
+  over a quick-pick chip row, `.popular`, with chip links), the same pattern as the chip rows under the searches;
+  nothing on the page linked to other tools from the globe before. Checked at 320 to 1440 px: the row scrolls
+  sideways on phones, links are 40 px tall there, and each link opens its view or its place's card.
+
 
 ## November 18, 2026 — Mars Data: links to Planetary Maps
 
