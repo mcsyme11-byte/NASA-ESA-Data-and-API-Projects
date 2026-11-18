@@ -7,6 +7,9 @@
   record since 2010 (`archive.json`). The page reads the services live; the job only keeps the copy for when NASA
   cannot be reached.
 - The outside clock has 17 timers: Orbit data, Exoplanets data and Space weather data added.
+- First run of Space weather data by hand: `latest.json` (31 flares, 145 solar wind points) and `archive.json` (200
+  months from April 2010). DONKI's early years are uneven (M-class flares complete from 2014, C-class from 2021); noted
+  for the Space Weather chat in `docs/ROADMAP.md` (5b).
 
 ## November 18, 2026 — Every description of the site brought up to date; the checks procedure
 

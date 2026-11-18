@@ -159,8 +159,14 @@ collisions, Cleaning up; see `orbit-watch/README.md`).
 - [ ] Check on the live site, in a browser (the build environment could not reach the services; the page was checked
   against sample answers built from the real readings of Nov 17, 2026): the live readings arrive, the three pictures
   and NOAA's aurora map load, the place search works, and the page reads well on a phone.
-- [ ] Once the Data updates chat has built the job: the "Since 2010" button appears, and the page falls back to the
-  saved copy when NASA cannot be reached.
+- [ ] The data job runs since Nov 18, 2026 (`space-weather-data.yml`; first run by hand wrote `latest.json` with 31
+  flares and 145 solar wind points, and `archive.json` with 200 months from April 2010). Check on the live site: the
+  "Since 2010" button appears, and the page falls back to the saved copy when NASA cannot be reached.
+- [ ] DONKI's record is uneven in its early years (first run, Nov 18, 2026): X-class flares are listed throughout, but
+  M-class flares only fully from 2014 (2011 to 2013 hold about 20 a year, well below the published yearly totals) and
+  C-class flares only from 2021 (fewer than 25 a year before). Decide in the Space Weather chat whether the "Since
+  2010" view starts later (`START` in `space-weather/fetch_space_weather.py`), counts only X and M from 2014, or says
+  on the page which years and classes DONKI covers.
 - [ ] Later, if wanted: a short animation of the last day's SOHO pictures (SOHO offers movies, not checked yet); the
   section page's live figures (flares, storm level) once the section page shows live figures.
 
