@@ -701,8 +701,9 @@ a.stage:hover { color: var(--ink); }
   .display-link { padding-top: 8px; }
   /* small links inside kickers, callout titles and asides: a taller tap area without moving the text */
   .kicker a, .callout h4 a, .aside a, .notice .t a { display: inline-block; padding: 12px 0; margin: -12px 0; }
-  /* the job names on the status board and in the list of sources (added Nov 17, 2026): 40 px and more */
-  .job h3 a, .sources .s .n a { display: inline-block; padding: 10px 0; margin: -10px 0; }
+  /* the job names on the status board and in the list of sources, and links in table cells (added Nov 17,
+     2026): 40 px and more */
+  .job h3 a, .sources .s .n a, .table td a { display: inline-block; padding: 10px 0; margin: -10px 0; }
 }
 
 /* ============================================================== motion: quick, quiet feedback on everything pressable */

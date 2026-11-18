@@ -195,5 +195,6 @@ export async function load({ fresh = false } = {}) {
     headline = 'Live data status unavailable';
     detail = 'The status could not be read just now.';
   }
-  return { jobs, state, headline, detail, latest, api: !!gh, checked: gh ? gh.t : now };
+  // runs: every run in view, newest first (the control room's timing table); cfg: dev/data_jobs.json as read
+  return { jobs, state, headline, detail, latest, api: !!gh, checked: gh ? gh.t : now, runs: all, cfg };
 }

@@ -1,5 +1,17 @@
 # Change log
 
+## November 17, 2026 — the control room is live
+
+- `control-room/` (unlisted, `noindex`), built from the approved mock-up: needs attention with a ready-made message
+  and a "Copy for the chat" button; the last 7 days (runs, successes, the median delay of GitHub's timer, 7 h 15 min
+  on its first day, and of the outside clock once it runs, data commits); every job and source with monthly due
+  dates; the latest runs, scheduled against started; recent data saves; refusals, notes and broken links; what is
+  coming up. Tested with GitHub's real lists, a failed run, an open health issue and GitHub out of reach, at 320 to
+  1440 px. The mock-up files were replaced by the page.
+- `shared/datastatus.js` also returns the runs in view and `dev/data_jobs.json`; `dev/data_jobs.json` has a `clock`
+  entry for the outside clock (empty until it is set up). The Privacy page names the control room's two extra GitHub
+  lists. Links in table cells are 40 px tall on phones (shared rule). Version tag raised to 2026111712.
+
 ## November 17, 2026 — Orbit Watch
 
 - New tool `orbit-watch/`, approved from a plan and mock-ups: a home page with NASA's Satellite Box Score and ESA's

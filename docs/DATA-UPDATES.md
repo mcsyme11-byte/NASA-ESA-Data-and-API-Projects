@@ -132,6 +132,17 @@ in the tab's session storage for 3 minutes). Without GitHub's list the status fi
 precedence: **failed** (the latest finished run failed), **partly failed** (a source failing; its previous data is
 kept), **updating** (a run in progress or queued), **late** (no successful run within `max_age_hours`), **up to date**.
 
+## The control room
+
+`control-room/` (since Nov 17, 2026; unlisted: not in the menus or the footer, `noindex`) is the developer's view of
+the data updates: what needs attention, with a "Copy for the chat" message for the Data updates chat whenever a job
+failed, a source is failing, a job is late, a monthly source is past its allowed age or the `data-health` issue is
+open; the last 7 days at a glance (runs, successes, the median delay of GitHub's timer and of the outside clock, data
+commits); every job and source, with the monthly sources' next due dates; the latest runs, scheduled against started
+and who started them; recent data saves; refusals, log notes and broken catalogue links; and what is coming up
+(next runs, cycles, reviews, the outside clock and its token). It reads the same files as the live data status, and
+GitHub's public lists of runs, commits and the `data-health` issue, kept 3 to 15 minutes in the tab.
+
 ## Tasks done by hand
 
 Listed under `reviews` in `dev/data_jobs.json`; the health check lists each one when it is due. After doing one, set

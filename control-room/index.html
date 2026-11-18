@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<!-- NASA and ESA Data Projects · Control room (unlisted) · © 2026 Malcolm Syme · mcsyme11@gmail.com -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Control room · NASA and ESA Data Projects</title>
+  <meta name="description" content="The developer's view of the site's automatic data updates: every job, source, run, save and coming run.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#141B26">
+  <link rel="icon" href="../shared/icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="../shared/icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../shared/icons/apple-touch-icon.png">
+  <link rel="manifest" href="../site.webmanifest">
+  <meta name="apple-mobile-web-app-title" content="NEDAP">
+  <meta name="application-name" content="NEDAP">
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111712">
+  <script type="module" src="../shared/footer.js?v=2026111712"></script>
+  <script type="module" src="app.js?v=2026111712"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../" aria-label="NASA and ESA Data Projects, home">
+        <svg class="emblem" width="26" height="26" viewBox="0 0 64 64" aria-hidden="true"><use href="../shared/emblem.svg#e"/></svg><span class="bname">NASA and ESA Data Projects</span></a>
+      <nav class="nav" aria-label="Projects">
+        <a href="../">Home</a>
+        <a href="../asteroid-tracker/">Asteroids</a>
+        <a href="../mars-data/">Mars</a>
+        <a href="../image-explorer/">Images</a>
+        <a href="../space-watch/">Space Watch</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <a class="backlink" id="back" href="../data-collection/">How the data is collected</a>
+    <header class="pagehead">
+      <div class="kicker">Data updates · unlisted</div>
+      <h1>Control room</h1>
+      <p class="lede">Everything behind the site's automatic data updates in one place: every job, every source, when
+        GitHub started each run, what was saved and what is coming next. When something is wrong, one button copies
+        a ready-made message for the Data updates chat.</p>
+      <p class="meta"><span class="badge live">Live</span><span class="small" id="checked">Reading the latest status…</span></p>
+    </header>
+
+    <section class="section" aria-labelledby="h-now">
+      <div class="section-head"><div><div class="kicker">Right now</div><h2 id="h-now">Needs attention</h2></div>
+        <button class="btn outline small" type="button" id="refresh">Refresh</button></div>
+      <div class="board" aria-live="polite">
+        <div class="board-head" id="bhead" data-state="unknown">
+          <span class="light large" data-state="unknown" aria-hidden="true"></span>
+          <div><h3 id="headline">Reading the status…</h3><p class="caption" id="detail">One moment.</p></div>
+        </div>
+      </div>
+      <div class="notice error" id="ask" hidden>
+        <div class="t"><strong>Message for the Data updates chat</strong>
+          <p class="small" id="msg"></p></div>
+        <button class="btn small" type="button" id="copy">Copy for the chat</button>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="h-figs">
+      <div class="section-head"><div><div class="kicker">Last 7 days</div><h2 id="h-figs">At a glance</h2></div></div>
+      <div class="stats">
+        <div class="stat"><div class="label">Runs</div><div class="value" id="f-runs">–</div><div class="note" id="f-runs-n">data jobs and the health check</div></div>
+        <div class="stat"><div class="label">Succeeded</div><div class="value" id="f-ok">–</div><div class="note" id="f-ok-n">of those runs</div></div>
+        <div class="stat"><div class="label">Started late, GitHub timer</div><div class="value" id="f-gh">–</div><div class="note" id="f-gh-n">median</div></div>
+        <div class="stat"><div class="label">Started late, outside clock</div><div class="value" id="f-clock">–</div><div class="note" id="f-clock-n">median</div></div>
+        <div class="stat"><div class="label">Data saved</div><div class="value" id="f-saves">–</div><div class="note" id="f-saves-n">commits</div></div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="h-jobs">
+      <div class="section-head"><div><div class="kicker">Jobs and sources</div><h2 id="h-jobs">Every data job</h2></div>
+        <p class="aside">Bars: the latest runs, oldest on the left.</p></div>
+      <div class="board">
+        <ol class="jobs" id="jobs"><li class="loading">Reading the data jobs…</li></ol>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="h-runs">
+      <div class="section-head"><div><div class="kicker">Timing</div><h2 id="h-runs">Latest runs</h2></div>
+        <p class="aside" id="tz">Times in your time zone.</p></div>
+      <figure class="panel">
+        <div class="ph"><h3>Scheduled against started</h3><span class="aside" id="runs-n"></span></div>
+        <div class="pb flush"><table class="table stack">
+          <thead><tr><th>Job</th><th>Scheduled</th><th>Started</th><th class="r">Late by</th><th>Started by</th><th>Result</th></tr></thead>
+          <tbody id="runs"><tr><td colspan="6" class="loading">Reading GitHub's run list…</td></tr></tbody>
+        </table></div>
+        <details class="howto"><summary>How to read this</summary>
+          <p><b>Scheduled</b> is the job's last scheduled time before the run started. <b>Started by</b>: "GitHub
+            timer" is GitHub's own schedule, often hours late; "Outside clock" is a run started through GitHub's API
+            within 15 minutes of a scheduled time; "After a change" follows a push to the code or the catalogue; "By
+            hand" is any other start. Once the outside clock runs, each time is started twice: on time by the clock,
+            and later by GitHub's timer as a backup, which finds nothing new and saves nothing.</p></details>
+      </figure>
+    </section>
+
+    <section class="section" aria-labelledby="h-saved">
+      <div class="section-head"><div><div class="kicker">Saves</div><h2 id="h-saved">What was saved</h2></div></div>
+      <div class="panels">
+        <figure class="panel">
+          <div class="ph"><h3>Recent data saves</h3><span class="aside">Each one a commit on GitHub</span></div>
+          <div class="pb flush"><table class="table stack">
+            <thead><tr><th>When</th><th>Job</th><th>What</th><th class="r">Files</th></tr></thead>
+            <tbody id="saves"><tr><td colspan="4" class="loading">Reading the commits…</td></tr></tbody>
+          </table></div>
+        </figure>
+        <figure class="panel">
+          <div class="ph"><h3>Refused and noted</h3><span class="aside">The data guard and the logs</span></div>
+          <div class="pb"><ul class="list" id="noted"><li>Reading…</li></ul></div>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="h-next">
+      <div class="section-head"><div><div class="kicker">Ahead</div><h2 id="h-next">Coming up</h2></div></div>
+      <div class="facts">
+        <div class="f"><h4>Next runs</h4><p id="n-runs">–</p></div>
+        <div class="f"><h4>Monthly and quarterly</h4><p id="n-cycles">–</p></div>
+        <div class="f"><h4>Reviews by hand</h4><p id="n-reviews">–</p></div>
+        <div class="f"><h4>Outside clock</h4><p id="n-clock">–</p></div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="h-how">
+      <div class="section-head"><div><div class="kicker">Reference</div><h2 id="h-how">How it all works</h2></div></div>
+      <div class="prose"><p>The rules every data job follows are in
+        <a href="https://github.com/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/blob/main/docs/DATA-UPDATES.md" target="_blank" rel="noopener">DATA-UPDATES.md ↗</a>;
+        the visitors' version is <a href="../data-collection/">How the data is collected</a>; every run is on
+        <a href="https://github.com/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/actions" target="_blank" rel="noopener">GitHub Actions ↗</a>.
+        This page is not in the menus or the footer, and search engines are asked not to list it.</p></div>
+    </section>
+
+    <p class="srcline">Read from the jobs' status files, <code>dev/data_jobs.json</code> and GitHub's public lists of the
+      site's runs, commits and data-health issue (api.github.com, no key; GitHub allows 60 requests an hour per visitor,
+      so the lists are kept for 3 to 15 minutes in this tab).</p>
+    <footer class="footer">
+      <div class="ftop"><p class="copy">© 2026 <strong>Malcolm Syme</strong> · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></p></div>
+      <p class="fnote">Data courtesy of NASA and ESA. An independent project, not endorsed by NASA or ESA.</p>
+    </footer>
+  </main>
+</body>
+</html>
