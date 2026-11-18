@@ -514,6 +514,19 @@ svg.chart, .chart { display: block; width: 100%; height: auto; }
 .chartcard > .pb { padding-top: var(--sp3); }
 .tip b { font-weight: 400; color: var(--brass-bright); }
 
+/* Level scale (added Nov 17, 2026, for Space Weather): a reading on a scale of steps (Kp 0 to 9), filled up to the
+   reading, with the steps that matter outlined in brass. Replaces nothing: no earlier component shows where a reading
+   stands against a threshold. Markup: .levels › span (the step's number), .on for filled steps (.mid amber, .high copper),
+   .mark for an outlined step; an aria-label on .levels says it in words. */
+.levels { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 3px; margin: var(--sp3) 0 var(--sp2); }
+.levels > span { display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: 11px; line-height: 1; color: var(--muted); }
+.levels > span::before { content: ""; align-self: stretch; height: 12px; border-radius: 2px; background: var(--card2); }
+.levels > span.on::before { background: var(--green); }
+.levels > span.on.mid::before { background: var(--amber); }
+.levels > span.on.high::before { background: var(--s4); }
+.levels > span.mark { color: var(--brass-bright); }
+.levels > span.mark::before { box-shadow: inset 0 0 0 1.5px var(--brass); }
+
 /* ============================================================== a large link (the Contact page's address) */
 .display-link { display: inline-block; font-size: 34px; line-height: 1.2; color: var(--brass-bright); border-bottom: 1px solid var(--brass-dim);
   padding-bottom: 4px; overflow-wrap: anywhere; }

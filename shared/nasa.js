@@ -73,6 +73,36 @@ export async function nasaGet(path, params = {}) {
   return data;
 }
 
+// NASA services that need no key at all (added Nov 17, 2026, for Space Weather): the Community Coordinated Modeling
+// Center's DONKI database (ccmc.gsfc.nasa.gov/DONKI-API/get/…, where DONKI moved on Sep 30, 2026; its old address on
+// api.nasa.gov answers 404 since then) and its iSWA live-data service (iswa.gsfc.nasa.gov, HAPI). Both allow web pages
+// to read them (checked Nov 17, 2026). Answers change within minutes, so they are kept for `ttlMs` only (default 5
+// minutes), in this visit and this tab. `as` is 'json' or 'text'.
+const OPEN_HOSTS = ['ccmc.gsfc.nasa.gov', 'iswa.gsfc.nasa.gov'];
+const OPEN_STORE = 'nasa-data-projects.open.';
+export async function nasaOpenGet(address, { as = 'json', ttlMs = 5 * 60 * 1000 } = {}) {
+  const url = new URL(address);
+  if (!OPEN_HOSTS.includes(url.hostname)) throw new NasaError('Not a keyless NASA service: ' + url.hostname, 0);
+  const id = url.toString(), now = Date.now();
+  const hit = cache.get(id);
+  if (hit && hit.open && now - hit.t < ttlMs) return hit.data;
+  try {
+    const v = JSON.parse(sessionStorage.getItem(OPEN_STORE + id));
+    if (v && now - v.t < ttlMs) { cache.set(id, { open: true, t: v.t, data: v.data }); return v.data; }
+  } catch { /* nothing kept */ }
+  let res;
+  try {
+    res = await fetch(url);
+  } catch {
+    throw new NasaError('NASA could not be reached. Check the internet connection and try again.', 0);
+  }
+  if (!res.ok) throw new NasaError(plainMessage(res.status), res.status);
+  const data = as === 'text' ? await res.text() : await res.json();
+  cache.set(id, { open: true, t: now, data });
+  try { sessionStorage.setItem(OPEN_STORE + id, JSON.stringify({ t: now, data })); } catch { /* full or unavailable */ }
+  return data;
+}
+
 // What went wrong, and what to do next, in plain English.
 function plainMessage(status) {
   if (status === 429) {

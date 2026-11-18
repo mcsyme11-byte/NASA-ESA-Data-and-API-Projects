@@ -14,8 +14,8 @@
   <link rel="manifest" href="../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111708">
-  <script type="module" src="../shared/footer.js?v=2026111708"></script>
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111709">
+  <script type="module" src="../shared/footer.js?v=2026111709"></script>
 </head>
 <body>
   <header class="topbar">
@@ -256,6 +256,18 @@
       <div class="section-head"><div><div class="kicker">Section 7</div><h2 id="h-msg">Badges, notices and states</h2></div></div>
       <p class="meta badges"><span class="badge">Plain</span><span class="badge nasa">NASA</span><span class="badge esa">ESA</span><span class="badge live">Live</span><span class="badge warn">Flagged</span><span class="tag haz">Hazardous</span><span class="tag warn">Estimate</span></p>
       <p class="meta badges"><span class="need n-eye">Naked eye</span><span class="need n-bino">Binoculars</span><span class="need n-small">Small telescope</span><span class="need n-large">Large telescope</span><span class="need n-faint">Too faint</span></p>
+      <div class="split">
+        <div>
+          <h3>Level scale</h3>
+          <div class="levels" role="img" aria-label="Kp now 2. This place needs Kp 3 to see the aurora on the horizon and Kp 5 overhead."><span class="on">0</span><span class="on">1</span><span class="on">2</span><span class="mark">3</span><span>4</span><span class="mark">5</span><span>6</span><span>7</span><span>8</span><span>9</span></div>
+          <p class="caption">A reading on a scale of steps, filled up to the reading; the steps that matter outlined in brass (Space Weather's aurora chance). Added Nov 17, 2026.</p>
+        </div>
+        <div>
+          <h3>Filled further</h3>
+          <div class="levels" role="img" aria-label="Kp 6, a moderate storm."><span class="on">0</span><span class="on">1</span><span class="on">2</span><span class="on">3</span><span class="on mid">4</span><span class="on high mark">5</span><span class="on high">6</span><span>7</span><span>8</span><span>9</span></div>
+          <p class="caption"><code>.mid</code> for an active step (amber), <code>.high</code> for a storm (copper).</p>
+        </div>
+      </div>
       <div class="notice"><span class="t">Information: the data was last updated today at 06:00 UTC.</span></div>
       <div class="notice warn"><span class="t">NASA's demo key has been used up for the hour; showing the saved copy.</span><button class="btn small outline" type="button">Try again</button></div>
       <div class="notice error"><span class="t">NASA could not be reached.</span><button class="btn small outline" type="button">Try again</button></div>

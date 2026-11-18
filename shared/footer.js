@@ -32,7 +32,7 @@ const SECTIONS = [
     ['Globe', 'image-explorer/explore.html#globe'], ['Picture library', 'image-explorer/explore.html#library']]],
   ['Mars Data', [['Overview', 'mars-data/'], ['Charts', 'mars-data/charts/'], ['How the data is made', 'mars-data/method/']]],
   ['Space Watch', [['Overview', 'space-watch/'], ['Orbit Watch', 'orbit-watch/', { soon: true }],
-    ['Space Weather', 'space-weather/', { soon: true }], ['Exoplanets', 'exoplanets/', { soon: true }],
+    ['Space Weather', 'space-weather/'], ['Exoplanets', 'exoplanets/', { soon: true }],
     ['Planetary Maps', 'planet-maps/']]],
   ['More', [['Sky Finder', 'sky-finder/'], ['Spacecraft map', 'spacecraft/'], ['How the data is collected', 'data-collection/'],
     ['About', 'about/'], ['Contact', 'contact/']]],
@@ -118,7 +118,7 @@ const NAMES = [
   [/\/asteroid-tracker\/tracker\.html$/, 'the Asteroid Tracker'], [/\/asteroid-tracker\/(index\.html)?$/, 'the Asteroid Tracker home page'], [/\/image-explorer\/explore\.html$/, 'the Image Explorer'],
   [/\/image-explorer\/(index\.html)?$/, 'the Image Explorer home page'], [/\/mars-data\/charts\//, 'the Mars charts'],
   [/\/mars-data\/method\//, 'How the data is made'], [/\/mars-data\//, 'Mars Data'], [/\/about\//, 'About'], [/\/privacy\//, 'Privacy'], [/\/terms\//, 'Terms'],
-  [/\/credits\//, 'Credits'], [/\/data-collection\//, 'How the data is collected'], [/\/contact\//, 'Contact'], [/\/legal\//, 'Legal'], [/\/sky-finder\/how-to\.html$/, 'How to use Sky Finder'], [/\/sky-finder\//, 'Sky Finder'], [/\/spacecraft\//, 'the spacecraft map'], [/\/space-watch\//, 'Space Watch'], [/\/planet-maps\//, 'Planetary Maps'], [/\/design\//, 'Components'],
+  [/\/credits\//, 'Credits'], [/\/data-collection\//, 'How the data is collected'], [/\/contact\//, 'Contact'], [/\/legal\//, 'Legal'], [/\/sky-finder\/how-to\.html$/, 'How to use Sky Finder'], [/\/sky-finder\//, 'Sky Finder'], [/\/spacecraft\//, 'the spacecraft map'], [/\/space-weather\//, 'Space Weather'], [/\/space-watch\//, 'Space Watch'], [/\/planet-maps\//, 'Planetary Maps'], [/\/design\//, 'Components'],
 ];
 function wireBack() {
   const el = document.getElementById('back');

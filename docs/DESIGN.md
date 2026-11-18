@@ -134,6 +134,7 @@ All in `shared/theme.css`, all shown on `design/index.html`. Use these; do not r
 | Writing | `.prose`, `.summary`, `.updated`, `.list`, `.facts` › `.f`, `.terms` (`dt`/`dd`), `.steps` | Reading pages, short facts beside text, a glossary, numbered steps |
 | Sources | `.sources` › `.s` › `.n` (name + badge), `.d`, `.u` | Where a project's data comes from |
 | Two columns | `.split` | Reading on the left, facts on the right |
+| Level scale | `.levels` › `span` (the step's number; `.on`, `.on.mid`, `.on.high`, `.mark`) | A reading on a scale of steps, filled up to it, the steps that matter outlined in brass (Space Weather's Kp and the Kp a place needs). Added Nov 17, 2026; replaces nothing |
 | Chart parts | `svg.chart` (`.grid`, `.axt` axis titles, `.dim`), `.legend` (`.s1`–`.s6` swatches), `.tip` | Axis text, gridlines, a chart's key and its tooltip |
 | Callout, stage | `.pf.callout` › `.t` + a button; `a.stage` › `canvas` | A line of text with one action, at the foot of a panel; a canvas that fills a panel and opens something |
 | Data credits | `p.srcline` | A page's detailed credits, just above the footer |

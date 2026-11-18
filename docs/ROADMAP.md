@@ -102,13 +102,16 @@ Plan confirmed Nov 11, 2026 (see PROJECT-NOTES.md): three missions, updated auto
 The standard and the jobs are in [DATA-UPDATES.md](DATA-UPDATES.md); the daily Data health check reports problems in
 one GitHub issue labelled `data-health`.
 
-- [ ] **Important, Space Weather (noted Nov 17, 2026): scheduled runs are too late for data that changes within
+- [ ] **Space Weather (noted Nov 17, 2026; answered the same day): scheduled runs are too late for data that changes within
   hours.** GitHub starts this repository's scheduled runs 4 to 10 hours late (seen Nov 15 to 17, 2026), which suits
   daily data but not space weather. Before any Space Weather data job is built, check whether its pages can read the
   source directly in the visitor's browser (CORS allowed, free, no key, within the source's limits), with a scheduled
   job keeping only a fallback copy for when the source is out of reach. Any source other than NASA or ESA (for example
   NOAA's Space Weather Prediction Center) needs the developer's decision first, and a source read by visitors'
   browsers goes on the Privacy page first. Decided with the Space Weather chat's hand-off.
+  Answered Nov 17, 2026: DONKI and iSWA allow web pages to read them, need no key and are read live by the page; the
+  job keeps only a fallback copy and the monthly record. To do here: build the job from the hand-off
+  (`docs/handoffs/2026-11-17 - data updates - Space Weather data.md`; `space-weather/fetch_space_weather.py` is ready).
 
 - [x] The first `data-health` issue arrived by email: issue #2, opened Nov 16, 2026 at 01:51 UTC (four spacecraft
   catalogue items to review), resolved and closed automatically the same evening. Confirmed by the developer, who
@@ -168,15 +171,24 @@ a visitor's browser contacts, in the same change; data jobs handed to the Data u
 - [ ] Hand-off to the Data updates chat: the Spacecraft data job extended to the whole CelesTrak catalogue, written to
   `orbit-watch/data/` (CelesTrak asked once for both tools, twice a day); the yearly ESA figures as a review task.
 
-**5b. Space Weather (`space-weather/`)**
-- [ ] Sources: NASA DONKI (flares, eruptions, storms; its address reportedly moved on Sep 30, 2026, to be confirmed),
-  NASA SDO and SOHO (ESA and NASA) pictures of the Sun, and NOAA's Space Weather Prediction Center (approved Nov 17,
-  2026) for the live storm level, the 3-day forecast and the aurora map. Not used: ESA's Space Weather Service Network
-  (most products need a registered account).
-- [ ] The Sun's latest pictures, the week's flares and eruptions, storms on their way and when they arrive.
-- [ ] The aurora chance for the visitor's place (`shared/place.js`, the same place as Sky Finder).
-- [ ] Read live in the visitor's browser where the sources allow it (see the Space Weather item in section 4); a
-  scheduled job only as a fallback copy.
+**5b. Space Weather (`space-weather/`)**: live since Nov 17, 2026
+- [x] Sources checked and recorded in `docs/DATA-SOURCES.md` (Nov 17, 2026): DONKI's new address confirmed
+  (`ccmc.gsfc.nasa.gov/DONKI-API/get/`, no key; `api.nasa.gov/DONKI` answers 404 since the move), NASA CCMC iSWA for
+  IMAP solar wind, GOES X-rays, GFZ Kp and NOAA's Kp forecast (GFZ and NOAA approved by the developer Nov 17, 2026),
+  SDO and SOHO pictures, NOAA's OVATION aurora map. Not used: ESA's Space Weather Service Network (account and token;
+  its terms do not allow showing its data to the public).
+- [x] Mock-up approved (Nov 17, 2026) and page built: right now, the Sun's pictures, the last 7, 30 or 60 days, what
+  is heading for Earth, the solar wind, Kp, the aurora chance for the visitor's place (`shared/place.js`), who feels
+  space weather, five rules. New shared component: the level scale. `shared/nasa.js` gained `nasaOpenGet`.
+- [x] Read live in the visitor's browser; hand-off for the fallback copy and the monthly record written
+  (`docs/handoffs/2026-11-17 - data updates - Space Weather data.md`).
+- [ ] Check on the live site, in a browser (the build environment could not reach the services; the page was checked
+  against sample answers built from the real readings of Nov 17, 2026): the live readings arrive, the three pictures
+  and NOAA's aurora map load, the place search works, and the page reads well on a phone.
+- [ ] Once the Data updates chat has built the job: the "Since 2010" button appears, and the page falls back to the
+  saved copy when NASA cannot be reached.
+- [ ] Later, if wanted: a short animation of the last day's SOHO pictures (SOHO offers movies, not checked yet); the
+  section page's live figures (flares, storm level) once the section page shows live figures.
 
 **5c. Exoplanets (`exoplanets/`)**
 - [ ] Sources: NASA Exoplanet Archive (every confirmed planet); MAST light curves from Kepler and TESS (run by STScI

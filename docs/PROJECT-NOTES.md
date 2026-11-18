@@ -24,6 +24,14 @@ How NASA and ESA Data Projects is built, the decisions made so far, and how to r
   types, spin and albedo from the Small-Body Database, both copied monthly into data files (`fetch_reach.py`); the
   verdict follows four written rules (`reach.js`) and always says mining is not realistic today. Mission facts come
   from NASA and ESA only; Hayabusa2's from NASA's reports rather than JAXA's site. No price or "worth" figures.
+- **Decided Nov 17, 2026 (Space Weather):** the page (`space-weather/`) reads everything live in the visitor's
+  browser: NASA's DONKI at its new address (`ccmc.gsfc.nasa.gov/DONKI-API/get/`, no key) and NASA CCMC's iSWA (IMAP
+  solar wind, GOES X-rays, GFZ Kp, NOAA's Kp forecast), through `shared/nasa.js` (`nasaOpenGet`), and the SDO, SOHO
+  and NOAA aurora pictures as plain images. A data job keeps only a fallback copy and the monthly record since 2010.
+  Approved beyond NASA and ESA: GFZ's Kp (CC BY 4.0) and NOAA's GOES X-rays and Kp forecast, besides NOAA SWPC
+  itself. ESA appears through SOHO (ESA and NASA). The aurora chance follows NOAA's rule (66° − 2° × Kp geomagnetic
+  latitude, seen from 4° further), with the World Magnetic Model 2025 pole. New shared component: the level scale.
+  Built from the approved mock-up; the SOHO "Last 24 hours" button of the mock-up was left out (not checked yet).
 - **Decided Nov 17, 2026 (Orbit & Space Watch):** a new section of the site, planned in the developer's portfolio
   project: **Orbit Watch** (satellite and space-debris tracker, collision simulator, cleanup explainer, `orbit-watch/`),
   **Space Weather** (`space-weather/`), **Exoplanets** (`exoplanets/`) and **Planetary Maps** (`planet-maps/`), each

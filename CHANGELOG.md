@@ -1,5 +1,21 @@
 # Change log
 
+## November 17, 2026 — Space Weather
+
+- **Space Weather is live** (`space-weather/`), built from the approved mock-up: right now (solar wind speed, density
+  and Bz, Kp, the strongest flare in 24 hours, with a headline and words from written rules), the Sun's latest
+  pictures (SDO in five wavelengths; the SOHO coronagraph, ESA and NASA), the last 7, 30 or 60 days of flares, CMEs and
+  storms on one timeline with a list, what is heading for Earth (NASA's WSA–ENLIL runs, NOAA's Kp forecast, particle
+  events), the solar wind and Kp charts, the aurora chance for the visitor's place with NOAA's aurora map, who feels
+  space weather, and five rules. Read live in the browser, refreshed every 5 to 15 minutes while open.
+- DONKI moved to `ccmc.gsfc.nasa.gov/DONKI-API/get/` on Sep 30, 2026, and `api.nasa.gov/DONKI` answers 404; recorded in
+  `docs/DATA-SOURCES.md` with every Space Weather source. `shared/nasa.js` gained `nasaOpenGet` for NASA's keyless DONKI
+  and iSWA services.
+- New shared component, the level scale (`.levels`), on the component page and in `docs/DESIGN.md`.
+- The footer, Back names, the section page and the home page list Space Weather; Credits and Privacy updated (NASA
+  CCMC, IMAP, SDO, SOHO, GFZ, NOAA SWPC and NCEI). `space-weather/fetch_space_weather.py` and a hand-off for the Data
+  updates chat (fallback copy and monthly record). Version tag raised to 2026111709.
+
 ## November 17, 2026 — control room mock-up; footer fits phones again
 
 - Mock-up of the control room for approval (`control-room/mockup.html`, sample data, unlisted and `noindex`): what

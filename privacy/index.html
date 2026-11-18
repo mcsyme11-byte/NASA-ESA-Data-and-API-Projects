@@ -13,8 +13,8 @@
   <link rel="manifest" href="../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111708">
-  <script type="module" src="../shared/footer.js?v=2026111708"></script>
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111709">
+  <script type="module" src="../shared/footer.js?v=2026111709"></script>
 </head>
 <body>
   <header class="topbar">
@@ -36,7 +36,7 @@
     <header class="pagehead">
       <div class="kicker">About this site</div>
       <h1>Privacy</h1>
-      <p class="updated">Last updated November 14, 2026</p>
+      <p class="updated">Last updated November 17, 2026</p>
     </header>
 
     <article class="prose">
@@ -54,10 +54,12 @@
         <li><strong>Where you were,</strong> such as the open tab, your filters and your scroll position, so the
           "Back" buttons return you to the same place. This is kept in your browser's session storage and is deleted
           when you close the tab.</li>
-        <li><strong>The place you choose</strong> in the Asteroid Tracker's "Visible from here" tab or in Sky Finder
-          (a town's name and its latitude and longitude, or your device's location rounded to about 1 km), so it is there
+        <li><strong>The place you choose</strong> in the Asteroid Tracker's "Visible from here" tab, in Sky Finder or in
+          Space Weather's aurora section (one place, shared by the three; a town's name and its latitude and longitude, or your device's location rounded to about 1 km), so it is there
           next time. It is kept in your browser's local storage and used only on your device to work out what is in your
-          sky; "Forget this place" deletes it.</li>
+          sky, or the aurora's reach where you are; "Forget this place" deletes it.</li>
+        <li><strong>Space Weather's latest readings,</strong> kept for a few minutes in your browser's session storage so
+          that reloading the page does not ask NASA again; deleted when you close the tab.</li>
         <li><strong>Sky Finder's settings:</strong> that you have read its safety notice, whether red light is on, the
           camera view width, and its compass calibration (two angles, kept for 12 hours). Local storage, on your device
           only.</li>
@@ -105,6 +107,15 @@
           Image and Video Library, EONET, the Gateway to Astronaut Photography of Earth (eol.jsc.nasa.gov, whose
           pictures the Image Explorer's globe shows) and JPL's Solar System Dynamics
           (<a href="https://www.nasa.gov/privacy/" target="_blank" rel="noopener">NASA Web Privacy Policy</a>).</li>
+        <li><strong>NASA's space weather services</strong>: the Space Weather page reads NASA's Community Coordinated
+          Modeling Center (ccmc.gsfc.nasa.gov and iswa.gsfc.nasa.gov) for flares, eruptions, storms, the solar wind
+          and the Kp index, about every 5 minutes while the page is open, and shows the latest pictures of the Sun from
+          NASA's Solar Dynamics Observatory (sdo.gsfc.nasa.gov) and from SOHO, ESA and NASA's observatory
+          (soho.nascom.nasa.gov). Your place is never sent to them
+          (<a href="https://www.nasa.gov/privacy/" target="_blank" rel="noopener">NASA Web Privacy Policy</a>).</li>
+        <li><strong>NOAA's Space Weather Prediction Center</strong> (services.swpc.noaa.gov): the Space Weather page shows
+          its aurora forecast map, for the northern or southern half of the world. Only the picture is fetched; your
+          place is never sent (<a href="https://www.noaa.gov/protecting-your-privacy" target="_blank" rel="noopener">NOAA privacy policy</a>).</li>
         <li><strong>NASA's Solar System Treks</strong> (trek.nasa.gov, run for NASA by JPL): the Planetary Maps page loads
           its map pictures of the Moon and Mars from it, only the parts on the screen. The rovers' routes and the place
           names on that page are copies kept on this site
@@ -118,7 +129,7 @@
       </ul>
 
       <h2>Links to other sites</h2>
-      <p>Some pages link to NASA, ESA (including its NEO Coordination Centre), the Minor Planet Center, other space agencies' mission pages, CelesTrak and other sites. Those sites have their own privacy policies.</p>
+      <p>Some pages link to NASA (including its space weather database, DONKI), ESA (including its NEO Coordination Centre), NOAA, the Minor Planet Center, other space agencies' mission pages, CelesTrak and other sites. Those sites have their own privacy policies.</p>
 
       <h2>Changes</h2>
       <p>If the site ever starts storing or sharing anything new, this page is updated first, with a new date at the top.</p>

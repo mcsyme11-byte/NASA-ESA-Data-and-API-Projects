@@ -1,0 +1,17 @@
+/* NASA and ESA Data Projects · Space Weather · the inside of the tool · © 2026 Malcolm Syme · mcsyme11@gmail.com
+ *
+ * Only the parts the shared components do not cover: the square frames for the pictures of the Sun and NOAA's aurora
+ * map, and the room around them. Everything else comes from shared/theme.css. */
+
+/* the pictures: square, black behind (the agencies' pictures are black around the Sun), never wider than the panel */
+.sunview > .seg { margin-bottom: var(--sp3); }
+.sunview > img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: contain; background: #000;
+  border-radius: var(--r-sm); }
+.sunview > img[data-failed] { display: none; }
+.sunview > .caption { margin: var(--sp3) 0 0; }
+
+/* the aurora column: the facts under the verdict */
+.split > div > .caption + .facts { margin-top: var(--sp5); }
+.split .ctl + h3 { margin-top: var(--sp5); }
+.ctl .actions + .bigsearch { margin-top: var(--sp3); }
+.ctl .searchopts { margin-top: var(--sp2); }

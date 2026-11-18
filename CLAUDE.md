@@ -36,7 +36,8 @@ inside its own folder.
   message, and update `docs/ROADMAP.md` (remove what's done), `CHANGELOG.md` and, for milestones, `docs/HISTORY.md`.
 - **Public repository: no secrets, ever.** No API key, password or token in any file. Visitors need no key: data that
   needs one is copied by the GitHub data jobs with repository secrets (`NASA_API_KEY`, `EOL_API_KEY`); web pages call
-  NASA only through `shared/nasa.js` with `DEMO_KEY`; Python run by hand reads `NASA_API_KEY` from `.env` (ignored by
+  NASA only through `shared/nasa.js` (with `DEMO_KEY` for api.nasa.gov; `nasaOpenGet` for NASA's keyless DONKI and iSWA
+  services, since Nov 17, 2026); Python run by hand reads `NASA_API_KEY` from `.env` (ignored by
   Git).
 - **Public-ready by default:** no personal details in code, docs or tests (no PC or user names, personal paths,
   callsigns or family details); use generic wording and made-up test data. **Exception: always keep "Malcolm Syme"
@@ -71,7 +72,7 @@ inside its own folder.
   first.
 - **Version tags on style files (since Nov 9, 2026; project style sheets since Nov 12):** pages link
   `shared/theme.css`, `shared/footer.js`, `asteroid-tracker/tracker.css`, `image-explorer/explorer.css`,
-  `mars-data/mars.css`, `spacecraft/spacecraft.css`, `sky-finder/sky-finder.css` and `planet-maps/maps.css` with one version tag (`?v=YYYYMMDDNN`). After changing any of them, raise the tag in every page (one search-and-replace), and Sky
+  `mars-data/mars.css`, `spacecraft/spacecraft.css`, `sky-finder/sky-finder.css`, `planet-maps/maps.css` and `space-weather/spaceweather.css` with one version tag (`?v=YYYYMMDDNN`). After changing any of them, raise the tag in every page (one search-and-replace), and Sky
   Finder's `VERSION` in `sky-finder/sw.js` with it, so browsers fetch the new copy instead of an old saved one.
   `dev/check_styles.py` refuses a page whose tags differ. The same tag is on the import of `shared/datastatus.js` in
   `data-collection/app.js`, so include `.js` files in the search-and-replace.

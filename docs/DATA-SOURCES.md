@@ -13,6 +13,8 @@ Checked November 8, 2026 (Image Explorer sources: November 9, 2026). Each projec
 | GIBS (satellite imagery tiles) | No | Image Explorer |
 | NASA Image and Video Library | No | Image Explorer |
 | NASA Solar System Treks (Moon and Mars map tiles) | No | Planetary Maps |
+| NASA CCMC DONKI and iSWA (space weather events and live readings) | No | Space Weather |
+| SDO, SOHO and NOAA SWPC pictures | No | Space Weather |
 
 ## api.nasa.gov
 
@@ -29,6 +31,9 @@ Checked November 8, 2026 (Image Explorer sources: November 9, 2026). Each projec
   key's limit. For weeks and asteroids outside the copy, web pages use `shared/nasa.js` with `DEMO_KEY`, whose limit
   is counted per visitor's connection (the pages no longer offer to store a visitor's own key). Python scripts run
   by hand read `NASA_API_KEY` from `.env`.
+- **DONKI is no longer on api.nasa.gov (found Nov 17, 2026).** `https://api.nasa.gov/DONKI/<type>` answers 404 since
+  DONKI moved to the Community Coordinated Modeling Center's own address on Sep 30, 2026 (the 404 names the path
+  `/DONKI-API/get/<type>/`). The new address needs no key; see "Space Weather" below.
 
 ### Daily copy of NeoWs (`asteroid-tracker/data/neows/`, since Nov 12, 2026)
 
@@ -884,6 +889,83 @@ Layers chosen (all checked Nov 17, 2026; levels as listed in each capabilities f
   (hand-off of Nov 17, 2026). Visitors' browsers do not contact either service. Credit: "Feature names: IAU Working
   Group for Planetary System Nomenclature (USGS Gazetteer of Planetary Nomenclature)".
 - The Gazetteer's own address, format and terms are confirmed before the build script is written.
+
+## Space Weather (`space-weather/`), checked Nov 17, 2026
+
+Every source below was checked on Nov 17, 2026 against its documentation and by reading it from a page on the site's
+own address (https://mcsyme11-byte.github.io) in a browser: each answered, and those read as data allowed it (CORS).
+None needs a key. The page reads them live in the visitor's browser (decided Nov 17, 2026, because GitHub starts
+scheduled runs hours late); a data job keeps only a fallback copy and the monthly record (`space-weather/data/`).
+
+### NASA CCMC DONKI (flares, CMEs, storms, particle events, model runs)
+
+- **What:** the Space Weather Database Of Notifications, Knowledge, Information, kept by NASA's Community Coordinated
+  Modeling Center (CCMC) with the Moon to Mars (M2M) Space Weather Analysis Office.
+- **Address (since Sep 30, 2026):** `https://ccmc.gsfc.nasa.gov/DONKI-API/get/<type>?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD`;
+  `https://ccmc.gsfc.nasa.gov/DONKI/WS/get/<type>` answers the same. The old `kauai.ccmc.gsfc.nasa.gov` address no
+  longer answers web pages, and `api.nasa.gov/DONKI` answers 404 (see "api.nasa.gov" above). Documentation:
+  https://ccmc.gsfc.nasa.gov/tools/DONKI/.
+- **Types used:** `FLR` (flares: `peakTime`, `classType`, `activeRegionNum`, `sourceLocation`), `CMEAnalysis`
+  with `mostAccurateOnly=true&catalog=ALL` (`time21_5`, `speed`, `halfAngle`, `longitude`, `latitude`, `type`), `GST`
+  (storms: `startTime`, `allKpIndex[].kpIndex`), `SEP` (particle events), `WSAEnlilSimulations`
+  (`isEarthGB`, `isEarthMinorImpact`, `estimatedShockArrivalTime`, `kp_18`, `kp_90`, `kp_135`, `kp_180`). Also
+  available, not used: `CME`, `IPS`, `MPC`, `RBE`, `HSS`, `notifications`.
+- **Limits:** a request may cover at most **60 days** (counting both ends); a longer range returns the text "API Error:
+  Date range cannot exceed 60 days" instead of JSON. No rate limit is published; answers took 0.1 to 0.5 s.
+- **Terms:** NASA research data. DONKI describes itself as preliminary "Experimental Research Information" and names
+  NOAA's Space Weather Prediction Center as the official U.S. source of space weather forecasts; the page says so.
+- **Credit:** "NASA Community Coordinated Modeling Center, DONKI (Moon to Mars Space Weather Analysis Office)".
+
+### NASA CCMC iSWA, HAPI service (live readings)
+
+- **Address:** `https://iswa.gsfc.nasa.gov/IswaSystemWebApp/hapi/` (HAPI 2.0): `catalog`, `info?id=…`,
+  `data?id=…&time.min=…&time.max=…&parameters=…&include=header` (CSV with a JSON header; status 1406 means no data in
+  the range). `iswa.ccmc.gsfc.nasa.gov` answers the same.
+- **Data sets used** (freshness seen on Nov 17, 2026):
+  - `imap_swapi` (`sw_proton_density`, `sw_proton_speed`) and `imap_mag` (`bz_gsm`, `b_magnitude`): NASA's IMAP
+    spacecraft at L1, I-ALiRT real-time data, minutes old; about one reading every 4 to 12 seconds.
+  - `goesp_xray_flux_P1M` (`Long_Wave`, the 0.1–0.8 nm channel that sets the flare class): NOAA's primary GOES
+    satellite, minutes old.
+  - `GFZ_Indices_P3H` (`Kp_observed`): GFZ's Kp nowcast, 3-hour blocks.
+  - `NOAA_KP_P3H` (`Kp_predicted`): NOAA SWPC's Kp forecast, about 3 days ahead (`info` gives the `stopDate`).
+- **Stopped (not used):** `WIND_SWE_P2M` and `WIND_MFI_P2M` (Wind real-time, last data Mar 8, 2026) and
+  `Predicted_KP_P1M` (last data Mar 9, 2026).
+- **Credits:** IMAP: "IMAP I-ALiRT", acknowledging the IMAP Mission Principal Investigator, Prof. David J. McComas of
+  Princeton University; licence CC0 per NASA's CDAWeb records for `IMAP_IALIRT_L1_REALTIME`. GFZ Kp: CC BY 4.0,
+  "GFZ Helmholtz Centre for Geosciences" (Matzka et al. 2021, doi:10.5880/Kp.0001); approved by the developer Nov 17,
+  2026. NOAA (GOES X-rays, the Kp forecast): public domain, "Information from the Space Weather Prediction Center,
+  Boulder, CO, NOAA, US Dept. of Commerce"; approved Nov 17, 2026.
+
+### Pictures of the Sun (SDO and SOHO) and NOAA's aurora map
+
+- **SDO** (NASA): `https://sdo.gsfc.nasa.gov/assets/img/latest/latest_<512|1024>_<code>.jpg` with codes `HMIIC`
+  (visible light), `HMIB` (magnetic field), `0171`, `0193`, `0304` (ultraviolet, Å). Loaded as pictures; reading them
+  as data is not allowed (no CORS), which the page does not need. Credit "NASA/SDO and the AIA, EVE, and HMI science
+  teams".
+- **SOHO LASCO** (ESA and NASA): `https://soho.nascom.nasa.gov/data/realtime/<c2|c3>/512/latest.jpg`. New pictures
+  arrive when a ground station is in contact, so the newest can be hours old. SOHO's terms: use for public education
+  and non-commercial purposes needs no permission; credit "Courtesy of SOHO/LASCO consortium. SOHO is a project of
+  international cooperation between ESA and NASA" (short form "SOHO (ESA & NASA)").
+- **NOAA OVATION aurora forecast:** `https://services.swpc.noaa.gov/images/animations/ovation/<north|south>/latest.jpg`,
+  a 30 to 90 minute forecast from the OVATION Prime model (gridded data: `/json/ovation_aurora_latest.json`, not used).
+  Public domain; credited as NOAA SWPC.
+- The page asks for each picture again every 15 minutes, with a query string that changes every 15 minutes so a
+  browser's saved copy is not reused.
+
+### The aurora rules and the geomagnetic pole
+
+- NOAA SWPC, "Tips on viewing the aurora": the aurora's edge nearest the equator lies at about 66° geomagnetic
+  latitude at Kp 0 and moves about 2° toward the equator for each step of Kp (48° at Kp 9); the relationship is an
+  average. The aurora can be seen low on the horizon when its edge is 4 to 5° poleward of the viewer (4° used).
+- NOAA NCEI, World Magnetic Model 2025: geomagnetic north pole 80.85° N, 72.76° W (geodetic) for 2025.0.
+- NOAA space weather scales: G1 to G5 at Kp 5 to 9; R1 at M1, R2 at M5, R3 at X1, R4 at X10, R5 at X20; S1 to S5 at
+  10 to 10⁵ particle flux units (≥10 MeV).
+
+### Not used
+
+- **ESA Space Weather Service Network** (swe.ssa.esa.int): products need a registered account and a token, and its
+  terms allow passing data on only to people who accept those terms, which a public page cannot do (decided Nov 17,
+  2026).
 
 ## Using NASA material
 
