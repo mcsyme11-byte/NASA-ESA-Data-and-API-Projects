@@ -4,9 +4,10 @@
  "last_data_change": "2026-11-17T17:07:40Z",
  "sources": {
   "astronaut-photos": {
-   "state": "ok",
-   "since": "2026-11-15T02:43:21Z",
-   "note": ""
+   "state": "failed",
+   "since": "2026-11-18T21:32:21Z",
+   "note": "",
+   "run": "https://github.com/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/actions/runs/44402476477"
   },
   "checks": {
    "state": "ok",
