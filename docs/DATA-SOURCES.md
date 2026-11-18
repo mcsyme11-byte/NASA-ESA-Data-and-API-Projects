@@ -678,6 +678,13 @@ archives to the Picture library. Checked with requests from GitHub's servers and
   only coloured class is sea ice (rgb 255, 100, 100; colour map `MODIS_L2_Sea_Ice.xml`). GIBS's microwave sea-ice
   layers, which work in the dark, end in Aug 2021 (`SSMIS_Sea_Ice_Concentration`) and Sep 2025
   (`AMSRU2_Sea_Ice_Concentration_12km`).
+- Polar night (checked Nov 17, 2026 against both polar GetCapabilities documents): GIBS lists no newer microwave
+  sea-ice layer (no AMSR3). `VIIRS_NOAA21_Ice_Surface_Temp_Night` (Ice Surface Temperature, Night, VIIRS, NOAA-21;
+  `1km`, PNG, daily from Feb 10, 2023 to the present; colour map `MODIS_Ice_Surface_Temp`) is a heat-camera layer
+  that shows the ice in the dark: on Nov 16, 2026 it covered 17.7% of the Arctic view's level-1 tiles, against 0.2%
+  for `MODIS_Terra_Sea_Ice` (the pole in darkness); around Antarctica (spring) 9.7% against 9.0%. The polar views'
+  Sea ice uses it from October to March in the Arctic and from April to September around Antarctica (dates from Feb
+  10, 2023), and `MODIS_Terra_Sea_Ice` the rest of the year.
 - OpenLayers note: `source.refresh()` did not fetch new tiles after the date changed; `setTileUrlFunction(fn, key)`
   with a new key does.
 

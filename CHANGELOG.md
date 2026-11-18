@@ -1,5 +1,14 @@
 # Change log
 
+## November 17, 2026 — Image Explorer: sea ice through the polar night
+
+- In the Arctic and Antarctic views, Sea ice now shows the ice in each pole's dark season: from October to March in
+  the Arctic and from April to September around Antarctica it uses the ice's surface temperature from NOAA-21's night
+  passes (`VIIRS_NOAA21_Ice_Surface_Temp_Night`, a heat camera, from Feb 10, 2023), with its colour key; the rest of
+  the year, and for earlier dates, the daylight MODIS layer as before. On Nov 16, 2026 the new layer covered 17.7% of
+  the Arctic view against 0.2% for the daylight one. The polar views' note says so. GIBS lists no newer microwave
+  sea-ice layer (checked Nov 17, 2026).
+
 ## November 17, 2026 — Image Explorer: picture ranking, third round; reduced motion checked
 
 - **Ranking:** the good points still count up to 4 when the main results are sorted (so the libraries take turns within

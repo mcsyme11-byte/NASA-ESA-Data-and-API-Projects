@@ -18,7 +18,11 @@ const OVERS = [
   { id: 'clouds', name: 'Clouds', layer: 'MODIS_Terra_Cloud_Top_Temp_Day', ext: 'png', set: '2km', since: 2000, legend: 'MODIS_Cloud_Top_Temp', opacity: .75, polar: { set: '1km', lag: 1 } },
   { id: 'smoke', name: 'Smoke and dust', layer: 'MODIS_Terra_Aerosol', ext: 'png', set: '2km', since: 2000, legend: 'MODIS_VIIRS_AOD', opacity: .8, polar: null },
   { id: 'ice', name: 'Sea ice', layer: 'GHRSST_L4_MUR_Sea_Ice_Concentration', ext: 'png', set: '1km', since: 2002, legend: 'GHRSST_Sea_Ice_Concentration', lag: 1,
-    polar: { layer: 'MODIS_Terra_Sea_Ice', legend: null, key: ['#FF6464', 'Sea ice seen that day (daylight only)'], lag: 0, sat: 'Terra' } },
+    polar: { layer: 'MODIS_Terra_Sea_Ice', legend: null, key: ['#FF6464', 'Sea ice seen that day (daylight only)'], lag: 0, sat: 'Terra' },
+    /* in each pole's dark season (decided Nov 17, 2026): the ice's surface temperature from NOAA-21's night passes
+       (VIIRS, a heat camera), which shows the ice in the dark; GIBS has it from Feb 10, 2023 */
+    polarDark: { name: 'Sea ice (its temperature, at night)', layer: 'VIIRS_NOAA21_Ice_Surface_Temp_Night', key: null,
+      legend: 'MODIS_Ice_Surface_Temp', lag: 0, sat: 'NOAA-21', from: '2023-02-10' } },
 ];
 
 /* ---------- dates ---------- */
@@ -73,7 +77,13 @@ const V = () => VIEWS[view], proj = () => ol.proj.get(V().code);
 function spec(L) {
   if (view === 'world') return L;
   if (!L.polar || (view === 'antarctic' && L.antarctic === false)) return null;
-  return { ...L, ...L.polar };
+  return { ...L, ...L.polar, ...(L.polarDark && darkSeason() && date >= L.polarDark.from ? L.polarDark : {}) };
+}
+/* the months a pole's sea ice gets too little daylight for a camera: October to March in the Arctic, April to
+   September around Antarctica */
+function darkSeason(d = date) {
+  const m = +d.slice(5, 7);
+  return view === 'arctic' ? (m >= 10 || m <= 3) : view === 'antarctic' ? (m >= 4 && m <= 9) : false;
 }
 const toLL = c => ol.proj.toLonLat(c, proj());                 /* map coordinate → [lon, lat] */
 const fromLL = ll => ol.proj.fromLonLat(ll, proj());
@@ -328,7 +338,11 @@ function focusEarth(lat, lon, day, overlay) {
 }
 function setDate(d) {
   if (d > LATEST) d = LATEST; if (d < '2000-02-24') d = '2000-02-24';
-  if (d === date) return; date = d; refreshSources(); update();
+  if (d === date) return;
+  const swap = darkSeason(d) !== darkSeason(date) || (d >= '2023-02-10') !== (date >= '2023-02-10');   /* sea ice changes layer */
+  date = d;
+  if (swap && view !== 'world') { buildSources(); showLayers(); } else refreshSources();
+  update();
 }
 
 $('dPick').max = LATEST; $('dPick').min = '2000-02-24';
