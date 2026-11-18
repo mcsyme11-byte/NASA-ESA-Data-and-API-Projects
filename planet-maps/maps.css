@@ -60,6 +60,11 @@
 .pmkey span { display: inline-flex; align-items: center; gap: 6px; }
 .pmkey svg { flex: none; }
 
+/* the place card's ESA picture */
+#pmCard .pmpic { margin: var(--sp4) 0 0; }
+#pmCard .pmpic img { display: block; width: 100%; height: auto; max-height: 320px; object-fit: cover; border-radius: var(--r-btn); border: 1px solid var(--line); background: var(--deep); }
+#pmCard .pmpic figcaption { margin-top: var(--sp2); }
+
 /* the place card's two buttons */
 #pmCard .pmgo { display: flex; flex-wrap: wrap; gap: var(--sp2); }
 

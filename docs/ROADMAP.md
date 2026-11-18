@@ -216,10 +216,4 @@ collisions, Cleaning up; see `orbit-watch/README.md`).
   card's links to Mars Data.
 - [ ] Links to it: Image Explorer's globe ("Moon and Mars maps", Image Explorer chat); Mars Data's "Two craters"
   chart (Mars Data chat); the spacecraft map's Moon and Mars orbiters.
-- [ ] ESA Mars Express pictures in the Gale and Jezero cards (ESA/DLR/FU Berlin, CC BY-SA 3.0 IGO): each picture's
-  address and exact credit from its ESA page, then either loaded from esa.int (Privacy page first) or copied to the
-  site at a reduced size with the licence noted. Needs a browser connected to the chat (the Planetary Maps chat's
-  machine cannot reach esa.int).
-- [ ] A check of the live page with NASA's real tiles (the Globe, North and South views, the close-ups) in a
-  browser connected to the chat; the automated tests use stand-in tiles.
 - [ ] Artemis landing regions on the South view, once NASA publishes a current list (DATA-SOURCES.md, Planetary Maps).

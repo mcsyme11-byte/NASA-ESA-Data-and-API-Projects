@@ -249,7 +249,7 @@
       <div class="pb"><div class="split">
         <div><p>${esc(p.text)}</p>
           <p class="pmgo"><button class="btn small" type="button" id="pmGo">${go}</button>${(p.links || []).map(([t, h]) => ` <a class="btn outline small" href="${esc(h)}">${esc(t)}</a>`).join('')}</p></div>
-        <div><dl class="terms">${facts.map(([a, b]) => `<dt>${esc(a)}</dt><dd>${esc(b)}</dd>`).join('')}</dl></div>
+        <div><dl class="terms">${facts.map(([a, b]) => `<dt>${esc(a)}</dt><dd>${esc(b)}</dd>`).join('')}</dl>${picture(p.picture)}</div>
       </div></div>`;
     $('pmGo').onclick = () => {
       if (S.view === 'globe') { if (globe) globe.go(at[1], at[0], true); $('pmGlobe').focus({ preventScroll: true }); return; }
@@ -259,6 +259,13 @@
       view.animate({ center: toView(at), zoom: Math.min(z, view.getMaxZoom()), duration: ms(900) });
       $('pmap').focus({ preventScroll: true });
     };
+  }
+  /* an ESA picture of the place (places.json "picture"), loaded from ESA's own server, with ESA's credit and licence */
+  function picture(pic) {
+    if (!pic) return '';
+    const lic = pic.licenceUrl ? `<a href="${esc(pic.licenceUrl)}" target="_blank" rel="noopener">${esc(pic.licence)}</a>` : esc(pic.licence);
+    return `<figure class="pmpic"><a href="${esc(pic.page)}" target="_blank" rel="noopener"><img src="${esc(pic.src)}" alt="${esc(pic.alt)}" loading="lazy" decoding="async"></a>
+      <figcaption class="caption">${esc(pic.caption)} ${esc(pic.credit)}, ${lic}. <a href="${esc(pic.page)}" target="_blank" rel="noopener">ESA ↗</a></figcaption></figure>`;
   }
   function credits() {
     const c = S.view === 'map' && view.getZoom() >= 6 && closeAt(view.getCenter() || [0, 0]);
@@ -299,7 +306,7 @@
     if (on) { $('pmPos').hidden = true; $('pmTag').hidden = true; }
     if (!on) { if (globe) globe.run(false); return; }
     if (!globe) {
-      globeLoading = globeLoading || import('./globe.js?v=2026111713')
+      globeLoading = globeLoading || import('./globe.js?v=2026111714')
         .then(m => m.start({ frame: $('pmGlobe'), host: $('pmGlobeHost'), over: $('pmGlobeOver'), onPick: choose }))
         .then(g => { globe = g; if (S.view === 'globe') globeShow(); })
         .catch(() => problem('The globe needs WebGL, which this browser could not start. The map views still work.'));

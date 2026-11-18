@@ -1173,9 +1173,17 @@ Maps"). Place cards may show a Mars Express picture of a place (for example Gale
 - **Licence:** HRSC images are released by ESA, DLR and FU Berlin under CC BY-SA 3.0 IGO (since December 2014, applied
   to every HRSC image released before then too). Credit line: "ESA/DLR/FU Berlin, CC BY-SA 3.0 IGO", with a link to
   the licence, shown wherever the layer or a picture appears. A picture resized for the site keeps the same licence.
-- **Sources of pictures:** ESA's own pages (esa.int, ESA Multimedia), for example "Gale Crater" (2012, 100 m a pixel)
-  and "Jezero crater through the eyes of Mars Express" (2021). Each picture's page is checked for its exact credit
-  before it is used.
+- **Pictures in use (checked Nov 17, 2026 on ESA's own pages):** ESA's website was reorganised in 2026; the older
+  `esa.int/ESA_Multimedia/Images/…` addresses now open the home page, and each picture has a page at
+  `https://www.esa.int/media/<name>` giving its credit and licence.
+  - "Jezero crater and surrounds" (16 Feb 2021): credit "ESA/DLR/FU Berlin"; licence "CC BY-SA 3.0 IGO or ESA
+    Standard Licence" (the site uses CC BY-SA 3.0 IGO). File: ESA's `fit_large` copy, WebP, 1210 × 1080 px.
+  - "Gale Crater" (6 Aug 2012; colour-coded by height, 100 m a pixel): credit "ESA/DLR/FU Berlin (G. Neukum)";
+    licence "ESA Standard Licence" (educational and informational use with the credit). File: `fit_large`, WebP,
+    1660 × 933 px.
+  - Both load in a page from another site as images (`<img>`); ESA's picture server sends no CORS header, so they are
+    shown, not read by script. Visitors' browsers contact media.esa.int when a card with a picture is opened (on the
+    Privacy page). The addresses are in `planet-maps/places.json` ("picture").
 
 ### ESA Space Debris Office: Space Environment Report and statistics, checked Nov 17, 2026
 

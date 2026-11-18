@@ -29,7 +29,16 @@
           "Weather at Jezero (Mars Data)",
           "../mars-data/charts/#craters"
         ]
-      ]
+      ],
+      "picture": {
+        "src": "https://media.esa.int/legacy/web/images/esa_multimedia/images/2021/02/jezero_crater_and_surrounds/23161973-1-eng-GB/239531/image-thumb__239531__fit_large/Jezero_crater_and_surrounds.640fd3bf.webp",
+        "alt": "Jezero crater and the land around it in colour, seen from above by ESA's Mars Express: highlands, dark dunes of volcanic ash and the crater with its delta",
+        "caption": "Jezero and its surroundings, from ESA's Mars Express High Resolution Stereo Camera.",
+        "credit": "ESA/DLR/FU Berlin",
+        "licence": "CC BY-SA 3.0 IGO",
+        "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/igo/",
+        "page": "https://www.esa.int/media/jezero-crater-and-surrounds"
+      }
     },
     {
       "id": "gale",
@@ -59,7 +68,16 @@
           "Weather at Gale (Mars Data)",
           "../mars-data/charts/#craters"
         ]
-      ]
+      ],
+      "picture": {
+        "src": "https://media.esa.int/legacy/web/images/esa_multimedia/images/2012/07/gale_crater/11250615-4-eng-GB/139478/image-thumb__139478__fit_large/Gale_Crater.953bddb9.webp",
+        "alt": "Gale crater seen from above by ESA's Mars Express, coloured by height: the low crater floor in blue and the central mountain in red and white",
+        "caption": "Gale coloured by height (blue low, white high), from ESA's Mars Express High Resolution Stereo Camera, 100 m a pixel.",
+        "credit": "ESA/DLR/FU Berlin (G. Neukum)",
+        "licence": "ESA Standard Licence",
+        "licenceUrl": null,
+        "page": "https://www.esa.int/media/gale-crater"
+      }
     },
     {
       "id": "aeolis",

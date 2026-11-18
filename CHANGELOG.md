@@ -1,5 +1,14 @@
 # Change log
 
+## November 17, 2026 — Planetary Maps: ESA pictures and the live check
+
+- **ESA Mars Express pictures** in the Jezero and Gale cards, loaded from ESA's picture server with ESA's credit and
+  licence (Jezero: ESA/DLR/FU Berlin, CC BY-SA 3.0 IGO; Gale: ESA/DLR/FU Berlin (G. Neukum), ESA Standard Licence).
+  The Privacy page lists media.esa.int; `CREDITS.md`, the Credits page and DATA-SOURCES.md list both pictures.
+- **Checked on the live site with NASA's real tiles:** the Map, North and South views of both worlds draw NASA's
+  pictures; the Moon globe loads its picture; the close-ups at Apollo 11 and 17, Jezero (HiRISE and CTX) and Gale
+  serve real tiles at the places marked.
+
 ## November 17, 2026 — Exoplanets
 
 - **Exoplanets is live** (`exoplanets/`), built from the approved mock-up: an overview (the counts; six ways to find
