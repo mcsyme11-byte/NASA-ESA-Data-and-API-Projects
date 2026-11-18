@@ -6,7 +6,7 @@
 // 60 such requests an hour per visitor: the run list is kept 3 minutes, the commits and the issue 15 minutes, in this
 // tab's session storage. When something is wrong, the page writes a ready-made message for the Data updates chat.
 
-import * as ds from '../shared/datastatus.js?v=2026111803';
+import * as ds from '../shared/datastatus.js?v=2026111804';
 
 const REPO = 'mcsyme11-byte/NASA-ESA-Data-and-API-Projects';
 const API = 'https://api.github.com/repos/' + REPO;

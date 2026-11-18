@@ -281,9 +281,12 @@ function wireJump() {
     let best = null;
     for (const [id, r] of seen) if (r > 0 && (!best || r > best[1])) best = [id, r];
     links.forEach((a, id) => (best && id === best[0] ? a.setAttribute('aria-current', 'location') : a.removeAttribute('aria-current')));
+    // on phones the row scrolls sideways: keep the current link in view
+    const cur = best && links.get(best[0]), bar = document.getElementById('jump');
+    if (cur && bar.scrollWidth > bar.clientWidth) bar.scrollTo({ left: cur.offsetLeft - (bar.clientWidth - cur.offsetWidth) / 2, behavior: 'smooth' });
   };
   const io = new IntersectionObserver((es) => { es.forEach((e) => seen.set(e.target.id, e.intersectionRatio)); mark(); },
-    { rootMargin: '-84px 0px -40% 0px', threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] });
+    { rootMargin: '-124px 0px -40% 0px', threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] });
   document.querySelectorAll('[data-jump]').forEach((s) => io.observe(s));
 }
 

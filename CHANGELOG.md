@@ -20,8 +20,9 @@
 
 - Space Weather has a row of links under its heading (the shared tabs) to each section: Now, The Sun, Events,
   Heading for Earth, Solar wind, Kp, Aurora, Who feels it, Rules. The section in view is marked, each section stops
-  below the top bar, and scrolling is smooth unless the visitor prefers reduced motion. Version tag raised to
-  2026111803.
+  below the top bar, and scrolling is smooth unless the visitor prefers reduced motion. The row stays under the top
+  bar while the page scrolls; on phones it is one row that scrolls sideways and keeps the current link in view.
+  Version tag raised to 2026111804.
 
 
 ## November 18, 2026 — Mars Data: Perseverance in more charts; the 2018 dust storm
