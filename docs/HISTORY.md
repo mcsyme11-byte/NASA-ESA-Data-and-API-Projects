@@ -185,3 +185,13 @@ How NASA and ESA Data Projects came about, in order.
   can try, and an explainer on cleaning up orbit, with NASA's and ESA's own figures beside CelesTrak's orbits.
 - Checking CelesTrak showed that objects catalogued since July 2026 no longer appear in the old two-line format, so
   Orbit Watch reads the newer format, and the spacecraft map was flagged for the same change.
+
+## November 17, 2026 — Exoplanets
+
+- Exoplanets went live in Orbit & Space Watch: how planets around other stars are found, each method shown with real
+  measurements (TESS and Kepler light curves from MAST, 51 Pegasi's velocities, a microlensing event from the NASA
+  Exoplanet Archive), and every confirmed planet with its habitable-zone verdict.
+- Decided: NASA's habitable-zone rule (the NASA Exoplanet Exploration Program's) is the main one, with Kopparapu et
+  al.'s temperature-adjusted rule beside it; CHEOPS counts as an ESA source; Gaia's non-commercial licence is accepted.
+- Building it showed that none of the archives answers a web page directly (no CORS headers), so all the data is
+  copied to the site on GitHub's servers.

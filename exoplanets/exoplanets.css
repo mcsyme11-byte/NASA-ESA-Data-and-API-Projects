@@ -1,0 +1,31 @@
+/* NASA and ESA Data Projects · Exoplanets: the inside of its tools, on top of shared/theme.css ·
+ * © 2026 Malcolm Syme · mcsyme11@gmail.com
+ *
+ * Every general component (page head, stats, cards, panels, tables, segmented controls, chips, filters, notices,
+ * "How to read this", sources) comes from shared/theme.css. This file holds only what is particular to the Exoplanets
+ * tools: the labels drawn over its charts and diagrams, the method shapes in the charts' keys, the planet list's
+ * selectable rows and the worked sums. See docs/DESIGN.md, "Page styles".
+ */
+
+/* ============================================================== charts and diagrams */
+.chart .hit, svg.chart.hit { cursor: pointer; }
+/* labels drawn over a chart get a dark outline (docs/DESIGN.md, "Charts") */
+.chart .lab { fill: var(--ink); font-size: 12px; paint-order: stroke; stroke: var(--deep); stroke-width: 3px; stroke-linejoin: round; }
+@media (max-width: 600px) { .chart .lab { font-size: 11px; } }
+/* a chart's key with the method's shape as well as its colour */
+.legend .mk { width: 12px; height: 12px; margin-right: 6px; vertical-align: -1px; }
+.chartframe { min-height: 160px; }
+
+/* ============================================================== the planet list */
+/* seven columns: between the phone layout (rows as cards, below 760 px) and a wide screen, the list scrolls sideways */
+.listframe { overflow-x: auto; }
+.planetlist tbody tr { cursor: pointer; transition: background-color .15s var(--ease); }
+.planetlist tbody tr:hover, .planetlist tbody tr[aria-selected="true"] { background: rgba(192, 160, 98, .07); }
+.planetlist tbody tr[aria-selected="true"] td:first-child { box-shadow: inset 2px 0 0 var(--brass); }
+.planetlist td .s { display: block; font-size: 13px; color: var(--muted); font-style: italic; }
+.planetlist a { color: var(--ink); }
+.planetlist a:hover { color: var(--brass-bright); }
+
+/* ============================================================== worked sums */
+.sum { font-variant-numeric: lining-nums tabular-nums; color: var(--ink); white-space: normal; }
+.sum b { font-weight: 400; color: var(--brass-bright); }

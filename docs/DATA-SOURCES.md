@@ -1056,6 +1056,86 @@ scheduled runs hours late); a data job keeps only a fallback copy and the monthl
   terms allow passing data on only to people who accept those terms, which a public page cannot do (decided Nov 17,
   2026).
 
+## Exoplanets (`exoplanets/`), checked Nov 17, 2026
+
+None of the archives below sends CORS headers (tested from the published site on Nov 17, 2026: requests from a web page
+are refused), so the pages read copies kept in `exoplanets/data/` and never call them. Visitors need no key.
+
+### NASA Exoplanet Archive, TAP service
+
+- Address: `https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=<ADQL>&format=json` (documentation:
+  exoplanetarchive.ipac.caltech.edu/docs/TAP/usingTAP.html). No key. Formats: json, csv, votable, ipac.
+- Table: `pscomppars` (Planetary Systems Composite Parameters), one row per confirmed planet, each column the archive's
+  chosen or calculated value. 6,470 planets on Nov 17, 2026: transit 4,799, radial velocity 1,205, microlensing 294,
+  imaging 98, transit timing 29, eclipse timing 17, orbital brightness modulation 9, astrometry 8, pulsar timing 8,
+  pulsation timing 2, disk kinematics 1. The archive adds planets in weekly updates.
+- Columns used: `pl_name, hostname, discoverymethod, disc_year, disc_facility, pl_orbper, pl_orbsmax, pl_rade,
+  pl_bmasse, pl_bmassprov, pl_orbeccen, pl_eqt, pl_insol, pl_trandep, pl_rvamp, st_teff, st_rad, st_mass, st_lum
+  (log10 of solar units), sy_dist (parsecs), ra, dec, sy_pnum, sy_vmag`. `pl_trandep` is in percent; `pl_insol` in
+  Earth units.
+- Known limit: for planets without a measured radius (most radial-velocity planets) the composite table fills
+  `pl_rade` from the mass with a mass–radius relation. `fetch_planets.py` marks such radii as estimates (`radius_kind`)
+  and the pages show the mass instead. `pl_bmassprov` says whether a mass is a true mass (`Mass`), a minimum (`Msini`)
+  or worked out from the radius (`M-R relationship`).
+- Written by `exoplanets/fetch_planets.py` (standard library only) to `planets.json` (about 1.2 MB, 340 KB compressed)
+  and `summary.json` (counts, discoveries by year). A reply with fewer than 5,000 planets or a missing column keeps
+  the previous files.
+- Acknowledgement (the archive's own wording): "This research has made use of the NASA Exoplanet Archive, which is
+  operated by the California Institute of Technology, under contract with the National Aeronautics and Space
+  Administration under the Exoplanet Exploration Program."
+
+### NASA Exoplanet Archive time series (radial velocities, microlensing)
+
+- Listed by the archive's bulk-download scripts, `https://exoplanetarchive.ipac.caltech.edu/bulk_data_download/`
+  (`wget_RADIAL.bat`: 1,072 published radial-velocity curves; `wget_MICROLENSING.bat`). Files are IPAC tables
+  (`\KEYWORD = value` lines, `|`-separated headers).
+- Used: 51 Pegasi (HIP 113357, file `UID_0113357_RVC_001.tbl`): 256 velocities over 6.0 years, Butler et al. (2006,
+  ApJ 646, 505); the fitted wobble is K = 56.3 m/s (the archive's value: 55.8 m/s). OGLE-2005-BLG-390
+  (`UID_0300031_PLC_001.tbl`): 151 measurements from the Danish telescope; the planet's short brightening shows about
+  ten days after the peak (Beaulieu et al. 2006).
+
+### MAST: TESS and Kepler light curves
+
+- MAST (the Mikulski Archive for Space Telescopes, at the Space Telescope Science Institute) is run for NASA and is
+  counted as a NASA source (decided Nov 17, 2026). Read with astroquery (`astroquery.mast.Observations`): TESS 2-minute
+  light curves from the SPOC pipeline (`provenance_name` SPOC, `t_exptime` 120, product `LC`) and Kepler long-cadence
+  light curves (product `LLC`), PDCSAP flux, quality flag 0 only (Kepler's column is `SAP_QUALITY`).
+- Built once by `exoplanets/tools/build_series.py` into `exoplanets/data/series/`: each transit cut out, divided by a
+  straight line fitted to the light just before and after it, folded on the archive's period and mid-transit time,
+  and averaged in 64 bins. Results on Nov 17, 2026: HD 209458 b, 15 TESS transits, dip 1.58% (archive 1.50%); Kepler-10
+  b, 565 Kepler transits, dip 0.0184% (archive 0.0192%); TOI-700 d, 19 TESS transits, dip 0.0608% (archive 0.0613%).
+- Acknowledgement: data "obtained from the Mikulski Archive for Space Telescopes (MAST) at the Space Telescope Science
+  Institute"; funding for the TESS and Kepler missions is provided by NASA.
+
+### The habitable zone
+
+- **Rule 1, NASA's (decided Nov 17, 2026, the main rule):** the conservative habitable zone of the NASA Exoplanet
+  Exploration Program's mission star list for the Habitable Worlds Observatory (Mamajek & Stapelfeldt 2023,
+  exoplanetarchive.ipac.caltech.edu/docs/2645_NASA_ExEP_Target_List_HWO_Documentation_2023.pdf): 0.95 to 1.67 au for a
+  solar twin, scaled by the square root of the star's luminosity. In starlight received (Earth = 1): 0.359 to 1.108.
+- **Rule 2, with the star's temperature:** Kopparapu et al. (2013, ApJ 765, 131; 2014, ApJL 787, L29), the limits for
+  a planet of one Earth mass, S_eff = S_sun + aT + bT² + cT³ + dT⁴ with T = Teff − 5780 K, valid for 2,600 to 7,200 K.
+  Coefficients as in the authors' published calculator (`hzcalc.py`, personal.ems.psu.edu/~jfk4/ruk15/planets):
+  recent Venus 1.776, 2.136e-4, 2.533e-8, −1.332e-11, −3.097e-15; runaway greenhouse 1.107, 1.332e-4, 1.580e-8,
+  −8.308e-12, −1.931e-15; maximum greenhouse 0.356, 6.171e-5, 1.698e-9, −3.198e-12, −5.575e-16; early Mars 0.320,
+  5.547e-5, 1.526e-9, −2.874e-12, −5.011e-16. Conservative: runaway to maximum greenhouse; optimistic: recent Venus to
+  early Mars. Kopparapu is a NASA Goddard research scientist, and NASA's Kepler habitable-zone catalogue (Kane et al.
+  2016, NASA Technical Reports Server) uses these limits.
+- On Nov 17, 2026: 190 planets inside by rule 1 (19 about Earth's size), 185 inside the conservative zone by rule 2
+  (18 about Earth's size), 279 inside the optimistic zone. TRAPPIST-1 (2,566 K) is outside rule 2's range.
+
+### Approved, not yet used
+
+- **ESA Gaia** (approved Nov 17, 2026): Gaia Data Release 4, due Dec 2, 2026, with an exoplanet candidate catalogue,
+  from the Gaia Archive (TAP at `https://gea.esac.esa.int/tap-server/tap`; no CORS headers, so a copy is needed).
+  Licence CC BY-NC 3.0 IGO (cosmos.esa.int/web/gaia-users/license); credit "ESA/Gaia/DPAC". Candidates are to be shown
+  apart from the confirmed planets. The format of the release is to be checked after it is published.
+- **ESA CHEOPS** (approved Nov 17, 2026, counted as an ESA source): its public light curves are kept in the CHEOPS
+  mission archive, run for ESA by the CHEOPS Science Operations Centre at the University of Geneva. Address, format,
+  terms and the exact credit line are to be checked against the mission's documentation before a CHEOPS light curve is
+  added.
+- **ESA PLATO**: launch planned for January 2027 (ESA); no data yet.
+
 ## Using NASA material
 
 - NASA data and imagery are generally free to use and not under copyright in the United States, but NASA's insignia

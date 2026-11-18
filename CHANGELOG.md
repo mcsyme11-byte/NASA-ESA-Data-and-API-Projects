@@ -1,5 +1,25 @@
 # Change log
 
+## November 17, 2026 — Exoplanets
+
+- **Exoplanets is live** (`exoplanets/`), built from the approved mock-up: an overview (the counts; six ways to find
+  a planet; the transit method step by step with real TESS and Kepler light curves of HD 209458 b, Kepler-10 b and
+  TOI-700 d; "Make a transit"; "Which formula to use when", each rule with a real example; mass against year length
+  and planets confirmed each year, by method; the nearest planets about Earth's size in the habitable zone), How they
+  are found (51 Pegasi's published velocities with the wobble fitted and the minimum mass worked from it; the
+  microlensing event OGLE-2005-BLG-390 and its planet's blip; direct imaging, astrometry and timing with their rules
+  and planets) and Every planet (all 6,470 confirmed planets, with filters, and a page for each with its system to
+  scale and the sums behind its habitable-zone verdict).
+- The habitable zone under two rules (decided Nov 17, 2026): NASA's, from the NASA Exoplanet Exploration Program's
+  Habitable Worlds Observatory target list (0.95 to 1.67 au for a Sun-like star, scaled by √L), and one that allows
+  for the star's temperature, Kopparapu et al. (2013, 2014).
+- Data from the NASA Exoplanet Archive and MAST, copied by `exoplanets/fetch_planets.py` and
+  `exoplanets/tools/build_series.py` through a hand-run workflow, `exoplanets-build.yml`; radii the archive estimates
+  from a mass are marked as estimates. Hand-off for a weekly job to the Data updates chat.
+- Sources recorded in `docs/DATA-SOURCES.md`, with Gaia and CHEOPS approved for later; Credits, `CREDITS.md`, Privacy
+  and Terms (Gaia's CC BY-NC 3.0 IGO) updated. The footer, Back names, the Space Watch page and the home page list
+  Exoplanets. Version tags raised to `2026111713`.
+
 ## November 17, 2026 — the control room is live
 
 - `control-room/` (unlisted, `noindex`), built from the approved mock-up: needs attention with a ready-made message

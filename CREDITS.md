@@ -34,6 +34,9 @@ there in the same change.
 | GFZ Helmholtz Centre for Geosciences: the Kp index (nowcast), through NASA CCMC iSWA (approved Nov 17, 2026) | Space Weather: Kp measured over the last 7 days, and Kp now | CC BY 4.0; credit "GFZ Helmholtz Centre for Geosciences" (Matzka et al., 2021, doi:10.5880/Kp.0001) |
 | NOAA Space Weather Prediction Center (approved Nov 17, 2026): GOES X-ray flux and the 3-day Kp forecast through NASA CCMC iSWA; the OVATION aurora forecast map (services.swpc.noaa.gov) | Space Weather: the strongest flare in 24 hours, the Kp forecast, the aurora map, the G and R scale names | US Government information, public domain; acknowledgement "Information from the Space Weather Prediction Center, Boulder, CO, National Oceanic and Atmospheric Administration (NOAA), US Dept. of Commerce" |
 | NOAA National Centers for Environmental Information, World Magnetic Model 2025 | Space Weather: the geomagnetic pole (80.85° N, 72.76° W) behind each place's geomagnetic latitude | US Government information, public domain |
+| NASA Exoplanet Archive (exoplanetarchive.ipac.caltech.edu): the Planetary Systems Composite Parameters table, and its time series of 51 Pegasi's radial velocities (Butler et al. 2006) and the microlensing event OGLE-2005-BLG-390 | Exoplanets: every confirmed planet and its star, the counts and charts, the radial-velocity and microlensing measurements | NASA data; acknowledgement "This research has made use of the NASA Exoplanet Archive, which is operated by the California Institute of Technology, under contract with the National Aeronautics and Space Administration under the Exoplanet Exploration Program" |
+| NASA TESS and Kepler light curves (PDCSAP flux), from MAST, the Mikulski Archive for Space Telescopes at the Space Telescope Science Institute (archive.stsci.edu; run for NASA, counted as a NASA source, decided Nov 17, 2026) | Exoplanets: the transit light curves of HD 209458, Kepler-10 and TOI-700 | NASA mission data; credit "obtained from the Mikulski Archive for Space Telescopes (MAST) at the Space Telescope Science Institute"; funding for the TESS and Kepler missions is provided by NASA |
+| Habitable-zone rules: the NASA Exoplanet Exploration Program's target list for the Habitable Worlds Observatory (Mamajek & Stapelfeldt 2023), and Kopparapu et al. (2013, ApJ 765, 131; 2014, ApJL 787, L29) | Exoplanets: whether each planet is in the habitable zone, under NASA's rule and with the star's temperature | Published methods, cited where they are used |
 | GitHub Actions run history (api.github.com) | The live data status in every footer and on How the data is collected: which of the site's own data updates ran, when, and whether they worked | The project's own records on GitHub, read without a key under GitHub's terms of service |
 
 **GIBS acknowledgement** (NASA asks every user of GIBS to show it): We acknowledge the use of imagery provided by
@@ -52,6 +55,7 @@ with its exact credit line, in the same change that adds it, and ESA's credit is
 | ESA/Hubble picture and video archives (esahubble.org) | Image Explorer: Picture library and the globe's pictures, beside NASA's | CC BY 4.0 (esahubble.org/copyright); each picture's own credit line, shown in full with it, for example "NASA, ESA, and STScI"; captions credited to ESA/Hubble |
 | ESA Mars Express High Resolution Stereo Camera (HRSC), heights blended with NASA's MOLA, served by NASA's Mars Trek | Planetary Maps: the Mars "Sharper" height map | CC BY-SA 3.0 IGO; credit "ESA/DLR/FU Berlin, CC BY-SA 3.0 IGO" |
 | SOHO (Solar and Heliospheric Observatory, ESA and NASA), LASCO C2 and C3 coronagraph pictures (soho.nascom.nasa.gov) | Space Weather: clouds of solar gas leaving the Sun | Free for education and non-commercial use; credit "SOHO (ESA & NASA)", "Courtesy of SOHO/LASCO consortium. SOHO is a project of international cooperation between ESA and NASA." |
+| ESA Gaia (approved Nov 17, 2026; to be added after Gaia Data Release 4, due Dec 2, 2026): the exoplanet candidate catalogue, from the Gaia Archive (gea.esac.esa.int) | Exoplanets: planet candidates found by astrometry, shown apart from the confirmed planets | CC BY-NC 3.0 IGO (non-commercial use); credit "ESA/Gaia/DPAC" |
 | ESA NEO Coordination Centre (NEOCC, neo.ssa.esa.int): risk list, special risk list, close approaches | Asteroid Tracker: ESA's impact-risk list beside NASA's, and ESA's close-approach distances | ESA's terms for educational and informational use; credit "ESA NEO Coordination Centre (©ESA)" |
 
 **ESA's terms:** some ESA images, videos and other works are released, where expressly stated, under the Creative
@@ -70,7 +74,8 @@ with ESA's credit (ESA's terms and conditions, esa.int). ESA's logo is not used:
 | satellite.js, © 2013 Shashwat Kandadai | 7.2.0 | Spacecraft map, Sky Finder and Orbit Watch: satellite positions from orbital elements (SGP4); bundled as an ES module, `shared/vendor/satellite.min.js`, licence `shared/vendor/LICENSE-satellite.js.md` | MIT |
 
 Analysis tools (run on GitHub's servers to prepare data; not sent to visitors): pandas (BSD 3-Clause), for the Mars
-Data cleaning and statistics in `mars-data/analysis/`.
+Data cleaning and statistics in `mars-data/analysis/`; NumPy (BSD 3-Clause), Astropy (BSD 3-Clause) and astroquery (BSD 3-Clause), for the Exoplanets light curves in
+`exoplanets/tools/build_series.py`.
 
 ## NASA and ESA
 

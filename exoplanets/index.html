@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<!-- NASA and ESA Data Projects · Exoplanets · overview · © 2026 Malcolm Syme · mcsyme11@gmail.com -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Exoplanets · Planets around other stars · NASA and ESA Data Projects</title>
+  <meta name="description" content="How astronomers find planets around other stars, shown with real measurements from NASA's Kepler and TESS telescopes, and every confirmed planet from the NASA Exoplanet Archive.">
+  <meta name="theme-color" content="#141B26">
+  <link rel="icon" href="../shared/icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="../shared/icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../shared/icons/apple-touch-icon.png">
+  <link rel="manifest" href="../site.webmanifest">
+  <meta name="apple-mobile-web-app-title" content="NEDAP">
+  <meta name="application-name" content="NEDAP">
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111713">
+  <script type="module" src="../shared/footer.js?v=2026111713"></script>
+  <link rel="stylesheet" href="exoplanets.css?v=2026111713">
+  <script type="module" src="overview.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../" aria-label="NASA and ESA Data Projects, home">
+        <svg class="emblem" width="26" height="26" viewBox="0 0 64 64" aria-hidden="true"><use href="../shared/emblem.svg#e"/></svg><span class="bname">NASA and ESA Data Projects</span></a>
+      <nav class="nav" aria-label="Projects">
+        <a href="../">Home</a>
+        <a href="../asteroid-tracker/">Asteroids</a>
+        <a href="../mars-data/">Mars</a>
+        <a href="../image-explorer/">Images</a>
+        <a href="../space-watch/" aria-current="page">Space Watch</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <a class="backlink" id="back" href="../space-watch/">Space Watch</a>
+    <header class="pagehead">
+      <div class="kicker"><a href="../space-watch/">Space Watch · Exoplanets</a></div>
+      <h1>Planets around other stars</h1>
+      <p class="lede">How astronomers find planets they can't see, shown with real measurements from NASA's Kepler and TESS telescopes, and every confirmed planet so far: how big it is, how it orbits, and whether it gets the right amount of starlight for liquid water.</p>
+      <div class="meta badges"><span class="badge nasa">NASA</span><span class="badge esa">ESA</span><span class="badge">Exoplanet Archive</span><span class="badge">Kepler · TESS</span><span class="badge">Gaia</span></div>
+    </header>
+
+    <nav class="tabs" aria-label="Exoplanets">
+      <a href="./" aria-current="page">Overview</a>
+      <a href="methods.html">How they are found</a>
+      <a href="explorer.html">Every planet</a>
+    </nav>
+
+    <div id="notice"></div>
+    <div class="stats" id="stats">
+      <div class="stat"><div class="label">Confirmed planets</div><div class="value">…</div><div class="note">loading</div></div>
+      <div class="stat"><div class="label">Found by transit</div><div class="value">…</div><div class="note">loading</div></div>
+      <div class="stat"><div class="label">In the habitable zone</div><div class="value">…</div><div class="note">loading</div></div>
+      <div class="stat"><div class="label">Nearest</div><div class="value">…</div><div class="note">loading</div></div>
+    </div>
+    <p class="updated" id="updated"></p>
+
+    <section class="section" aria-labelledby="hWays">
+      <div class="section-head">
+        <div><div class="kicker">Learn</div><h2 id="hWays">Six ways to find a planet you can't see</h2></div>
+        <p class="aside">A planet like Earth is about ten billion times fainter than its star in visible light. Almost every method watches the star instead.</p>
+      </div>
+      <div class="cards three">
+        <a class="card" href="#transit">
+          <div class="kicker">Method 1 · <span data-count="transit">…</span> planets</div><h3>Transit</h3>
+          <p>The planet crosses in front of its star and blocks a little of its light. The dip gives the planet's size; the time between dips gives its year.</p>
+          <div class="foot"><span class="badges"><span class="badge nasa">Kepler · TESS</span><span class="badge esa">CHEOPS · PLATO</span></span><span class="go">Open</span></div>
+        </a>
+        <a class="card" href="methods.html#rv">
+          <div class="kicker">Method 2 · <span data-count="rv">…</span> planets</div><h3>Radial velocity</h3>
+          <p>The planet's pull makes the star wobble towards and away from us. The wobble shifts the star's light, blue then red, and gives the planet's minimum mass.</p>
+          <div class="foot"><span class="badge">Ground telescopes</span><span class="go">Open</span></div>
+        </a>
+        <a class="card" href="methods.html#microlensing">
+          <div class="kicker">Method 3 · <span data-count="micro">…</span> planets</div><h3>Microlensing</h3>
+          <p>A star passing in front of a more distant star bends and brightens its light for a few weeks; a planet adds a short extra blip.</p>
+          <div class="foot"><span class="badge nasa">Roman, launched 2026</span><span class="go">Open</span></div>
+        </a>
+        <a class="card" href="methods.html#imaging">
+          <div class="kicker">Method 4 · <span data-count="imaging">…</span> planets</div><h3>Direct imaging</h3>
+          <p>Block the star's glare and photograph the planet itself: young, hot giants far from their stars, like the four planets of HR 8799.</p>
+          <div class="foot"><span class="badge nasa">Webb · Hubble</span><span class="go">Open</span></div>
+        </a>
+        <a class="card" href="methods.html#astrometry">
+          <div class="kicker">Method 5 · <span data-count="astrometry">…</span> planets</div><h3>Astrometry</h3>
+          <p>Measure the star's tiny loop across the sky. ESA's Gaia does this for nearly two billion stars; its fourth data release, due on Dec 2, 2026, includes a catalogue of planet candidates.</p>
+          <div class="foot"><span class="badge esa">Gaia</span><span class="go">Open</span></div>
+        </a>
+        <a class="card" href="methods.html#timing">
+          <div class="kicker">Method 6 · <span data-count="timing">…</span> planets</div><h3>Timing</h3>
+          <p>Something that should tick like a clock runs early, then late: a pulsar's radio pulses, or another planet's transits. The first planets ever confirmed, in 1992, were found this way.</p>
+          <div class="foot"><span class="badge">Pulsars · transits</span><span class="go">Open</span></div>
+        </a>
+      </div>
+      <p class="caption" id="otherCount"></p>
+    </section>
+
+    <section class="section" id="transit" aria-labelledby="hTransit">
+      <div class="section-head">
+        <div><div class="kicker">Method 1</div><h2 id="hTransit">The transit method, step by step</h2></div>
+        <div class="seg" role="group" aria-label="Light curve" id="lcPick"></div>
+      </div>
+      <div class="panels">
+        <figure class="panel wide">
+          <div class="ph"><h3 id="lcTitle">A star's brightness, hour by hour</h3><span class="aside" id="lcAside">each dot is one measurement</span></div>
+          <div class="pb chartframe"><svg class="chart" id="lc" role="img" aria-label="A star's brightness around the transits of its planet"></svg>
+            <div class="legend"><span><i class="s2"></i><span id="lcEvery">single measurements</span></span><span><i class="s1"></i>the average of all transits</span></div>
+          </div>
+          <figcaption class="pf caption" id="lcCap"></figcaption>
+          <details class="howto"><summary>How to read this</summary>
+            <p>The line at 100% is the star's normal brightness. While the planet crosses the star's face, the light drops and comes back when it has passed. Every transit the telescope caught is laid on top of the others, lined up on its middle, and the brass line is their average.</p>
+            <p>The <b>depth</b> of the dip gives the planet's size compared with its star; the <b>time between transits</b> gives its year. The scatter of the blue dots is the measurement noise: a small planet makes a dip far smaller than the scatter of one measurement, so only the average of many transits shows it.</p>
+          </details>
+        </figure>
+      </div>
+
+      <div class="split after">
+        <div class="prose" id="dipText">
+          <h3>From the dip to the planet</h3>
+          <p>The planet blocks the part of the star's disc it covers, so the fraction of light lost, the depth δ, is the ratio of their areas: <b>δ = (R<sub>p</sub> ÷ R<sub>★</sub>)²</b>. Turned round, the planet's radius is <b>R<sub>p</sub> = R<sub>★</sub> × √δ</b>.</p>
+          <p id="dipExample"></p>
+          <p class="caption">Earth crossing the Sun would dim it by only 0.0084%, 84 parts in a million; Jupiter by about 1%.</p>
+        </div>
+        <div class="ctl">
+          <h2>Make a transit</h2>
+          <p class="caption">Planet</p>
+          <div class="seg" role="group" aria-label="Planet" id="toyPlanet"><button type="button" aria-pressed="true" data-r="6371">Earth</button><button type="button" aria-pressed="false" data-r="24622">Neptune</button><button type="button" aria-pressed="false" data-r="69911">Jupiter</button></div>
+          <p class="caption">Star</p>
+          <div class="seg" role="group" aria-label="Star" id="toyStar"><button type="button" aria-pressed="false" data-r="695700">Like the Sun</button><button type="button" aria-pressed="true" data-r="285500">Red dwarf, like TOI-700</button></div>
+          <div class="stats">
+            <div class="stat"><div class="label">Dip</div><div class="value" id="toyDip">…</div><div class="note" id="toyNote"></div></div>
+          </div>
+          <svg class="chart" id="toy" role="img" aria-label="The dip this planet makes in front of this star"></svg>
+          <p class="caption">Small stars make small planets easier to find: the same planet blocks more of the light.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="maths" aria-labelledby="hRules">
+      <div class="section-head">
+        <div><div class="kicker">The maths</div><h2 id="hRules">Which formula to use when</h2></div>
+        <p class="aside">Each row: what you know, what you can work out, and a real example from the archive.</p>
+      </div>
+      <div class="panel">
+        <div class="pb flush">
+          <table class="table stack">
+            <thead><tr><th>If you know</th><th>You can find</th><th>Formula</th><th>Example</th></tr></thead>
+            <tbody>
+              <tr><td data-l="If you know">Transit depth δ, star's radius R<sub>★</sub></td><td data-l="You can find">Planet's radius</td><td data-l="Formula">R<sub>p</sub> = R<sub>★</sub> × √δ</td><td data-l="Example">TOI-700 d: 285,500 km × √0.000613 ≈ 7,070 km, about 1.1 Earth radii</td></tr>
+              <tr><td data-l="If you know">Time between transits P, star's mass M<sub>★</sub></td><td data-l="You can find">Size of the orbit</td><td data-l="Formula">a = ∛(M<sub>★</sub> × P²) <span class="caption">a in au, P in years, M<sub>★</sub> in Suns</span></td><td data-l="Example">TOI-700 d: P = 37.42 days = 0.1025 yr, M<sub>★</sub> = 0.417 → a = 0.164 au</td></tr>
+              <tr><td data-l="If you know">Star's luminosity L, orbit a</td><td data-l="You can find">Starlight the planet gets (Earth = 1)</td><td data-l="Formula">S = L ÷ a² <span class="caption">L in Suns, a in au</span></td><td data-l="Example">TOI-700 d: 0.0233 ÷ 0.164² = 0.86 of Earth's</td></tr>
+              <tr><td data-l="If you know">Starlight S</td><td data-l="You can find">Whether it is in the habitable zone (NASA's rule)</td><td data-l="Formula">0.359 ≤ S ≤ 1.108 <span class="caption">0.95 to 1.67 au for a star like the Sun, scaled by √L (NASA Exoplanet Exploration Program)</span></td><td data-l="Example">TOI-700 d: 0.359 ≤ 0.86 ≤ 1.108, inside; Kepler-186 f: 0.30, outside</td></tr>
+              <tr><td data-l="If you know">Starlight S, star's temperature T</td><td data-l="You can find">The same, for a cool or hot star</td><td data-l="Formula">S<sub>out</sub>(T) ≤ S ≤ S<sub>in</sub>(T) <span class="caption">edges from Kopparapu et al. (2014), for stars of 2,600 to 7,200 K</span></td><td data-l="Example">Kepler-186 f, star 3,755 K: 0.26 ≤ 0.30 ≤ 0.94, inside: a cool star's red light warms a planet more</td></tr>
+              <tr><td data-l="If you know">Star's wobble K, period P, star's mass M<sub>★</sub></td><td data-l="You can find">Planet's minimum mass</td><td data-l="Formula">M<sub>p</sub> sin i = K ÷ 28.4 × M<sub>★</sub><sup>2/3</sup> × P<sup>1/3</sup> <span class="caption">Jupiter masses; K in m/s, P in years, M<sub>★</sub> in Suns; circular orbit</span></td><td data-l="Example">51 Peg b: 55.8 ÷ 28.4 × 1.07<sup>2/3</sup> × 0.01158<sup>1/3</sup> = 0.46 Jupiter masses at least</td></tr>
+              <tr><td data-l="If you know">Star's radius, orbit a</td><td data-l="You can find">Chance that the orbit lines up for a transit</td><td data-l="Formula">p ≈ R<sub>★</sub> ÷ a <span class="caption">the same units for both</span></td><td data-l="Example">Earth seen from far away: 695,700 km ÷ 149.6 million km = 0.47%</td></tr>
+              <tr><td data-l="If you know">Planet and star masses, orbit a, distance d</td><td data-l="You can find">Size of the star's loop on the sky (astrometry)</td><td data-l="Formula">α = (M<sub>p</sub> ÷ M<sub>★</sub>) × a ÷ d <span class="caption">arcseconds; a in au, d in parsecs</span></td><td data-l="Example">Jupiter and the Sun seen from 10 parsecs: 0.000954 × 5.2 ÷ 10 = 0.0005″</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <details class="howto"><summary>How to read this</summary>
+          <p>Start in the first column with what was measured; the formula gives what is in the second. Use the units under each formula exactly as written. The examples use the values in NASA's Exoplanet Archive on Nov 17, 2026, so they match the archive to the rounding shown.</p>
+          <p>For the habitable zone, use NASA's rule first: it is simple and works for stars like the Sun. Then use the second rule for cooler and hotter stars, whose light warms a planet differently. The <a href="explorer.html">explorer</a> gives every planet's answer under both.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="hWho">
+      <div class="section-head">
+        <div><div class="kicker">The whole catalogue</div><h2 id="hWho">Each method finds a different kind of planet</h2></div>
+      </div>
+      <div class="panels">
+        <figure class="panel">
+          <div class="ph"><h3>Mass against year length</h3><span class="aside">both on a log scale</span></div>
+          <div class="pb chartframe"><svg class="chart" id="mp" role="img" aria-label="Planet mass against orbital period, by discovery method"></svg>
+            <div class="legend" id="mpKey"></div>
+          </div>
+          <figcaption class="pf caption" id="mpCap">NASA Exoplanet Archive: every confirmed planet with a known mass and period. Earth and Jupiter circled for comparison.</figcaption>
+          <details class="howto"><summary>How to read this</summary><p>Each mark is a planet, placed by its year (left to right) and its mass (bottom to top). Transits (brass circles) find planets close to their stars, with short years. Radial velocity (blue squares) reaches further out but needs heavy planets. Direct imaging (copper diamonds) finds giants far from their stars. Microlensing (green triangles) finds planets at Earth-to-Jupiter distances around faint stars. The empty space around Earth's circle is where no method yet reaches well. Point at a mark for its name.</p></details>
+        </figure>
+        <figure class="panel">
+          <div class="ph"><h3>Planets confirmed each year</h3><span class="aside">by method</span></div>
+          <div class="pb chartframe"><svg class="chart" id="py" role="img" aria-label="Planets confirmed each year, by discovery method"></svg>
+            <div class="legend" id="pyKey"></div>
+          </div>
+          <figcaption class="pf caption" id="pyCap">NASA Exoplanet Archive: every confirmed planet, by the year its discovery was published.</figcaption>
+          <details class="howto"><summary>How to read this</summary><p>Each bar is one year, split by method. The two tall bars are 2014 and 2016, when hundreds of Kepler's candidates were confirmed at once by statistics: in 2014 from stars with several transiting planets, in 2016 by working out how likely each signal was to be a real planet. Point at a bar for its numbers.</p></details>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="hExp">
+      <div class="section-head">
+        <div><div class="kicker">Explore</div><h2 id="hExp">The nearest planets about Earth's size in the habitable zone</h2></div>
+        <a class="btn" href="explorer.html">Every planet</a>
+      </div>
+      <div class="panel">
+        <div class="pb flush">
+          <table class="table stack planetlist" id="near">
+            <thead><tr><th>Planet</th><th class="r">Distance</th><th class="r">Size (Earth = 1)</th><th class="r">Starlight (Earth = 1)</th><th>Found by</th></tr></thead>
+            <tbody><tr><td colspan="5"><div class="state loading">Loading the planets…</div></td></tr></tbody>
+          </table>
+        </div>
+        <p class="pf caption">In the habitable zone by NASA's rule. About Earth's size: a measured radius of 0.5 to 1.6 Earths, or, for a planet with no measured radius, a mass of 0.1 to 3 Earths. Size: the radius when a transit measured it, otherwise the mass; a mass from radial velocity is a minimum (≥). Choose a planet to see its system.</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="hSrc">
+      <div class="section-head"><div><div class="kicker">Where the data comes from</div><h2 id="hSrc">Sources</h2></div></div>
+      <div class="sources">
+        <div class="s"><div class="n">Confirmed planets <span class="badge nasa">NASA</span></div><p class="d">Every confirmed planet and its star, one row each (the Planetary Systems Composite Parameters table), copied from the archive into this site.</p><p class="u">exoplanetarchive.ipac.caltech.edu</p></div>
+        <div class="s"><div class="n">Light curves <span class="badge nasa">NASA</span></div><p class="d">TESS and Kepler brightness measurements of a few stars, cut around each transit and averaged once, and saved with the site.</p><p class="u">archive.stsci.edu · MAST</p></div>
+        <div class="s"><div class="n">Velocities and microlensing <span class="badge nasa">NASA</span></div><p class="d">Published measurements kept by the Exoplanet Archive: the velocities of 51 Pegasi (Butler et al. 2006) and the light of the microlensing event OGLE-2005-BLG-390.</p><p class="u">exoplanetarchive.ipac.caltech.edu</p></div>
+        <div class="s"><div class="n">Planet candidates from Gaia <span class="badge esa">ESA</span></div><p class="d">From Gaia's fourth data release, due on Dec 2, 2026: stars whose tiny loops on the sky point to a planet. To be added after the release, apart from the confirmed planets.</p><p class="u">gea.esac.esa.int · Gaia Archive</p></div>
+      </div>
+    </section>
+
+    <p class="srcline">Planet data: NASA Exoplanet Archive, which is operated by the California Institute of Technology under contract with NASA under the Exoplanet Exploration Program. Light curves: NASA's TESS and Kepler missions, obtained from the Mikulski Archive for Space Telescopes (MAST) at the Space Telescope Science Institute. Habitable zone: NASA Exoplanet Exploration Program (Mamajek &amp; Stapelfeldt 2023) and Kopparapu et al. (2013, 2014). Data courtesy of NASA.</p>
+    <footer class="footer">
+      <div class="ftop"><p class="copy">© 2026 <strong>Malcolm Syme</strong> · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></p></div>
+      <p class="fnote">Data courtesy of NASA and ESA. An independent project, not endorsed by NASA or ESA.</p>
+    </footer>
+  </main>
+  <div class="tip" id="tip" hidden></div>
+</body>
+</html>

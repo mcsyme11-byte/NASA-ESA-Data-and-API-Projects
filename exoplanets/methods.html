@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<!-- NASA and ESA Data Projects · Exoplanets · how planets are found · © 2026 Malcolm Syme · mcsyme11@gmail.com -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How planets are found · Exoplanets · NASA and ESA Data Projects</title>
+  <meta name="description" content="Radial velocity, microlensing, direct imaging, astrometry and timing: how each way of finding planets around other stars works, with real measurements and the maths.">
+  <meta name="theme-color" content="#141B26">
+  <link rel="icon" href="../shared/icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="../shared/icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../shared/icons/apple-touch-icon.png">
+  <link rel="manifest" href="../site.webmanifest">
+  <meta name="apple-mobile-web-app-title" content="NEDAP">
+  <meta name="application-name" content="NEDAP">
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111713">
+  <script type="module" src="../shared/footer.js?v=2026111713"></script>
+  <link rel="stylesheet" href="exoplanets.css?v=2026111713">
+  <script type="module" src="methods.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../" aria-label="NASA and ESA Data Projects, home">
+        <svg class="emblem" width="26" height="26" viewBox="0 0 64 64" aria-hidden="true"><use href="../shared/emblem.svg#e"/></svg><span class="bname">NASA and ESA Data Projects</span></a>
+      <nav class="nav" aria-label="Projects">
+        <a href="../">Home</a>
+        <a href="../asteroid-tracker/">Asteroids</a>
+        <a href="../mars-data/">Mars</a>
+        <a href="../image-explorer/">Images</a>
+        <a href="../space-watch/" aria-current="page">Space Watch</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <a class="backlink" id="back" href="./">Exoplanets</a>
+    <header class="pagehead compact">
+      <div class="kicker"><a href="./">Space Watch · Exoplanets</a></div>
+      <h1>How planets are found</h1>
+      <p class="lede">The transit method is on the <a href="./#transit">overview</a>. Here are the other five ways, each with what it measures, the rule that turns the measurement into a planet, and what it has found.</p>
+    </header>
+
+    <nav class="tabs" aria-label="Exoplanets">
+      <a href="./">Overview</a>
+      <a href="methods.html" aria-current="page">How they are found</a>
+      <a href="explorer.html">Every planet</a>
+    </nav>
+
+    <nav class="seg" aria-label="Methods" data-hscroll>
+      <a class="chip" href="./#transit">Transit</a>
+      <a class="chip" href="#rv">Radial velocity</a>
+      <a class="chip" href="#microlensing">Microlensing</a>
+      <a class="chip" href="#imaging">Direct imaging</a>
+      <a class="chip" href="#astrometry">Astrometry</a>
+      <a class="chip" href="#timing">Timing</a>
+    </nav>
+    <div id="notice"></div>
+
+    <!-- ===================================================== radial velocity -->
+    <section class="section" id="rv" aria-labelledby="hRv">
+      <div class="section-head">
+        <div><div class="kicker">Method 2 · <span data-count="rv">…</span> planets</div><h2 id="hRv">Radial velocity: the star's wobble</h2></div>
+        <p class="aside">The first planet around a star like the Sun, 51 Pegasi b, was found this way in 1995.</p>
+      </div>
+      <div class="panels">
+        <figure class="panel wide">
+          <div class="ph"><h3>51 Pegasi's speed towards and away from us</h3><span class="aside" id="rvAside"></span></div>
+          <div class="pb chartframe"><svg class="chart" id="rvChart" role="img" aria-label="The star 51 Pegasi's velocity, folded on its planet's 4.23-day orbit"></svg>
+            <div class="legend"><span><i class="s2"></i>measured velocities, with their uncertainty</span><span><i class="s1"></i>the best-fitting wobble</span></div>
+          </div>
+          <figcaption class="pf caption" id="rvCap">Loading the measurements…</figcaption>
+          <details class="howto"><summary>How to read this</summary>
+            <p>Each dot is one measurement of the star's speed along our line of sight, from the shift of the dark lines in its spectrum. They were taken over several years, then laid onto one 4.23-day orbit of the planet: their time since the start of the latest orbit is across, the speed up and down. The brass line is the sine curve that fits them best.</p>
+            <p>Above zero the star moves away from us and its light is shifted towards red; below zero it moves towards us and its light is shifted towards blue. The planet is always on the opposite side of the star.</p>
+          </details>
+        </figure>
+      </div>
+      <div class="split after">
+        <div class="prose">
+          <h3>From the wobble to the planet</h3>
+          <p>A star and its planet both go round their shared centre of mass. The heavier the planet and the closer its orbit, the faster the star's wobble. The wobble's size, <b>K</b>, and the orbit's period <b>P</b> give the planet's mass, with one catch: only the part of the motion towards and away from us is seen, so the answer is a <b>minimum mass</b>, written M<sub>p</sub> sin i, where i is the orbit's tilt.</p>
+          <p><b>The rule</b> (circular orbit, planet much lighter than its star):<br><span class="sum">M<sub>p</sub> sin i = K ÷ 28.4 × M<sub>★</sub><sup>2/3</sup> × P<sup>1/3</sup></span>, with M<sub>p</sub> in Jupiter masses, K in m/s, M<sub>★</sub> in Suns and P in years. 28.4 m/s is the wobble a Jupiter-mass planet causes in a one-year orbit around the Sun.</p>
+          <p id="rvExample"></p>
+          <p class="caption">Jupiter makes the Sun wobble by 12.7 m/s, about walking pace; Earth by only 0.09 m/s. The best spectrographs today measure to a few tenths of a m/s, so Earth twins are still out of reach.</p>
+        </div>
+        <div class="facts" id="rvFacts"></div>
+      </div>
+    </section>
+
+    <!-- ===================================================== microlensing -->
+    <section class="section" id="microlensing" aria-labelledby="hMl">
+      <div class="section-head">
+        <div><div class="kicker">Method 3 · <span data-count="micro">…</span> planets</div><h2 id="hMl">Microlensing: a star as a magnifying glass</h2></div>
+        <div class="seg" role="group" aria-label="Time span" id="mlSpan"><button type="button" aria-pressed="true" data-span="25">Whole event</button><button type="button" aria-pressed="false" data-span="4">Around the planet</button></div>
+      </div>
+      <div class="panels">
+        <figure class="panel wide">
+          <div class="ph"><h3 id="mlTitle">The brightening of OGLE-2005-BLG-390</h3><span class="aside" id="mlAside"></span></div>
+          <div class="pb chartframe"><svg class="chart" id="mlChart" role="img" aria-label="The brightness of a microlensing event over a month"></svg>
+            <div class="legend"><span><i class="s3"></i>measured brightness, with its uncertainty</span></div>
+          </div>
+          <figcaption class="pf caption" id="mlCap">Loading the measurements…</figcaption>
+          <details class="howto"><summary>How to read this</summary>
+            <p>Brightness is given in magnitudes, where smaller numbers are brighter, so the scale is turned over: up is brighter. A distant star brightened smoothly for a few weeks as a nearer star passed almost exactly in front of it. About ten days after the peak the measurements stand above the smooth curve for less than a day: the planet of the nearer star added its own short brightening. "Around the planet" zooms in on it.</p>
+          </details>
+        </figure>
+      </div>
+      <div class="split after">
+        <div class="prose">
+          <h3>How it works</h3>
+          <p>Gravity bends light. When a star passes almost exactly in front of a more distant star, it acts as a lens and brightens the distant star for a few weeks. If the lens star has a planet, the planet's own small lens adds a short extra brightening, lasting hours to a few days.</p>
+          <p><b>The rules.</b> The length of the whole event grows with the square root of the lens star's mass; the length of the planet's blip grows with the square root of the planet's mass. So the blip's length compared with the event's gives the planet-to-star mass ratio: <span class="sum">q = (t<sub>planet</sub> ÷ t<sub>event</sub>)²</span>, roughly. Each event happens once and is never seen again.</p>
+          <p>The planet of OGLE-2005-BLG-390 is about 5.5 times Earth's mass, at about 2.6 au from a small, faint star some 21,500 light years away (Beaulieu et al. 2006), one of the first cold, low-mass planets found. NASA's Nancy Grace Roman Space Telescope, launched in August 2026, will watch hundreds of millions of stars towards the centre of the galaxy for events like this one.</p>
+        </div>
+        <div class="facts" id="mlFacts"></div>
+      </div>
+    </section>
+
+    <!-- ===================================================== direct imaging -->
+    <section class="section" id="imaging" aria-labelledby="hIm">
+      <div class="section-head">
+        <div><div class="kicker">Method 4 · <span data-count="imaging">…</span> planets</div><h2 id="hIm">Direct imaging: a picture of the planet</h2></div>
+        <a class="btn outline" href="../image-explorer/explore.html#library">See pictures</a>
+      </div>
+      <div class="split">
+        <div class="prose">
+          <p>A planet is a faint speck right beside a dazzling star. A <b>coronagraph</b> inside the telescope blocks the star's light, and the planet's own glow is photographed in infrared. It works best for young, hot giant planets far from their stars: they still glow from their formation, and they sit far enough out to be seen apart from the star.</p>
+          <p><b>The rule: how far apart they look.</b> <span class="sum">θ = a ÷ d</span>, with θ in arcseconds, the orbit a in au and the distance d in parsecs. <span id="imExample"></span></p>
+          <p><b>The rule: how faint.</b> In visible light, Earth is about 10<sup>−10</sup> as bright as the Sun (a ten-billionth), Jupiter about 10<sup>−9</sup>. Young giants glowing in infrared are only about 10<sup>−4</sup> to 10<sup>−6</sup> as bright as their stars, which is why they are found first. NASA's planned Habitable Worlds Observatory is being designed to reach 10<sup>−10</sup>, to photograph Earth-like planets.</p>
+          <p class="caption">Pictures of HR 8799's planets and others taken by Webb, Hubble and Keck are in NASA's picture library: open the Image Explorer's picture library and search for "HR 8799" or "exoplanet".</p>
+        </div>
+        <div class="panel">
+          <div class="ph"><h3>Widest on the sky</h3><span class="aside">imaged planets</span></div>
+          <div class="pb flush">
+            <table class="table stack planetlist" id="imTable"><thead><tr><th>Planet</th><th class="r">Orbit</th><th class="r">Apart</th></tr></thead>
+              <tbody><tr><td colspan="3"><div class="state loading">Loading…</div></td></tr></tbody></table>
+          </div>
+          <p class="pf caption">θ = a ÷ d from the archive's orbit and distance.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================== astrometry -->
+    <section class="section" id="astrometry" aria-labelledby="hAs">
+      <div class="section-head">
+        <div><div class="kicker">Method 5 · <span data-count="astrometry">…</span> planets</div><h2 id="hAs">Astrometry: the star's loop across the sky</h2></div>
+        <span class="badge esa">ESA Gaia</span>
+      </div>
+      <div class="split">
+        <div class="prose">
+          <p>The same pull that makes a star wobble towards and away from us also moves it sideways, in a tiny loop on the sky. Measuring that loop needs extraordinarily precise positions: ESA's Gaia spacecraft has measured the positions of nearly two billion stars, again and again, since 2014.</p>
+          <p><b>The rule.</b> <span class="sum">α = (M<sub>p</sub> ÷ M<sub>★</sub>) × a ÷ d</span>, with α the size of the star's loop in arcseconds, a in au and d in parsecs. Unlike radial velocity, astrometry gives the planet's true mass, not a minimum, because it sees the whole orbit's shape.</p>
+          <p><b>Example.</b> Jupiter has 0.000954 of the Sun's mass and orbits at 5.2 au. Seen from 10 parsecs (32.6 light years): <span class="sum">α = 0.000954 × 5.2 ÷ 10 = 0.0005″</span>, half a thousandth of an arcsecond. Gaia measures the brightest stars' positions finely enough to see loops of that size.</p>
+          <p>Gaia's fourth data release, due on Dec 2, 2026, covers its first 5.5 years of measurements and includes a catalogue of exoplanet candidates. They will be added here once released, kept apart from the confirmed planets until they are confirmed.</p>
+        </div>
+        <div class="panel">
+          <div class="ph"><h3>Found by astrometry</h3><span class="aside" id="asAside">so far</span></div>
+          <div class="pb flush">
+            <table class="table stack planetlist" id="asTable"><thead><tr><th>Planet</th><th class="r">Mass</th><th>Found</th></tr></thead>
+              <tbody><tr><td colspan="3"><div class="state loading">Loading…</div></td></tr></tbody></table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================== timing -->
+    <section class="section" id="timing" aria-labelledby="hTi">
+      <div class="section-head">
+        <div><div class="kicker">Method 6 · <span data-count="timing">…</span> planets</div><h2 id="hTi">Timing: a clock that runs early, then late</h2></div>
+      </div>
+      <div class="split">
+        <div class="prose">
+          <p>Some things in space keep extraordinarily regular time. A <b>pulsar</b>, the spinning core left by an exploded star, sends a radio pulse with every turn. When a planet pulls the pulsar back and forth, the pulses arrive a little early, then a little late, because their light has a little less, then a little more, distance to travel. The first planets ever confirmed, in 1992, were found this way around the pulsar PSR B1257+12.</p>
+          <p><b>The rule.</b> A shift in arrival time Δt means the star moved c × Δt along our line of sight, where c is the speed of light, 299,792 km/s. A shift of 1 millisecond is a movement of about 300 km.</p>
+          <p>The same idea works for a planet's transits (<b>transit timing</b>): a second, unseen planet tugs the first, so its transits come early or late by minutes. Eclipsing double stars (<b>eclipse timing</b>) and stars that pulse regularly (<b>pulsation timing</b>) are used in the same way.</p>
+        </div>
+        <div class="panel">
+          <div class="ph"><h3>Found by timing</h3><span class="aside" id="tiAside"></span></div>
+          <div class="pb flush">
+            <table class="table stack planetlist" id="tiTable"><thead><tr><th>Kind</th><th class="r">Planets</th><th>For example</th></tr></thead>
+              <tbody><tr><td colspan="3"><div class="state loading">Loading…</div></td></tr></tbody></table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <p class="srcline">Velocities of 51 Pegasi: Butler et al. (2006); light curve of OGLE-2005-BLG-390: the Danish telescope's measurements of the event; both from the NASA Exoplanet Archive's time series. Planet data: NASA Exoplanet Archive, which is operated by the California Institute of Technology under contract with NASA under the Exoplanet Exploration Program. Gaia: ESA/Gaia/DPAC. Data courtesy of NASA and ESA.</p>
+    <footer class="footer">
+      <div class="ftop"><p class="copy">© 2026 <strong>Malcolm Syme</strong> · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></p></div>
+      <p class="fnote">Data courtesy of NASA and ESA. An independent project, not endorsed by NASA or ESA.</p>
+    </footer>
+  </main>
+  <div class="tip" id="tip" hidden></div>
+</body>
+</html>

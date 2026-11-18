@@ -44,6 +44,13 @@ How NASA and ESA Data Projects is built, the decisions made so far, and how to r
   itself. ESA appears through SOHO (ESA and NASA). The aurora chance follows NOAA's rule (66° − 2° × Kp geomagnetic
   latitude, seen from 4° further), with the World Magnetic Model 2025 pole. New shared component: the level scale.
   Built from the approved mock-up; the SOHO "Last 24 hours" button of the mock-up was left out (not checked yet).
+- **Decided Nov 17, 2026 (Exoplanets):** Exoplanets went live from the approved mock-up (`exoplanets/README.md`).
+  The habitable zone is given under two rules: NASA's (the NASA Exoplanet Exploration Program's conservative zone for
+  the Habitable Worlds Observatory target list, 0.95 to 1.67 au for a Sun-like star, scaled by √L) as the main rule,
+  and Kopparapu et al. (2013, 2014) for the star's temperature beside it. ESA's CHEOPS counts as an ESA source (its
+  archive is run for ESA by the CHEOPS Science Operations Centre, University of Geneva); Gaia's CC BY-NC 3.0 IGO licence
+  is accepted and stated on the Terms page. The archives send no CORS headers, so all the data is copied to the site
+  on GitHub's servers (hand-run workflow `exoplanets-build.yml`; the weekly job is the Data updates chat's).
 - **Decided Nov 17, 2026 (Orbit & Space Watch):** a new section of the site, planned in the developer's portfolio
   project: **Orbit Watch** (satellite and space-debris tracker, collision simulator, cleanup explainer, `orbit-watch/`),
   **Space Weather** (`space-weather/`), **Exoplanets** (`exoplanets/`) and **Planetary Maps** (`planet-maps/`), each

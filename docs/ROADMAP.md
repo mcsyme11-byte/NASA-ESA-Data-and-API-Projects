@@ -189,13 +189,23 @@ collisions, Cleaning up; see `orbit-watch/README.md`).
 - [ ] Later, if wanted: a short animation of the last day's SOHO pictures (SOHO offers movies, not checked yet); the
   section page's live figures (flares, storm level) once the section page shows live figures.
 
-**5c. Exoplanets (`exoplanets/`)**
-- [ ] Sources: NASA Exoplanet Archive (every confirmed planet); MAST light curves from Kepler and TESS (run by STScI
-  for NASA; counted as a NASA source, decided Nov 17, 2026); ESA Gaia and CHEOPS where they help.
-- [ ] How each method works, each with a real measurement (the transit dip, the radial-velocity wobble, the direct
-  picture, and others), then every confirmed planet by size, orbit and distance.
-- [ ] Where each host star is in the sky (`shared/sky.js` and the star list).
-- [ ] Hand-off to the Data updates chat: a weekly Exoplanets job.
+**5c. Exoplanets (`exoplanets/`)**: live Nov 17, 2026 (`exoplanets/README.md`)
+- [ ] Developer testing of Exoplanets (built and published Nov 17, 2026): the overview (counts, the light-curve
+  buttons, "Make a transit", the two catalogue charts and their tooltips, the nearest planets), How they are found
+  (the 51 Pegasi wobble, the microlensing "Around the planet" view, the tables), and Every planet (search, the method
+  filter, "Habitable zone", "About Earth's size", sorting, "Show more", a planet's page and the browser's Back).
+- [ ] Data updates chat: the weekly Exoplanets job (handoff `2026-11-17 - data updates - Exoplanets data.md`); until it
+  runs, `planets.json` is refreshed by running "Exoplanets data, built by hand".
+- [ ] ESA Gaia Data Release 4 (due Dec 2, 2026): check its exoplanet candidate catalogue (address, format, terms), add
+  the candidates apart from the confirmed planets, credited "ESA/Gaia/DPAC", and send the Data updates chat a
+  hand-off.
+- [ ] ESA CHEOPS (approved Nov 17, 2026): check the mission archive's address, format, terms and credit line, then add
+  one CHEOPS light curve beside the TESS and Kepler ones.
+- [ ] Direct imaging: a real picture of HR 8799's planets in the section (from NASA's picture library or ESA/Webb,
+  with its credit), in place of the link to the Image Explorer.
+- [ ] Where each host star is in the sky: a small sky map on a planet's page (`shared/sky.js` and the star list), and
+  a link to Sky Finder for stars visible to the eye or with binoculars.
+- [ ] ESA PLATO (launch planned January 2027): its card's note to be updated once it flies.
 
 **5d. Planetary Maps (`planet-maps/`)**: live Nov 17, 2026 (`planet-maps/README.md`)
 - [ ] Data updates chat: the rovers' routes daily and the place names (once, then quarterly), from the hand-off of
