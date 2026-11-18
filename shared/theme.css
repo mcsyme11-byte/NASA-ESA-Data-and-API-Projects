@@ -722,5 +722,36 @@ a, button, .btn, .chip, .badge, input, select, summary, .backlink, .back, .nav a
 .hscroll.hs-l.hs-r { -webkit-mask-image: linear-gradient(to right, transparent, #000 36px, #000 calc(100% - 36px), transparent);
   mask-image: linear-gradient(to right, transparent, #000 36px, #000 calc(100% - 36px), transparent); }
 
+/* Reading progress, back to top, gliding tabs, rising sections (added Nov 18, 2026; set up by shared/motion.js, which
+   footer.js loads on every page). Replaces nothing: no earlier component showed how far down a page the reader is,
+   or offered a way back up. */
+.readbar { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; pointer-events: none; }
+.readbar > i { display: block; height: 100%; transform: scaleX(0); transform-origin: 0 50%;
+  background: linear-gradient(90deg, var(--brass-dim), var(--brass) 70%, var(--brass-bright));
+  box-shadow: 0 0 10px color-mix(in srgb, var(--brass) 55%, transparent); }
+.totop { position: fixed; z-index: 45; right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom));
+  width: 46px; height: 46px; padding: 0; border-radius: 50%; display: grid; place-items: center; cursor: pointer;
+  color: var(--brass-bright); background: rgba(15, 21, 32, .92); border: 0;
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); box-shadow: 0 6px 20px rgba(0, 0, 0, .35);
+  opacity: 0; transform: translateY(10px) scale(.92); pointer-events: none;
+  transition: opacity .25s var(--ease), transform .25s var(--ease), color .2s var(--ease); }
+.totop.on { opacity: 1; transform: none; pointer-events: auto; }
+.totop:hover { color: var(--ink); }
+.totop:active { transform: scale(.94); }
+.totop > svg:first-child { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+.totop circle { fill: none; stroke-width: 2; }
+.totop .track { stroke: var(--line); }
+.totop .done { stroke: var(--brass); stroke-dasharray: 100; stroke-dashoffset: 100; stroke-linecap: round; }
+.totop .arrow { position: relative; transition: transform .2s var(--ease); }
+.totop:hover .arrow { transform: translateY(-2px); }
+.tabs.glides { position: relative; }
+.tabs.glides [aria-selected="true"], .tabs.glides [aria-current] { border-bottom-color: transparent; }
+.tabs.glides > .glide { position: absolute; left: 0; top: 0; height: 2px; width: 0; pointer-events: none; background: var(--brass);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--brass) 50%, transparent);
+  transition: transform .35s var(--ease), width .35s var(--ease), opacity .2s var(--ease); }
+.section.reveal { opacity: 0; transform: translateY(16px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+.section.reveal.shown { opacity: 1; transform: none; }
+@media print { .readbar, .totop { display: none; } .section.reveal { opacity: 1; transform: none; } }
+
 /* never rely on motion */
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }

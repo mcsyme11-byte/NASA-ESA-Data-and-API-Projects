@@ -1,5 +1,14 @@
 # Change log
 
+## November 18, 2026 — reading progress and motion on every page
+
+- New `shared/motion.js`, loaded by `shared/footer.js` on every page: a brass reading-progress line along the foot of
+  the top bar, a round Back to the top button whose ring fills as the page is read, one brass underline that glides
+  between tabs on every row of tabs, and sections that rise gently into view the first time they show. Left out of
+  the legal, professional and technical pages and Sky Finder; none of it moves for visitors who ask for less motion.
+  Components recorded in `docs/DESIGN.md` and on the component page; note for every chat in `docs/handoffs/`.
+  Version tag raised to 2026111805.
+
 ## November 18, 2026 — Image Explorer: subtitles checked on the live site
 
 - Subtitles checked live on "Artemis Origins" (`.srt`), "Mars Sample Return Media Reel" (`.vtt`) and "How's the

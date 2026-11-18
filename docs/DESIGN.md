@@ -121,7 +121,10 @@ All in `shared/theme.css`, all shown on `design/index.html`. Use these; do not r
 | Segmented control | `.seg` › `button` (or `.chip`), optional `.lbl` inside | One choice of a few (a time step, a view, a distance); scrolls sideways with a fade if it does not fit |
 | Chips | `.chips` › `.chip[aria-pressed]` | Filters that turn on and off independently |
 | Quick picks | `.searchopts` › `.popular` › `.barlbl` + `.chip` | A labelled row of chips under a search box (popular searches, missions); scrolls sideways on phones. Moved into the theme from the Asteroid Tracker's style sheet on Nov 17, 2026, unchanged, as both projects use it |
-| Tabs | `nav.tabs` | The views of one tool; wrap to a second line when they don't fit |
+| Tabs | `nav.tabs` | The views of one tool; wrap to a second line when they don't fit; one brass underline glides to the current tab (`.glides`, `.glide`, set up by `shared/motion.js`, since Nov 18, 2026) |
+| Reading progress | `.readbar` › `i` (added to the top bar by `shared/motion.js`) | A thin brass line along the foot of the top bar, filled as far as the page has been read. Every page except the legal, professional and technical ones (`SKIP` in `shared/motion.js`), Sky Finder, and pages with `<body data-nomotion>`; only on pages longer than a screen and a half. Added Nov 18, 2026; replaces nothing |
+| Back to top | `button.totop` (added by `shared/motion.js`) | A round button at the bottom right, shown after a screen and a half of scrolling, whose ring fills with the reading progress. Same pages as the progress line. Added Nov 18, 2026; replaces nothing |
+| Rising sections | `.section.reveal`, `.shown` (set by `shared/motion.js`) | Each section below the first screen fades up 16 px the first time it shows. Same pages; never for visitors who ask for less motion, nor in print. Added Nov 18, 2026 |
 | Period bar | `.periodbar` › `.seg`, `.period` (`.lbl` + `strong` or a field), `.grow`, a button | Step through weeks, years or days |
 | Filters | `.filters` › `.seg`, `label` + `select`/`input`, `.count` | The filter row above a chart or list |
 | Fields | `input`, `select`, `.field` | 44 px, dark, brass ring on focus |

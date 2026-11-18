@@ -12,7 +12,7 @@
 // The copyright line and the credit line stay in the page itself (they read without this script); everything else is
 // added here, once. A page is listed by adding it to SECTIONS below; a page that is not live yet is left out with
 // `soon: true` until it is published.
-// It also sets up the "‹ Back" button on pages that have one (see wireBack below), the soft edge fade on rows that
+// It also loads shared/motion.js (reading progress, back to top, gliding tabs, rising sections), sets up the "‹ Back" button on pages that have one (see wireBack below), the soft edge fade on rows that
 // scroll sideways (wireScrollRows), and the live data status (addLiveStatus, since Nov 14, 2026): a light and one line
 // saying whether the site's data is up to date, updating now, late or failed, linked to the data-collection page.
 // Links are worked out from this file's own address, so they are right at any folder depth.
@@ -206,6 +206,11 @@ async function addLiveStatus() {
   document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(false); });
 }
 
-function start() { buildFooter(); wireBack(); wireScrollRows(); addLiveStatus(); }
+// Reading progress, back to top, gliding tabs and rising sections (shared/motion.js, since Nov 18, 2026)
+async function addMotion() {
+  try { (await import(new URL('motion.js' + new URL(import.meta.url).search, import.meta.url).href)).startMotion(); } catch { /* the page works without it */ }
+}
+
+function start() { buildFooter(); wireBack(); wireScrollRows(); addLiveStatus(); addMotion(); }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
 else start();
