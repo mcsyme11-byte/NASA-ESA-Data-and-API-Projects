@@ -4,6 +4,7 @@
   "asteroid-data": {
    "name": "Asteroid data", "project": "Asteroid Tracker", "href": "asteroid-tracker/", "runs": "twice a day",
    "cron": ["17 6 * * *", "47 14 * * *"], "max_age_hours": 30, "grace_hours": 24,
+   "data": ["asteroid-tracker/data/"], "scripts": ["asteroid-tracker/fetch_close_approaches.py", "asteroid-tracker/fetch_map_data.py", "asteroid-tracker/fetch_risk.py", "asteroid-tracker/fetch_neows.py", "asteroid-tracker/fetch_sky.py", "asteroid-tracker/fetch_reach.py"],
    "about": "Close approaches, the orbit of every near-Earth asteroid, impact-risk lists, this week's asteroids and their positions in the sky.",
    "sources": {
     "close-approaches": {"label": "Close approaches", "agency": "NASA/JPL"},
@@ -18,6 +19,7 @@
   "spacecraft-data": {
    "name": "Spacecraft data", "project": "Spacecraft map", "href": "spacecraft/", "runs": "twice a day",
    "cron": ["23 5 * * *", "53 17 * * *"], "max_age_hours": 30, "grace_hours": 24,
+   "data": ["spacecraft/data/"], "scripts": ["spacecraft/fetch_spacecraft.py"],
    "about": "Where every active spacecraft in the catalogue is, from low Earth orbit to the Voyagers, and a check of every mission link.",
    "sources": {
     "horizons-and-celestrak": {"label": "Positions and orbits", "agency": "NASA/JPL and CelesTrak"}
@@ -26,6 +28,7 @@
   "astronaut-photos": {
    "name": "Astronaut photos", "project": "Image Explorer", "href": "image-explorer/", "runs": "twice a day",
    "cron": ["41 7 * * *", "11 19 * * *"], "max_age_hours": 30, "grace_hours": 48,
+   "data": ["image-explorer/data/astronaut.json"], "scripts": ["image-explorer/fetch_astronaut_photos.py"],
    "about": "The newest photos of Earth taken by astronauts on the International Space Station, placed on the globe.",
    "sources": {
     "astronaut-photos": {"label": "Astronaut photos", "agency": "NASA"}
@@ -34,6 +37,7 @@
   "mars-data": {
    "name": "Mars data", "project": "Mars Data", "href": "mars-data/", "runs": "Mondays and Thursdays",
    "cron": ["23 9 * * 1,4"], "max_age_hours": 108, "grace_hours": 0,
+   "data": ["mars-data/data/"], "scripts": ["mars-data/analysis/update.py", "mars-data/analysis/validate.py", "mars-data/analysis/make_page_data.py"],
    "about": "New weather measurements from Curiosity and Perseverance as NASA releases them, cleaned, checked and charted.",
    "sources": {
     "archive": {"label": "Mission archives", "agency": "NASA and ESA"},
@@ -44,6 +48,7 @@
   "build-places": {
    "name": "Place and map lists", "project": "Image Explorer", "href": "image-explorer/", "runs": "four times a year",
    "cron": ["37 3 2 1,4,7,10 *"], "max_age_hours": 2400, "grace_hours": 0,
+   "data": ["image-explorer/data/"], "scripts": ["image-explorer/tools/build_geonames_features.py", "image-explorer/tools/build_globe_spots.py", "image-explorer/tools/build_features.py", "image-explorer/tools/build_shapes.py"],
    "about": "Natural features, volcanoes, coastlines, borders and place names for the Earth map and the globe.",
    "sources": {
     "geonames": {"label": "Natural features", "agency": "GeoNames"},

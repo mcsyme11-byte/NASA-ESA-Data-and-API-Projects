@@ -1,5 +1,15 @@
 # Change log
 
+## November 17, 2026 — Control room: technical detail and reports
+
+- The control room (`control-room/`) adds **Jobs in detail** (each job's workflow file, cron times in UTC, limits,
+  latest run and links to the workflow, its runs, the status file, data and scripts), **The system** (repository,
+  runners and minutes used, what starts the jobs, the data-job standard, the health check, GitHub's request limit)
+  and **Where everything lives** (links on GitHub and to the rules and records).
+- Plain-text reports for the Data updates chat: **Copy report** for one job, **Copy for the chat** for the problems
+  found (now with each failed step of a failed run, read from GitHub), **Copy full report** for every job. Problem
+  times are in UTC.
+- `dev/data_jobs.json`: each job lists its `data` folders and `scripts`.
 ## November 17, 2026 — Planetary Maps: ESA pictures and the live check
 
 - **ESA Mars Express pictures** in the Jezero and Gale cards, loaded from ESA's picture server with ESA's credit and

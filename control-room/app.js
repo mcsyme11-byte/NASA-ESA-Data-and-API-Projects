@@ -10,7 +10,9 @@ import * as ds from '../shared/datastatus.js?v=2026111714';
 
 const REPO = 'mcsyme11-byte/NASA-ESA-Data-and-API-Projects';
 const API = 'https://api.github.com/repos/' + REPO;
-const ACTIONS = 'https://github.com/' + REPO + '/actions/runs/';
+const GH = 'https://github.com/' + REPO;
+const ACTIONS = GH + '/actions/runs/';
+const STEPS = 'nasa-data-projects.controlroom.steps';
 const KEEP_SLOW = 15 * 60 * 1000;
 const STORE = 'nasa-data-projects.controlroom';
 const WEEK = 7 * 864e5;
@@ -20,7 +22,11 @@ const day = (d) => new Date(d).toLocaleDateString([], { month: 'short', day: 'nu
 const clock = (d) => new Date(d).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
 const dayClock = (d) => new Date(d).toLocaleString([], { weekday: 'short', hour: 'numeric', minute: '2-digit' });
 const dur = (min) => (min == null ? '—' : min < 60 ? Math.round(min) + ' min' : Math.floor(min / 60) + ' h ' + Math.round(min % 60) + ' min');
-let status = null, slow = null;
+const iso = (d) => (d ? new Date(d).toISOString().slice(0, 16).replace('T', ' ') + ' UTC' : '—');
+const blob = (path) => GH + '/blob/main/' + path;
+const tree = (path) => GH + '/tree/main/' + path.replace(/\/$/, '');
+const ext = (href, text) => `<a href="${esc(href)}" target="_blank" rel="noopener">${esc(text)} ↗</a>`;
+let status = null, slow = null, limit = null;
 
 // ---------------------------------------------------------------- GitHub's commits and the data-health issue
 async function slowLists(fresh) {
@@ -43,11 +49,40 @@ async function slowLists(fresh) {
   return out;
 }
 
+// GitHub's request limit for this visitor (reading it does not count against it)
+async function readLimit() {
+  try {
+    const r = await fetch('https://api.github.com/rate_limit', { headers: { Accept: 'application/vnd.github+json' } }).then((x) => x.json());
+    return r.resources.core;
+  } catch { return null; }
+}
+
+// the failed steps of a finished run (GitHub's list of the run's jobs), kept for the session: a finished run never changes
+async function failedSteps(run) {
+  if (!run || run.status !== 'completed' || run.conclusion === 'success' || !run.id) return [];
+  let saved = {};
+  try { saved = JSON.parse(sessionStorage.getItem(STEPS) || '{}'); } catch { /* storage not available */ }
+  if (saved[run.id]) return saved[run.id];
+  try {
+    const r = await fetch(API + '/actions/runs/' + run.id + '/jobs', { headers: { Accept: 'application/vnd.github+json' } });
+    if (!r.ok) return [];
+    const out = [];
+    for (const j of (await r.json()).jobs || []) {
+      const bad = (j.steps || []).filter((st) => st.conclusion === 'failure');
+      if (bad.length) out.push(...bad.map((st) => ({ job: j.name, step: st.name, url: j.html_url })));
+      else if (j.conclusion === 'failure') out.push({ job: j.name, step: '(the job itself)', url: j.html_url });
+    }
+    saved[run.id] = out;
+    try { sessionStorage.setItem(STEPS, JSON.stringify(saved)); } catch { /* full: fine */ }
+    return out;
+  } catch { return []; }
+}
+
 // ---------------------------------------------------------------- the jobs, with the health check as one more
 function healthJob(s) {
   const mine = (s.runs || []).filter((r) => r.path && r.path.endsWith('/data-health.yml'));
   const done = mine.filter((r) => r.status === 'completed');
-  return { id: 'data-health', name: 'Data health check', cron: ['7 22 * * *'], runs: 'daily', history: done.slice(0, 10).reverse().map((r) => ({ result: r.conclusion, when: r.updated, event: r.event })),
+  return { id: 'data-health', name: 'Data health check', cron: ['7 22 * * *'], runs: 'daily', health: true, scripts: ['dev/data_health.py'], data: [], history: done.slice(0, 10).reverse().map((r) => ({ result: r.conclusion, when: r.updated, event: r.event })),
     lastRun: done[0] || null, next: ds.nextRun(['7 22 * * *']) };
 }
 
@@ -92,22 +127,94 @@ function timingRows() {
 
 // ---------------------------------------------------------------- needs attention, and the message for the chat
 function problems() {
-  const out = [];
+  const out = [], jobs = [];
   for (const j of status.jobs) {
-    if (j.state === 'failed' && j.lastRun) out.push(`the ${j.name} job's latest run failed (${dayClock(j.lastRun.updated)}). Run: ${j.lastRun.url}`);
+    const before = out.length;
+    if (j.state === 'failed' && j.lastRun) out.push(`the ${j.name} job's latest run failed (${iso(j.lastRun.updated)}). Run: ${j.lastRun.url}`);
     for (const s of j.failing) {
-      out.push(`the ${j.name} job's source "${s.label}"${s.agency ? ' (' + s.agency + ')' : ''} has been failing since ${new Date(s.since).toISOString().slice(0, 16).replace('T', ' ')} UTC; the previous data is kept${s.note ? '. Note: ' + s.note : ''}`);
+      out.push(`the ${j.name} job's source "${s.label}"${s.agency ? ' (' + s.agency + ')' : ''} has been failing since ${iso(s.since)}; the previous data is kept${s.note ? '. Note: ' + s.note : ''}`);
     }
-    if (j.state === 'late' && j.lastOk) out.push(`the ${j.name} job has had no successful run since ${dayClock(j.lastOk.updated)} (it runs ${j.runs})`);
+    if (j.state === 'late' && j.lastOk) out.push(`the ${j.name} job has had no successful run since ${iso(j.lastOk.updated)} (it runs ${j.runs})`);
     for (const [key, c] of Object.entries(j.sources_cfg || {})) {
       const st = (j.raw && j.raw[key]) || {};
       if (c.max_age_days && st.last_ok && (Date.now() - new Date(st.last_ok)) / 864e5 > c.max_age_days) {
         out.push(`the ${j.name} job's ${c.label} were last updated ${ds.ago(st.last_ok)} (allowed: ${c.max_age_days} days)`);
       }
     }
+    if (out.length > before) jobs.push(j.id);
   }
   const issue = slow && slow.issues.find((i) => i.state === 'open');
-  return { list: out, issue };
+  return { list: out, issue, jobs };
+}
+
+// ---------------------------------------------------------------- technical reports for the chat (plain text)
+function jobCfg(j) { return (status.cfg && status.cfg.jobs && status.cfg.jobs[j.id]) || {}; }
+
+async function jobReport(j) {
+  const c = jobCfg(j), L = [];
+  const run = j.running || j.lastRun;
+  L.push(`Job: ${j.name} (${j.id}) — ${j.health ? ((slow && slow.issues[0] && slow.issues[0].state === 'open') ? 'reporting' : 'all clear') : ds.WORDS[j.state] + ' [' + j.state + ']'}`);
+  L.push(`Workflow: .github/workflows/${j.id}.yml · cron (UTC) ${j.cron.map((x) => "'" + x + "'").join(', ')} · ${j.runs}` +
+    (c.max_age_hours != null ? ` · max_age_hours ${c.max_age_hours}, grace_hours ${c.grace_hours}` : ''));
+  if (run) {
+    L.push(`Latest run: ${run.status === 'completed' ? run.conclusion : run.status} · event ${run.event} · started ${iso(run.created)} · last update ${iso(run.updated)} · ${run.url}`);
+    for (const f of await failedSteps(run)) L.push(`  Failed step: ${f.job} › ${f.step} · ${f.url}`);
+  } else L.push('Latest run: none in view');
+  if (!j.health) {
+    L.push(`Last success: ${j.lastOk ? iso(j.lastOk.updated) + ' (' + ds.ago(j.lastOk.updated) + ')' : 'none in view'} · last new data: ${j.changed ? iso(j.changed) : 'none recorded'} · next scheduled: ${j.next ? iso(j.next) : '—'}`);
+    L.push('Sources:');
+    for (const x of j.sources) {
+      const st = (j.raw && j.raw[x.key]) || {}, sc = (j.sources_cfg || {})[x.key] || {};
+      const bits = [x.state];
+      if (st.since) bits.push('since ' + iso(st.since));
+      if (sc.every_days) bits.push(`every ${sc.every_days} d (retry ${sc.retry_days || 3} d, max age ${sc.max_age_days} d), last run ${iso(st.last_run)}, last ok ${iso(st.last_ok)}`);
+      if (x.note) bits.push('note: ' + x.note);
+      L.push(`  - ${x.label} [${x.key}]${x.agency ? ' (' + x.agency + ')' : ''}: ${bits.join(', ')}`);
+    }
+    L.push('Notes in the log: ' + ((j.notes || []).length ? j.notes.join(' | ') : 'none'));
+    L.push(`Status file: ${blob('shared/data/status/' + j.id + '.json')}`);
+  } else {
+    const i = slow && slow.issues[0];
+    L.push('Data-health issue: ' + (i ? `#${i.number} ${i.state} ("${i.title}") ${i.url}` : 'none yet'));
+  }
+  if ((c.data || j.data || []).length) L.push('Data: ' + (c.data || j.data).join(', '));
+  L.push('Scripts: ' + (c.scripts || j.scripts || []).join(', '));
+  return L.join('\n');
+}
+
+function reportHead(title) {
+  const lim = limit ? ` · GitHub API ${limit.remaining}/${limit.limit} left, resets ${iso(limit.reset * 1000)}` : '';
+  return [`NEDAP data updates — ${title}`, `Read ${iso(status.checked)} from the control room (${location.href.split('#')[0]})${lim}`,
+    `Overall: ${status.headline}${status.detail ? ' — ' + status.detail : ''} [${status.state}]`];
+}
+
+async function problemReport() {
+  const p = problems(), names = new Set(p.jobs);
+  const L = reportHead('problem report');
+  L.push('', 'Problems:', ...p.list.map((x, i) => `${i + 1}. ${x}`));
+  if (p.issue) L.push(`${p.list.length + 1}. data-health issue #${p.issue.number} is open ("${p.issue.title}"): ${p.issue.url}`);
+  for (const j of status.jobs.filter((x) => names.has(x.id))) L.push('', await jobReport(j));
+  if (p.issue) L.push('', await jobReport(healthJob(status)));
+  L.push('', 'Please look into it and fix it.');
+  return L.join('\n');
+}
+
+async function fullReport() {
+  const L = reportHead('full report');
+  const p = problems();
+  L.push(`Problems: ${p.list.length + (p.issue ? 1 : 0) || 'none'}`);
+  const c = status.cfg && status.cfg.clock;
+  L.push(`Outside clock: ${c && c.set_up ? c.service + ' since ' + c.set_up + ', token expires ' + (c.token_expires || '?') : 'not set up (GitHub timer only)'}`);
+  if (slow && slow.commits[0]) L.push(`Latest commit on main: ${slow.commits[0].sha.slice(0, 7)} ${iso(slow.commits[0].when)} "${slow.commits[0].msg}"`);
+  for (const j of status.jobs.concat([healthJob(status)])) L.push('', await jobReport(j));
+  return L.join('\n');
+}
+
+async function copyText(btn, make, label) {
+  btn.disabled = true;
+  try { await navigator.clipboard.writeText(await make()); btn.textContent = 'Copied'; }
+  catch { btn.textContent = 'Could not copy'; }
+  finally { btn.disabled = false; setTimeout(() => { btn.textContent = label; }, 4000); }
 }
 
 function renderAttention() {
@@ -254,13 +361,86 @@ function renderAhead() {
   }
 }
 
+// ---------------------------------------------------------------- technical: jobs in detail, the system, links
+function renderDetail() {
+  const all = status.jobs.concat([healthJob(status)]);
+  $('detail-rows').innerHTML = all.map((j) => {
+    const c = jobCfg(j), run = j.running || j.lastRun, wf = '.github/workflows/' + j.id + '.yml';
+    const limits = j.health ? 'reads only; reports through the data-health issue' : `late after ${c.max_age_hours} h · source grace ${c.grace_hours} h`
+      + Object.values(c.sources || {}).filter((x) => x.every_days).map((x) => ` · ${x.label.replace(/ \(.*\)/, '').toLowerCase()} every ${x.every_days} d, max ${x.max_age_days} d`).join('');
+    const latest = run ? `<a href="${esc(run.url)}" target="_blank" rel="noopener">${esc(run.status === 'completed' ? run.conclusion : run.status)}</a> · ${esc(run.event)}<br>${esc(iso(run.created))}` : 'none in view';
+    const links = [ext(blob(wf), 'File'), ext(GH + '/actions/workflows/' + j.id + '.yml', 'Runs')];
+    if (!j.health) links.push(ext(blob('shared/data/status/' + j.id + '.json'), 'Status'));
+    for (const d of (c.data || [])) links.push(ext(d.endsWith('/') ? tree(d) : blob(d), 'Data'));
+    const sc = c.scripts || j.scripts || [];
+    if (sc.length) links.push(ext(sc.length === 1 ? blob(sc[0]) : tree(sc[0].split('/').slice(0, -1).join('/')), sc.length === 1 ? 'Script' : 'Scripts'));
+    return `<tr><td data-label="Job">${esc(j.name)}<br><code>${esc(j.id)}</code><br>
+        <button class="linkbtn" type="button" data-report="${esc(j.id)}">Copy report</button></td>
+      <td data-label="Workflow"><code>${esc(j.id)}.yml</code>${j.cron.map((x) => '<br><code>' + esc(x) + '</code>').join('')}</td>
+      <td data-label="Limits">${esc(limits)}</td><td data-label="Latest run">${latest}</td>
+      <td data-label="Links">${links.join(' · ')}</td></tr>`;
+  }).join('');
+}
+
+function renderSystem() {
+  const pages = location.origin + location.pathname.replace(/control-room\/.*$/, '');
+  $('s-repo').innerHTML = `${ext(GH, 'The repository')} (public), branch <code>main</code> (protected: no force push, no deletion). Published by
+    GitHub Pages (${ext(pages, 'the site')}) a minute or two after each push.`;
+  const ids = new Set(status.jobs.map((j) => j.id).concat(['data-health']));
+  const week = (status.runs || []).filter((r) => r.status === 'completed' && ids.has((r.path || '').split('/').pop().replace('.yml', '')) && Date.now() - new Date(r.created) < WEEK);
+  const mins = Math.round(week.reduce((t, r) => t + Math.max(1, (new Date(r.updated) - new Date(r.created)) / 6e4), 0));
+  $('s-runners').innerHTML = `GitHub-hosted <code>ubuntu-latest</code> runners, a fresh machine for each run. The repository is
+    public, so GitHub Actions minutes are free and unlimited. Data jobs and the health check in view: ${week.length} runs,
+    about ${mins} minutes, in the last 7 days.`;
+  const c = status.cfg && status.cfg.clock;
+  const how = `GitHub's API (<code>POST</code> to <code>…/workflows/&lt;file&gt;/dispatches</code>, body <code>{"ref":"main"}</code>)`;
+  $('s-clock').innerHTML = c && c.set_up
+    ? `Timers at ${ext('https://console.cron-job.org/jobs', c.service)} (since ${esc(c.set_up)}) call ${how} at each cron time, with a
+      fine-grained token (Actions read and write, this repository only) that expires ${esc(c.token_expires || '?')}. GitHub's own
+      <code>schedule</code> stays on as the backup.`
+    : `GitHub's own <code>schedule</code> only, often hours late. The outside clock (${c ? esc(c.service) : 'cron-job.org'}) will call ${how}
+      at each cron time.`;
+  const i = slow && slow.issues[0];
+  $('s-health').innerHTML = `${ext(blob('dev/data_health.py'), 'dev/data_health.py')} runs daily at 22:07 UTC (<code>data-health.yml</code>).
+    It keeps one issue labelled <code>data-health</code>: opened when it finds a problem, commented on when the list changes,
+    closed when all is clear. ${i ? 'Latest: ' + ext(i.url, '#' + i.number + ' (' + i.state + ')') + '.' : 'No issue yet.'}`;
+  const tag = ((document.querySelector('link[href*="theme.css"]') || {}).href || '').match(/v=(\d+)/);
+  const last = slow && slow.commits[0];
+  $('s-page').innerHTML = `GitHub API: ${limit ? `${limit.remaining} of ${limit.limit} requests left this hour, resets ${esc(clock(limit.reset * 1000))}` : 'limit not readable just now'};
+    run list kept 3 min, commits and issue 15 min, failed steps for the session. Style version <code>${esc(tag ? tag[1] : '?')}</code>.`
+    + (last ? ` Latest commit on main: ${ext(last.url, last.sha.slice(0, 7))} ${esc(ds.ago(last.when))}, "${esc(last.msg)}".` : '');
+}
+
+function renderLinks() {
+  const li = (href, text, what) => `<tr><td data-label="Where">${ext(href, text)}</td><td data-label="What">${esc(what)}</td></tr>`;
+  $('links-gh').innerHTML = [
+    li(GH + '/actions', 'Actions', 'every run, with logs'),
+    li(tree('.github/workflows'), '.github/workflows/', 'the workflow files'),
+    li(GH + '/issues?q=label%3Adata-health', 'data-health issues', 'the health check\'s reports'),
+    li(GH + '/commits/main', 'Commits on main', 'every save'),
+    li(tree('shared/data/status'), 'shared/data/status/', 'one status file per job'),
+    li(blob('dev/datajob.py'), 'dev/datajob.py', 'the last step of every job'),
+    li(blob('dev/data_health.py'), 'dev/data_health.py', 'the daily check'),
+    li(blob('dev/data_jobs.json'), 'dev/data_jobs.json', 'jobs, sources, limits, the clock, reviews'),
+    li(GH + '/settings/actions', 'Actions settings', 'owner only'),
+  ].join('');
+  $('links-docs').innerHTML = [
+    li(blob('docs/DATA-UPDATES.md'), 'docs/DATA-UPDATES.md', 'the rules and the jobs table'),
+    li(blob('docs/ROADMAP.md'), 'docs/ROADMAP.md', 'section 4: data updates to do'),
+    li(blob('docs/DATA-SOURCES.md'), 'docs/DATA-SOURCES.md', 'every source, its limits and credit'),
+    li(blob('CHANGELOG.md'), 'CHANGELOG.md', 'what changed'),
+    li('https://console.cron-job.org/jobs', 'cron-job.org console', 'the outside clock\'s timers (sign-in)'),
+    li('https://www.githubstatus.com/', 'GitHub status', 'when Actions or Pages is down'),
+  ].join('');
+}
+
 // ---------------------------------------------------------------- refresh
 async function refresh(fresh) {
   const btn = $('refresh');
   btn.disabled = true;
   try {
-    const [s, l] = await Promise.all([ds.load({ fresh }), slowLists(fresh).catch(() => null)]);
-    status = s; slow = l;
+    const [s, l, lim] = await Promise.all([ds.load({ fresh }), slowLists(fresh).catch(() => null), readLimit()]);
+    status = s; slow = l; limit = lim;
     // each job's source settings and raw status entries (for the cycles), and its notes, from the same files
     await Promise.all(status.jobs.map(async (j) => {
       j.sources_cfg = (status.cfg && status.cfg.jobs[j.id] && status.cfg.jobs[j.id].sources) || {};
@@ -271,18 +451,20 @@ async function refresh(fresh) {
       } catch { j.raw = {}; j.notes = []; }
     }));
     const rows = timingRows();
-    renderAttention(); renderFigures(rows); renderJobs(); renderRuns(rows); renderSaves(); renderAhead();
+    renderAttention(); renderFigures(rows); renderJobs(); renderDetail(); renderRuns(rows); renderSaves(); renderAhead(); renderSystem(); renderLinks();
     await renderNoted();
     $('checked').textContent = status.api ? 'Status read ' + ds.ago(status.checked) + ' · refreshes every 3 minutes' : 'GitHub not reachable just now; showing the jobs\' own records';
   } finally { btn.disabled = false; }
 }
 
 $('refresh').addEventListener('click', () => refresh(true));
-$('copy').addEventListener('click', async () => {
-  const btn = $('copy');
-  try { await navigator.clipboard.writeText($('msg').textContent.replace(/\s+/g, ' ').trim()); btn.textContent = 'Copied'; }
-  catch { btn.textContent = 'Select and copy'; }
-  setTimeout(() => { btn.textContent = 'Copy for the chat'; }, 4000);
+$('copy').addEventListener('click', (e) => copyText(e.currentTarget, problemReport, 'Copy for the chat'));
+$('copyall').addEventListener('click', (e) => { if (status) copyText(e.currentTarget, fullReport, 'Copy full report'); });
+$('detail-rows').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-report]');
+  if (!b || !status) return;
+  const j = status.jobs.find((x) => x.id === b.dataset.report) || healthJob(status);
+  copyText(b, async () => reportHead('job report').concat(['', await jobReport(j)]).join('\n'), 'Copy report');
 });
 refresh(false);
 setInterval(() => { if (!document.hidden) refresh(false); }, ds.REFRESH_MS);

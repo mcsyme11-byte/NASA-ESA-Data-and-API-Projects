@@ -143,6 +143,17 @@ and who started them; recent data saves; refusals, log notes and broken catalogu
 (next runs, cycles, reviews, the outside clock and its token). It reads the same files as the live data status, and
 GitHub's public lists of runs, commits and the `data-health` issue, kept 3 to 15 minutes in the tab.
 
+Technical parts (added Nov 17, 2026): **Jobs in detail**, a table of each job's workflow file, cron times (UTC),
+limits (`max_age_hours`, `grace_hours`, monthly cycles), latest run and links (workflow file, its runs, status file,
+data, scripts), with a **Copy report** under each job; **The system** (repository and hosting, runners and minutes
+used, what starts the jobs, the data-job standard, the health check, the page's GitHub request limit and style
+version); and **Where everything lives** (links on GitHub and to the rules and records). The reports are plain text for
+the Data updates chat: the job's state, workflow and limits, latest run with its failed steps (read from GitHub's list
+of the run's jobs, once per finished run), every source's record, the log notes, and the status file, data and
+scripts. **Copy for the chat** copies the problem summary with the report of each job named; **Copy full report**
+copies every job. The data folders and scripts shown come from `data` and `scripts` in each job's entry in
+`dev/data_jobs.json`.
+
 ## Tasks done by hand
 
 Listed under `reviews` in `dev/data_jobs.json`; the health check lists each one when it is due. After doing one, set

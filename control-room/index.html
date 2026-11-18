@@ -46,7 +46,8 @@
 
     <section class="section" aria-labelledby="h-now">
       <div class="section-head"><div><div class="kicker">Right now</div><h2 id="h-now">Needs attention</h2></div>
-        <button class="btn outline small" type="button" id="refresh">Refresh</button></div>
+        <div class="actions"><button class="btn outline small" type="button" id="refresh">Refresh</button>
+          <button class="btn outline small" type="button" id="copyall">Copy full report</button></div></div>
       <div class="board" aria-live="polite">
         <div class="board-head" id="bhead" data-state="unknown">
           <span class="light large" data-state="unknown" aria-hidden="true"></span>
@@ -55,7 +56,9 @@
       </div>
       <div class="notice error" id="ask" hidden>
         <div class="t"><strong>Message for the Data updates chat</strong>
-          <p class="small" id="msg"></p></div>
+          <p class="small" id="msg"></p>
+          <p class="small">The button copies this with the technical report of each job named (runs, failed steps, sources,
+            notes and links).</p></div>
         <button class="btn small" type="button" id="copy">Copy for the chat</button>
       </div>
     </section>
@@ -77,6 +80,24 @@
       <div class="board">
         <ol class="jobs" id="jobs"><li class="loading">Reading the data jobs…</li></ol>
       </div>
+    </section>
+
+    <section class="section" aria-labelledby="h-detail">
+      <div class="section-head"><div><div class="kicker">Technical</div><h2 id="h-detail">Jobs in detail</h2></div>
+        <p class="aside">Times in UTC, as in the workflow files.</p></div>
+      <figure class="panel">
+        <div class="ph"><h3>Workflows, limits and links</h3><span class="aside">Copy report under each job</span></div>
+        <div class="pb flush"><table class="table stack">
+          <thead><tr><th>Job</th><th>Workflow and schedule</th><th>Limits</th><th>Latest run</th><th>Links</th></tr></thead>
+          <tbody id="detail-rows"><tr><td colspan="5" class="loading">Reading the data jobs…</td></tr></tbody>
+        </table></div>
+        <details class="howto"><summary>How to read this</summary>
+          <p><b>Limits</b>: the job counts as late when it has had no successful run for the first number of hours;
+            a failing source is reported once it has failed for longer than the second. <b>Links</b>: the workflow
+            file; its runs on GitHub, where <b>Run workflow</b> starts it by hand; its status file (the record the
+            pages read); and the data it writes. <b>Copy report</b> copies the job's state, latest run, failed steps,
+            every source with its record, the notes and the links, as plain text for the Data updates chat.</p></details>
+      </figure>
     </section>
 
     <section class="section" aria-labelledby="h-runs">
@@ -124,17 +145,47 @@
       </div>
     </section>
 
+    <section class="section" aria-labelledby="h-sys">
+      <div class="section-head"><div><div class="kicker">Technical</div><h2 id="h-sys">The system</h2></div></div>
+      <div class="facts">
+        <div class="f"><h4>Repository and hosting</h4><p id="s-repo">–</p></div>
+        <div class="f"><h4>Where the jobs run</h4><p id="s-runners">–</p></div>
+        <div class="f"><h4>What starts them</h4><p id="s-clock">–</p></div>
+        <div class="f"><h4>The data-job standard</h4><p id="s-guard">Every job fetches into the runner, then <code>dev/datajob.py</code>
+          (run even when a step fails) checks each file: JSON must parse, a CSV must have a header and rows, no file may be emptied, a file
+          over 2 KB may not shrink below 20% of its size, and no more than half of a folder may be deleted. Refused files
+          are put back, a source that failed keeps its previous data, and the job writes
+          <code>shared/data/status/&lt;job&gt;.json</code> and, when anything changed, commits as <code>&lt;Job&gt;: …</code> and pushes, retrying
+          after <code>git pull --rebase</code>.</p></div>
+        <div class="f"><h4>Health check</h4><p id="s-health">–</p></div>
+        <div class="f"><h4>This page</h4><p id="s-page">–</p></div>
+      </div>
+    </section>
+
     <section class="section" aria-labelledby="h-how">
-      <div class="section-head"><div><div class="kicker">Reference</div><h2 id="h-how">How it all works</h2></div></div>
-      <div class="prose"><p>The rules every data job follows are in
-        <a href="https://github.com/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/blob/main/docs/DATA-UPDATES.md" target="_blank" rel="noopener">DATA-UPDATES.md ↗</a>;
-        the visitors' version is <a href="../data-collection/">How the data is collected</a>; every run is on
-        <a href="https://github.com/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/actions" target="_blank" rel="noopener">GitHub Actions ↗</a>.
-        This page is not in the menus or the footer, and search engines are asked not to list it.</p></div>
+      <div class="section-head"><div><div class="kicker">Reference</div><h2 id="h-how">Where everything lives</h2></div></div>
+      <div class="panels">
+        <figure class="panel">
+          <div class="ph"><h3>On GitHub</h3><span class="aside">Opens in a new tab</span></div>
+          <div class="pb flush"><table class="table stack">
+            <thead><tr><th>Where</th><th>What</th></tr></thead>
+            <tbody id="links-gh"><tr><td colspan="2" class="loading">Reading…</td></tr></tbody>
+          </table></div>
+        </figure>
+        <figure class="panel">
+          <div class="ph"><h3>Rules and records</h3><span class="aside">Opens in a new tab</span></div>
+          <div class="pb flush"><table class="table stack">
+            <thead><tr><th>Where</th><th>What</th></tr></thead>
+            <tbody id="links-docs"><tr><td colspan="2" class="loading">Reading…</td></tr></tbody>
+          </table></div>
+        </figure>
+      </div>
+      <div class="prose"><p>The visitors' version is <a href="../data-collection/">How the data is collected</a>. This page
+        is not in the menus or the footer, and search engines are asked not to list it.</p></div>
     </section>
 
     <p class="srcline">Read from the jobs' status files, <code>dev/data_jobs.json</code> and GitHub's public lists of the
-      site's runs, commits and data-health issue (api.github.com, no key; GitHub allows 60 requests an hour per visitor,
+      site's runs, run steps, commits, data-health issue and request limit (api.github.com, no key; GitHub allows 60 requests an hour per visitor,
       so the lists are kept for 3 to 15 minutes in this tab).</p>
     <footer class="footer">
       <div class="ftop"><p class="copy">© 2026 <strong>Malcolm Syme</strong> · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></p></div>
