@@ -1,5 +1,12 @@
 # Change log
 
+## November 18, 2026 — Image Explorer: subtitles checked on the live site
+
+- Subtitles checked live on "Artemis Origins" (`.srt`), "Mars Sample Return Media Reel" (`.vtt`) and "How's the
+  Weather on Mars" (`.srt`); the viewer attached 28 and 46 cues. The polar-night sea-ice layer's colour key shows
+  on the live site (−50 to 40 °C, with NASA's Night, Land, Ocean and Cloud classes). The astronaut-photo key item moved to the end of the Image Explorer list (followed up with
+  NASA Nov 18, 2026).
+
 ## November 18, 2026 — The outside clock
 
 - The data jobs are started on time by 11 free timers at cron-job.org, one per cron time, through GitHub's API

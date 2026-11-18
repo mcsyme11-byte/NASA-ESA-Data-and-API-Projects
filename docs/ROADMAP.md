@@ -31,10 +31,6 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
 
 ## 2. Image Explorer (version 1 live Nov 9, 2026; home page Nov 12)
 
-- [ ] Astronaut photos: the free API key (requested by email from jsc-earthweb@mail.nasa.gov; no answer by Nov 11,
-  2026) would add cataloged photos with their centre points. Without it the job uses the public Latest ISS Imagery set
-  (since Nov 11, 2026). If the key arrives: repository secret `EOL_API_KEY`, then Actions › Astronaut photos › Run
-  workflow.
 - [ ] Picture library: tune the ranking further as the developer reviews searches (the weights are in `scoreOf` in
   `image-explorer/app.js`; second and third rounds applied Nov 17, 2026).
 - [ ] Further rounds of changes to the globe, as the developer reviews it.
@@ -86,6 +82,11 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
   Mars Express profiles is added when they go live.
 - [x] `CREDITS.md` and the Credits page list REMS, MEDA and pandas; the Privacy page says the Mars Data pages read
   only this site's files (Nov 17, 2026). Mars Express is added to both when its data goes live.
+- [ ] Astronaut photos: the free API key (requested by email from jsc-earthweb@mail.nasa.gov; no answer by Nov 11,
+  2026; followed up Nov 18, 2026; low priority, as an answer may take a while) would add cataloged photos with their centre points. Without it the job uses the public Latest ISS Imagery set
+  (since Nov 11, 2026). If the key arrives: repository secret `EOL_API_KEY`, then Actions › Astronaut photos › Run
+  workflow.
+
 
 ## 4. Data updates (since Nov 14, 2026)
 

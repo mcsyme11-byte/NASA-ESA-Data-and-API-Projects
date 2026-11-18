@@ -608,7 +608,7 @@ Checked Nov 9, 2026 (live requests from the published site):
   page plays the smallest version listed and links the largest.
 - The video files send no CORS headers: they play in a page, but a player cannot attach subtitles from another site.
   Checked again Nov 17, 2026: the subtitle files listed by `asset/{nasa_id}` (`.srt` on the videos checked, for
-  example "Artemis Origins"; `.vtt` on others) can be read with `fetch` from this site (status 200), so the page
+  example "Artemis Origins"; `.vtt` on others) can be read with `fetch` from this site (status 200) at their `https://` address (the list gives `http://`, which an `https` page blocks, so the page changes it; checked live Nov 18, 2026 on an `.srt` and a `.vtt`), so the page
   reads the file, makes it WebVTT and attaches its own copy (a `blob:` address). A file that cannot be read is
   skipped and the video plays without subtitles.
 - "apollo 11": 71 videos.
