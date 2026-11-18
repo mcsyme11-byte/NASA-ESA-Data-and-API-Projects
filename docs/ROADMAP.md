@@ -98,6 +98,14 @@ Plan confirmed Nov 11, 2026 (see PROJECT-NOTES.md): three missions, updated auto
 The standard and the jobs are in [DATA-UPDATES.md](DATA-UPDATES.md); the daily Data health check reports problems in
 one GitHub issue labelled `data-health`.
 
+- [ ] **Important, Space Weather (noted Nov 17, 2026): scheduled runs are too late for data that changes within
+  hours.** GitHub starts this repository's scheduled runs 4 to 10 hours late (seen Nov 15 to 17, 2026), which suits
+  daily data but not space weather. Before any Space Weather data job is built, check whether its pages can read the
+  source directly in the visitor's browser (CORS allowed, free, no key, within the source's limits), with a scheduled
+  job keeping only a fallback copy for when the source is out of reach. Any source other than NASA or ESA (for example
+  NOAA's Space Weather Prediction Center) needs the developer's decision first, and a source read by visitors'
+  browsers goes on the Privacy page first. Decided with the Space Weather chat's hand-off.
+
 - [x] The first `data-health` issue arrived by email: issue #2, opened Nov 16, 2026 at 01:51 UTC (four spacecraft
   catalogue items to review), resolved and closed automatically the same evening. Confirmed by the developer, who
   also reported the repository's Watch setting updated on Nov 16, 2026 so that later comments are emailed too.

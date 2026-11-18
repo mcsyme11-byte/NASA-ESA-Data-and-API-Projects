@@ -1,5 +1,11 @@
 # Change log
 
+## November 17, 2026 — roadmap: space weather timing flagged
+
+- Roadmap section 4: an important item for Space Weather. GitHub starts scheduled runs 4 to 10 hours late, too late
+  for data that changes within hours, so reading the source in the visitor's browser (with a scheduled fallback copy)
+  is to be checked before any Space Weather data job is built.
+
 ## November 17, 2026 — Image Explorer: picture-library ranking, second round
 
 From the developer's review of 23 test searches (`scoreOf` in `image-explorer/app.js`):
