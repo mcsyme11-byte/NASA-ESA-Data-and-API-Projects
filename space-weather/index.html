@@ -13,9 +13,9 @@
   <link rel="manifest" href="../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111805">
-  <script type="module" src="../shared/footer.js?v=2026111805"></script>
-  <link rel="stylesheet" href="spaceweather.css?v=2026111805">
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111806">
+  <script type="module" src="../shared/footer.js?v=2026111806"></script>
+  <link rel="stylesheet" href="spaceweather.css?v=2026111806">
   <script type="module" src="app.js"></script>
 </head>
 <body>
@@ -40,7 +40,8 @@
       <h1>Space Weather</h1>
       <p class="lede">What the Sun is doing now and over the last weeks: flares, clouds of solar gas, the solar wind and the storms they stir up around Earth, with the chance of seeing the aurora where you are and what it all means for satellites, power grids, GPS, radio and astronauts.</p>
       <p class="meta badges"><span class="badge live">Live</span><span class="badge nasa">NASA</span><span class="badge esa">ESA</span><span class="badge">NOAA</span>
-        <span class="small" id="checked">Reading the latest measurements…</span></p>
+        <span class="small" id="checked">Reading the latest measurements…</span>
+        <button class="reload" type="button" id="reloadAll">Reload all the readings and pictures on this page</button></p>
     </header>
 
     <nav class="tabs" id="jump" aria-label="On this page">
@@ -65,7 +66,7 @@
       <div class="section-head"><div><div class="kicker">The Sun today</div><h2 id="hSun">Two spacecraft watching the Sun</h2></div></div>
       <div class="panels">
         <section class="panel" aria-labelledby="hSdo">
-          <div class="ph"><h3 id="hSdo">The Sun's surface and lower atmosphere</h3><span class="aside">NASA's Solar Dynamics Observatory · the newest picture</span></div>
+          <div class="ph"><h3 id="hSdo">The Sun's surface and lower atmosphere</h3><button class="reload small" type="button" id="reloadSdo">Reload this picture of the Sun</button><span class="aside">NASA's Solar Dynamics Observatory · the newest picture</span></div>
           <div class="pb sunview">
             <div class="seg" role="group" aria-label="Picture" id="sdoSeg">
               <button type="button" data-code="HMIIC">Visible light</button><button type="button" data-code="HMIB">Magnetic field</button><button type="button" data-code="0171" aria-pressed="true">171 Å</button><button type="button" data-code="0193">193 Å</button><button type="button" data-code="0304">304 Å</button>
@@ -78,7 +79,7 @@
             <p>Each ultraviolet picture shows one colour of light, and each colour comes from gas at one temperature, so each shows a different layer. The bright knots are <b>active regions</b>: tangled magnetic fields above sunspots, where flares start. The magnetic picture shows them as black and white patches, the two directions of the field.</p></details>
         </section>
         <section class="panel" aria-labelledby="hSoho">
-          <div class="ph"><h3 id="hSoho">Clouds leaving the Sun</h3><span class="aside">SOHO's coronagraph (ESA and NASA) · LASCO</span></div>
+          <div class="ph"><h3 id="hSoho">Clouds leaving the Sun</h3><button class="reload small" type="button" id="reloadSoho">Reload this coronagraph picture</button><span class="aside">SOHO's coronagraph (ESA and NASA) · LASCO</span></div>
           <div class="pb sunview">
             <div class="seg" role="group" aria-label="Field of view" id="sohoSeg">
               <button type="button" data-code="c2" aria-pressed="true">Near · C2</button><button type="button" data-code="c3">Wide · C3</button>
@@ -99,7 +100,7 @@
           <button type="button" data-days="7">7 days</button><button type="button" data-days="30" aria-pressed="true">30 days</button><button type="button" data-days="60">60 days</button><button type="button" data-days="all" id="allBtn" hidden>Since 2010</button>
         </div></div>
       <section class="panel" aria-labelledby="hTimeline">
-        <div class="ph"><h3 id="hTimeline">Flares, coronal mass ejections and storms</h3><span class="aside">point at a mark for its details</span></div>
+        <div class="ph"><h3 id="hTimeline">Flares, coronal mass ejections and storms</h3><button class="reload small" type="button" id="reloadEv">Reload the flares, CMEs and storms</button><span class="aside">point at a mark for its details</span></div>
         <div class="pb" id="timeline"><p class="loading">Reading NASA's space weather database…</p></div>
         <div class="pf"><div class="legend" id="timelineKey"></div></div>
         <details class="howto"><summary>How to read this</summary>
@@ -128,10 +129,10 @@
     <section class="section" id="wind" data-jump aria-labelledby="hWind">
       <div class="section-head"><div><div class="kicker">The solar wind</div><h2 id="hWind">The last 24 hours, upstream of Earth</h2></div></div>
       <div class="panels">
-        <section class="panel" aria-labelledby="hSpeed"><div class="ph"><h3 id="hSpeed">Speed</h3><span class="aside" id="aSpeed"></span></div>
+        <section class="panel" aria-labelledby="hSpeed"><div class="ph"><h3 id="hSpeed">Speed</h3><button class="reload small" type="button" id="reloadSpeed">Reload the solar wind</button><span class="aside" id="aSpeed"></span></div>
           <div class="pb" id="speedChart"><p class="loading">Reading NASA's IMAP spacecraft…</p></div>
           <details class="howto"><summary>How to read this</summary><p>Below 400 km/s is slow wind. A fast stream from a coronal hole (a dark patch in the 193 Å picture) runs at 500 to 800 km/s; a jump of a hundred km/s or more within minutes is usually a CME's shock arriving.</p></details></section>
-        <section class="panel" aria-labelledby="hBz"><div class="ph"><h3 id="hBz">Magnetic field north–south (Bz)</h3><span class="aside" id="aBz"></span></div>
+        <section class="panel" aria-labelledby="hBz"><div class="ph"><h3 id="hBz">Magnetic field north–south (Bz)</h3><button class="reload small" type="button" id="reloadBz">Reload the solar wind</button><span class="aside" id="aBz"></span></div>
           <div class="pb" id="bzChart"><p class="loading">Reading NASA's IMAP spacecraft…</p></div>
           <details class="howto"><summary>How to read this</summary><p>Earth's own field points north. When the solar wind's field points <b>south</b> (below the line), the two join and energy pours in. Hours below about −10 nT bring storms and aurora; while it points north, Earth stays shielded.</p></details></section>
       </div>
@@ -141,7 +142,7 @@
     <section class="section" id="kp" data-jump aria-labelledby="hKp">
       <div class="section-head"><div><div class="kicker">Around Earth</div><h2 id="hKp">Geomagnetic activity, last 7 days and next 3</h2></div>
         <p class="aside" id="stormList"></p></div>
-      <section class="panel" aria-labelledby="hKpChart"><div class="ph"><h3 id="hKpChart">Kp, every 3 hours</h3><span class="aside">0 is calm, 9 is extreme</span></div>
+      <section class="panel" aria-labelledby="hKpChart"><div class="ph"><h3 id="hKpChart">Kp, every 3 hours</h3><button class="reload small" type="button" id="reloadKp">Reload the Kp index</button><span class="aside">0 is calm, 9 is extreme</span></div>
         <div class="pb" id="kpChart"><p class="loading">Reading the Kp index…</p></div>
         <div class="pf"><div class="legend"><span><i class="s3"></i>Quiet (0–3)</span><span><i class="s6"></i>Active (4)</span><span><i class="s4"></i>Storm (5–9)</span><span>Paler bars: NOAA's forecast</span></div></div>
         <details class="howto"><summary>How to read this</summary><p>Kp measures how much Earth's magnetic field shook in each 3-hour block, from 13 observatories around the world. Each step up is roughly twice the disturbance, and each step has thirds: 2−, 2 and 2+ (in numbers 1.67, 2 and 2.33). NOAA names storms by Kp: G1 minor at 5, G2 moderate at 6, G3 strong at 7, G4 severe at 8, G5 extreme at 9.</p></details></section>
@@ -168,7 +169,7 @@
         </div>
         <div>
           <section class="panel" aria-labelledby="hOval">
-            <div class="ph"><h3 id="hOval">NOAA's aurora forecast</h3><span class="aside">the next 30 to 90 minutes</span></div>
+            <div class="ph"><h3 id="hOval">NOAA's aurora forecast</h3><button class="reload small" type="button" id="reloadOval">Reload the aurora map</button><span class="aside">the next 30 to 90 minutes</span></div>
             <div class="pb sunview"><img id="ovalImg" alt="NOAA's map of where the aurora is forecast in the next 30 to 90 minutes" width="800" height="800" decoding="async">
               <p class="state" id="ovalErr" hidden>NOAA's map could not be loaded just now.</p></div>
             <details class="howto"><summary>How to read this</summary><p>The green ring is where the aurora is expected; it turns red where it is forecast to be bright. You do not need it overhead: a bright aurora can be seen from up to about 1,000 km away, low on the horizon toward the pole.</p></details>

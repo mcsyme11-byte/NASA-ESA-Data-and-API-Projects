@@ -20,8 +20,8 @@
     toTracker();
     addEventListener('hashchange', toTracker);
   </script>
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111805">
-  <script type="module" src="../shared/footer.js?v=2026111805"></script>
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111806">
+  <script type="module" src="../shared/footer.js?v=2026111806"></script>
 </head>
 <body>
   <header class="topbar">
@@ -46,6 +46,17 @@
       <p class="lede">The asteroids passing Earth: which ones, how big, how close, whether any could ever hit, and which you can see from your own backyard, from NASA's and ESA's open data.</p>
       <div class="meta badges"><span class="badge nasa">NASA</span><span class="badge nasa">NASA/JPL</span><span class="badge esa">ESA</span><span class="badge live">Updated twice a day</span></div>
     </header>
+
+    <nav class="tabs" aria-label="Asteroid Tracker">
+      <a href="./" aria-current="page">Overview</a>
+      <a href="tracker.html">This week</a>
+      <a href="tracker.html#year">By year</a>
+      <a href="tracker.html#risk">Impact risk</a>
+      <a href="tracker.html#visible">Visible from here</a>
+      <a href="mining.html">Within reach</a>
+      <a href="map.html">Map</a>
+      <a href="tracker.html#search">Search</a>
+    </nav>
 
     <div class="stats" id="tiles">
       <div class="stat"><div class="label">Potentially hazardous</div><div class="value" id="tNeos">–</div><div class="note">known, all on the map</div></div>

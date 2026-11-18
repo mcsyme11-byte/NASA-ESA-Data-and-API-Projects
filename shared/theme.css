@@ -174,7 +174,7 @@ h4 { font-size: 17px; line-height: 1.35; }
 .stat .value.warn, .tile .value.warn, .tile .value.bad { color: var(--red); }
 .stat .note, .tile .note, .tile .sub { font-size: 14px; font-style: italic; color: var(--muted); line-height: 1.4; overflow-wrap: anywhere; }
 @media (max-width: 760px) {
-  .stats, .tiles { grid-template-columns: 1fr 1fr; }
+  .stats, .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .stat, .tile, .stat + .stat, .tile + .tile { padding: var(--sp4) var(--sp3) var(--sp4) 0; border-left: 0; }
   .stat:nth-child(even), .tile:nth-child(even) { padding-left: var(--sp4); border-left: 1px solid var(--line); }
   .stat:nth-child(n+3), .tile:nth-child(n+3) { border-top: 1px solid var(--line); }
@@ -185,8 +185,8 @@ h4 { font-size: 17px; line-height: 1.35; }
 .cards, .grid { display: grid; gap: var(--sp4); grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
 .cards.three { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
 .cards.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-@media (max-width: 700px) { .cards.two { grid-template-columns: 1fr; } }
-@media (max-width: 400px) { .cards, .grid, .cards.three, .cards.two { grid-template-columns: 1fr; } }
+@media (max-width: 700px) { .cards.two { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 400px) { .cards, .grid, .cards.three, .cards.two { grid-template-columns: minmax(0, 1fr); } }
 .card { position: relative; display: flex; flex-direction: column; gap: var(--sp2); padding: var(--sp5); min-width: 0;
   background: var(--card); border: 1px solid var(--line); border-radius: var(--r); color: var(--ink); }
 a.card, .card.link { transition: border-color .2s var(--ease), transform .2s var(--ease), background-color .2s var(--ease); }
@@ -229,7 +229,7 @@ figure.panel { margin: 0; }
 .panels > .wide { grid-column: 1 / -1; }
 @media (max-width: 760px) {
   .panel > .ph, .panel > .pb, .panel > .pf { padding-left: var(--sp4); padding-right: var(--sp4); }
-  .panels { grid-template-columns: 1fr; }
+  .panels { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* "How to read this": one style everywhere, at the foot of a panel */
@@ -260,11 +260,37 @@ details.howto b { color: var(--ink); font-weight: 400; }
 .btn.small { min-height: 36px; padding: 0 var(--sp4); font-size: 11px; }
 .btn[disabled], .btn:disabled { opacity: .45; cursor: default; }
 @media (max-width: 760px) { .btn.small { min-height: 40px; } }
+/* a label too long for a small phone wraps inside the button instead of pushing the page wider (Nov 18, 2026) */
+.btn { max-width: 100%; }
+@media (max-width: 400px) { .btn { white-space: normal; text-align: center; line-height: 1.35; padding-top: 6px; padding-bottom: 6px; } }
 .linkbtn { background: none; border: 0; padding: 0; font: inherit; font-size: inherit; color: var(--brass); cursor: pointer;
   text-decoration: underline; text-decoration-color: var(--brass-dim); text-underline-offset: 3px; }
 .linkbtn:hover { color: var(--brass-bright); text-decoration-color: var(--brass); }
 @media (max-width: 760px) { .linkbtn { min-height: 40px; } }
 .actions { display: flex; flex-wrap: wrap; gap: var(--sp3); align-items: center; }
+
+/* reload buttons (added Nov 18, 2026): a round icon button that fetches a page's data again without reloading the
+   page. .reload sits at the end of the page head's "Readings to …" line and reloads everything; .reload.small sits
+   beside a panel's title and reloads that panel. shared/reload.js adds the icon, the screen-reader label, the spin,
+   the "Updated hh:mm" or "Couldn't reload" note and the 30-second wait between reloads. */
+.reloader { display: inline-flex; align-items: center; gap: var(--sp2); vertical-align: middle; min-width: 0; }
+.reload { position: relative; flex: none; display: inline-grid; place-items: center; width: 30px; height: 30px; padding: 0;
+  border: 1px solid var(--line2); border-radius: 50%; background: transparent; color: var(--brass); cursor: pointer; }
+.reload svg { width: 15px; height: 15px; }
+.reload:hover { border-color: var(--brass); color: var(--brass-bright); background: rgba(192, 160, 98, .08); }
+.reload:disabled { cursor: default; color: var(--brass-dim); border-color: var(--line); background: transparent; transform: none; }
+.reload[aria-busy="true"] { color: var(--brass); }
+.reload[aria-busy="true"] svg { animation: spin .9s linear infinite; }
+.reload.small { width: 26px; height: 26px; border-color: var(--line); }
+.reload.small svg { width: 13px; height: 13px; }
+.reload::before { content: ""; position: absolute; inset: -5px; }                 /* a 40 px tap target */
+.reload.small::before { inset: -7px; }
+.reloader .rnote { font-size: 13px; color: var(--muted); white-space: nowrap; transition: opacity .5s var(--ease); }
+.reloader .rnote.ok { color: var(--green); }
+.reloader .rnote.fail { color: var(--red); }
+.reloader .rnote.gone { opacity: 0; }
+.panel > .ph > .phtitle { display: inline-flex; align-items: center; flex-wrap: wrap; gap: var(--sp1) var(--sp3); min-width: 0; }
+@media (max-width: 760px) { .reload { width: 34px; height: 34px; } .reload::before { inset: -3px; } }
 
 /* ============================================================== choices */
 /* segmented control: one choice of a few (a time step, a view) */
@@ -496,7 +522,7 @@ table.credits td:first-child { color: var(--ink); }
 @media (max-width: 760px) { .split > .prose h2 { font-size: 25px; } }
 .cards + .cards { margin-top: var(--sp4); }
 .split { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: var(--sp7); align-items: start; }
-@media (max-width: 900px) { .split { grid-template-columns: 1fr; gap: var(--sp6); } }
+@media (max-width: 900px) { .split { grid-template-columns: minmax(0, 1fr); gap: var(--sp6); } }
 
 /* ============================================================== chart pieces */
 .legend { display: flex; flex-wrap: wrap; gap: var(--sp2) var(--sp4); font-size: 13.5px; color: var(--ink2); }
@@ -583,8 +609,11 @@ a.stage:hover { color: var(--ink); }
 .flinks .ext { color: var(--brass-dim); letter-spacing: 0; margin-left: 2px; }
 .footer .fnote { margin: var(--sp2) 0 0; font-size: 13px; font-style: italic; }
 @media (min-width: 761px) { .fhead { pointer-events: none; } }
-@media (max-width: 1199px) { .fmap { grid-template-columns: minmax(0, 1fr); gap: var(--sp5); } .fbrand .ftag { max-width: none; } }
-@media (max-width: 900px) { .fcols { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+/* the site map follows the footer's own width, not the screen's (since Nov 18, 2026), so a page with a narrow column
+   (Sky Finder) gets the narrow layout on a computer too; the phone layout below still follows the screen */
+.footer { container: footer / inline-size; }
+@container footer (max-width: 1135px) { .fmap { grid-template-columns: minmax(0, 1fr); gap: var(--sp5); } .fbrand .ftag { max-width: none; } }
+@container footer (max-width: 836px) { .fcols { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 760px) {
   .fcols { grid-template-columns: 1fr; gap: 0; border-top: 1px solid var(--line); }
   .fcol { border-bottom: 1px solid var(--line); }
@@ -713,6 +742,7 @@ a, button, .btn, .chip, .badge, input, select, summary, .backlink, .back, .nav a
   transition: color .15s var(--ease), background-color .15s var(--ease), border-color .15s var(--ease), box-shadow .15s var(--ease),
     opacity .15s var(--ease), transform .12s var(--ease); }
 .btn:active:not([disabled]), .chip:active:not(:disabled), .seg button:active, .back:active, .backlink:active { transform: translateY(1px); }
+.reload:active:not(:disabled) { transform: scale(.92); }
 
 /* rows that scroll sideways on small screens: a soft fade marks the side with more (shared/footer.js adds .hs-l / .hs-r) */
 .hscroll { overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }

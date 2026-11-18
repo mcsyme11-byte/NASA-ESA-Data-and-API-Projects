@@ -4,6 +4,21 @@ How NASA and ESA Data Projects is built, the decisions made so far, and how to r
 
 ## Decisions
 
+- **Decided Nov 18, 2026 (reload buttons, tab bars, checks):** a shared reload button (`shared/reload.js`,
+  `docs/DESIGN.md` "Reload buttons"; mock-up approved that day): one in the page head beside the "Readings to …" line
+  reloads all of a page's data without reloading the page, a smaller one in a panel's header reloads that panel; an
+  icon with a screen-reader label, spinning and disabled while loading, then "Updated hh:mm" (the visitor's clock) or
+  "Couldn't reload, try again"; clicks within 30 seconds of a reload are ignored (10 after a failure). Space Weather
+  has them first; each project chat adds them to its own pages. The same day every multi-page project got a tab bar
+  on every page (Overview first; the Asteroid Tracker's and Image Explorer's overviews, Mars Data and Orbit Watch had
+  none, or lacked Overview), the kickers one form (DESIGN.md, "Page head"), and the footer's layout now follows its
+  own width (Sky Finder's narrow page squeezed five columns). The review found how the project-wide documents had
+  fallen behind: the Project Record's cover, front page and the README still named three projects a day after Orbit &
+  Space Watch went live (each listed the projects by hand), and the roadmap had lost its "3. Mars Data" heading and
+  left an orphan line when chats removed finished items. Fixes: the record's cover now reads the projects from
+  `SECTIONS` in `shared/footer.js`; `dev/check_docs.py` (run after every push) checks the README, the record's front
+  page and the roadmap's shape; `dev/check_styles.py` checks every version tag and the tab bars.
+
 - **Decided Nov 17, 2026 (Orbit Watch, live):** `orbit-watch/` approved from a plan and mock-ups and built the same
   day: a home page, **What's in orbit** (the shared globe with every object CelesTrak publishes elements for, moving in
   real time by SGP4 in a background worker, and every catalogued object by height), **Close calls and collisions**
@@ -383,7 +398,19 @@ Since Nov 13, 2026 the same workflow also runs `dev/check_styles.py`:
 - no project style sheet restyles a shared component on its own (`.btn { … }`); it may adjust one inside its own
   parts (`.mapbar .seg`).
 
-Run it by hand: `python3 dev/check_styles.py`.
+Run it by hand: `python3 dev/check_styles.py`. Since Nov 18, 2026 it also refuses any `?v=` tag in a page or script
+that differs from the rest (and a differing Sky Finder `VERSION`), and checks the project tab bars: every page of a
+project in `TAB_PROJECTS` carries `nav.tabs[aria-label="<project>"]` with a link to each of the project's other pages,
+and a folder with more than one page that is not in the list is reported.
+
+Since Nov 18, 2026 the workflow also runs `dev/check_docs.py`:
+- every project and tool live on the site (read from `SECTIONS` in `shared/footer.js`) has its row in `README.md` and
+  in the Project Record's "The projects at a glance" (`docs/record/front.md`), and neither calls a live one planned,
+  or speaks of "three projects";
+- `docs/ROADMAP.md` keeps its shape: its numbered sections in order with none missing, no finished `[x]` items, no
+  indented line left on its own.
+
+Run it by hand: `python3 dev/check_docs.py`.
 
 `.github/workflows/astronaut-photos.yml` runs once a day (07:41 UTC) and on demand: it fetches the newest astronaut
 photos of Earth into `image-explorer/data/astronaut.json` if the secret `EOL_API_KEY` is set, and commits the file if

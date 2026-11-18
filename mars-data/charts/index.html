@@ -14,9 +14,9 @@
   <link rel="manifest" href="../../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../../shared/theme.css?v=2026111805">
-  <script type="module" src="../../shared/footer.js?v=2026111805"></script>
-  <link rel="stylesheet" href="../mars.css?v=2026111805">
+  <link rel="stylesheet" href="../../shared/theme.css?v=2026111806">
+  <script type="module" src="../../shared/footer.js?v=2026111806"></script>
+  <link rel="stylesheet" href="../mars.css?v=2026111806">
 </head>
 <body>
   <header class="topbar">
@@ -40,6 +40,12 @@
       <h1>Charts</h1>
       <p class="lede">The weather on Mars, measured second by second by NASA's Curiosity rover since 2012 and Perseverance since 2021: cleaned, organised by season and time of day, and charted.</p>
     </header>
+
+    <nav class="tabs" aria-label="Mars Data">
+      <a href="../">Overview</a>
+      <a href="./" aria-current="page">Charts</a>
+      <a href="../method/">How the data is made</a>
+    </nav>
 
     <div id="pageNotice"></div>
 
@@ -662,7 +668,9 @@
       const at = bySol.get(DUST.arrive);
       if (at) {
         el("line", { x1: f.X(at.ls), x2: f.X(at.ls), y1: f.m.t, y2: f.h - f.m.b, stroke: css("--brass-dim"), "stroke-dasharray": "3 4" }, svg);
-        el("text", { x: f.X(at.ls) + 6, y: f.m.t + 12, class: "lbl" }, svg).textContent = "dust reaches Gale";
+        // a narrow chart gets the shorter label, and near the right edge it goes on the line's left, so it is never cut off
+        const fw = f.w || 520, late = f.X(at.ls) > fw * 0.6;
+        el("text", { x: f.X(at.ls) + (late ? -6 : 6), y: f.m.t + 12, "text-anchor": late ? "end" : "start", class: "lbl" }, svg).textContent = fw < 400 ? "dust arrives" : "dust reaches Gale";
       }
       series.forEach(s => el("path", { d: path(my.map(r => [r.ls, s.val(r)]), f.X, f.Y, 3), fill: "none", stroke: c34, "stroke-width": 2 }, svg));
       const near = (b, x) => b.reduce((a, c) => Math.abs(c.x - x) < Math.abs(a.x - x) ? c : a, b[0]);

@@ -14,9 +14,9 @@
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
   <link rel="stylesheet" href="../shared/vendor/ol-10.11.0/ol.css">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111805">
-  <script type="module" src="../shared/footer.js?v=2026111805"></script>
-  <link rel="stylesheet" href="explorer.css?v=2026111805">
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111806">
+  <script type="module" src="../shared/footer.js?v=2026111806"></script>
+  <link rel="stylesheet" href="explorer.css?v=2026111806">
 </head>
 <body>
   <header class="topbar">
@@ -41,10 +41,11 @@
       <p class="lede">The Earth from orbit on any day since 2000, a globe inside the real sky with NASA's events, galaxies and nebulae, and NASA's and ESA's picture libraries.</p>
     </header>
 
-    <nav class="tabs" aria-label="Image Explorer" role="tablist">
-        <button role="tab" aria-selected="true" aria-pressed="true" data-view="earth">Earth map</button>
-        <button role="tab" aria-selected="false" aria-pressed="false" data-view="globe">Globe</button>
-        <button role="tab" aria-selected="false" aria-pressed="false" data-view="library">Picture library</button>
+    <nav class="tabs" aria-label="Image Explorer">
+        <a href="./">Overview</a>
+        <button type="button" aria-selected="true" aria-pressed="true" data-view="earth">Earth map</button>
+        <button type="button" aria-selected="false" aria-pressed="false" data-view="globe">Globe</button>
+        <button type="button" aria-selected="false" aria-pressed="false" data-view="library">Picture library</button>
     </nav>
 
     <!-- ===================== EARTH MAP ===================== -->

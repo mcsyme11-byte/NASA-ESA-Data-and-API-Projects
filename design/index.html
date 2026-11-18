@@ -14,8 +14,8 @@
   <link rel="manifest" href="../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111805">
-  <script type="module" src="../shared/footer.js?v=2026111805"></script>
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111806">
+  <script type="module" src="../shared/footer.js?v=2026111806"></script>
 </head>
 <body>
   <header class="topbar">
@@ -336,6 +336,41 @@
           </li>
         </ol>
       </div>
+    </section>
+
+    <section class="section" aria-labelledby="h-reload">
+      <div class="section-head"><div><div class="kicker">Section 10</div><h2 id="h-reload">Reload buttons</h2></div><p class="aside">Added Nov 18, 2026. Replaces nothing: no earlier component fetches a page’s data again without reloading the page. A notice with “Try again” still explains a source that could not be reached.</p></div>
+      <p class="caption">On a page with live or updated data: <code>.reload</code> at the end of the page head’s “Readings to …” line reloads all of the page’s data; <code>.reload.small</code> beside a panel’s title reloads that panel. <code>shared/reload.js</code> adds the icon, the label for screen readers, the spin, the note and the 30-second wait. Press them: these demo loads take a second and work.</p>
+      <div class="pagehead compact">
+        <p class="meta badges"><span class="badge live">Live</span><span class="badge nasa">NASA</span>
+          <span class="small">Readings to 18 Nov, 19:40 UTC · checked again every 5 minutes while the page is open</span>
+          <button class="reload" type="button" id="demoReloadAll">Reload all the data on this page</button></p>
+      </div>
+      <div class="panels">
+        <section class="panel" aria-labelledby="h-rl1">
+          <div class="ph"><h3 id="h-rl1">A panel with its own data</h3><span class="aside">the source · how often it changes</span>
+            <button class="reload small" type="button" data-demo-part>Reload this chart</button></div>
+          <div class="pb"><p class="state">The chart</p></div>
+        </section>
+        <section class="panel" aria-labelledby="h-rl2">
+          <div class="ph"><h3 id="h-rl2">The newest picture</h3><span class="aside">the spacecraft · the instrument</span>
+            <button class="reload small" type="button" data-demo-part>Reload this picture</button></div>
+          <div class="pb"><p class="state">The picture</p></div>
+        </section>
+      </div>
+      <h3>States</h3>
+      <p class="badges"><span class="reloader"><button class="reload" type="button" tabindex="-1" aria-label="Ready" data-demo-icon></button></span> Ready ·
+        <span class="reloader"><button class="reload" type="button" tabindex="-1" aria-label="Loading" disabled aria-busy="true" data-demo-icon></button></span> Loading ·
+        <span class="reloader"><button class="reload" type="button" tabindex="-1" aria-label="Updated" data-demo-icon></button><span class="rnote ok">Updated 13:05</span></span> ·
+        <span class="reloader"><button class="reload" type="button" tabindex="-1" aria-label="Failed" data-demo-icon></button><span class="rnote fail">Couldn’t reload, try again</span></span></p>
+      <script type="module">
+        import { reloadPage, reloadPart } from '../shared/reload.js?v=2026111806';
+        const demo = () => new Promise((ok) => setTimeout(() => ok(true), 1000));
+        for (const b of document.querySelectorAll('[data-demo-part]')) reloadPart(b, demo);
+        reloadPage(document.getElementById('demoReloadAll'), demo);
+        const icon = document.querySelector('#demoReloadAll svg').outerHTML;
+        for (const b of document.querySelectorAll('[data-demo-icon]')) b.innerHTML = icon;
+      </script>
     </section>
 
     <p class="srcline">Data credits sit here, just above the footer: one line per source.</p>

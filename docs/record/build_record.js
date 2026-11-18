@@ -21,6 +21,21 @@ const TOC_PAGES = TOC_ARG && fs.existsSync(TOC_ARG) ? JSON.parse(fs.readFileSync
 const X = JSON.parse(fs.readFileSync(EXTRAS, 'utf8'));
 const GH = 'https://github.com/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/blob/main/';
 
+// ------------------------------------------------------------------------------------------------ the site's projects
+// Read from SECTIONS in shared/footer.js, the one list of the site's pages (since Nov 18, 2026: the cover named only the
+// first three projects for a week after Orbit & Space Watch went live). Pages marked `soon: true` are left out.
+const SITE = (() => {
+  const js = fs.readFileSync(path.join(ROOT, 'shared/footer.js'), 'utf8');
+  const start = js.indexOf('const SECTIONS = [');
+  const body = js.slice(js.indexOf('[', start), js.indexOf('\n];', start) + 2);
+  const sections = new Function('return ' + body)();
+  const live = (items) => items.filter(([, , o]) => !(o && o.soon));
+  return {
+    projects: sections.filter(([n]) => n !== 'Space Watch' && n !== 'More').map(([n]) => n),
+    watch: live((sections.find(([n]) => n === 'Space Watch') || [, []])[1]).map(([l]) => l).filter((l) => l !== 'Overview'),
+  };
+})();
+
 // ------------------------------------------------------------------------------------------------ what goes in
 const PARTS = [
   { title: 'Introduction', docs: [['docs/record/front.md', { noSource: true, keepH1: true }], ['README.md', { title: 'The projects in brief' }], ['docs/record/README.md', { title: 'How this record is made' }]] },
@@ -28,13 +43,13 @@ const PARTS = [
   { title: 'Project History', docs: [['docs/HISTORY.md', {}]] },
   { title: 'Change Log', intro: 'Every change to the site and the projects, newest first.', docs: [['CHANGELOG.md', { title: 'Change log' }]] },
   { title: 'Asteroid Tracker', intro: 'Project 1: the near-Earth objects passing Earth, from NASA/JPL and ESA.', docs: [['asteroid-tracker/README.md', {}], ['sky-finder/README.md', { title: 'Sky Finder' }]] },
-  { title: 'Spacecraft map', intro: 'A utility: the active spacecraft of NASA, ESA and others, from low Earth orbit to the Voyagers.', docs: [['spacecraft/README.md', {}]] },
+  { title: 'Image Explorer', intro: 'Project 2: the Earth from orbit, a globe inside the sky, and the picture libraries of NASA and ESA.', docs: [['image-explorer/README.md', {}]] },
+  { title: 'Mars Data', intro: 'Project 3: weather measured on Mars, cleaned, organised, analysed and charted.', docs: [['mars-data/README.md', {}], ['mars-data/analysis/CLEANING.md', { title: 'Mars Data: cleaning rules' }], ['mars-data/analysis/CLEANING-MEDA.md', { title: 'Mars Data: cleaning rules for Perseverance' }], ['mars-data/analysis/CLEANING-MEX.md', { title: 'Mars Data: Mars Express profiles' }]] },
   { title: 'Orbit Watch', intro: 'Orbit & Space Watch: the satellites and space junk around the Earth, how one crash becomes a cloud of debris, and how orbit could be cleaned up, from NASA, ESA and CelesTrak.', docs: [['orbit-watch/README.md', {}]] },
   { title: 'Space Weather', intro: 'Orbit & Space Watch: what the Sun is doing now, storms on their way to Earth and the chance of seeing the aurora, from NASA, ESA and NOAA.', docs: [['space-weather/README.md', {}]] },
   { title: 'Exoplanets', intro: 'Orbit & Space Watch: how planets around other stars are found, with real measurements, and every confirmed planet, from NASA\'s Exoplanet Archive and MAST.', docs: [['exoplanets/README.md', {}]] },
   { title: 'Planetary Maps', intro: 'Orbit & Space Watch: maps of the Moon and Mars from NASA\'s orbiters, with every landing site and the rovers\' routes.', docs: [['planet-maps/README.md', {}]] },
-  { title: 'Image Explorer', intro: 'Project 2: the Earth from orbit, a globe inside the sky, and the picture libraries of NASA and ESA.', docs: [['image-explorer/README.md', {}]] },
-  { title: 'Mars Data', intro: 'Project 3: weather measured on Mars, cleaned, organised, analysed and charted.', docs: [['mars-data/README.md', {}], ['mars-data/analysis/CLEANING.md', { title: 'Mars Data: cleaning rules' }], ['mars-data/analysis/CLEANING-MEDA.md', { title: 'Mars Data: cleaning rules for Perseverance' }], ['mars-data/analysis/CLEANING-MEX.md', { title: 'Mars Data: Mars Express profiles' }]] },
+  { title: 'Spacecraft map', intro: 'A utility: the active spacecraft of NASA, ESA and others, from low Earth orbit to the Voyagers.', docs: [['spacecraft/README.md', {}]] },
   { title: 'Data Sources', intro: 'Every NASA and ESA source the projects use: addresses, keys, limits, terms and credit lines.', docs: [['docs/DATA-SOURCES.md', { title: 'Data sources' }]] },
   { title: 'Data Updates', intro: 'How the data is kept up to date automatically: the data jobs, their standard, the status files and the daily health check.', docs: [['docs/DATA-UPDATES.md', { title: 'Data updates' }]] },
   { title: 'Design Language', intro: 'The navy, brass and cream look every page follows.', docs: [['docs/DESIGN.md', {}], ['brand/patch/README.md', { title: 'The NEDAP mission patch' }]] },
@@ -344,7 +359,9 @@ function cover() {
     p([new D.TextRun({ text: 'NASA and ESA Data Projects', color: NAVY, size: 64, font: SERIF })], { spacing: { after: 80 } }),
     p([new D.TextRun({ text: 'Learning and exploring with open data from NASA and ESA', color: MUTED, size: 26, italics: true })],
       { spacing: { after: 360 }, border: { bottom: { style: D.BorderStyle.SINGLE, size: 12, color: BRASS, space: 12 } } }),
-    p([new D.TextRun({ text: 'Asteroid Tracker  ·  Image Explorer  ·  Mars Data', color: NAVY, size: 24, characterSpacing: 20 })], { spacing: { after: 900 } }),
+    // the projects, read from the site's own list (SECTIONS in shared/footer.js) so the cover never falls behind the site
+    p([new D.TextRun({ text: SITE.projects.join('  ·  '), color: NAVY, size: 24, characterSpacing: 20 })], { spacing: { after: SITE.watch.length ? 80 : 900 } }),
+    ...(SITE.watch.length ? [p([new D.TextRun({ text: 'Orbit & Space Watch:  ' + SITE.watch.join('  ·  '), color: NAVY, size: 22, characterSpacing: 20 })], { spacing: { after: 820 } })] : []),
     p([new D.TextRun({ text: 'Edition', color: BRASS, size: 18, characterSpacing: 100, allCaps: true })], { spacing: { after: 40 } }),
     p([new D.TextRun({ text: `${longDate(X.date)}  ·  repository ${X.commit}  ·  ${X.count} recorded changes`, color: INK, size: 22 })], { spacing: { after: 280 } }),
     p([new D.TextRun({ text: 'Developer', color: BRASS, size: 18, characterSpacing: 100, allCaps: true })], { spacing: { after: 40 } }),

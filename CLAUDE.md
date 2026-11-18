@@ -1,6 +1,6 @@
 # Instructions for Claude working in this repo
 
-This repository is Malcolm Syme's **NASA and ESA Data Projects**: three learning-and-exploring projects built on the open data
+This repository is Malcolm Syme's **NASA and ESA Data Projects**: learning-and-exploring projects built on the open data
 and APIs of NASA and ESA (the European Space Agency), one folder each. **Short name: NEDAP** (NASA and ESA Data and
 API Projects, decided Nov 14, 2026), used wherever the full name does not fit: the app label under the home-screen
 icon, and any other short or abbreviated use.
@@ -11,8 +11,8 @@ icon, and any other short or abbreviated use.
 | **Mars Data** | `mars-data/` | Mars mission measurements cleaned, organised, analysed and charted |
 | **Image Explorer** | `image-explorer/` | Imagery searchable by date, location and mission (NASA GIBS + Image Library, ESA/Webb + ESA/Hubble) |
 
-**Orbit & Space Watch** (planned Nov 17, 2026; a section of the site with its page at `space-watch/`), one chat and
-folder each: **Orbit Watch** (`orbit-watch/`), **Space Weather** (`space-weather/`), **Exoplanets** (`exoplanets/`) and
+**Orbit & Space Watch** (planned and live Nov 17, 2026; a section of the site with its page at `space-watch/`), one
+chat and folder each: **Orbit Watch** (`orbit-watch/`), **Space Weather** (`space-weather/`), **Exoplanets** (`exoplanets/`) and
 **Planetary Maps** (`planet-maps/`); the Asteroid Tracker adds an asteroid mining view (`asteroid-tracker/mining.html`).
 The plan, the approved sources and what each reuses are in `docs/PROJECT-NOTES.md` and `docs/ROADMAP.md` (section 5).
 
@@ -33,7 +33,10 @@ inside its own folder.
 - When the developer asks a question ("why…", "what do you think?"), answer it only. Build or change nothing until he
   explicitly says go.
 - **After every change that's finished and checked,** commit and push it to `main` with a short plain-English commit
-  message, and update `docs/ROADMAP.md` (remove what's done), `CHANGELOG.md` and, for milestones, `docs/HISTORY.md`.
+  message, and update `docs/ROADMAP.md` (remove what's done: the whole item with its indented lines, never a section
+  heading; `dev/check_docs.py` checks the shape), `CHANGELOG.md` and, for milestones, `docs/HISTORY.md`. When a
+  project or tool goes live, its row goes into `README.md` and the Project Record's "The projects at a glance"
+  (`docs/record/front.md`) in the same change; `dev/check_docs.py` refuses a live one that is missing.
 - **Public repository: no secrets, ever.** No API key, password or token in any file. Visitors need no key: data that
   needs one is copied by the GitHub data jobs with repository secrets (`NASA_API_KEY`, `EOL_API_KEY`); web pages call
   NASA only through `shared/nasa.js` (with `DEMO_KEY` for api.nasa.gov; `nasaOpenGet` for NASA's keyless DONKI and iSWA
@@ -66,16 +69,23 @@ inside its own folder.
   **A new page is listed by adding one line to its section in `SECTIONS`** (a page not live yet carries
   `{ soon: true }`, which keeps it out; remove it when the page is published), in the same change as the page, with
   its name in the Back-button list (`NAMES`) of the same file. Every page's menu is Home, Asteroids, Mars, Images,
-  Space Watch (copy it from any page). Each page's
+  Space Watch (copy it from any page). **Since Nov 18, 2026** every page of a project with more than one page carries
+  the project's tab bar straight after the page head (Overview first, then every page; `docs/DESIGN.md`, "Project tab
+  bar"): a new page is added to the bar on every page of its project in the same change, and a new project folder to
+  `TAB_PROJECTS` in `dev/check_styles.py`. The kicker follows DESIGN.md ("Page head"). Pages with live or updated data
+  get the reload buttons (`shared/reload.js`, DESIGN.md "Reload buttons"). Each page's
   detailed data credits sit above the footer in `<p class="srcline">` lines, never in the footer. A new data source or library is added to `CREDITS.md` and the Credits
   page (`credits/index.html`) in the same change; anything new the site stores or sends is added to the Privacy page
   first.
 - **Version tags on style files (since Nov 9, 2026; project style sheets since Nov 12):** pages link
-  `shared/theme.css`, `shared/footer.js`, `asteroid-tracker/tracker.css`, `image-explorer/explorer.css`,
-  `mars-data/mars.css`, `spacecraft/spacecraft.css`, `sky-finder/sky-finder.css`, `planet-maps/maps.css`, `space-weather/spaceweather.css`, `orbit-watch/orbit.css` and `exoplanets/exoplanets.css` with one version tag (`?v=YYYYMMDDNN`). After changing any of them, raise the tag in every page (one search-and-replace), and Sky
-  Finder's `VERSION` in `sky-finder/sw.js` with it, so browsers fetch the new copy instead of an old saved one.
-  `dev/check_styles.py` refuses a page whose tags differ. The same tag is on the import of `shared/datastatus.js` in
-  `data-collection/app.js`, so include `.js` files in the search-and-replace.
+  `shared/theme.css`, `shared/footer.js` and every project style sheet (`asteroid-tracker/tracker.css`,
+  `image-explorer/explorer.css`, `mars-data/mars.css`, `spacecraft/spacecraft.css`, `sky-finder/sky-finder.css`,
+  `planet-maps/maps.css`, `space-weather/spaceweather.css`, `orbit-watch/orbit.css`, `exoplanets/exoplanets.css`)
+  with one version tag (`?v=YYYYMMDDNN`), and scripts import `shared/datastatus.js` and `shared/reload.js` with the
+  same tag. After changing any of them, raise the tag everywhere in one search-and-replace over `.html` and `.js`
+  files, with Sky Finder's `VERSION` in `sky-finder/sw.js`, so browsers fetch the new copy instead of an old saved
+  one. Since Nov 18, 2026 `dev/check_styles.py` refuses any `?v=` tag in a page or script that differs, and a
+  `VERSION` that differs.
 - **Feel (since Nov 12, 2026):** everything pressable gives quick feedback (the shared hover and press transitions in
   `shared/theme.css`); tap targets are at least 40 px tall on phones; segmented controls and chip rows that don't
   fit a phone scroll sideways with a soft edge fade (`shared/footer.js` adds it to `.seg`, `.popular` and anything
@@ -149,5 +159,6 @@ done, not by who in a chat did it. `python3 dev/check_wording.py` checks this, a
 ```
 python3 -m http.server 8000     # then open http://localhost:8000
 python3 dev/check_wording.py    # wording, personal details and keys
-python3 dev/check_styles.py     # shared components, page styles and version tags
+python3 dev/check_styles.py     # shared components, page styles, version tags and project tab bars
+python3 dev/check_docs.py       # every live project in the README and the Project Record; the roadmap's shape
 ```

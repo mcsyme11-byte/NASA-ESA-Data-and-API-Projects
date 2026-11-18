@@ -7,6 +7,7 @@ import { readEvents, readWind, readXray, readKp, readSaved, readArchive } from '
 import { timeline, line24, kpBars, monthly, emptyBox, hideTip, utc, fmtKp, gName } from './charts.js';
 import { chance } from './aurora.js';
 import { currentPlace, locate, searchPlaces, setPlace, forgetPlace } from '../shared/place.js';
+import { reloadPage, reloadPart, markUpdated } from '../shared/reload.js?v=2026111806';
 
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
@@ -53,6 +54,7 @@ async function load(part) {
     if (saved && saved[n]) { S[n] = saved[n]; S.from[n] = 'saved'; S.savedAt = saved.updated; } else S.from[n] = 'none';
   }
   if (S.ev) S.ev.flares.sort((a, b) => a.t - b.t);
+  return res.every((r) => r.status === 'fulfilled');     // for the reload buttons: true when every part was read live
 }
 
 function showNotice() {
@@ -106,23 +108,32 @@ const SOHO_CAP = {
   c3: 'LASCO C3: a wider view, about 32 Sun-widths across; the dots are stars.',
 };
 const tick = () => Math.floor(Date.now() / (15 * 60e3));     // changes every 15 minutes, so the newest picture is fetched
-function picture(img, err, url) {
-  img.removeAttribute('data-failed'); err.hidden = true;
-  img.onerror = () => { img.dataset.failed = ''; err.hidden = false; };
-  img.src = url + '?t=' + tick();
+// resolves true when the picture arrived; `fresh` (a reload button) asks for a new copy within the 15 minutes
+// (later calls within those 15 minutes keep the new copy instead of going back to the older saved one)
+function picture(img, err, url, fresh) {
+  if (fresh) img.dataset.fresh = Date.now();
+  const f = Number(img.dataset.fresh || 0);
+  const src = url + '?t=' + (Date.now() - f < 15 * 60e3 ? 'r' + f : tick());
+  return new Promise((done) => {
+    if (img.src === src && img.complete) { done(img.naturalWidth > 0); return; }
+    img.removeAttribute('data-failed'); err.hidden = true;
+    img.onload = () => done(true);
+    img.onerror = () => { img.dataset.failed = ''; err.hidden = false; done(false); };
+    img.src = src;
+  });
 }
-function sdo(code) {
+function sdo(code, fresh) {
   const big = innerWidth > 700 || devicePixelRatio > 1.5;
-  picture($('#sdoImg'), $('#sdoErr'), `https://sdo.gsfc.nasa.gov/assets/img/latest/latest_${big ? 1024 : 512}_${code}.jpg`);
   $('#sdoCap').textContent = SDO_CAP[code];
+  return picture($('#sdoImg'), $('#sdoErr'), `https://sdo.gsfc.nasa.gov/assets/img/latest/latest_${big ? 1024 : 512}_${code}.jpg`, fresh);
 }
-function soho(code) {
-  picture($('#sohoImg'), $('#sohoErr'), `https://soho.nascom.nasa.gov/data/realtime/${code}/512/latest.jpg`);
+function soho(code, fresh) {
   $('#sohoCap').textContent = SOHO_CAP[code];
+  return picture($('#sohoImg'), $('#sohoErr'), `https://soho.nascom.nasa.gov/data/realtime/${code}/512/latest.jpg`, fresh);
 }
-function oval() {
+function oval(fresh) {
   const p = currentPlace(), side = p && p.lat < 0 ? 'south' : 'north';
-  picture($('#ovalImg'), $('#ovalErr'), `https://services.swpc.noaa.gov/images/animations/ovation/${side}/latest.jpg`);
+  return picture($('#ovalImg'), $('#ovalErr'), `https://services.swpc.noaa.gov/images/animations/ovation/${side}/latest.jpg`, fresh);
 }
 function wireSeg(seg, fn) {
   seg.addEventListener('click', (e) => {
@@ -290,6 +301,24 @@ function wireJump() {
   document.querySelectorAll('[data-jump]').forEach((s) => io.observe(s));
 }
 
+// the reload buttons (shared/reload.js): the page head's reloads everything, each panel's only its own part
+function wireReload() {
+  const sdoNow = (f) => sdo(pressed($('#sdoSeg')).dataset.code, f), sohoNow = (f) => soho(pressed($('#sohoSeg')).dataset.code, f);
+  const part = (name, ...draw) => async () => { const ok = await load(name); draw.forEach((d) => d()); showNotice(); return ok; };
+  reloadPart($('#reloadSdo'), () => sdoNow(true));
+  reloadPart($('#reloadSoho'), () => sohoNow(true));
+  reloadPart($('#reloadOval'), () => oval(true));
+  reloadPart($('#reloadEv'), part('ev', renderMonth, renderEarth));
+  reloadPart($('#reloadSpeed'), part('wind', renderNow, renderWind));
+  reloadPart($('#reloadBz'), part('wind', renderNow, renderWind));
+  reloadPart($('#reloadKp'), part('kp', renderNow, renderKp, renderAurora));
+  reloadPage($('#reloadAll'), async () => {
+    const [data, ...pics] = await Promise.all([load(), sdoNow(true), sohoNow(true), oval(true)]);
+    lastFull = Date.now(); renderAll();
+    return data && pics.every(Boolean);
+  });
+}
+
 function renderAll() { renderNow(); renderMonth(); renderEarth(); renderWind(); renderKp(); renderAurora(); showNotice(); }
 let lastFull = 0;
 async function refresh() {
@@ -307,12 +336,14 @@ async function start() {
   wireJump();
   readArchive().then((a) => { if (a && a.months && a.months.length) { S.archive = a; $('#allBtn').hidden = false; } });
   await refresh();
+  wireReload();
   // keep fresh while the page is open and showing
   setInterval(async () => {
     if (document.hidden) return;
     await Promise.all([load('wind'), load('xray')]);
     if (Date.now() - lastFull > 10 * 60e3) { await Promise.all([load('ev'), load('kp')]); lastFull = Date.now(); }
     renderAll();
+    markUpdated($('#reloadAll'));
   }, 5 * 60e3);
   setInterval(() => { if (!document.hidden) { sdo(pressed($('#sdoSeg')).dataset.code); soho(pressed($('#sohoSeg')).dataset.code); oval(); } }, 15 * 60e3);
   document.addEventListener('visibilitychange', () => { if (!document.hidden && Date.now() - lastFull > 5 * 60e3) refresh(); });

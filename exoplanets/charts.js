@@ -143,7 +143,7 @@ export function rvCurve(svg, s) {
   ticks(-lim, lim, 6).forEach((v) => { el('line', { x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v) }, g); text(svg, { x: m.l - 8, y: Y(v) + 4, 'text-anchor': 'end' }, (v > 0 ? '+' : v < 0 ? '−' : '') + fmt(Math.abs(v))); });
   const days = ticks(0, P, W < 600 ? 4 : 8);
   days.forEach((d) => { el('line', { x1: X(d / P), x2: X(d / P), y1: m.t, y2: H - m.b }, g); text(svg, { x: X(d / P), y: H - m.b + 16, 'text-anchor': 'middle' }, fmt(d, d % 1 ? 1 : 0) + ' d'); });
-  text(svg, { x: (W + m.l) / 2, y: H - 8, 'text-anchor': 'middle', class: 'axt' }, `Days into the planet's ${fmt(P, 2)}-day orbit`);
+  text(svg, { x: (W + m.l) / 2, y: H - 8, 'text-anchor': 'middle', class: 'axt' }, W < 420 ? `Days into its ${fmt(P, 2)}-day orbit` : `Days into the planet's ${fmt(P, 2)}-day orbit`);
   yTitle(svg, H, m, 'Star’s speed, m/s');
   label(svg, { x: m.l + 6, y: m.t - 8 }, '↑ moving away from us (redder)');
   label(svg, { x: m.l + 6, y: H - m.b - 8 }, '↓ moving towards us (bluer)');
@@ -183,7 +183,7 @@ export function microCurve(svg, s, { from = -25, to = 25, blip = null } = {}) {
     label(svg, { x: Math.min(x2 + 6, W - m.r - 4), y: m.t + 14, 'text-anchor': x2 + 110 > W - m.r ? 'end' : 'start' }, 'the planet’s blip');
   }
   ticks(lo, hi, W < 600 ? 4 : 8).forEach((v) => { el('line', { x1: X(v), x2: X(v), y1: m.t, y2: H - m.b }, g); text(svg, { x: X(v), y: H - m.b + 16, 'text-anchor': 'middle' }, (v > 0 ? '+' : v < 0 ? '−' : '') + fmt(Math.abs(v)) + ' d'); });
-  text(svg, { x: (W + m.l) / 2, y: H - 8, 'text-anchor': 'middle', class: 'axt' }, 'Days from the brightest point');
+  text(svg, { x: (W + m.l) / 2, y: H - 8, 'text-anchor': 'middle', class: 'axt' }, W < 420 ? 'Days from the peak' : 'Days from the brightest point');
   yTitle(svg, H, m, mag ? 'Brightness (magnitude)' : 'Brightness (flux)');
   const pg = el('g', { fill: GREEN }, svg);
   for (const [t, v, e] of pts) {
@@ -202,7 +202,7 @@ export function microModel(svg) {
   const X = (t) => m.l + (t + 40) / 80 * (W - m.l - m.r), Y = (v) => H - m.b - (v - 0.8) / 7.4 * (H - m.t - m.b);
   [1, 3, 5, 7].forEach((v) => { el('line', { x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v) }, g); text(svg, { x: m.l - 8, y: Y(v) + 4, 'text-anchor': 'end' }, `${v}×`); });
   [-40, -20, 0, 20, 40].forEach((v) => { el('line', { x1: X(v), x2: X(v), y1: m.t, y2: H - m.b }, g); text(svg, { x: X(v), y: H - m.b + 16, 'text-anchor': 'middle' }, (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v) + ' d'); });
-  text(svg, { x: (W + m.l) / 2, y: H - 8, 'text-anchor': 'middle', class: 'axt' }, 'Days from the brightest point');
+  text(svg, { x: (W + m.l) / 2, y: H - 8, 'text-anchor': 'middle', class: 'axt' }, W < 420 ? 'Days from the peak' : 'Days from the brightest point');
   yTitle(svg, H, m, 'Brightening');
   const star = [], planet = [];
   for (let i = 0; i <= 400; i++) { const t = -40 + i * 0.2; star.push(`${X(t).toFixed(1)},${Y(A(t)).toFixed(1)}`); planet.push(`${X(t).toFixed(1)},${Y(A(t) + bump(t)).toFixed(1)}`); }

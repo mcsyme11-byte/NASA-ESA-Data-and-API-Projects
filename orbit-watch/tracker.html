@@ -13,9 +13,9 @@
   <link rel="manifest" href="../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111805">
-  <link rel="stylesheet" href="orbit.css?v=2026111805">
-  <script type="module" src="../shared/footer.js?v=2026111805"></script>
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111806">
+  <link rel="stylesheet" href="orbit.css?v=2026111806">
+  <script type="module" src="../shared/footer.js?v=2026111806"></script>
 </head>
 <body>
   <header class="topbar">
@@ -35,10 +35,17 @@
   <main class="wrap">
     <a class="backlink" id="back" href="./">Orbit Watch</a>
     <header class="pagehead compact">
-      <div class="kicker">Orbit Watch · Tracker</div>
+      <div class="kicker"><a href="./">Orbit &amp; Space Watch · Orbit Watch</a></div>
       <h1>What's in orbit</h1>
       <p class="updated" id="owUpd">Loading the orbits…</p>
     </header>
+
+    <nav class="tabs" aria-label="Orbit Watch">
+      <a href="./">Overview</a>
+      <a href="tracker.html" aria-current="page">What's in orbit</a>
+      <a href="collisions.html">Close calls and collisions</a>
+      <a href="cleanup.html">Cleaning up</a>
+    </nav>
 
     <section class="ow-tool" aria-label="The globe">
       <div class="ow-frame" id="owFrame" tabindex="0" aria-describedby="owKeys">

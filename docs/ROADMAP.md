@@ -7,7 +7,8 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
 
 - [ ] Before any trademark filing: a trademark search on "NEDAP" (a company called Nedap N.V. exists) and advice from
   a trademark lawyer on the name and the patch (`brand/patch/README.md`).
-
+- [ ] Reload buttons (shared component, Nov 18, 2026; Space Weather has them): each project chat adds them to its own
+  pages with live or updated data, following `docs/DESIGN.md` ("Reload buttons") and the handoff of Nov 18, 2026.
 
 ## 1. Asteroid Tracker (version 1 live Nov 8, 2026)
 
@@ -25,8 +26,6 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
   experimental, so a change of format stops the step and the previous files are kept), fix `fetch_risk.py`.
 - [ ] Optional: if ESA's credit form or terms for the NEOCC figures are in doubt, ask the NEOCC by email
   (`neocc@esa.int`) and record the answer in `docs/DATA-SOURCES.md`.
-
-  Until it runs, launch windows are on this site for 184 asteroids and the rest link to JPL's page.
 - [ ] Hera: once ESA confirms the arrival at Didymos, update its line in `MISSIONS` (`asteroid-tracker/reach.js`).
 
 ## 2. Image Explorer (version 1 live Nov 9, 2026; home page Nov 12)
@@ -34,24 +33,24 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
 - [ ] Picture library: tune the ranking further as the developer reviews searches (the weights are in `scoreOf` in
   `image-explorer/app.js`; second and third rounds applied Nov 17, 2026).
 - [ ] Further rounds of changes to the globe, as the developer reviews it.
-- [x] REMS, the whole record (sols 1–4843, August 7, 2012 to March 22, 2026; 4,703 sols with data), cleaned with rules
-  1.2 in chunks; every cleaning report checked (Nov 12, 2026). Rule 11 removes the evening air-temperature glitch
-  (34 sols); the set-aside list (`exclusions.csv`, rule 10) is empty.
-- [x] Corrected UV (sols 1–3423, 35 files of about 1.2 GB): all done and checked (row counts match NASA's labels).
+- [ ] Astronaut photos: the free API key (requested by email from jsc-earthweb@mail.nasa.gov; no answer by Nov 11,
+  2026; followed up Nov 18, 2026; low priority, as an answer may take a while) would add cataloged photos with their centre points. Without it the job uses the public Latest ISS Imagery set
+  (since Nov 11, 2026). If the key arrives: repository secret `EOL_API_KEY`, then Actions › Astronaut photos › Run
+  workflow.
+
+## 3. Mars Data (live Nov 12, 2026)
+
+Plan confirmed Nov 11, 2026 (see PROJECT-NOTES.md): three missions, updated automatically by a GitHub Actions job.
+
+**Data and analysis**
 - [ ] After the first scheduled run of the "Mars data" job succeeds: delete the one-off probe (`mars-data/probe/`),
   the branch workflows (`mars-probe.yml`, `mars-chunks.yml`, `mars-meda.yml`, `mars-mex.yml`, on the `mars-probe`
   branch) and the `mars-probe` branch itself.
 - [ ] Optional: ask ESA (data.licences@esa.int) to confirm the spelling of the Mars Express MaRS credit line
   ("M. Plätzold, K. Pieter" on ESA's terms page; the archive names Martin Pätzold).
-- [x] Perseverance MEDA (Jezero Crater), sols 0–1859, cleaned with MEDA rules 1.0 (`CLEANING-MEDA.md`); every report
-  checked (Nov 12, 2026). Reviewed, real weather: sol 1078 (+20 Pa step in the dusty season) and sol 1113 (11 hours
-  measured).
-- [x] Two-craters chart (Gale and Jezero pressure): approved and on the page (Nov 12, 2026).
 - [ ] Mars Express MaRS profiles (ESA): waiting for ESA's archive (down for maintenance since at least Nov 12, 2026; no
   return date published as of Nov 15); then run `run_mex.py`. NASA's PDS Geosciences Node holds a copy (checked Nov
   15, 2026, not used; see DATA-SOURCES.md).
-- [x] "Above the surface" section of the charts page (ESA Mars Express profiles): mock-up approved and built (Nov 15,
-  2026). It reads `data/mex/profiles.csv` and `profiles.json` and shows a waiting note until then.
 - [ ] When the first real Mars Express profiles are read: check them against `CLEANING-MEX.md` and the report, confirm
   from the AIX label what the height column is measured from (geopotential height; reference surface to be stated
   in the chart's notes), then set `MEX_LIVE = true` in `mars-data/charts/index.html`, open the home page's "Above the
@@ -59,34 +58,11 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
   page in the same change.
 
 **Automatic updates**
-- [x] GitHub Actions job "Mars data" (`.github/workflows/mars-data.yml`), live Nov 12, 2026: Mondays and Thursdays
-  at 09:23 UTC (to be reduced to weekly once stable). It checks NASA's REMS and MEDA archives and ESA's Mars Express
-  archive for new or replaced files, downloads only those (manifests of name, size and checksum), cleans and
-  summarises them with the same code, runs `validate.py`, and commits only if every check passes.
-- [x] Checks before saving (`validate.py`): expected columns, values within physical limits, sol count never
-  decreasing, no duplicate sols, the season advancing, no single-hour glitch left (rule 11), no full sol with an air
-  low below 170 K, and a cleaning report for every processed chunk.
-- [x] Email notice: a run that finds new data opens a GitHub issue ("Mars data: new data …"), which GitHub emails to
-  people watching the repository; a failed run is reported by the daily Data health check (since Nov 14, 2026).
-- [x] The charts page shows "Data up to sol X … NASA's archive checked [date]".
 - Reducing the job to weekly is listed under Data updates (section 4).
 
 **Page**
-- [x] Page live (Nov 12, 2026) with the whole record, sols 1–4843.
-- [x] Perseverance in more charts (humidity at night at two sites; the rovers' climbs) and "The 2018 dust storm"
-  section (Nov 18, 2026), built without a mock-up at the developer's request.
 - [ ] Developer review of the Nov 18 additions (the dust storm section, humidity at two sites, the rovers' climbs, the
   home page's Explore cards), at the developer's own pace.
-- [x] "What the record shows" (Nov 17, 2026): six short paragraphs on the clearest seasonal and daily patterns, each
-  linked to its chart, first on the charts page. The record counts as complete for the rovers; a paragraph on ESA's
-  Mars Express profiles is added when they go live.
-- [x] `CREDITS.md` and the Credits page list REMS, MEDA and pandas; the Privacy page says the Mars Data pages read
-  only this site's files (Nov 17, 2026). Mars Express is added to both when its data goes live.
-- [ ] Astronaut photos: the free API key (requested by email from jsc-earthweb@mail.nasa.gov; no answer by Nov 11,
-  2026; followed up Nov 18, 2026; low priority, as an answer may take a while) would add cataloged photos with their centre points. Without it the job uses the public Latest ISS Imagery set
-  (since Nov 11, 2026). If the key arrives: repository secret `EOL_API_KEY`, then Actions › Astronaut photos › Run
-  workflow.
-
 
 ## 4. Data updates (since Nov 14, 2026)
 
@@ -116,9 +92,6 @@ one GitHub issue labelled `data-health`.
   job keeps only a fallback copy and the monthly record. To do here: build the job from the hand-off
   (`docs/handoffs/2026-11-17 - data updates - Space Weather data.md`; `space-weather/fetch_space_weather.py` is ready).
 
-- [x] The first `data-health` issue arrived by email: issue #2, opened Nov 16, 2026 at 01:51 UTC (four spacecraft
-  catalogue items to review), resolved and closed automatically the same evening. Confirmed by the developer, who
-  also reported the repository's Watch setting updated on Nov 16, 2026 so that later comments are emailed too.
 - [ ] Confirm over the first days: the Astronaut photos 19:11 backup run and a daily Data health run. Results so far:
   - Astronaut photos backup (19:11 UTC): ran and succeeded for Nov 15 (started 23:21 UTC) and Nov 16 (started
     02:26 UTC on Nov 17). The morning run (07:41 UTC) also succeeded each day but started 7 to 9 hours late, so the
@@ -138,7 +111,7 @@ one GitHub issue labelled `data-health`.
 - [ ] Mars data: reduce the job to weekly once it has run without trouble for a few weeks (from about December 10,
   2026); change `mars-data.yml` and `max_age_hours` in `dev/data_jobs.json` (to 192) together.
 
-## 5. Orbit & Space Watch (planned Nov 17, 2026)
+## 5. Orbit & Space Watch (planned Nov 17, 2026; all four tools live since Nov 17)
 
 Four tools in a new section of the site, each built by its own chat in its own folder, and the asteroid mining view
 (section 1). Plan approved Nov 17, 2026; the decisions are in `docs/PROJECT-NOTES.md` and the handoff of the same
@@ -147,9 +120,6 @@ first; a mock-up approved before building; only the shared components; credits, 
 a visitor's browser contacts, in the same change; data jobs handed to the Data updates chat.
 
 **Section, menu and shared parts (general chat)**
-- [ ] As each tool goes live (its own chat, in the same change): remove `soon: true` from its line in `SECTIONS` and add
-  its name to `NAMES` in `shared/footer.js`; turn its card on `space-watch/` into a link (`a.card`, "Open") and its
-  home-page card's "Coming soon" into its agencies (general chat, or the tool's chat with the same markup).
 - [ ] The section page's live figures (objects tracked, flares, storm level, planets), added once the tools publish
   them.
 
@@ -171,24 +141,13 @@ collisions, Cleaning up; see `orbit-watch/README.md`).
 - [ ] Possible later: "Can I see it tonight?" for any object (Sky Finder predicts passes of the space stations only).
 
 **5b. Space Weather (`space-weather/`)**: live since Nov 17, 2026
-- [x] Sources checked and recorded in `docs/DATA-SOURCES.md` (Nov 17, 2026): DONKI's new address confirmed
-  (`ccmc.gsfc.nasa.gov/DONKI-API/get/`, no key; `api.nasa.gov/DONKI` answers 404 since the move), NASA CCMC iSWA for
-  IMAP solar wind, GOES X-rays, GFZ Kp and NOAA's Kp forecast (GFZ and NOAA approved by the developer Nov 17, 2026),
-  SDO and SOHO pictures, NOAA's OVATION aurora map. Not used: ESA's Space Weather Service Network (account and token;
-  its terms do not allow showing its data to the public).
-- [x] Mock-up approved (Nov 17, 2026) and page built: right now, the Sun's pictures, the last 7, 30 or 60 days, what
-  is heading for Earth, the solar wind, Kp, the aurora chance for the visitor's place (`shared/place.js`), who feels
-  space weather, five rules. New shared component: the level scale. `shared/nasa.js` gained `nasaOpenGet`.
-- [x] Read live in the visitor's browser; hand-off for the fallback copy and the monthly record written
-  (`docs/handoffs/2026-11-17 - data updates - Space Weather data.md`).
+- [ ] Developer testing of the reload buttons (added Nov 18, 2026): the page head's button and each panel's, on a
+  phone and a computer.
 - [ ] Check on the live site, in a browser (the build environment could not reach the services; the page was checked
   against sample answers built from the real readings of Nov 17, 2026): the live readings arrive, the three pictures
   and NOAA's aurora map load, the place search works, and the page reads well on a phone.
 - [ ] Once the Data updates chat has built the job: the "Since 2010" button appears, and the page falls back to the
   saved copy when NASA cannot be reached.
-- [x] "On this page" links to each section, staying under the top bar as the page scrolls (Nov 18, 2026).
-- [ ] Reload buttons, once the General chat has added the shared component (requested Nov 18, 2026): one for the
-  whole page next to the "Readings to …" line, and a small one in each panel's header that reloads only its part.
 - [ ] Later, if wanted: a short animation of the last day's SOHO pictures (SOHO offers movies, not checked yet); the
   section page's live figures (flares, storm level) once the section page shows live figures.
 

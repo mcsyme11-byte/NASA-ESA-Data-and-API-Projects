@@ -1,5 +1,31 @@
 # Change log
 
+## November 18, 2026 — Reload buttons, project tab bars, a site-wide formatting review and the documents check
+
+- **Reload buttons** (new shared component, mock-up approved Nov 18, 2026; `shared/reload.js`, `.reload` in
+  `shared/theme.css`, Section 10 of the component page): a small round button at the end of a page head's "Readings
+  to …" line reloads all of the page's data without reloading the page; a smaller one beside a panel's title reloads
+  that panel. The circular-arrow icon spins and the button is disabled while loading; then "Updated hh:mm" or
+  "Couldn't reload, try again". Clicks within 30 seconds of a reload (10 after a failure) are ignored. Space Weather
+  has them: one for the whole page, and one each on the SDO and SOHO pictures, the events timeline, the solar wind
+  charts, Kp and NOAA's aurora map; a reloaded picture is fetched fresh rather than from the browser's copy.
+- **Project tab bars:** every page of the Asteroid Tracker, Image Explorer, Mars Data, Orbit Watch and Exoplanets has
+  its project's tab bar after the page head, Overview first (the Asteroid Tracker's and Image Explorer's overviews,
+  Mars Data and Orbit Watch had none; the tracker, map, Within reach, asteroid and explorer pages lacked Overview).
+  The kickers follow one form ("Project 1 · Asteroid Tracker", "Orbit & Space Watch · Orbit Watch").
+- **Formatting fixes found by checking every page at 320, 390, 768 and 1280 px:** Space Weather and Planetary Maps were
+  10 px wider than a 320 px phone (one-column layouts in `shared/theme.css` now shrink to fit); Sky Finder's footer
+  squeezed five columns into its narrow page on a computer (the footer's layout now follows its own width); the Mars
+  dust-storm label and two Exoplanets axis titles ran off narrow charts; "JPL's page" links on Within reach were 25 px
+  tall on phones (now a 40 px tap area).
+- **Project-wide documents:** the README and the Project Record's front page now list all nine live projects and
+  tools (they still named three, and called Mars Data and Orbit & Space Watch planned); the record's cover reads the
+  projects from `shared/footer.js` and its Parts follow the site's order; the roadmap's lost "3. Mars Data" heading
+  is back, finished items are removed, and stray lines fixed.
+- **New checks after every push:** `dev/check_docs.py` (every live project in the README and the record's front
+  page; the roadmap's shape) and, in `dev/check_styles.py`, every `?v=` version tag in pages and scripts and the
+  project tab bars. Version tag raised to 2026111806.
+
 ## November 18, 2026 — reading progress and motion on every page
 
 - New `shared/motion.js`, loaded by `shared/footer.js` on every page: a brass reading-progress line along the foot of

@@ -11,8 +11,13 @@
 #   2. every page links shared/theme.css and shared/footer.js, and every versioned style file with the same version tag;
 #      every page outside Sky Finder carries the site's app icon, browser-tab icon, manifest and short name (NEDAP);
 #   3. no project style sheet redefines a shared component on its own (a rule such as ".btn { … }" or ".card { … }");
-#      a project may only adjust a component inside its own parts (".mapbar .seg { … }", ".chip.play { … }").
-import os, re, subprocess, sys
+#      a project may only adjust a component inside its own parts (".mapbar .seg { … }", ".chip.play { … }");
+#   4. (since Nov 18, 2026) every ?v= version tag in a page or a script is the same, and Sky Finder's sw.js VERSION
+#      matches it, so no file is left behind when the tag is raised;
+#   5. (since Nov 18, 2026) every page of a project with more than one page carries the project's tab bar
+#      (<nav class="tabs" aria-label="<project>">, docs/DESIGN.md "Project tab bar") linking to all of its pages,
+#      and a new folder with more than one page is added to TAB_PROJECTS below.
+import os, posixpath, re, subprocess, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SKIP = ('docs/', 'dev/', 'image-explorer/vendor/', 'shared/vendor/', 'node_modules/')
@@ -29,7 +34,52 @@ SHARED = ['readbar', 'totop', 'glide', 'glides', 'reveal', 'btn', 'chip', 'chips
           'terms', 'sources', 'steps', 'split', 'legend', 'tip', 'note', 'caption', 'aside', 'lbl', 'wrap', 'topbar',
           'nav', 'brand', 'more', 'viewhead', 'actions', 'field', 'sr', 'hscroll', 'callout', 'stage', 'medal',
           'need', 'chart', 'chartcard', 'display-link', 'summary', 'updated', 'facts', 'light', 'livestatus',
-          'levels', 'board', 'board-head', 'jobs', 'job', 'job-when', 'job-side', 'job-state', 'srcstate', 'ticks']
+          'levels', 'board', 'board-head', 'jobs', 'job', 'job-when', 'job-side', 'job-state', 'srcstate', 'ticks',
+          'reload', 'reloader', 'rnote', 'phtitle']
+
+# 5. the project tab bars: folder -> the bar's label; pages that are not one of the project's views (an asteroid's own
+# page) carry the bar but need no link to themselves
+TAB_PROJECTS = {'asteroid-tracker': 'Asteroid Tracker', 'image-explorer': 'Image Explorer', 'mars-data': 'Mars Data',
+                'orbit-watch': 'Orbit Watch', 'exoplanets': 'Exoplanets'}
+TAB_NOT_LINKED = {'asteroid-tracker/object.html'}
+TAB_EXEMPT = {'sky-finder': 'an installable app with its own screens; how-to.html has a Back button',
+              'design': 'the component page', 'shared': 'shared code'}
+
+def page_key(path):
+    # 'mars-data/charts/index.html' -> 'mars-data/charts/'; 'orbit-watch/tracker.html' stays
+    return path[:-len('index.html')] if path.endswith('index.html') else path
+
+def tabs_problems(pages, read):
+    out = []
+    by_folder = {}
+    for f in pages:
+        if '/' in f:
+            by_folder.setdefault(f.split('/')[0], []).append(f)
+    for folder, fs in sorted(by_folder.items()):
+        if folder in TAB_EXEMPT or len(fs) < 2:
+            continue
+        label = TAB_PROJECTS.get(folder)
+        if not label:
+            out.append(f'{folder}/: {len(fs)} pages but no project tab bar rule (add it to TAB_PROJECTS in dev/check_styles.py)')
+            continue
+        want = {page_key(f) for f in fs if f not in TAB_NOT_LINKED}
+        for f in fs:
+            s = read(f)
+            m = re.search(r'<nav class="tabs" aria-label="' + re.escape(label) + r'">(.*?)</nav>', s, re.S)
+            if not m:
+                out.append(f'{f}: missing the project tab bar <nav class="tabs" aria-label="{label}">')
+                continue
+            base = posixpath.dirname(f)
+            have = set()
+            for h in re.findall(r'<a\s[^>]*href="([^"#]*)', m.group(1)):
+                if not h:
+                    continue
+                full = posixpath.normpath(posixpath.join(base, h)) + ('/' if h.endswith('/') or h in ('.', '..') else '')
+                have.add(page_key(full))
+            missing = sorted(w for w in want if w != page_key(f) and w not in have)
+            if missing:
+                out.append(f'{f}: the tab bar has no link to {", ".join(missing)}')
+    return out
 
 def tracked():
     out = subprocess.run(['git', 'ls-files', '--cached', '--others', '--exclude-standard'], cwd=ROOT,
@@ -64,14 +114,23 @@ def main():
             problems.append(f'{f}: missing the site\'s app icon and short name (apple-touch-icon, site.webmanifest, NEDAP)')
         if not f.startswith('sky-finder/') and 'shared/icons/favicon.svg' not in s:
             problems.append(f'{f}: missing the NEDAP browser-tab icon (shared/icons/favicon.svg; see docs/DESIGN.md, "Logo and icons")')
-        for m in re.finditer(r'(theme\.css|footer\.js|tracker\.css|explorer\.css|mars\.css|spacecraft\.css|spaceweather\.css|orbit\.css|exoplanets\.css)\?v=(\d+)', s):
+        for m in re.finditer(r'([\w.-]+\.(?:css|js))\?v=(\d+)', s):
             tags.setdefault(m.group(2), []).append(f'{f} ({m.group(1)})')
+    for f in files:
+        if f.endswith('.js') and not f.startswith(('shared/vendor/', 'image-explorer/vendor/')):
+            s = open(os.path.join(ROOT, f), encoding='utf-8').read()
+            for m in re.finditer(r'([\w.-]+\.(?:css|js))\?v=(\d+)', s):
+                tags.setdefault(m.group(2), []).append(f'{f} ({m.group(1)})')
+            m = re.search(r"VERSION = 'sky-finder-(\d+)'", s) if f == 'sky-finder/sw.js' else None
+            if m:
+                tags.setdefault(m.group(1), []).append(f'{f} (VERSION)')
     if len(tags) > 1:
         newest = max(tags)
         for v, where in sorted(tags.items()):
             if v != newest:
                 for w in where:
                     problems.append(f'{w}: version tag {v}, not the current {newest} (raise it in every page)')
+    problems += tabs_problems(pages, lambda f: open(os.path.join(ROOT, f), encoding='utf-8').read())
     for f in PROJECT_CSS:
         p = os.path.join(ROOT, f)
         if not os.path.exists(p):
