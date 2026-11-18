@@ -26,6 +26,14 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
 - [ ] Optional: if ESA's credit form or terms for the NEOCC figures are in doubt, ask the NEOCC by email
   (`neocc@esa.int`) and record the answer in `docs/DATA-SOURCES.md`.
 
+- [ ] **Asteroid mining view (Orbit & Space Watch plan, Nov 17, 2026):** `asteroid-tracker/mining.html`, a card on the
+  Asteroid Tracker's home page and a line on each asteroid's page: how hard each near-Earth asteroid is to reach (JPL
+  NHATS: total delta-v, round-trip time, launch windows) and what it is made of where measured (SBDB spectral type),
+  built on the tracker's existing orbits, sizes (`compare.js`) and asteroid pages. No price or "worth" figures (no
+  agency publishes them). Steps: confirm NHATS and the SBDB fields against JPL's documentation and record them in
+  `docs/DATA-SOURCES.md`; mock-up; build; hand-off to the Data updates chat (NHATS added to the Asteroid data job,
+  monthly); credits in the same change.
+
 ## 2. Image Explorer (version 1 live Nov 9, 2026; home page Nov 12)
 
 - [ ] Astronaut photos: the free API key (requested by email from jsc-earthweb@mail.nasa.gov; no answer by Nov 11,
@@ -122,3 +130,66 @@ one GitHub issue labelled `data-health`.
 - [ ] Confirm the first scheduled run of "Place and map lists" on January 2, 2027.
 - [ ] Mars data: reduce the job to weekly once it has run without trouble for a few weeks (from about December 10,
   2026); change `mars-data.yml` and `max_age_hours` in `dev/data_jobs.json` (to 192) together.
+
+## 5. Orbit & Space Watch (planned Nov 17, 2026)
+
+Four tools in a new section of the site, each built by its own chat in its own folder, and the asteroid mining view
+(section 1). Plan approved Nov 17, 2026; the decisions are in `docs/PROJECT-NOTES.md` and the handoff of the same
+day. Every piece: sources confirmed against the agency's current documentation and recorded in `docs/DATA-SOURCES.md`
+first; a mock-up approved before building; only the shared components; credits, and the Privacy page for any service
+a visitor's browser contacts, in the same change; data jobs handed to the Data updates chat.
+
+**Section, menu and shared parts (general chat)**
+- [ ] The site-map footer on every page, the menu with "Space Watch", the home page's "Orbit & Space Watch" section
+  and the section page `space-watch/` (mock-ups of Nov 17, 2026; the footer, menu and redrawn Space Weather card
+  awaiting approval). The section page's live figures come from the tools as each goes live; a tool appears in the
+  footer, the menu's section page and the home page when it is built.
+- [ ] Card illustrations for the four tools in `shared/art/` (drafts in the mock-ups).
+- [ ] The new pages' names in `shared/footer.js` (Back button) as each goes live.
+
+**Shared map and globe (Image Explorer chat, before Planetary Maps and Orbit Watch build theirs)**
+- [ ] Move Image Explorer's map set-up (OpenLayers on an equirectangular tile grid) and its three.js globe into
+  `shared/`, used unchanged by Image Explorer, then by Planetary Maps (Moon and Mars) and Orbit Watch (the Earth).
+
+**5a. Orbit Watch (`orbit-watch/`)**
+- [ ] Sources: CelesTrak (approved Nov 17, 2026) for the orbits of every tracked object; NASA Orbital Debris Program
+  Office (counts by type, the breakup model, past collisions); ESA Space Debris Office's yearly Space Environment
+  Report. Not used: ESA DISCOS (needs an account; its terms limit sharing).
+- [ ] A globe of every tracked object around the Earth, coloured by kind (satellites, rocket bodies, debris), using
+  `shared/sats.js` and the shared globe.
+- [ ] A collision simulator (how one crash becomes a cloud of debris, from NASA's breakup model and real events).
+- [ ] A space-junk cleanup explainer (the methods and missions, with NASA and ESA sources).
+- [ ] Links: "Can I see it tonight?" opens Sky Finder; missions open on the spacecraft map, whose Earth-orbit fleet
+  switch links here.
+- [ ] Hand-off to the Data updates chat: the Spacecraft data job extended to the whole CelesTrak catalogue, written to
+  `orbit-watch/data/` (CelesTrak asked once for both tools, twice a day); the yearly ESA figures as a review task.
+
+**5b. Space Weather (`space-weather/`)**
+- [ ] Sources: NASA DONKI (flares, eruptions, storms; its address reportedly moved on Sep 30, 2026, to be confirmed),
+  NASA SDO and SOHO (ESA and NASA) pictures of the Sun, and NOAA's Space Weather Prediction Center (approved Nov 17,
+  2026) for the live storm level, the 3-day forecast and the aurora map. Not used: ESA's Space Weather Service Network
+  (most products need a registered account).
+- [ ] The Sun's latest pictures, the week's flares and eruptions, storms on their way and when they arrive.
+- [ ] The aurora chance for the visitor's place (`shared/place.js`, the same place as Sky Finder).
+- [ ] Read live in the visitor's browser where the sources allow it (see the Space Weather item in section 4); a
+  scheduled job only as a fallback copy.
+
+**5c. Exoplanets (`exoplanets/`)**
+- [ ] Sources: NASA Exoplanet Archive (every confirmed planet); MAST light curves from Kepler and TESS (run by STScI
+  for NASA; counted as a NASA source, decided Nov 17, 2026); ESA Gaia and CHEOPS where they help.
+- [ ] How each method works, each with a real measurement (the transit dip, the radial-velocity wobble, the direct
+  picture, and others), then every confirmed planet by size, orbit and distance.
+- [ ] Where each host star is in the sky (`shared/sky.js` and the star list).
+- [ ] Hand-off to the Data updates chat: a weekly Exoplanets job.
+
+**5d. Planetary Maps (`planet-maps/`)**
+- [ ] Its own folder (decided Nov 17, 2026), on the shared map and globe moved out of Image Explorer.
+- [ ] Sources: NASA Moon Trek and Mars Trek map tiles (LRO, MRO, Viking and ESA's Mars Express); landing sites and the
+  rovers' routes (NASA, checked by hand); place names from Trek's own layers, or the IAU names kept by the US
+  Geological Survey (approved Nov 17, 2026) where Trek's do not cover them.
+- [ ] Moon and Mars maps from the whole world down to single craters, with height, names, every landing site and the
+  rovers' routes.
+- [ ] Links: Image Explorer's globe ("Moon and Mars maps"), Mars Data's "Two craters" chart (Gale and Jezero), and the
+  spacecraft map's Moon and Mars orbiters.
+- [ ] Hand-off to the Data updates chat: the rovers' routes added to the Mars data job; the place names built once,
+  then refreshed quarterly with Place and map lists.

@@ -4,6 +4,20 @@ How NASA and ESA Data Projects is built, the decisions made so far, and how to r
 
 ## Decisions
 
+- **Decided Nov 17, 2026 (Orbit & Space Watch):** a new section of the site, planned in the developer's portfolio
+  project: **Orbit Watch** (satellite and space-debris tracker, collision simulator, cleanup explainer, `orbit-watch/`),
+  **Space Weather** (`space-weather/`), **Exoplanets** (`exoplanets/`) and **Planetary Maps** (`planet-maps/`), each
+  built by its own chat, plus an asteroid mining view in the Asteroid Tracker (`asteroid-tracker/mining.html`). Flat
+  folders like `sky-finder/` and `spacecraft/`; a section page at `space-watch/` (general chat); the menu gains
+  "Space Watch" (the Home link is hidden on phones, where the mark goes home). Planetary Maps is its own folder, not
+  part of Image Explorer; Image Explorer's map and globe move into `shared/` first so they are built once. Sources
+  approved beyond NASA and ESA: **CelesTrak** (orbits of every tracked object, already used by the spacecraft map),
+  **NOAA's Space Weather Prediction Center** (live storm level, forecast, aurora map) and the **US Geological Survey's**
+  IAU place names for the Moon and Mars where NASA's Trek layers do not cover them; **MAST** (run by STScI for NASA)
+  counts as a NASA source. Not used: ESA DISCOS and ESA's Space Weather Service Network (both need an account), and
+  any price or "worth" of asteroids. Built once and shared: satellite positions (`shared/sats.js`) and one CelesTrak
+  download for the spacecraft map and Orbit Watch; Sky Finder for passes; the saved place; the sky positions. The
+  roadmap has a section for each piece (section 5).
 - **Decided Nov 17, 2026 (logo):** the NEDAP mission patch (`brand/patch/`) is the project's logo everywhere,
   replacing the planet-and-ring emblem: the patch at 64 px and larger, a mark without lettering at about 32 to 64 px
   and a small mark at 16 to 24 px (`docs/DESIGN.md`, "Logo and icons"). The ring reads "NEDAP · DATA PROJECTS" (no

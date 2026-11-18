@@ -11,6 +11,11 @@ icon, and any other short or abbreviated use.
 | **Mars Data** | `mars-data/` | Mars mission measurements cleaned, organised, analysed and charted |
 | **Image Explorer** | `image-explorer/` | Imagery searchable by date, location and mission (NASA GIBS + Image Library, ESA/Webb + ESA/Hubble) |
 
+**Orbit & Space Watch** (planned Nov 17, 2026; a section of the site with its page at `space-watch/`), one chat and
+folder each: **Orbit Watch** (`orbit-watch/`), **Space Weather** (`space-weather/`), **Exoplanets** (`exoplanets/`) and
+**Planetary Maps** (`planet-maps/`); the Asteroid Tracker adds an asteroid mining view (`asteroid-tracker/mining.html`).
+The plan, the approved sources and what each reuses are in `docs/PROJECT-NOTES.md` and `docs/ROADMAP.md` (section 5).
+
 Utilities alongside them (since Nov 12, 2026): **Sky Finder** (`sky-finder/`, an installable phone web app that points
 to passing asteroids) and the **spacecraft map** (`spacecraft/`, previewed on the home page; data job
 `spacecraft-data.yml`; facts in `spacecraft/catalogue.json`, checked by hand).

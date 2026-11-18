@@ -153,3 +153,10 @@ How NASA and ESA Data Projects came about, in order.
   icon shape, was redrawn as original artwork.
 - The patch, a mark without lettering and a small mark for icons now appear on every page, the home-screen icon, the
   README and the Project Record cover, all drawn from one script (`brand/patch/build_patch.py`).
+
+## November 17, 2026 — Orbit & Space Watch planned
+
+- Four new tools were planned as a new section of the site, from the developer's list of project ideas: a satellite
+  and space-debris tracker, space weather, exoplanets, and maps of the Moon and Mars, with an asteroid mining view in
+  the Asteroid Tracker. Each is built by its own chat; the plan sets what each reuses from the site so nothing is built
+  twice, and which sources beyond NASA and ESA are used (CelesTrak, NOAA and the US Geological Survey).

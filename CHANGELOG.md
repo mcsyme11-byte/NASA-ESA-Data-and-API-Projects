@@ -1,5 +1,12 @@
 # Change log
 
+## November 17, 2026 — Orbit & Space Watch planned
+
+- A new section of the site was planned and approved: Orbit Watch, Space Weather, Exoplanets and Planetary Maps, each in
+  its own folder and chat, a section page at `space-watch/`, and an asteroid mining view in the Asteroid Tracker. The
+  decisions (folders, sources beyond NASA and ESA, what each reuses) are in `docs/PROJECT-NOTES.md`; the roadmap has
+  a section for each piece; a handoff tells every chat. Nothing is built yet.
+
 ## November 17, 2026 — roadmap: space weather timing flagged
 
 - Roadmap section 4: an important item for Space Weather. GitHub starts scheduled runs 4 to 10 hours late, too late
