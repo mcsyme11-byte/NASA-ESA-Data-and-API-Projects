@@ -11,7 +11,7 @@
  *   globe.go(lat, lon, near)         turn to a place (near: come close)
  *   globe.run(on)                    start or stop drawing (stopped while another view is shown)
  */
-import { vec, createGlobe, bodyTexture, closeUp, reduceMotion } from '../shared/globe.js?v=2026111714';
+import { vec, createGlobe, bodyTexture, closeUp, reduceMotion } from '../shared/globe.js?v=2026111801';
 
 const TREK = 'https://trek.nasa.gov/tiles/';
 const BRIGHT = '#E2C88E', INK = '#EDE6D3', BRASS = '#C0A062';

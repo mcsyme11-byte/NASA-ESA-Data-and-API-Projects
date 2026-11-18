@@ -306,7 +306,7 @@
     if (on) { $('pmPos').hidden = true; $('pmTag').hidden = true; }
     if (!on) { if (globe) globe.run(false); return; }
     if (!globe) {
-      globeLoading = globeLoading || import('./globe.js?v=2026111714')
+      globeLoading = globeLoading || import('./globe.js?v=2026111801')
         .then(m => m.start({ frame: $('pmGlobe'), host: $('pmGlobeHost'), over: $('pmGlobeOver'), onPick: choose }))
         .then(g => { globe = g; if (S.view === 'globe') globeShow(); })
         .catch(() => problem('The globe needs WebGL, which this browser could not start. The map views still work.'));

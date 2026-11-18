@@ -1,5 +1,16 @@
 # Change log
 
+
+## November 18, 2026 — Mars Data: links to Planetary Maps
+
+- The "Air pressure at two sites" chart (`mars-data/charts/#craters`) ends with "Gale Crater on the map" and
+  "Jezero Crater on the map" (`planet-maps/#mars-gale`, `#mars-jezero`), which open Mars with that crater's card, its
+  ESA Mars Express picture and the zoom to the rover; Planetary Maps already links back to the chart. The caption and
+  the two buttons share the panel's foot as a callout.
+- On the Mars Data home page, "Gale Crater" and "Jezero Crater" under the Curiosity and Perseverance figures link to the
+  same places.
+- `shared/theme.css`: links in the notes under a figure (`.stat .note a`, `.tile .note a`) get the 40 px tap area on
+  phones, as links in kickers and asides already do. Version tag raised to 2026111801.
 ## November 17, 2026 — Planetary Maps data jobs
 
 - New data job **Rover routes** (`rover-routes.yml`, 08:29 and 20:59 UTC daily): `planet-maps/fetch_routes.py` writes

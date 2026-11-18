@@ -12,8 +12,8 @@
   <link rel="manifest" href="../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111714">
-  <script type="module" src="../shared/footer.js?v=2026111714"></script>
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111801">
+  <script type="module" src="../shared/footer.js?v=2026111801"></script>
 </head>
 <body>
   <header class="topbar">
@@ -40,8 +40,8 @@
     </header>
 
     <div class="stats" id="tiles">
-      <div class="stat"><div class="label">Curiosity</div><div class="value" id="tCur">–</div><div class="note" id="tCurN">Gale Crater, since August 2012</div></div>
-      <div class="stat"><div class="label">Perseverance</div><div class="value" id="tPer">–</div><div class="note" id="tPerN">Jezero Crater, since February 2021</div></div>
+      <div class="stat"><div class="label">Curiosity</div><div class="value" id="tCur">–</div><div class="note"><a href="../planet-maps/#mars-gale">Gale Crater</a>, <span id="tCurN">since August 2012</span></div></div>
+      <div class="stat"><div class="label">Perseverance</div><div class="value" id="tPer">–</div><div class="note"><a href="../planet-maps/#mars-jezero">Jezero Crater</a>, <span id="tPerN">since February 2021</span></div></div>
       <div class="stat"><div class="label">Mars Years</div><div class="value" id="tYears">–</div><div class="note">one Mars Year is 687 Earth days</div></div>
       <div class="stat"><div class="label">Updated</div><div class="value" id="tUpd">–</div><div class="note">when this page's data was last updated</div></div>
     </div>
@@ -149,13 +149,13 @@
       const [rems, meda] = await Promise.all([fetch("data/summary.json").then(r => r.json()), fetch("data/meda.json").then(r => r.json()).catch(() => null)]);
       const m = rems.meta;
       document.getElementById("tCur").innerHTML = `${fmt(m.sols)}<small>sols</small>`;
-      document.getElementById("tCurN").textContent = `Gale Crater, ${month(m.first_date)} to ${month(m.last_date)}`;
+      document.getElementById("tCurN").textContent = `${month(m.first_date)} to ${month(m.last_date)}`;
       document.getElementById("dCur").textContent = `Sols ${m.first_sol}–${fmt(m.last_sol)}, ${month(m.first_date)} – ${month(m.last_date)}`;
       const yrs = new Set(rems.rows.map(r => r[rems.cols.indexOf("mars_year")]));
       if (meda) {
         const d = meda.meta;
         document.getElementById("tPer").innerHTML = `${fmt(d.sols)}<small>sols</small>`;
-        document.getElementById("tPerN").textContent = `Jezero Crater, ${month(d.first_date)} to ${month(d.last_date)}`;
+        document.getElementById("tPerN").textContent = `${month(d.first_date)} to ${month(d.last_date)}`;
         document.getElementById("dPer").textContent = `Sols ${d.first_sol}–${fmt(d.last_sol)}, ${month(d.first_date)} – ${month(d.last_date)}`;
       }
       document.getElementById("tYears").innerHTML = `${yrs.size}<small>${Math.min(...yrs)}–${Math.max(...yrs)}</small>`;
