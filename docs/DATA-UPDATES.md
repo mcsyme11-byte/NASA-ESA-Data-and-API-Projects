@@ -98,7 +98,7 @@ time and the health check's allowance for age cover this.
 
 Decided Nov 17, 2026; set up Nov 17 and 18, 2026. GitHub's own `schedule` runs here 4 to 10 hours late (median about
 7 hours), so free timers at cron-job.org start each job at its cron times instead, through GitHub's API: one timer per
-cron time (15 in all), each in UTC, sending `POST /repos/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/actions/workflows/<file>/dispatches`
+cron time (11 so far; Orbit data and Exoplanets data still to add), each in UTC, sending `POST /repos/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/actions/workflows/<file>/dispatches`
 with the body `{"ref":"main"}` and the headers `Accept: application/vnd.github+json`, `X-GitHub-Api-Version:
 2022-11-28`, `Content-Type: application/json` and `Authorization: Bearer <token>`. A run started this way begins within
 about a minute. GitHub's own `schedule` stays in every workflow as the backup; a second run on the same data changes

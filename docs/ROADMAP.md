@@ -92,8 +92,15 @@ one GitHub issue labelled `data-health`.
   and read CelesTrak's CSV (six-digit catalogue numbers); changes to `spacecraft/fetch_spacecraft.py` and
   `shared/sats.js` handed to the Image Explorer chat (`docs/handoffs/2026-11-18 - data updates - spacecraft
   CelesTrak.md`). Then `spacecraft-data.yml` runs `orbit-watch/fetch_orbits.py --keep` first and passes the folder.
+- [ ] Outside clock: add the timers for Orbit data (11:13 and 23:13 UTC, `orbit-data.yml`) and Exoplanets data
+  (11:43 UTC Tuesdays and Wednesdays, `exoplanets-data.yml`) at cron-job.org (clone a timer, set title, address and
+  schedule, switch it on), then set `clock.timers` to 15 in `dev/data_jobs.json`. Until then, both run on GitHub's own
+  schedule.
 - [ ] Confirm the first scheduled runs of **Orbit data** (`orbit-data.yml`, 11:13 and 23:13 UTC) and **Exoplanets
-  data** (`exoplanets-data.yml`, 11:43 UTC Tuesdays and Wednesdays), both added Nov 18, 2026.
+  data** (`exoplanets-data.yml`, 11:43 UTC Tuesdays and Wednesdays), both added Nov 18, 2026. First runs by hand on
+  Nov 18, 2026: Orbit data read every source (16,917 active satellites and 2,682 debris objects with elements, 71,365
+  objects in the catalogue at `https://celestrak.org/pub/satcat.csv`, address confirmed; 15 close passes kept);
+  Exoplanets data read 6,470 confirmed planets (files unchanged since the build of Nov 17).
 - [ ] Confirm the first scheduled runs of **Rover routes** (`rover-routes.yml`, 08:29 and 20:59 UTC, added Nov 17,
   2026). First runs by hand on Nov 17, 2026: both rovers read (Curiosity sol 5073, Perseverance sol 2022,
   `routes.json` 123 KB), and the Moon and Mars place names built (1,783 Mars and 7,982 Moon names).
