@@ -1,13 +1,12 @@
 {
  "job": "astronaut-photos",
  "workflow": ".github/workflows/astronaut-photos.yml",
- "last_data_change": "2026-11-17T17:07:40Z",
+ "last_data_change": "2026-11-18T21:36:01Z",
  "sources": {
   "astronaut-photos": {
-   "state": "failed",
-   "since": "2026-11-18T21:32:21Z",
-   "note": "",
-   "run": "https://github.com/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/actions/runs/44402476477"
+   "state": "ok",
+   "since": "2026-11-18T21:36:01Z",
+   "note": ""
   },
   "checks": {
    "state": "ok",
