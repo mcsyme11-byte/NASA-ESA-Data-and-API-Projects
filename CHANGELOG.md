@@ -1,6 +1,18 @@
 # Change log
 
-<<<<<<< Updated upstream
+## November 17, 2026 — "Within reach" data updated monthly
+
+- `asteroid-data.yml` has a second job, `reach`, which runs `asteroid-tracker/fetch_reach.py` (NASA/JPL NHATS launch
+  windows and SBDB physical data, about 40 minutes) after the daily job has saved, so the daily data never waits. It
+  runs when either part's last run is 28 days old or more, 3 days after a part failed, or when started by hand
+  ("reach"); hitting JPL's request limit is not a failure. It saves `reach.json` and `phys.json` with the standard
+  last step.
+- Sources on a longer cycle: `every_days`, `retry_days` and `max_age_days` in `dev/data_jobs.json`; `dev/datajob.py`
+  records their `last_run` and `last_ok` and answers `--due`; the daily health check reports one not updated within
+  `max_age_days` (45 for both parts). Rules in `docs/DATA-UPDATES.md` (standard, point 10).
+- The status board on How the data is collected shows the two parts as "Launch windows (monthly)" and "Physical data
+  (monthly)".
+
 ## November 17, 2026 — Planetary Maps
 
 - **Planetary Maps is live** (`planet-maps/`), built from the approved mock-up on the shared flat map: the Moon and
@@ -15,20 +27,6 @@
 - **Site:** the page is listed in the site-map footer and named for the Back button; its cards on the home page and
   Space Watch open it; the Privacy page lists trek.nasa.gov; `CREDITS.md` and the Credits page list Trek, the rovers'
   routes, the IAU names and ESA's Mars Express HRSC. Version tags raised to `2026111707`. The mock-up was removed.
-=======
-## November 17, 2026 — "Within reach" data updated monthly
-
-- `asteroid-data.yml` has a second job, `reach`, which runs `asteroid-tracker/fetch_reach.py` (NASA/JPL NHATS launch
-  windows and SBDB physical data, about 40 minutes) after the daily job has saved, so the daily data never waits. It
-  runs when either part's last run is 28 days old or more, 3 days after a part failed, or when started by hand
-  ("reach"); hitting JPL's request limit is not a failure. It saves `reach.json` and `phys.json` with the standard
-  last step.
-- Sources on a longer cycle: `every_days`, `retry_days` and `max_age_days` in `dev/data_jobs.json`; `dev/datajob.py`
-  records their `last_run` and `last_ok` and answers `--due`; the daily health check reports one not updated within
-  `max_age_days` (45 for both parts). Rules in `docs/DATA-UPDATES.md` (standard, point 10).
-- The status board on How the data is collected shows the two parts as "Launch windows (monthly)" and "Physical data
-  (monthly)".
->>>>>>> Stashed changes
 
 ## November 17, 2026 — shared map and globe
 
