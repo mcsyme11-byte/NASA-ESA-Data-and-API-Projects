@@ -1,0 +1,28 @@
+{
+ "job": "orbit-data",
+ "workflow": ".github/workflows/orbit-data.yml",
+ "last_data_change": "2026-11-18T19:58:20Z",
+ "sources": {
+  "catalogue": {
+   "state": "ok",
+   "since": "2026-11-18T19:58:20Z",
+   "note": ""
+  },
+  "checks": {
+   "state": "ok",
+   "since": "2026-11-18T19:58:20Z",
+   "note": ""
+  },
+  "close": {
+   "state": "ok",
+   "since": "2026-11-18T19:58:20Z",
+   "note": ""
+  },
+  "elements": {
+   "state": "ok",
+   "since": "2026-11-18T19:58:20Z",
+   "note": ""
+  }
+ },
+ "notes": []
+}
