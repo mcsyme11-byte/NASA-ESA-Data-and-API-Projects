@@ -95,7 +95,7 @@ html.viewing, html.viewing body { overflow: hidden; height: 100%; overscroll-beh
 
 /* the main button, in reach of the thumb */
 .sfgo { position: sticky; bottom: 0; z-index: 3; margin: var(--sp6) calc(-1 * var(--sp4)) 0; padding: var(--sp4) var(--sp4) calc(var(--sp3) + var(--safe-b));
-  background: linear-gradient(rgba(15, 21, 32, 0), rgba(15, 21, 32, .96) 26%); }
+  background: linear-gradient(rgba(15, 21, 32, 0), rgba(15, 21, 32, .97) var(--sp4)); }   /* solid behind the button, so text never shows through it */
 .sfgo .sfpoint { width: 100%; min-height: 56px; font-size: 14px; }
 .sfgo .sfnote { text-align: center; margin-top: var(--sp2); font-size: 13px; }
 .sfmain .srcline { margin-top: var(--sp5); }

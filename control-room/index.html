@@ -14,9 +14,9 @@
   <link rel="manifest" href="../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111810">
-  <script type="module" src="../shared/footer.js?v=2026111810"></script>
-  <script type="module" src="app.js?v=2026111810"></script>
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111812">
+  <script type="module" src="../shared/footer.js?v=2026111812"></script>
+  <script type="module" src="app.js?v=2026111812"></script>
 </head>
 <body>
   <header class="topbar">
@@ -138,27 +138,27 @@
     <section class="section" aria-labelledby="h-next">
       <div class="section-head"><div><div class="kicker">Ahead</div><h2 id="h-next">Coming up</h2></div></div>
       <div class="facts">
-        <div class="f"><h4>Next runs</h4><p id="n-runs">–</p></div>
-        <div class="f"><h4>Monthly and quarterly</h4><p id="n-cycles">–</p></div>
-        <div class="f"><h4>Reviews by hand</h4><p id="n-reviews">–</p></div>
-        <div class="f"><h4>Outside clock</h4><p id="n-clock">–</p></div>
+        <div class="f"><h3>Next runs</h3><p id="n-runs">–</p></div>
+        <div class="f"><h3>Monthly and quarterly</h3><p id="n-cycles">–</p></div>
+        <div class="f"><h3>Reviews by hand</h3><p id="n-reviews">–</p></div>
+        <div class="f"><h3>Outside clock</h3><p id="n-clock">–</p></div>
       </div>
     </section>
 
     <section class="section" aria-labelledby="h-sys">
       <div class="section-head"><div><div class="kicker">Technical</div><h2 id="h-sys">The system</h2></div></div>
       <div class="facts">
-        <div class="f"><h4>Repository and hosting</h4><p id="s-repo">–</p></div>
-        <div class="f"><h4>Where the jobs run</h4><p id="s-runners">–</p></div>
-        <div class="f"><h4>What starts them</h4><p id="s-clock">–</p></div>
-        <div class="f"><h4>The data-job standard</h4><p id="s-guard">Every job fetches into the runner, then <code>dev/datajob.py</code>
+        <div class="f"><h3>Repository and hosting</h3><p id="s-repo">–</p></div>
+        <div class="f"><h3>Where the jobs run</h3><p id="s-runners">–</p></div>
+        <div class="f"><h3>What starts them</h3><p id="s-clock">–</p></div>
+        <div class="f"><h3>The data-job standard</h3><p id="s-guard">Every job fetches into the runner, then <code>dev/datajob.py</code>
           (run even when a step fails) checks each file: JSON must parse, a CSV must have a header and rows, no file may be emptied, a file
           over 2 KB may not shrink below 20% of its size, and no more than half of a folder may be deleted. Refused files
           are put back, a source that failed keeps its previous data, and the job writes
           <code>shared/data/status/&lt;job&gt;.json</code> and, when anything changed, commits as <code>&lt;Job&gt;: …</code> and pushes, retrying
           after <code>git pull --rebase</code>.</p></div>
-        <div class="f"><h4>Health check</h4><p id="s-health">–</p></div>
-        <div class="f"><h4>This page</h4><p id="s-page">–</p></div>
+        <div class="f"><h3>Health check</h3><p id="s-health">–</p></div>
+        <div class="f"><h3>This page</h3><p id="s-page">–</p></div>
       </div>
     </section>
 

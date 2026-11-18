@@ -196,7 +196,7 @@
     $('chipRoute').hidden = !mars; $('keyRoutes').hidden = !mars || routesState !== 'ok';
     grid.setVisible(S.on.grid);
     for (const t of document.querySelectorAll('.tabs [data-body]')) {
-      const on = t.dataset.body === S.body; t.setAttribute('aria-selected', on); t.setAttribute('aria-pressed', on);
+      const on = t.dataset.body === S.body; t.setAttribute('aria-selected', on);
     }
     $('pmap').setAttribute('aria-label', `${polar() ? `The ${S.view} pole of ${b.name}` : `Map of ${b.name}`}. Drag to move, scroll or pinch to zoom, or use the arrow keys and plus and minus.`);
     stats(); card(); tag(); notes(); globeShow();
@@ -306,7 +306,7 @@
     if (on) { $('pmPos').hidden = true; $('pmTag').hidden = true; }
     if (!on) { if (globe) globe.run(false); return; }
     if (!globe) {
-      globeLoading = globeLoading || import('./globe.js?v=2026111810')
+      globeLoading = globeLoading || import('./globe.js?v=2026111812')
         .then(m => m.start({ frame: $('pmGlobe'), host: $('pmGlobeHost'), over: $('pmGlobeOver'), onPick: choose }))
         .then(g => { globe = g; if (S.view === 'globe') globeShow(); })
         .catch(() => problem('The globe needs WebGL, which this browser could not start. The map views still work.'));

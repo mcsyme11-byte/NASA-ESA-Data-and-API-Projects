@@ -4,6 +4,16 @@ The fixed procedure for checking the whole repository and the whole site (decide
 left CLAUDE.md, the About page, the home page's description, the app description and the Claude project text still
 naming three projects a day after Orbit & Space Watch went live). It is written down so that no step depends on memory.
 
+## The check before every push (decided Nov 18, 2026)
+
+Every copy of the repository runs `sh dev/setup.sh` once, before its first commit. From then on `git push` first runs
+`.githooks/pre-push`: step 1 below in full and the page check (step 3) for the pages the push changes (all pages when a
+file in `shared/` changed), at 375 and 1280 px. A push that fails is not sent; the findings are fixed and the push is
+repeated. `git push --no-verify` is not used. GitHub runs step 1 and the page check of every page after every push
+(`.github/workflows/checks.yml`), so a copy without the hook is still caught. A finding that belongs to another chat
+is handed to it and listed, with its owner and date, in `dev/known_issues.json` and `docs/ROADMAP.md`: the page check
+then shows it as known and does not fail on it, and reports it as overdue after 14 days.
+
 ## When it is used
 
 - whenever a repo-wide or site-wide check, review or tidy-up is asked for;
@@ -75,8 +85,21 @@ python3 dev/check_pages.py                                           # every pag
 FAILDATA=404 python3 dev/check_pages.py --widths 375,1280            # the site's own data files failing too
 ```
 
+Since Nov 18, 2026 it also reports skipped heading levels, table values shown as cards on a phone without their label,
+links in running text that are not underlined, rows scrolled sideways on arrival for no reason, misused `aria-`
+attributes, layout shift above 0.1 as the page loads (Google's "good" limit), and pages that load more than their
+weight budget on arrival (`WEIGHT_KB` and `WEIGHT_OK` in the script). Screenshots are taken with reduced motion, so
+sections that rise into view are in them.
+
 Every finding is fixed or explained. Known and accepted: `bad: 404 …/data/…` for a data job that has not run yet
-(reported to the Data updates chat). The screenshots of every new or changed page are looked at, at 375 and 1280 px.
+(reported to the Data updates chat). The screenshots of every new or changed page are looked at, at 375 and 1280 px:
+cut each long screenshot into strips side by side so the text can be read, and look at the top bar, the Back button,
+the page head, the tab bar, every section, the credits and the footer.
+
+**Speed, by hand, for a new or much changed tool:** Lighthouse (in Chrome's developer tools, or
+`npx lighthouse <address> --only-categories=performance,accessibility`) on a phone setting. Aim: performance 90 or
+more, accessibility 100, no long task over 200 ms while the page is idle. Big parts (a 3D globe, a 5 MB list) load
+when they are opened, not with the page; animations stop while they are off the screen or the tab is hidden.
 
 ## Step 4. Each page, by hand
 
@@ -112,3 +135,55 @@ New pages in detail, the others quickly; at a phone and a computer width:
 2. The rebuilt Project Record is opened: the cover names every project and tool, the front page and Contents are
    current, nothing in "Newly added documents" that belongs in a Part.
 3. The changed pages are opened on the live site (`https://mcsyme11-byte.github.io/NASA-ESA-Data-and-API-Projects/`).
+
+## Rules learned from the review of Nov 18, 2026
+
+The site-wide review of Nov 18, 2026 (every page at seven widths, read by eye, with the page check, axe-core and
+Lighthouse) found the problems below. Each is fixed, and each became a rule. The page check or the style check
+enforces the ones marked (auto).
+
+**Accessibility**
+1. Buttons that switch a view use `aria-pressed`; `aria-selected` belongs only to `role="tab"`, `role="option"` and
+   rows of a selectable list. Table rows never carry `aria-expanded` (auto). (The tracker, Image Explorer, Planetary
+   Maps and the spacecraft list had both.)
+2. Heading levels never skip: h1, then h2, then h3. A section with no visible heading gets `<h2 class="sr">`; a small
+   heading inside a fact box, a step or a callout is an h3 (the theme gives it the small size) (auto).
+3. A link inside running text is underlined (the theme does it for `p`, `li`, `figcaption`, `.note` and `.caption`);
+   never tell a link from text by colour alone (auto).
+4. Every table heading has text (an `.sr` label for a column of buttons); a chart is `role="img"` with an
+   `aria-label`; `role="tabpanel"` goes on a `div` around a list, never on the list; a `div` with an `aria-label` has a
+   `role` (auto for headings).
+
+**Layout**
+5. Every value of a table that becomes cards on a phone carries its label (`data-l` on `.table.stack`, `data-label` on
+   `table.neo`); a cell that holds only a button needs none (auto).
+6. Rules for links inside table cells (bigger tap areas) never apply to `.btn` or `.chip`.
+7. Long column headings wrap (`th.r` is not kept on one line) and tables use tighter cells on tablets, so a wide
+   table fits 768 px (auto: page wider than the screen).
+8. A control kept beside a title (the reload button) stays on the title's line; the title gives way, and a note under
+   it takes its own line only while it shows.
+9. In the footer the " · email" part never breaks apart (`shared/footer.js` keeps it together).
+10. A picture that cannot be loaded is hidden with its figure, never shown as its description in a frame
+    (`shared/footer.js`, for every page without its own error handling).
+11. A bar held at the bottom of the screen has a solid background behind its button; text never shows through.
+12. A sideways row is scrolled on arrival only when its chosen item is out of view, measured against the row itself
+    (auto).
+13. Names copied from a source keep no codes meant for machines (CelesTrak's "[+]", "[-]" and "[P]" after a name).
+
+**Loading and speed**
+14. Nothing jumps as the page loads (layout shift under 0.1) (auto): tiles, stats and filter buttons that a script
+    fills are written into the page first with "…" placeholders of the same size; a line that a script fills is
+    written with a placeholder of about its final length; the class `loading` (the shared placeholder) is never put
+    on `main` or a whole section.
+15. Big parts load only when they are opened: Image Explorer's globe and three.js (about 2 MB) load with the Globe
+    tab, not with the Earth map (auto: weight budget).
+16. Animations draw only while they are on the screen and the tab is visible, and move thousands of points no more
+    often than the eye needs (Orbit Watch's globe: up to ten times a second at normal speed).
+
+**Words**
+17. When a tool goes live, every "coming soon", "in preparation" or "as it goes live" about it goes in the same change
+    (`dev/check_docs.py` checks the project lists; the words on the Space Watch page are read in step 2).
+
+**The checks themselves**
+18. The page check measures each page fresh (a change of `#view` alone does not reload a page) and with reduced
+    motion (sections that rise into view are otherwise empty in the screenshots).

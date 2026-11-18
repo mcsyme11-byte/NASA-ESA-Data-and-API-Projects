@@ -7,6 +7,7 @@
 
 .sc-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--sp4) var(--sp5); }
 .sc-head .updated { margin: var(--sp2) 0 0; }
+.sc-head > div:first-child { flex-basis: 100%; }   /* the views always on their own row: the count line fills in late and pushed them down (Nov 18, 2026) */
 
 .sc-grid { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 22px; align-items: start; }
 .sc-side { position: sticky; top: 80px; max-height: calc(100vh - 100px); display: flex; flex-direction: column; min-width: 0; }

@@ -14,9 +14,9 @@
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
   <link rel="stylesheet" href="../shared/vendor/ol-10.11.0/ol.css">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111810">
-  <script type="module" src="../shared/footer.js?v=2026111810"></script>
-  <link rel="stylesheet" href="explorer.css?v=2026111810">
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111812">
+  <script type="module" src="../shared/footer.js?v=2026111812"></script>
+  <link rel="stylesheet" href="explorer.css?v=2026111812">
 </head>
 <body>
   <header class="topbar">
@@ -43,9 +43,9 @@
 
     <nav class="tabs bar" aria-label="Image Explorer">
         <a href="./">Overview</a>
-        <button type="button" aria-selected="true" aria-pressed="true" data-view="earth">Earth map</button>
-        <button type="button" aria-selected="false" aria-pressed="false" data-view="globe">Globe</button>
-        <button type="button" aria-selected="false" aria-pressed="false" data-view="library">Picture library</button>
+        <button type="button" aria-pressed="true" data-view="earth">Earth map</button>
+        <button type="button" aria-pressed="false" data-view="globe">Globe</button>
+        <button type="button" aria-pressed="false" data-view="library">Picture library</button>
     </nav>
 
     <!-- ===================== EARTH MAP ===================== -->
@@ -182,7 +182,7 @@
 
       <div class="gwrap">
         <div class="frame globeframe" id="globeFrame" tabindex="0" aria-describedby="gKeys">
-          <div id="globe" aria-label="A globe of the Earth inside the sky, with NASA events and the sky's best-known galaxies, nebulae and star clusters"></div>
+          <div id="globe" role="region" aria-label="A globe of the Earth inside the sky, with NASA events and the sky's best-known galaxies, nebulae and star clusters"></div>
           <canvas id="gOver" aria-hidden="true"></canvas>
           <div class="maptag" id="gTag">Loading the globe…</div>
           <div class="gzoom">
@@ -344,6 +344,11 @@
     { "imports": { "three": "../shared/vendor/three-0.187.0/three.module.js",
                    "three/addons/": "../shared/vendor/three-0.187.0/" } }
   </script>
-  <script type="module" src="globe.js"></script>
+  <script type="module">
+    // the globe and three.js (about 2 MB) load only when the Globe tab is first opened, not with the Earth map
+    const loadGlobe = () => import('./globe.js');
+    if (!document.getElementById('view-globe').hidden) loadGlobe();
+    else document.addEventListener('viewchange', (e) => { if (e.detail === 'globe') loadGlobe(); });
+  </script>
 </body>
 </html>

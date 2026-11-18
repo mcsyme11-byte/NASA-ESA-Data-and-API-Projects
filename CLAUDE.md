@@ -29,6 +29,9 @@ information pages (`about/`, `contact/`, `credits/`, `legal/`, `privacy/`, `term
 Shared code and the look are in `shared/`; documents in `docs/`. It is separate from the Flight Deck Suite and Hot Mic
 (their own repositories), but shares their look.
 
+**First command in every new copy of the repository:** `sh dev/setup.sh` (switches on the check before every push,
+`docs/CHECKS.md`).
+
 **Start every new chat here:** read `docs/PROJECT-NOTES.md` (decisions, how it's built), `docs/ROADMAP.md` (what's
 next and every pending to-do), `docs/DATA-SOURCES.md` (APIs, keys, limits) and the latest file in `docs/handoffs/`, if
 any (its confirmed answers at the top override older notes). Work on one project at a time, in that project's chat,
@@ -48,6 +51,13 @@ inside its own folder.
   page check (`dev/check_pages.py`) at every width, each page by hand, the repository's organisation, and the
   Project Record after pushing. A check is not finished until every step is done; the report lists each step's
   result. When a step finds something a check let through, the check is extended in the same change.
+- **The check before every push (decided Nov 18, 2026):** no change reaches the site or the repository until it has
+  passed `docs/CHECKS.md`: `git push` runs `.githooks/pre-push` (the wording, style and documents checks, and the page
+  check of the pages changed at 375 and 1280 px), and GitHub runs the same checks on every page after the push. A
+  failing push is fixed, never forced past (`--no-verify` is not used). A finding that belongs to another chat goes to
+  it as a handoff and into `dev/known_issues.json` and `docs/ROADMAP.md`. Before pushing a visual change, the
+  screenshots of the pages it touches are also looked at by eye (`docs/CHECKS.md`, step 3), and its rules ("Rules
+  learned from the review of Nov 18, 2026") are followed.
 - **After every change that's finished and checked,** commit and push it to `main` with a short plain-English commit
   message, and update `docs/ROADMAP.md` (remove what's done: the whole item with its indented lines, never a section
   heading; `dev/check_docs.py` checks the shape), `CHANGELOG.md` and, for milestones, `docs/HISTORY.md`. When a
@@ -178,4 +188,6 @@ python3 dev/check_wording.py    # wording, personal details and keys
 python3 dev/check_styles.py     # shared components, page styles, version tags and project tab bars
 python3 dev/check_docs.py       # every place that describes the site names every live project; roadmap; doc links
 python3 dev/check_pages.py      # every page in a browser at every width (Playwright; docs/CHECKS.md, step 3)
+python3 dev/check_pages.py --changed   # the pages changed since origin/main, at 375 and 1280 px (run before each push)
+sh dev/setup.sh                 # once per copy: the check before every push, and the page check's browser
 ```

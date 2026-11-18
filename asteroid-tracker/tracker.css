@@ -369,4 +369,4 @@ dl.mini dd { margin: 0; }
 .dvchart .limitlab { font-size: 12px; fill: var(--red); }
 
 /* links in the asteroid tables on phones (the name, "JPL's page"): a 40 px tap area without moving the text (Nov 18, 2026) */
-@media (max-width: 760px) { .neo td a { display: inline-block; padding: 10px 0; margin: -10px 0; } }
+@media (max-width: 760px) { .neo td a:not(.btn):not(.chip) { display: inline-block; padding: 10px 0; margin: -10px 0; } }

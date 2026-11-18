@@ -14,9 +14,9 @@
   <link rel="manifest" href="../../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../../shared/theme.css?v=2026111810">
-  <script type="module" src="../../shared/footer.js?v=2026111810"></script>
-  <link rel="stylesheet" href="../mars.css?v=2026111810">
+  <link rel="stylesheet" href="../../shared/theme.css?v=2026111812">
+  <script type="module" src="../../shared/footer.js?v=2026111812"></script>
+  <link rel="stylesheet" href="../mars.css?v=2026111812">
 </head>
 <body>
   <header class="topbar">
@@ -359,20 +359,20 @@
   (async () => {
     const notice = document.getElementById("pageNotice");
     const main = document.querySelector("main");
-    main.classList.add("loading");
+    main.setAttribute("aria-busy", "true");          // not the class "loading": that is the shared placeholder (it drew lines above the page head)
     let M;
     try {
       const r = await fetch("../data/summary.json", { cache: "no-cache" });
       if (!r.ok) throw new Error(r.status);
       M = await r.json();
     } catch (e) {
-      main.classList.remove("loading");
+      main.removeAttribute("aria-busy");
       // Everything that needs the data is hidden; the page head, the notice and the credits stay.
       [...main.children].forEach(x => { if (!x.matches(".backlink, .pagehead, #pageNotice, .srcline, footer, script")) x.hidden = true; });
       notice.innerHTML = `<div class="notice warn"><span>The Mars data could not be loaded. Check the connection and reload the page.</span></div>`;
       return;
     }
-    main.classList.remove("loading");
+    main.removeAttribute("aria-busy");
     const C = Object.fromEntries(M.cols.map((c, i) => [c, i]));
     const rows = M.rows.map(r => Object.fromEntries(M.cols.map((c, i) => [c, r[i]])));
     const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();

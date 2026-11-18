@@ -70,8 +70,9 @@ function render() {
       const type = x.type.measured ? `${esc(x.type.label)} <span class="s">type ${esc(x.type.code)}</span>` : 'Unknown';
       const launch = x.launch ? monthText(x.launch) : `<a href="${nhatsPage(r.des)}" target="_blank" rel="noopener">JPL's page ›</a>`;
       return `<tr data-href="${esc(href)}"${ext ? ' data-ext="1"' : ''} tabindex="0"><td><a href="${esc(href)}"${ext ? ' target="_blank" rel="noopener"' : ''}>${esc(r.name)}</a></td>`
-        + `<td class="num">${sizeText(x.size)}${x.size && !x.size.measured ? '<span class="s">from brightness</span>' : ''}</td>`
-        + `<td>${type}</td><td class="num">${fmt(r.dv, 1)} km/s</td><td class="num">${fmt(r.dur)} days</td><td>${launch}</td></tr>`;
+        + `<td class="num" data-label="Size"><span>${sizeText(x.size)}${x.size && !x.size.measured ? '<span class="s">from brightness</span>' : ''}</span></td>`
+        + `<td data-label="Made of">${type}</td><td class="num" data-label="Round trip">${fmt(r.dv, 1)} km/s</td>`
+        + `<td class="num" data-label="Trip length">${fmt(r.dur)} days</td><td data-label="Cheapest launch">${launch}</td></tr>`;
     }).join('');
   }
   const left = list.length - st.shown;
@@ -108,7 +109,7 @@ $('#table tbody').addEventListener('keydown', (e) => {
 });
 
 $('#missions tbody').innerHTML = MISSIONS.map((m) => `<tr><td>${esc(m.name)} <span class="badge ${m.badge}">${esc(m.agency)}</span></td>`
-  + `<td>${m.des ? `<a href="object.html?id=${2000000 + Number(m.des)}">${esc(m.target)}</a>` : esc(m.target)}</td>`
-  + `<td>${esc(m.type)}, ${esc(m.size)}</td><td>${esc(m.did)}</td></tr>`).join('');
+  + `<td data-label="Target">${m.des ? `<a href="object.html?id=${2000000 + Number(m.des)}">${esc(m.target)}</a>` : esc(m.target)}</td>`
+  + `<td data-label="Type, size">${esc(m.type)}, ${esc(m.size)}</td><td data-label="What it did">${esc(m.did)}</td></tr>`).join('');
 
 load();

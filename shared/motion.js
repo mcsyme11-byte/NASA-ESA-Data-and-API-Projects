@@ -74,13 +74,13 @@ function glideTabs(row) {
   g.setAttribute('aria-hidden', 'true');
   row.appendChild(g);
   const place = () => {
-    const cur = row.querySelector('[aria-selected="true"], [aria-current]');
+    const cur = row.querySelector('[aria-selected="true"], [aria-pressed="true"], [aria-current]');
     if (!cur || !cur.offsetWidth) { g.style.opacity = '0'; return; }
     g.style.opacity = '1';
     g.style.width = cur.offsetWidth + 'px';
     g.style.transform = `translate(${cur.offsetLeft}px, ${cur.offsetTop + cur.offsetHeight - g.offsetTop - 2}px)`;
   };
-  new MutationObserver(place).observe(row, { subtree: true, attributes: true, attributeFilter: ['aria-selected', 'aria-current'] });
+  new MutationObserver(place).observe(row, { subtree: true, attributes: true, attributeFilter: ['aria-selected', 'aria-pressed', 'aria-current'] });
   new ResizeObserver(place).observe(row);
   place();
 }

@@ -102,7 +102,16 @@ function buildFooter() {
   const lnav = Object.assign(document.createElement('nav'), { className: 'flinks' });
   lnav.setAttribute('aria-label', 'Legal');
   for (const [label, href, o] of LEGAL) lnav.append(link(label, href, o));
-  if (copy) legal.append(copy);
+  if (copy) {
+    // the " · email" part stays together, so a narrow screen never leaves the dot alone at the end of a line
+    const mail = copy.querySelector('a[href^="mailto:"]'), sep = mail && mail.previousSibling;
+    if (sep && sep.nodeType === 3 && /·\s*$/.test(sep.textContent)) {
+      sep.textContent = sep.textContent.replace(/\s*·\s*$/, ' ');
+      const keep = document.createElement('span'); keep.className = 'nowrap';
+      mail.before(keep); keep.append('· ', mail);
+    }
+    legal.append(copy);
+  }
   legal.append(lnav);
 
   const top = footer.querySelector('.ftop');
@@ -154,7 +163,12 @@ function wireScrollRows() {
     el.addEventListener('scroll', () => fades(el), { passive: true });
     if (ro) ro.observe(el);
     const sel = el.querySelector('[aria-current="page"], [aria-selected="true"], [aria-pressed="true"]');
-    if (sel && el.scrollWidth > el.clientWidth) el.scrollLeft = Math.max(0, sel.offsetLeft - (el.clientWidth - sel.offsetWidth) / 2);
+    // the selected item is scrolled into the middle only when it is not already fully in view (measured against the
+    // row itself: offsetLeft counts from the nearest positioned parent, which scrolled rows whose first item was chosen)
+    if (sel && el.scrollWidth > el.clientWidth) {
+      const r = el.getBoundingClientRect(), q = sel.getBoundingClientRect(), x = q.left - r.left + el.scrollLeft;
+      if (q.left < r.left || q.right > r.right) el.scrollLeft = Math.max(0, x - (el.clientWidth - q.width) / 2);
+    }
     fades(el);
   };
   const scan = () => document.querySelectorAll(HSCROLL).forEach(init);
@@ -209,8 +223,21 @@ async function addLiveStatus() {
 // Reading progress, back to top, gliding tabs and rising sections (shared/motion.js, since Nov 18, 2026)
 async function addMotion() {
   try { (await import(new URL('motion.js' + new URL(import.meta.url).search, import.meta.url).href)).startMotion(); } catch { /* the page works without it */ }
+  // the small surprises (shared/eggs.js), once the page is idle
+  const later = window.requestIdleCallback || ((f) => setTimeout(f, 1500));
+  later(() => import(new URL('eggs.js' + new URL(import.meta.url).search, import.meta.url).href).catch(() => {}));
 }
 
-function start() { buildFooter(); wireBack(); wireScrollRows(); addLiveStatus(); addMotion(); }
+// a picture that cannot be loaded, from a page with no error handling of its own (no onerror), is hidden with its
+// frame and caption instead of showing its description as a block of text (Nov 18, 2026)
+document.addEventListener('error', (e) => {
+  const img = e.target;
+  if (!(img instanceof HTMLImageElement) || img.onerror || img.hasAttribute('data-keep')) return;
+  img.classList.add('img-failed');
+}, true);
+// pictures that had already failed before this script ran
+const failedEarly = () => { for (const img of document.images) if (img.complete && img.currentSrc && !img.naturalWidth && !img.onerror && !img.hasAttribute('data-keep')) img.classList.add('img-failed'); };
+
+function start() { buildFooter(); wireBack(); wireScrollRows(); addLiveStatus(); addMotion(); failedEarly(); }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
 else start();

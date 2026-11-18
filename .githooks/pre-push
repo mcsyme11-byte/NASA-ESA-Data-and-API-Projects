@@ -1,0 +1,22 @@
+#!/bin/sh
+# NASA and ESA Data Projects · the check before every push · © 2026 Malcolm Syme · mcsyme11@gmail.com
+#
+# Decided Nov 18, 2026: nothing is pushed to the site or the repository until it passes the checks of docs/CHECKS.md
+# (step 1 and the page check of step 3 for the pages changed). Switched on in each copy of the repository by
+# `sh dev/setup.sh`. GitHub runs the same checks after every push (.github/workflows/checks.yml). Pushing past this
+# check (git push --no-verify) is not allowed by CLAUDE.md.
+set -e
+cd "$(git rev-parse --show-toplevel)"
+echo "Checks before pushing (docs/CHECKS.md):"
+python3 dev/check_wording.py
+python3 dev/check_styles.py
+python3 dev/check_docs.py
+# the page check needs a browser; commits that change only data files (the data jobs) need none
+if git diff --name-only origin/main 2>/dev/null | grep -qvE '/data/|^shared/data/status/|Project Record\.pdf$'; then
+  if ! python3 -c "import playwright" 2>/dev/null; then
+    echo "The page check needs Playwright: pip install playwright && python3 -m playwright install chromium" >&2
+    exit 1
+  fi
+  python3 dev/check_pages.py --changed
+fi
+echo "All checks passed."

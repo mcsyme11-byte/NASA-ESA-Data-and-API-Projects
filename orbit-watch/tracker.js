@@ -65,11 +65,14 @@ const sharper = closeUp(G, { url: GIBS_BLUE_MARBLE });
 
 // ------------------------------------------------------------------ time
 let speed = 1, playing = true, simBase = Date.now(), perfBase = performance.now();
+// the dots are moved at most ten times a second while time runs at up to 60 times real speed (in a tenth of a second a
+// satellite moves under a kilometre, far less than a pixel); faster, and after any change, they move every frame
+let lastPlace = 0, lastRate = -1, placeNow = true;
 const rate = () => (playing ? speed : 0);
 const simNow = () => simBase + (performance.now() - perfBase) * rate();
 const isLive = () => playing && speed === 1 && Math.abs(simNow() - Date.now()) < 5e3;
 function rebase() { simBase = simNow(); perfBase = performance.now(); }
-function setTime(t) { simBase = t; perfBase = performance.now(); ask(); }
+function setTime(t) { simBase = t; perfBase = performance.now(); placeNow = true; ask(); }
 function setSpeed(s) { rebase(); speed = s; $('#owSpeed').value = String(s); }
 function setPlaying(on) { rebase(); playing = on; $('#owPlay').setAttribute('aria-pressed', on); $('#owPlay').textContent = on ? '❚❚ Pause' : '▶ Play'; }
 $('#owPlay').addEventListener('click', () => setPlaying(!playing));
@@ -86,7 +89,7 @@ const worker = new Worker(new URL('propagate.js', import.meta.url), { type: 'mod
 worker.onmessage = (e) => {
   const m = e.data;
   if (m.ready != null) { ask(); return; }
-  pos = m.pos; vel = m.vel; tw = m.t; busy = false;
+  pos = m.pos; vel = m.vel; tw = m.t; busy = false; placeNow = true;
   if ($('#owLoading')) { $('#owLoading').remove(); }
   setTimeout(ask, 120);                                        // a few answers a second; the dots move on between them
 };
@@ -327,7 +330,7 @@ $$('[data-r]').forEach((b) => b.addEventListener('click', () => setView(null, +b
 
 // the kinds shown
 function toggleKind(k, force) {
-  on[k] = force ?? !on[k];
+  on[k] = force ?? !on[k]; placeNow = true;
   const c = $(`.mapbar [data-k="${k}"]`); if (c) c.setAttribute('aria-pressed', on[k]);
   if (sel && key[sel.i] === k && !on[k]) select(null);
 }
@@ -411,16 +414,24 @@ shareButton($('#owShare'), $('#owShareMsg'), () => {
 const shared = takeShared(['sel', 't', 'cam', 'spd']);
 
 // ------------------------------------------------------------------ the loop
-let running = true;
-document.addEventListener('visibilitychange', () => { running = !document.hidden; if (running) requestAnimationFrame(loop); });
+// the globe is drawn only while it can be seen: not in a hidden tab, and not while scrolled off the screen (Nov 18,
+// 2026: drawing 35,000 dots every frame kept a phone busy even with the globe out of sight)
+let running = true, looping = true, onScreen = true;
+const kick = () => { running = !document.hidden && onScreen; if (running && !looping) { looping = true; requestAnimationFrame(loop); } };
+document.addEventListener('visibilitychange', kick);
+new IntersectionObserver((es) => { onScreen = es[0].isIntersecting; kick(); }).observe(frame);
+
 let lastClock = '';
 const follow = new THREE.Vector3();
 function loop() {
-  if (!running) return;
+  if (!running) { looping = false; return; }
   const t = simNow();
   G.body.rotation.y = gmst(t);
   if (G.night) G.night.update(t);
-  if (pts) placeAll(t);
+  const now = performance.now(), r = rate();
+  if (pts && (placeNow || r !== lastRate || r > 60 || (r > 0 && now - lastPlace > 100))) {
+    placeAll(t); lastPlace = now; lastRate = r; placeNow = false;
+  }
   for (const [s, w] of [[sel, 0], [pair, 1]]) if (s && Math.abs(t - s.lineT) > 300e3) orbitLine(s, t, w);
   if (following && sel && at(sel.i, t, follow)) camera.position.copy(follow.normalize().multiplyScalar(camera.position.length()));
   G.stepFly(); G.paceControls(); controls.update(); sharper();

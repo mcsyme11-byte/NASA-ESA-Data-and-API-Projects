@@ -12,6 +12,12 @@
 #   noname     a control with no name for screen readers; nolabel a field without a label; noalt an image without alt
 #   dupid      an id used twice                    h1       not exactly one visible h1
 #   errors     script errors                       bad      a file of the site that is missing (404)
+#   headings   a heading level skipped (h2 straight to h4)
+#   nolabelcell a value in a table shown as cards on a phone without its label (data-l or data-label)
+#   plainlink  a link inside running text that is not underlined (told apart by colour alone)
+#   scrolled   a sideways row scrolled on arrival although its chosen first item was in view
+#   aria       aria-selected outside tabs, options and rows; aria-expanded on a table row; an empty table heading
+#   layout-shift  the page jumps as it loads (more than CLS_MAX)     weight  more loaded on arrival than the budget
 # Requests to other sites are blocked, so every page is also seen in its "NASA out of reach" state; with
 # FAILDATA=404 the site's own data files fail too. Screenshots of every page land in the output folder.
 #
@@ -20,13 +26,25 @@
 #   python3 dev/check_pages.py --widths 320,1280       chosen widths
 #   python3 dev/check_pages.py --only orbit-watch      pages whose address contains the text
 #   python3 dev/check_pages.py --out /tmp/pages        where the screenshots and report.json go (default /tmp/nedap-pages)
+#   python3 dev/check_pages.py --changed               only the pages touched since origin/main (all pages when shared/
+#                                                       files changed), at 375 and 1280 px: what the pre-push check runs
 # Exit code 1 when anything is found. A missing data file of a job that has not run yet ("bad: 404 …/data/…") is
 # reported to the Data updates chat, not fixed in the page.
 import asyncio, functools, http.server, json, os, re, subprocess, sys, threading
 from playwright.async_api import async_playwright
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CHANGED = False
 WIDTHS = [320, 375, 390, 768, 1024, 1280, 1440]
+# budgets (Nov 18, 2026): layout shift as a page loads (Google's "good" limit is 0.1), and what a page loads on
+# arrival; the tools that are big by nature have their own budget, and nothing else may grow past the general one
+CLS_MAX = 0.1
+WEIGHT_KB = 2500
+# (weights are as served by the local server, before GitHub Pages compresses them to about a third)
+WEIGHT_OK = {'orbit-watch/tracker.html': 6000, 'asteroid-tracker/map.html': 7000, 'image-explorer/explore.html#globe': 6000,
+             'image-explorer/explore.html': 3500, 'spacecraft/': 4000,
+             # the year view and the search read the whole asteroid list (data/neos.json, about 43,000 orbits) on purpose
+             'asteroid-tracker/tracker.html#year': 6500, 'asteroid-tracker/tracker.html#search': 6500}   # first match wins
 # views that are not separate files: a page's tabs reached by address, and one asteroid's own page
 EXTRA = ['asteroid-tracker/tracker.html#year', 'asteroid-tracker/tracker.html#search', 'asteroid-tracker/object.html?id=99942']
 
@@ -41,6 +59,16 @@ def pages():
     js = open(os.path.join(ROOT, 'shared/footer.js'), encoding='utf-8').read()
     out += sorted(set(re.findall(r"'([\w./-]+\.html#\w+|[\w./-]+/#\w+)'", js)))      # tab views listed in SECTIONS
     return out + EXTRA
+
+
+def changed_pages(all_pages):
+    """Pages touched by the commits not yet on origin/main (and the working tree): all of them when a shared file changed."""
+    diff = subprocess.run(['git', 'diff', '--name-only', 'origin/main'], cwd=ROOT, capture_output=True, text=True).stdout.split()
+    if any(f.startswith('shared/') or f == 'dev/check_pages.py' for f in diff):
+        return all_pages
+    folders = {f.split('/')[0] for f in diff if '/' in f}
+    roots = {f for f in diff if '/' not in f and f.endswith('.html')}
+    return [p for p in all_pages if p.split('/')[0] in folders or (not p and 'index.html' in roots) or p in roots]
 
 
 def serve():
@@ -125,6 +153,35 @@ JS = r"""
     if (!vis(e)) continue; const cs = getComputedStyle(e);
     if (/auto|scroll/.test(cs.overflowX) && e.scrollWidth > e.clientWidth + 2 && e.clientHeight < 120 && !e.classList.contains('hscroll')) out.nofade = (out.nofade||[]).concat([desc(e).slice(0,80)]);
   }
+  // (Nov 18, 2026) heading levels: no step down of more than one (h2 straight to h4)
+  out.headings = []; let last = 0;
+  for (const h of document.querySelectorAll('main h1, main h2, main h3, main h4, main h5, main h6')) {
+    if (!vis(h) && !h.classList.contains('sr')) continue; const lv = +h.tagName[1];
+    if (last && lv > last + 1) out.headings.push(`h${last} → ${desc(h).slice(0, 60)}`); last = lv; }
+  // (Nov 18, 2026) on phones every value of a table shown as cards carries its label
+  if (phone) for (const td of document.querySelectorAll('.table.stack td:not(:first-child), table.neo td:not(:first-child)')) {
+    if (!vis(td) || td.colSpan > 1 || td.closest('tr.drow, tr.msg') || !td.textContent.trim()) continue;
+    if (td.children.length === 1 && td.firstElementChild.matches('.btn, .chip') && td.textContent.trim() === td.firstElementChild.textContent.trim()) continue;
+    if (!td.hasAttribute('data-l') && !td.hasAttribute('data-label')) { (out.nolabelcell = out.nolabelcell || []).push(desc(td).slice(0, 60)); } }
+  // (Nov 18, 2026) a link inside running text is underlined, not told apart by its colour alone
+  for (const a of document.querySelectorAll('main p a[href], main li a[href], main figcaption a[href], main .note a[href], main .caption a[href]')) {
+    if (!vis(a) || a.className || a.closest('nav, .footer, .tabs, .card, .btn, button, [role=tab]')) continue;
+    const cs = getComputedStyle(a); if (cs.display !== 'inline') continue;
+    if (!cs.textDecorationLine.includes('underline') && !parseFloat(cs.borderBottomWidth)) (out.plainlink = out.plainlink || []).push(desc(a).slice(0, 60)); }
+  // (Nov 18, 2026) a sideways-scrolling row is not scrolled on arrival when its chosen item is already in view
+  for (const r of document.querySelectorAll('.hscroll')) {
+    const sel = r.querySelector('[aria-pressed="true"], [aria-selected="true"], [aria-current]');
+    if (sel && r.scrollLeft > 2 && sel === r.firstElementChild) (out.scrolled = out.scrolled || []).push(desc(r).slice(0, 60)); }
+  // (Nov 18, 2026) aria-selected only on tabs, options and grid rows; buttons that switch a view use aria-pressed
+  for (const e of document.querySelectorAll('[aria-selected]')) {
+    const role = e.getAttribute('role') || '';
+    if (!/^(tab|option|row|gridcell|columnheader|rowheader|treeitem)$/.test(role) && e.tagName !== 'TR' && e.tagName !== 'LI') (out.aria = out.aria || []).push(desc(e).slice(0, 60) + ' aria-selected'); }
+  for (const e of document.querySelectorAll('tr[aria-expanded]')) (out.aria = out.aria || []).push(desc(e).slice(0, 40) + ' aria-expanded on a table row');
+  for (const th of document.querySelectorAll('th')) if (vis(th) && !th.textContent.trim() && !th.getAttribute('aria-label')) (out.aria = out.aria || []).push('an empty table heading');
+  // page weight and layout shift (measured by the page check's start-up script)
+  const res = performance.getEntriesByType('resource').concat(performance.getEntriesByType('navigation'));
+  out.kb = Math.round(res.reduce((t, r) => t + (r.encodedBodySize || r.transferSize || 0), 0) / 1024);
+  out.cls = Math.round((window.__cls || 0) * 1000) / 1000;
   const ids = {}; for (const e of document.querySelectorAll('[id]')) ids[e.id] = (ids[e.id] || 0) + 1;
   out.dupid = Object.entries(ids).filter(([k, v]) => v > 1).map(([k, v]) => k + '×' + v);
   out.h1 = [...document.querySelectorAll('h1')].filter(vis).length;
@@ -139,10 +196,19 @@ async def run(outdir, widths, only):
     os.makedirs(outdir, exist_ok=True)
     base = serve()
     report = {}
+    todo = changed_pages(pages()) if CHANGED else pages()
+    if not todo:
+        print('Page check: no page changed.')
+        return 0
     async with async_playwright() as p:
         b = await p.chromium.launch()
         for w in widths:
-            ctx = await b.new_context(viewport={'width': w, 'height': 900}, service_workers='block', device_scale_factor=1)
+            # reduced motion: sections that rise into view when scrolled to would otherwise stay invisible below the first
+            # screen, in the screenshots and in every check above (found Nov 18, 2026)
+            ctx = await b.new_context(viewport={'width': w, 'height': 900}, service_workers='block', device_scale_factor=1,
+                                      reduced_motion='reduce')
+            # layout shift as the page loads (Nov 18, 2026: tiles and stats drawn only by script pushed pages down)
+            await ctx.add_init_script("window.__cls=0;new PerformanceObserver(l=>{for(const e of l.getEntries())if(!e.hadRecentInput)window.__cls+=e.value}).observe({type:'layout-shift',buffered:true});")
             pg = await ctx.new_page()
             errs, bad = [], []
             pg.on('pageerror', lambda e: errs.append('pageerror: ' + str(e)[:160]))
@@ -157,10 +223,11 @@ async def run(outdir, widths, only):
                     return await route.continue_()
                 return await route.abort()
             await pg.route('**/*', handler)
-            for u in pages():
+            for u in todo:
                 if only and only not in u:
                     continue
                 errs.clear(); bad.clear()
+                await pg.goto('about:blank')                 # every page fresh: a change of #view alone does not reload it
                 try:
                     await pg.goto(base + u, wait_until='load', timeout=30000)
                 except Exception as e:
@@ -178,29 +245,51 @@ async def run(outdir, widths, only):
             await ctx.close()
         await b.close()
     json.dump(report, open(f'{outdir}/report.json', 'w'), indent=1)
+    known = json.load(open(os.path.join(ROOT, 'dev/known_issues.json'), encoding='utf-8'))['issues']
     found = 0
+    import datetime
+    today = datetime.date.today()
     for k, r in report.items():
         issues = {x: r.get(x) for x in ('clip', 'svgclip', 'nofade', 'offscreen', 'overlap', 'tap', 'tiny', 'noname', 'noalt',
                                         'dupid', 'nolabel', 'errors', 'bad') if r.get(x)}
+        for x in ('headings', 'nolabelcell', 'plainlink', 'scrolled', 'aria'):
+            if r.get(x):
+                issues[x] = r[x]
+        if r.get('cls', 0) > CLS_MAX:
+            issues['layout-shift'] = f"{r['cls']} (more than {CLS_MAX}: something is drawn late and pushes the page; draw placeholders in the HTML)"
+        page = k.split(' ', 1)[1]
+        budget = next((kb for pat, kb in WEIGHT_OK.items() if pat in page), WEIGHT_KB)
+        if r.get('kb', 0) > budget:
+            issues['weight'] = f"{r['kb']} kB loaded (budget {budget} kB; load big parts only when they are opened)"
         if r.get('sw', 0) > r.get('W', 0):
             issues['PAGE-WIDE'] = f"{r['sw']}>{r['W']}"
         if r.get('h1') != 1:
             issues['h1'] = r.get('h1')
         if 'evalerror' in r:
             issues['eval'] = r['evalerror']
+        page = k.split(' ', 1)[1]
+        mark = {}
+        for x in list(issues):
+            hit = next((i for i in known if i['check'] == x and page.startswith(i['page'])), None)
+            if hit:
+                age = (today - datetime.date.fromisoformat(hit['since'])).days
+                mark[x] = f"known, with the {hit['owner']} chat since {hit['since']}" + (' (OVERDUE: over 14 days)' if age > 14 else '')
         if issues:
-            found += 1
+            if any(x not in mark for x in issues):
+                found += 1
             print('==', k)
             for x, v in issues.items():
                 if isinstance(v, list):
                     v = v[:8] + (['…+%d' % (len(v) - 8)] if len(v) > 8 else [])
-                print('  ', x, v)
-    print(f'\nPage check: {len(report)} page views, {found} with something to look at. Screenshots: {outdir}')
+                print('  ', x, v, ('  [' + mark[x] + ']') if x in mark else '')
+    print(f'\nPage check: {len(report)} page views, {found} with something to fix (known issues in dev/known_issues.json are '
+          f'shown but do not count). Screenshots: {outdir}')
     return found
 
 
 if __name__ == '__main__':
     a = sys.argv[1:]
     opt = lambda k, d=None: a[a.index(k) + 1] if k in a else d
-    widths = [int(x) for x in opt('--widths', ','.join(map(str, WIDTHS))).split(',')]
+    CHANGED = '--changed' in a
+    widths = [int(x) for x in opt('--widths', '375,1280' if CHANGED else ','.join(map(str, WIDTHS))).split(',')]
     sys.exit(1 if asyncio.run(run(opt('--out', '/tmp/nedap-pages'), widths, opt('--only'))) else 0)

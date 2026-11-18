@@ -1,5 +1,32 @@
 # Change log
 
+## November 18, 2026 — Site-wide review: formatting, accessibility, speed, small surprises and the check before every push
+
+- **Review:** every page and view at seven widths (320 to 1440 px), read by eye from screenshots, with the page check,
+  axe-core (accessibility and contrast) and Lighthouse (speed). No contrast failures; the findings below are fixed.
+- **Accessibility:** view buttons use `aria-pressed` only (tracker, Image Explorer, Planetary Maps tabs, spacecraft
+  list); no `aria-expanded` on table rows; no skipped heading levels (hidden section headings on the home, Legal and
+  tracker pages; fact, step and callout headings are h3); links inside running text are underlined site-wide; the
+  empty column heading, the data-collection chart, Sky Finder's install steps and the globe region are labelled.
+- **Layout:** Within reach's table labels its values on phones; table "Watch" buttons sit properly; card-style table
+  values keep their column when they wrap; tables fit tablets (tighter cells, wrapping headings); panel reload
+  buttons stay beside long titles on phones; the footer's " · email" no longer breaks; pictures that cannot be loaded
+  are hidden instead of showing their description; Sky Finder's bottom bar is solid behind its button; rows no longer
+  scroll on arrival when their chosen first item is in view; CelesTrak's "[+]" codes are gone from satellite names;
+  Space Watch's "Each opens here as it goes live" now says all four are live.
+- **Speed:** Orbit Watch's globe draws only while it is on the screen and moves its 35,000 dots up to ten times a
+  second (it kept a phone's processor busy all the time); Image Explorer's globe and three.js (about 2 MB) load only
+  when the Globe tab is opened; nothing jumps as the tracker, Within reach, Planetary Maps, Mars charts, the spacecraft
+  map, Space Weather and Close calls load (placeholders in the page; the Mars charts no longer put the shared
+  placeholder on the whole page).
+- **Small surprises** (`shared/eggs.js`): the home page's patch pressed five times, the Konami code or "liftoff", and
+  a note in the browser console.
+- **The check before every push:** `sh dev/setup.sh` switches on `.githooks/pre-push` (the wording, style and documents
+  checks and the page check of the changed pages); GitHub's Checks now also opens every page at 375 and 1280 px. The
+  page check gained heading order, table labels, underlined links, sideways rows, `aria-` misuse, layout shift and
+  page weight; `dev/known_issues.json` lists handed-off findings. `docs/CHECKS.md` holds the 18 rules learned.
+  Version tag 2026111812.
+
 ## November 18, 2026 — Space weather data job; outside clock complete
 
 - New data job **Space weather data** (`space-weather-data.yml`, 12:37 and 00:37 UTC daily): the Space Weather page's

@@ -4,7 +4,9 @@
 # dev/check_wording.py (neutral wording, no personal paths or user names, no NASA API key: the repository is public),
 # dev/check_styles.py (every page on the shared components of docs/DESIGN.md, no page styles of its own, one
 # version tag, the project tab bars) and dev/check_docs.py (every live project named in the README and the Project
-# Record, the roadmap's shape). If any finds anything, the check fails and GitHub emails the developer. It never changes anything.
+# Record, the roadmap's shape). Since Nov 18, 2026 a second job opens every page in a browser at 375 and 1280 px
+# (dev/check_pages.py, docs/CHECKS.md step 3). If any finds anything, the check fails and GitHub emails the developer.
+# It never changes anything.
 
 name: Checks
 
@@ -29,3 +31,15 @@ jobs:
         run: python3 dev/check_styles.py
       - name: Project names, the roadmap's shape and the Project Record's front page
         run: python3 dev/check_docs.py
+
+  pages:
+    # every page and view in a browser (Chromium): wider than the screen, text cut off or overlapping, small tap
+    # targets, missing labels, skipped heading levels, layout shift, page weight, script errors and missing files
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v6
+      - name: The browser for the page check
+        run: pip install playwright && python3 -m playwright install --with-deps chromium
+      - name: Every page at 375 and 1280 px
+        run: python3 dev/check_pages.py --widths 375,1280 --out /tmp/pages

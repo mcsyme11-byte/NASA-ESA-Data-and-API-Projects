@@ -550,7 +550,7 @@ map.getViewport().addEventListener('mouseleave', () => { $('cursor').hidden = tr
 
 /* ---------- tabs ---------- */
 function show(v) {
-  for (const b of document.querySelectorAll('.tabs [data-view]')) { const s = b.dataset.view === v; b.setAttribute('aria-selected', s); b.setAttribute('aria-pressed', s); }
+  for (const b of document.querySelectorAll('.tabs [data-view]')) { const s = b.dataset.view === v; b.setAttribute('aria-pressed', s); }
   $('view-earth').hidden = v !== 'earth'; $('view-library').hidden = v !== 'library'; $('view-globe').hidden = v !== 'globe';
   if (v === 'earth') map.updateSize(); else stop();
   document.dispatchEvent(new CustomEvent('viewchange', { detail: v }));

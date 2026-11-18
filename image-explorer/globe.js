@@ -491,3 +491,7 @@ for (const c of document.querySelectorAll('[data-show]')) {
     if (k === 'night' && night) night.visible = vis.night;
   });
 }
+
+/* ---------- loaded late (explore.html loads this file only when the Globe tab is first opened, Nov 18, 2026): the
+   tab is already showing, so start at once ---------- */
+if (!$('view-globe').hidden && !started) { init(); resize(); run(); }

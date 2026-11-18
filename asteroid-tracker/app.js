@@ -167,7 +167,7 @@ function weekTable(list) {
   } else {
     $('#weekTable tbody').innerHTML = shown.map((o) => {
       const sel = o.id === state.selected;
-      return `<tr data-id="${esc(o.id)}" aria-selected="${sel}" aria-expanded="${sel}" tabindex="0">
+      return `<tr data-id="${esc(o.id)}" aria-selected="${sel}" tabindex="0">
         <td data-label="Name">${esc(o.name)}</td>
         <td data-label="Closest (UTC)">${dateText(o.t, true)}</td>
         <td data-label="Size, est." class="num"><span>${sizeText(o)}</span></td>
@@ -430,7 +430,7 @@ const hashView = () => (location.hash === '#search' ? 'search' : location.hash =
 let search = null, risk = null, visible = null;
 function setView(v, year) {
   state.view = v;
-  $$('[data-view]').forEach((x) => { x.setAttribute('aria-pressed', x.dataset.view === v); x.setAttribute('aria-selected', x.dataset.view === v); });
+  $$('[data-view]').forEach((x) => { x.setAttribute('aria-pressed', x.dataset.view === v); });
   $('#view-week').hidden = v !== 'week';
   $('#view-year').hidden = v !== 'year';
   $('#view-search').hidden = v !== 'search';

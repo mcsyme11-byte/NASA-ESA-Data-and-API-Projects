@@ -10,9 +10,9 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111810">
-  <link rel="stylesheet" href="sky-finder.css?v=2026111810">
-  <script type="module" src="../shared/footer.js?v=2026111810"></script>
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111812">
+  <link rel="stylesheet" href="sky-finder.css?v=2026111812">
+  <script type="module" src="../shared/footer.js?v=2026111812"></script>
 </head>
 <body class="sf">
   <header class="sfbar">
@@ -38,16 +38,16 @@
           <button role="tab" type="button" aria-selected="true" aria-controls="pIos" id="tIos">iPhone</button>
           <button role="tab" type="button" aria-selected="false" aria-controls="pAnd" id="tAnd" tabindex="-1">Android</button>
         </div>
-        <ol class="steps" id="pIos" role="tabpanel" aria-labelledby="tIos">
+        <div id="pIos" role="tabpanel" aria-labelledby="tIos"><ol class="steps">
           <li><b>Safari</b>Open Sky Finder in Safari.</li>
           <li><b>Share</b>Tap the Share button: the square with an arrow.</li>
           <li><b>Add to Home Screen</b>Choose it in the list, then tap Add.</li>
-        </ol>
-        <ol class="steps" id="pAnd" role="tabpanel" aria-labelledby="tAnd" hidden>
+        </ol></div>
+        <div id="pAnd" role="tabpanel" aria-labelledby="tAnd" hidden><ol class="steps">
           <li><b>Chrome</b>Open Sky Finder in Chrome.</li>
           <li><b>Menu</b>Tap ⋮ at the top right.</li>
           <li><b>Add to Home screen</b>Or "Install app", depending on the phone.</li>
-        </ol>
+        </ol></div>
         <p class="sfnote">It then opens full screen, like an app, and works with a weak connection once it has been opened online.</p>
       </div>
     </section>

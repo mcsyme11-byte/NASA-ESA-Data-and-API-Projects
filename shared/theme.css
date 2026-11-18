@@ -289,7 +289,14 @@ details.howto b { color: var(--ink); font-weight: 400; }
 .reloader .rnote.ok { color: var(--green); }
 .reloader .rnote.fail { color: var(--red); }
 .reloader .rnote.gone { opacity: 0; }
-.panel > .ph > .phtitle { display: inline-flex; align-items: center; flex-wrap: wrap; gap: var(--sp1) var(--sp3); min-width: 0; }
+.panel > .ph > .phtitle { display: inline-flex; flex-wrap: wrap; align-items: flex-start; gap: 2px var(--sp3); min-width: 0; }
+/* beside a panel's title the button stays on the title's line however long the title (the title gives way, not the
+   button); the note takes its own line under the title only while it shows (Nov 18, 2026) */
+.panel > .ph > .phtitle > :is(h2, h3) { flex: 1 1 0; min-width: 0; }
+.panel > .ph > .phtitle > .reloader { display: contents; }
+.panel > .ph > .phtitle .reload { flex: none; }
+.panel > .ph > .phtitle .rnote { flex: 0 0 100%; contain: inline-size; font-size: 12.5px; }   /* adds no width */
+.panel > .ph > .phtitle .rnote.gone { display: none; }
 @media (max-width: 760px) { .reload { width: 34px; height: 34px; } .reload::before { inset: -3px; } }
 
 /* ============================================================== choices */
@@ -335,7 +342,7 @@ details.howto b { color: var(--ink); font-weight: 400; }
   background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; padding: 0; min-height: 48px;
   display: inline-flex; align-items: center; cursor: pointer; white-space: nowrap; }
 .tabs a:hover, .tabs button:hover { color: var(--ink); }
-.tabs [aria-selected="true"], .tabs [aria-current] { color: var(--brass); border-bottom-color: var(--brass); }
+.tabs [aria-selected="true"], .tabs [aria-pressed="true"], .tabs [aria-current] { color: var(--brass); border-bottom-color: var(--brass); }
 @media (max-width: 760px) { .tabs { gap: 0 var(--sp4); } .tabs a, .tabs button { min-height: 44px; font-size: 11.5px; letter-spacing: .16em; } }
 /* the bar form (since Nov 18, 2026; Space Weather's "On this page" bar, made shared for every project tab bar): it stays
    under the top bar (61 px) while the page scrolls, on the top bar's own background, across the page's gutters; on
@@ -468,6 +475,12 @@ a.tag.link:hover, a.badge:hover { border-color: var(--brass); color: var(--brass
 .table tr:last-child td, table.credits tr:last-child td { border-bottom: 0; }
 .table tbody tr:hover { background: rgba(255, 255, 255, .025); }
 .table .r { text-align: right; white-space: nowrap; }
+.table th.r { white-space: normal; }                 /* long column headings wrap, so a wide table still fits a tablet (Nov 18, 2026) */
+@media (min-width: 761px) and (max-width: 1100px) {   /* tablets: tighter cells, as the asteroid tables have */
+  .table td, .table th { padding-left: var(--sp2); padding-right: var(--sp2); }
+  .table td:first-child, .table th:first-child { padding-left: var(--sp4); }
+  .table td:last-child, .table th:last-child { padding-right: var(--sp4); }
+}
 .table .sub { display: block; font-size: 13px; font-style: italic; color: var(--muted); }
 table.credits td { color: var(--ink2); }
 table.credits td:first-child { color: var(--ink); }
@@ -479,7 +492,11 @@ table.credits td:first-child { color: var(--ink); }
   .table.stack tr, table.credits tr { padding: var(--sp3) var(--sp4); border-bottom: 1px solid var(--line); }
   .table.stack tr:last-child, table.credits tr:last-child { border-bottom: 0; }
   .table.stack td, table.credits td { border: 0; padding: 2px 0; }
-  .table.stack td[data-l]::before { content: attr(data-l); display: inline-block; min-width: 11.5em; font-size: 11px;
+  /* label on the left, value on the right; a value that runs to a second line stays in its column (hanging indent) */
+  .table.stack td[data-l] { padding-left: 8.4rem; text-indent: -8.4rem; }
+  .table.stack td[data-l] > * { text-indent: 0; }
+  .table.stack td[data-l]::before { content: attr(data-l); display: inline-block; width: 8.4rem; padding-right: var(--sp2);
+    box-sizing: border-box; text-indent: 0; vertical-align: baseline; font-size: 11px;
     letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
   .table.stack td:first-child, table.credits td:first-child { font-size: 17px; margin-bottom: 4px; }
   .table.stack .r { text-align: left; }
@@ -495,8 +512,11 @@ table.credits td:first-child { color: var(--ink); }
 .prose h2 { font-size: 25px; margin: var(--sp7) 0 var(--sp4); }
 @media (max-width: 760px) { .prose h2 { font-size: 22px; } }
 .prose h3 { margin: var(--sp6) 0 var(--sp3); }
-.prose a { border-bottom: 1px solid var(--brass-dim); }
-.prose a:hover { border-bottom-color: var(--brass); }
+/* a link inside running text is underlined, so it is told from the text by more than its colour (WCAG 1.4.1; since
+   Nov 18, 2026 everywhere, not only in .prose); menus, tab bars, the footer and styled links keep their own look */
+:is(p, li, dd, figcaption, .note, .caption) a:not([class]):not(nav *):not(.footer *) {
+  text-decoration: underline; text-decoration-color: var(--brass-dim); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+:is(p, li, dd, figcaption, .note, .caption) a:not([class]):not(nav *):not(.footer *):hover { text-decoration-color: currentColor; }
 .summary { border-left: 2px solid var(--brass); padding: var(--sp1) 0 var(--sp1) var(--sp5); margin: 0 0 var(--sp6); }
 .summary p { color: var(--ink); font-size: 18px; }
 .summary p:last-child { margin-bottom: 0; }
@@ -510,7 +530,7 @@ table.credits td:first-child { color: var(--ink); }
 
 .facts { display: grid; gap: var(--sp5); }
 .facts .f { border-left: 2px solid var(--brass-dim); padding-left: var(--sp4); }
-.facts .f h4 { margin-bottom: 4px; }
+.facts .f :is(h3, h4) { font-size: 17px; line-height: 1.35; margin-bottom: 4px; }
 .facts .f p { margin: 0; font-size: 15px; color: var(--ink2); }
 
 .terms { display: grid; grid-template-columns: max-content 1fr; gap: var(--sp3) var(--sp6); margin: 0; }
@@ -531,6 +551,7 @@ table.credits td:first-child { color: var(--ink); }
 * + .steps { margin-top: var(--sp4); }
 .steps li { counter-increment: step; color: var(--ink2); font-size: 15.5px; }
 .steps li::before { content: counter(step); display: block; font-size: 30px; line-height: 1; color: var(--brass); margin-bottom: var(--sp2); }
+.steps li :is(h3, h4) { font-size: 17px; line-height: 1.35; margin-bottom: 4px; color: var(--ink); }
 .steps li b { display: block; color: var(--ink); font-weight: 400; font-size: 17px; margin-bottom: 4px; }
 
 /* two columns: reading on the left, facts on the right */
@@ -580,9 +601,9 @@ svg.chart, .chart { display: block; width: 100%; height: auto; }
 /* ============================================================== callout: a line of text with one action beside it */
 .callout { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp3) var(--sp5); }
 .callout > .t { flex: 1 1 300px; min-width: 0; }
-.callout h4 { margin: 4px 0 2px; }
-.callout h4 a { color: var(--ink); }
-.callout h4 a:hover { color: var(--brass-bright); }
+.callout :is(h3, h4) { font-size: 17px; line-height: 1.35; margin: 4px 0 2px; }
+.callout :is(h3, h4) a { color: var(--ink); }
+.callout :is(h3, h4) a:hover { color: var(--brass-bright); }
 .callout .caption { margin: 0; }
 .callout > img { flex: none; border-radius: 12px; }
 
@@ -620,6 +641,9 @@ a.stage:hover { color: var(--ink); }
 .flegal { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp2) var(--sp6);
   margin-top: var(--sp6); padding-top: var(--sp4); border-top: 1px solid var(--line); }
 .flegal .copy { margin: 0; color: var(--ink2); }
+.nowrap { white-space: nowrap; }                     /* words that must stay on one line (the footer's " · email") */
+/* a picture that failed to load (shared/footer.js), with the figure that holds only it */
+img.img-failed, figure:has(> img.img-failed) { display: none; }
 .flinks { display: flex; flex-wrap: wrap; gap: 0 var(--sp4); }
 .flinks a { display: inline-flex; align-items: center; min-height: 36px; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--ink2); }
 .flinks a:hover, .flinks a[aria-current] { color: var(--brass); }
@@ -748,12 +772,12 @@ a.stage:hover { color: var(--ink); }
   input[type="range"] { min-height: 40px; }
   .display-link { padding-top: 8px; }
   /* small links inside kickers, callout titles and asides: a taller tap area without moving the text */
-  .kicker a, .callout h4 a, .aside a, .notice .t a { display: inline-block; padding: 12px 0; margin: -12px 0; }
+  .kicker a, .callout :is(h3, h4) a, .aside a, .notice .t a { display: inline-block; padding: 12px 0; margin: -12px 0; }
   /* links in the notes under a figure (added Nov 18, 2026) */
   .stat .note a, .tile .note a { display: inline-block; padding: 12px 0; margin: -12px 0; }
   /* the job names on the status board and in the list of sources, and links in table cells (added Nov 17,
      2026): 40 px and more */
-  .job h3 a, .sources .s .n a, .table td a { display: inline-block; padding: 10px 0; margin: -10px 0; }
+  .job h3 a, .sources .s .n a, .table td a:not(.btn):not(.chip) { display: inline-block; padding: 10px 0; margin: -10px 0; }
 }
 
 /* ============================================================== motion: quick, quiet feedback on everything pressable */
@@ -794,7 +818,7 @@ a, button, .btn, .chip, .badge, input, select, summary, .backlink, .back, .nav a
 .totop .arrow { position: relative; transition: transform .2s var(--ease); }
 .totop:hover .arrow { transform: translateY(-2px); }
 .tabs.glides { position: relative; }
-.tabs.glides [aria-selected="true"], .tabs.glides [aria-current] { border-bottom-color: transparent; }
+.tabs.glides [aria-selected="true"], .tabs.glides [aria-pressed="true"], .tabs.glides [aria-current] { border-bottom-color: transparent; }
 .tabs.glides > .glide { position: absolute; left: 0; top: 0; height: 2px; width: 0; pointer-events: none; background: var(--brass);
   box-shadow: 0 0 8px color-mix(in srgb, var(--brass) 50%, transparent);
   transition: transform .35s var(--ease), width .35s var(--ease), opacity .2s var(--ease); }
@@ -823,3 +847,15 @@ a, button, .btn, .chip, .badge, input, select, summary, .backlink, .back, .nav a
 
 /* never rely on motion */
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+/* small surprises (shared/eggs.js, Nov 18, 2026): the home page's patch turns once; a comet crosses the screen */
+img.medal.egg-turn { animation: egg-turn 1.2s var(--ease); }
+@keyframes egg-turn { to { transform: rotate(360deg); } }
+.egg-comet { position: fixed; z-index: 90; top: 18vh; left: -160px; width: 140px; height: 2px; pointer-events: none;
+  border-radius: 2px; background: linear-gradient(90deg, transparent, var(--brass-bright));
+  box-shadow: 0 0 12px color-mix(in srgb, var(--brass-bright) 70%, transparent); transform: rotate(14deg);
+  animation: egg-comet 1.6s cubic-bezier(.3, .1, .4, 1) forwards; }
+.egg-comet::after { content: ""; position: absolute; right: -3px; top: -3px; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--ink); box-shadow: 0 0 10px var(--brass-bright); }
+@keyframes egg-comet { to { left: calc(100vw + 160px); top: 48vh; opacity: .2; } }
+@media (prefers-reduced-motion: reduce) { .egg-comet { display: none; } img.medal.egg-turn { animation: none; } }

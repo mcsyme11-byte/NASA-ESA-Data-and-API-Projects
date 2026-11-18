@@ -23,8 +23,10 @@ function closeTable() {
   if (!list.length) { el.innerHTML = '<p class="empty">No passes in this list this week.</p>'; return; }
   const dist = (km) => (km < 1 ? `${fmt(km * 1000)} m` : `${fmt(km, 2)} km`);
   const chance = (p) => (p > 0 ? `1 in ${fmt(Math.max(1, Math.round(1 / p)))}` : 'very small');
-  const obj = (o) => `${esc(o.name || `Object ${o.id}`)}<span class="sub">${kindLabel(o.kind)} · ${o.id}</span>`;
-  el.innerHTML = '<table class="table stack"><thead><tr><th>When</th><th>Object 1</th><th>Object 2</th><th class="r">Miss distance</th><th class="r">Speed between them</th><th class="r">Chance of hitting</th><th></th></tr></thead><tbody>'
+  // CelesTrak marks each name with its status code ("[+]" working, "[-]" not, "[P]" partly, …): the kind says it in words
+  const clean = (n) => String(n).replace(/\s*\[[^\]]{1,2}\]\s*$/, '');
+  const obj = (o) => `${esc(o.name ? clean(o.name) : `Object ${o.id}`)}<span class="sub">${kindLabel(o.kind)} · ${o.id}</span>`;
+  el.innerHTML = '<table class="table stack"><thead><tr><th>When</th><th>Object 1</th><th>Object 2</th><th class="r">Miss distance</th><th class="r">Speed between them</th><th class="r">Chance of hitting</th><th><span class="sr">Watch on the globe</span></th></tr></thead><tbody>'
     + list.map((p) => `<tr><td data-l="When">${utc(p.tca)}</td><td data-l="Object 1">${obj(p.a)}</td><td data-l="Object 2">${obj(p.b)}</td>`
       + `<td class="r" data-l="Miss distance">${dist(p.km)}</td><td class="r" data-l="Speed">${fmt(p.kms, 1)} km/s</td><td class="r" data-l="Chance">${chance(p.p)}</td>`
       + `<td class="r">${p.globe ? `<a class="btn outline small" href="tracker.html?pass=${p.a.id},${p.b.id}&amp;t=${p.tca}">Watch</a>` : ''}</td></tr>`).join('')

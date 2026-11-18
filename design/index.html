@@ -14,8 +14,8 @@
   <link rel="manifest" href="../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111810">
-  <script type="module" src="../shared/footer.js?v=2026111810"></script>
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111812">
+  <script type="module" src="../shared/footer.js?v=2026111812"></script>
 </head>
 <body>
   <header class="topbar">
@@ -74,8 +74,8 @@
           <p><span class="kicker">Kicker</span> · <span class="lbl">Label</span></p>
         </div>
         <div class="facts">
-          <div class="f"><h4>Numbers line up</h4><p>Digits are all the same width, so 1,111.1 and 8,888.8 take the same space.</p></div>
-          <div class="f"><h4>Small capitals</h4><p>Only for kickers, labels, tabs and buttons, never as a section heading.</p></div>
+          <div class="f"><h3>Numbers line up</h3><p>Digits are all the same width, so 1,111.1 and 8,888.8 take the same space.</p></div>
+          <div class="f"><h3>Small capitals</h3><p>Only for kickers, labels, tabs and buttons, never as a section heading.</p></div>
         </div>
       </div>
     </section>
@@ -302,7 +302,7 @@
       </div>
       <div class="section-head sub"><h2>Callout</h2></div>
       <div class="panel">
-        <div class="pf callout"><div class="t"><h4><a href="#h-write">A callout</a></h4><p class="caption">One line of text with one action, at the foot of a panel.</p></div><a class="btn outline" href="#h-write">Open</a></div>
+        <div class="pf callout"><div class="t"><h3><a href="#h-write">A callout</a></h3><p class="caption">One line of text with one action, at the foot of a panel.</p></div><a class="btn outline" href="#h-write">Open</a></div>
       </div>
     </section>
 
@@ -364,7 +364,7 @@
         <span class="reloader"><button class="reload" type="button" tabindex="-1" aria-label="Updated" data-demo-icon></button><span class="rnote ok">Updated 13:05</span></span> ·
         <span class="reloader"><button class="reload" type="button" tabindex="-1" aria-label="Failed" data-demo-icon></button><span class="rnote fail">Couldn’t reload, try again</span></span></p>
       <script type="module">
-        import { reloadPage, reloadPart } from '../shared/reload.js?v=2026111810';
+        import { reloadPage, reloadPart } from '../shared/reload.js?v=2026111812';
         const demo = () => new Promise((ok) => setTimeout(() => ok(true), 1000));
         for (const b of document.querySelectorAll('[data-demo-part]')) reloadPart(b, demo);
         reloadPage(document.getElementById('demoReloadAll'), demo);

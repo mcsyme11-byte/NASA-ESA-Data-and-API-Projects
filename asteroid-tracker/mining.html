@@ -13,9 +13,9 @@
   <link rel="manifest" href="../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111810">
-  <script type="module" src="../shared/footer.js?v=2026111810"></script>
-  <link rel="stylesheet" href="tracker.css?v=2026111810">
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111812">
+  <script type="module" src="../shared/footer.js?v=2026111812"></script>
+  <link rel="stylesheet" href="tracker.css?v=2026111812">
   <script type="module" src="mining.js"></script>
 </head>
 <body>
@@ -58,10 +58,10 @@
     </div>
 
     <div id="notice"></div>
-    <div class="tiles" id="tiles"></div>
+    <div class="tiles" id="tiles"><div class="tile"><div class="label">On the list</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">Cheapest trip</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">Type measured</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">100 m or more</div><div class="value">…</div><div class="note">loading</div></div></div>
 
     <div class="filters">
-      <div class="seg" role="group" aria-label="Made of" id="typeSeg"></div>
+      <div class="seg" role="group" aria-label="Made of" id="typeSeg"><button type="button" aria-pressed="true" data-type="all">All</button><button type="button" aria-pressed="false" data-type="C">Carbon-rich</button><button type="button" aria-pressed="false" data-type="S">Stony</button><button type="button" aria-pressed="false" data-type="X">X group, maybe metal</button><button type="button" aria-pressed="false" data-type="O">Other types</button><button type="button" aria-pressed="false" data-type="U">Unknown</button></div>
       <label>Size <select id="size">
         <option value="0">Any size</option><option value="10">10 m or more</option><option value="50">50 m or more</option>
         <option value="100">100 m or more</option><option value="300">300 m or more</option></select></label>

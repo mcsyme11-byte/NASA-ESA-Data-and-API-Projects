@@ -147,7 +147,7 @@ export function mountRisk(root, url) {
       const href = r.id ? `object.html?id=${encodeURIComponent(r.id)}` : nasaPage(r.des);
       const one = (who, c) => (c ? `<b>${chanceText(c.ip)}</b><span class="s">${dateText(c.date)}${c.ts !== null && c.ts !== undefined ? ` · Torino ${c.ts}` : ''}</span>` : `<span class="none">not on ${who}'s list</span>`);
       const open = st.open === r.des;
-      return `<tr data-des="${esc(r.des)}" aria-expanded="${open}" tabindex="0">
+      return `<tr data-des="${esc(r.des)}" aria-selected="${open}" tabindex="0">
         <td data-label="Name"><a href="${esc(href)}"${r.id ? '' : ' target="_blank" rel="noopener"'}>${esc(r.name)}</a></td>
         <td data-label="Size, est." class="num">${r.d ? (r.d >= 1000 ? fmt(r.d / 1000, 1) + ' km' : fmt(r.d) + ' m') : ''}</td>
         <td data-label="ESA (NEOCC)" class="num"><span>${one('ESA', r.esa)}</span></td>

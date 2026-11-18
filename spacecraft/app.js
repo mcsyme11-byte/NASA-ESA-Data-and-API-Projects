@@ -145,10 +145,10 @@ function applyFilter() {
   listed = shown.map((c) => { const p = map.pos(c); return { c, d: p ? Math.hypot(p[0] - E[0], p[1] - E[1], p[2] - E[2]) : Infinity }; }).sort((a, b) => a.d - b.d);
   $('#scListN').textContent = `${shown.length}${shown.length === all.length ? '' : ' of ' + all.length} · by distance from Earth`;
   $('#scList').innerHTML = listed.length ? listed.map(({ c, d }) => c.past
-    ? `<button type="button" class="sc-row is-past" role="listitem" data-key="${c.key}" aria-pressed="${c.key === map.sel}">
+    ? `<button type="button" class="sc-row is-past" data-key="${c.key}" aria-pressed="${c.key === map.sel}">
       <span class="n">${esc(c.info.name)}<small>past</small></span><span class="d">${year(c.info.launch) === year(c.info.ended) ? year(c.info.launch) : `${year(c.info.launch)}–${year(c.info.ended)}`}</span>
       <span class="a">${esc(c.info.agencies.join(' · '))} · ${esc(c.info.end_word)}</span></button>`
-    : `<button type="button" class="sc-row" role="listitem" data-key="${c.key}" aria-pressed="${c.key === map.sel}">
+    : `<button type="button" class="sc-row" data-key="${c.key}" aria-pressed="${c.key === map.sel}">
       <span class="n">${esc(c.info.name)}</span><span class="d">${esc(distWord(c, d))}</span>
       <span class="a">${esc(c.info.agencies.join(' · '))}${c.info.where ? ' · ' + esc(c.info.where) : ''}</span></button>`).join('')
     : `<div class="state small">No spacecraft match. <button class="linkbtn" type="button" id="scClear">Show all</button></div>`;

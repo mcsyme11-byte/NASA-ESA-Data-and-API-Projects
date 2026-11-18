@@ -7,8 +7,8 @@ import { readEvents, readWind, readXray, readKp, readSaved, readArchive } from '
 import { timeline, line24, kpBars, monthly, emptyBox, hideTip, utc, fmtKp, gName } from './charts.js';
 import { chance } from './aurora.js';
 import { currentPlace, locate, searchPlaces, setPlace, forgetPlace } from '../shared/place.js';
-import { toast } from '../shared/motion.js?v=2026111810';
-import { reloadPage, reloadPart, markUpdated } from '../shared/reload.js?v=2026111810';
+import { toast } from '../shared/motion.js?v=2026111812';
+import { reloadPage, reloadPart, markUpdated } from '../shared/reload.js?v=2026111812';
 
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
@@ -205,7 +205,7 @@ function renderEarth() {
   if (predMax) facts.push(['NOAA\'s forecast', `Highest Kp in the next 3 days: ${fmtKp(predMax.kp)} (${gName(predMax.kp)}), ${utc(predMax.t)}`]);
   const sep = S.ev.seps.filter((x) => x.t > now - 30 * DAY);
   facts.push(['Particle events', sep.length ? `${sep.length} in the last 30 days, the latest ${utc(sep[sep.length - 1].t)}` : 'None in the last 30 days: no radiation risk for astronauts from the Sun']);
-  $('#earthFacts').innerHTML = facts.map(([h, p]) => `<div class="f"><h4>${esc(h)}</h4><p>${esc(p)}</p></div>`).join('');
+  $('#earthFacts').innerHTML = facts.map(([h, p]) => `<div class="f"><h3>${esc(h)}</h3><p>${esc(p)}</p></div>`).join('');
 }
 
 // ---------------------------------------------------------------- 5. solar wind and Kp
@@ -263,7 +263,7 @@ function renderAurora() {
     ['The Moon', `${Math.round(c.moon * 100)}% lit${c.moon > 0.6 ? ': its light hides a faint aurora' : ''}`],
     ['Also needed', 'Clear skies, and a view toward the pole away from city lights'],
   ];
-  $('#aurFacts').innerHTML = facts.map(([h, v]) => `<div class="f"><h4>${esc(h)}</h4><p>${esc(v)}</p></div>`).join('');
+  $('#aurFacts').innerHTML = facts.map(([h, v]) => `<div class="f"><h3>${esc(h)}</h3><p>${esc(v)}</p></div>`).join('');
 }
 function wirePlace() {
   const say = (msg) => { $('#placeMsg').textContent = msg || 'Kept on this device only and never sent anywhere; the same place as Sky Finder.'; };
