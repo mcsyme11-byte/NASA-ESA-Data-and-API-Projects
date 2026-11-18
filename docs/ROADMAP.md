@@ -217,3 +217,4 @@ collisions, Cleaning up; see `orbit-watch/README.md`).
 - [ ] Links to it: Image Explorer's globe ("Moon and Mars maps", Image Explorer chat); Mars Data's "Two craters"
   chart (Mars Data chat); the spacecraft map's Moon and Mars orbiters.
 - [ ] Artemis landing regions on the South view, once NASA publishes a current list (DATA-SOURCES.md, Planetary Maps).
+  A scheduled task checks NASA's position on the 1st of each month (from Dec 1, 2026) and reports; it changes nothing.
