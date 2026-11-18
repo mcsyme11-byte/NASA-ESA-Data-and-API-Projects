@@ -46,13 +46,13 @@ example "ESA/DLR/FU Berlin, CC BY-SA 3.0 IGO"), the licence is linked, changes a
 shared under the same licence. Other material on ESA's website may be used for educational and informational purposes
 with ESA's credit (ESA's terms and conditions, esa.int). ESA's logo is not used: it needs ESA's written permission.
 
-## Code libraries (copies kept in the repository, `image-explorer/vendor/` and `shared/vendor/`, each with its licence file)
+## Code libraries (copies kept in the repository, `shared/vendor/`, each with its licence file)
 
 | Library | Version | Used for | Licence |
 |---|---|---|---|
-| OpenLayers (`ol`) | 10.11.0 | Image Explorer: the Earth map | BSD 2-Clause |
+| OpenLayers (`ol`) | 10.11.0 | Flat maps (`shared/flatmap.js`): the Image Explorer's Earth map | BSD 2-Clause |
 | proj4js (`proj4`) | 2.22.0 | Image Explorer: the polar map projections | MIT |
-| three.js (`three`) | 0.187.0 | Image Explorer: the globe | MIT |
+| three.js (`three`) | 0.187.0 | Globes (`shared/globe.js`): the Image Explorer's globe | MIT |
 | satellite.js, © 2013 Shashwat Kandadai | 7.2.0 | Spacecraft map and Sky Finder: satellite positions from orbital elements (SGP4); bundled as an ES module, `shared/vendor/satellite.min.js`, licence `shared/vendor/LICENSE-satellite.js.md` | MIT |
 
 Analysis tools (run on GitHub's servers to prepare data; not sent to visitors): pandas (BSD 3-Clause), for the Mars

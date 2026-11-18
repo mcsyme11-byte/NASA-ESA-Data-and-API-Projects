@@ -278,11 +278,31 @@ How NASA and ESA Data Projects is built, the decisions made so far, and how to r
 |---|---|---|
 | Web pages | Plain HTML, CSS and JavaScript modules, no build step | Free hosting on GitHub Pages; easy to read and learn from |
 | Charts | Hand-drawn SVG, styled to DESIGN.md (Asteroid Tracker); chosen per project | No library to load; matches the look exactly |
-| Globe (Image Explorer) | three.js 0.187 (MIT licence, from a CDN), WebGL | A textured Earth, 5,000 stars and markers drawn smoothly; the markers and names are drawn on a 2D layer above |
-| Maps (Image Explorer) | OpenLayers 10 (BSD licence) and proj4js 2.22 (MIT) from a CDN; `epsg4326`, `epsg3413` (Arctic), `epsg3031` (Antarctic) | Handles GIBS's tile grids, vector fire tiles and polar views; Leaflet does not without add-ons |
+| Globe | `shared/globe.js` (since Nov 17, 2026; from the Image Explorer's globe) on three.js 0.187 (MIT licence, in `shared/vendor/`), WebGL | A textured body, its sharper close up, camera moves and the Earth's night side, for any round body; each tool draws its own markers and names on a 2D layer above |
+| Maps | `shared/flatmap.js` (since Nov 17, 2026; from the Image Explorer's Earth map) on OpenLayers 10 (BSD licence) and proj4js 2.22 (MIT), in `shared/vendor/`; `epsg4326`, `epsg3413` (Arctic), `epsg3031` (Antarctic) | Handles equirectangular and polar tile grids (GIBS's and others), vector tiles and polar views; Leaflet does not without add-ons |
 | Sky positions | `shared/sky.js`, `shared/passes.js`, `shared/sats.js` (satellite.js 7.2.0, MIT, in `shared/vendor/`) | Sun, Moon, planets, stars, asteroids and satellites for any place and time, in the browser; checked against Astropy |
 | Spacecraft map | `spacecraft/spacemap.js`, a subclass of the asteroid map's `SolarMap` | The same controls and projection; positions relative to each craft's parent |
 | Mars analysis | Python 3 (pandas, matplotlib) in `mars-data/analysis/` | Cleaning and statistics are easiest in Python; it writes small summary files the web page reads |
+
+### Shared map and globe (since Nov 17, 2026)
+
+The Image Explorer's map and globe were moved into `shared/` unchanged in behaviour (old and new compared pixel by
+pixel at 375 and 1280 px: the Earth map in the world, Arctic and grid views, the globe at the start, zoomed in and
+turned with the keys, and the picture library), so that Planetary Maps (the Moon and Mars) and Orbit Watch (the
+Earth) build on the same code. Each file's header says how to load it.
+
+- **`shared/globe.js`** (an ES module; the page maps `three` to `shared/vendor/three-0.187.0/` with an import map):
+  `createGlobe({ host, frame, night, autoRotate, … })` gives the renderer, scene, camera, orbit controls and a body of
+  radius 1 in a group that can be turned, with `resize()`, `flyTo()`, `stepFly()`, `zoom()`, `turn()` (the arrow
+  keys' rule), `paceControls()` and `toScreen()`; `bodyTexture(g, url, { z, cols, rows, tile })` puts a picture of the
+  whole body on it from tiles; `closeUp(g, { url, degPerTile, levelFor, tile })` lays sharper tiles over the part in
+  view; `vec()`, `gmst()`, `sunDir()` and `nightShade()` are the positions, the Earth's turn and its night side.
+  `GIBS_BLUE_MARBLE` is the Earth's picture. Another body passes its own tile address, and its own `degPerTile` and
+  `levelFor` where its tiles are not GIBS's size.
+- **`shared/flatmap.js`** (a classic script after OpenLayers and proj4js; defines `FlatMap`): `worldGrid()` and
+  `polarGrid()` (GIBS's numbers by default, any equirectangular tile set by `topRes` and `tileSize`), `registerPolar()`,
+  `worldView()`, `polarView()`, `fillFrame()`, `clearBlack` and `graticule()`.
+- What each tool draws (layers, dates, pins, labels, the sky, cards) stays in the tool's own folder.
 
 ## API keys
 

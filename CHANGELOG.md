@@ -1,5 +1,15 @@
 # Change log
 
+## November 17, 2026 — shared map and globe
+
+- The Image Explorer's map set-up and globe moved into `shared/` for Planetary Maps and Orbit Watch:
+  `shared/globe.js` (scene, camera moves, a body's picture from tiles, its sharper close up, the Earth's night side)
+  and `shared/flatmap.js` (equirectangular and polar tile grids, views, frame fitting, black-gap clearing, the
+  latitude grid). OpenLayers, proj4js and three.js moved from `image-explorer/vendor/` to `shared/vendor/`.
+- The Image Explorer runs on them unchanged: old and new compared pixel by pixel at 375 and 1280 px (Earth map in the
+  world, Arctic and grid views; the globe at the start, zoomed in and turned with the keys; the picture library),
+  with no difference. How to use them: `docs/PROJECT-NOTES.md`, "Shared map and globe".
+
 ## November 17, 2026 — Asteroid Tracker: "Within reach", the mining view
 
 - New page `asteroid-tracker/mining.html`, a tab in the tracker and a card on its home page, approved from a mock-up:

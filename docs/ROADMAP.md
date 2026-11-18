@@ -47,6 +47,7 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
   (SSMIS Aug 2021, AMSR2 Sep 2025); the current one is MODIS (a camera, daylight only). Ice surface temperature
   (`MODIS_Terra_Ice_Surface_Temp_Night`, thermal) is an option to consider.
 - [ ] Further rounds of changes to the globe, as the developer reviews it.
+- [ ] A "Moon and Mars maps" link on the globe, once Planetary Maps is live (hand-off of Nov 17, 2026).
 - [ ] Picture library: subtitles for videos (NASA's files cannot be attached from another site; would need a copy).
 - [ ] With reduced motion set, the globe does not turn by itself and moves without animation; to be rechecked on a
   phone.
@@ -146,9 +147,8 @@ a visitor's browser contacts, in the same change; data jobs handed to the Data u
 - [ ] The section page's live figures (objects tracked, flares, storm level, planets), added once the tools publish
   them.
 
-**Shared map and globe (Image Explorer chat, before Planetary Maps and Orbit Watch build theirs)**
-- [ ] Move Image Explorer's map set-up (OpenLayers on an equirectangular tile grid) and its three.js globe into
-  `shared/`, used unchanged by Image Explorer, then by Planetary Maps (Moon and Mars) and Orbit Watch (the Earth).
+**Shared map and globe:** done Nov 17, 2026 (`shared/globe.js`, `shared/flatmap.js`; how to use them in
+`docs/PROJECT-NOTES.md`, "Shared map and globe"). Planetary Maps and Orbit Watch can build on them.
 
 **5a. Orbit Watch (`orbit-watch/`)**
 - [ ] Sources: CelesTrak (approved Nov 17, 2026) for the orbits of every tracked object; NASA Orbital Debris Program

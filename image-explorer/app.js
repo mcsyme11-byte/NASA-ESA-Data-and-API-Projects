@@ -58,13 +58,10 @@ function dayFor(S) {
 /* why a layer shows another day: past its newest day, or a day it lacks */
 const lastOf = S => { const runs = DOMAINS.get(domKey(S)); return runs ? runs[runs.length - 1][1] : null; };
 
-/* ---------- map: three views ---------- */
-proj4.defs('EPSG:3413', '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs');
-proj4.defs('EPSG:3031', '+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs');
-ol.proj.proj4.register(proj4);
-const H = 4194304;                                        /* half the width of GIBS's polar grids, metres */
-for (const c of ['EPSG:3413', 'EPSG:3031']) ol.proj.get(c).setExtent([-H, -H, H, H]);
-ol.proj.get('EPSG:3413').setWorldExtent([-180, 30, 180, 90]); ol.proj.get('EPSG:3031').setWorldExtent([-180, -90, 180, -30]);   /* for the grid */
+/* ---------- map: three views ----------
+   The grids, projections, views, frame fitting, black-gap clearing and the latitude grid are in shared/flatmap.js
+   (FlatMap, since Nov 17, 2026, for Planetary Maps and Orbit Watch too); the layers and dates are here. */
+FlatMap.registerPolar();
 const VIEWS = {
   world: { code: 'EPSG:4326', gibs: 'epsg4326', name: 'World' },
   arctic: { code: 'EPSG:3413', gibs: 'epsg3413', name: 'Arctic', pole: 90 },
@@ -82,34 +79,16 @@ const toLL = c => ol.proj.toLonLat(c, proj());                 /* map coordinate
 const fromLL = ll => ol.proj.fromLonLat(ll, proj());
 
 /* GIBS tile grids. World (EPSG:4326): 512 px tiles from (-180°, 90°), 0.5625° a pixel at level 0.
-   Polar: 512 px tiles from (-H, H), 8,192 m a pixel at level 0. Each level halves the pixel size. */
+   Polar: 512 px tiles from (-H, H) (H: FlatMap.H), 8,192 m a pixel at level 0. Each level halves the pixel size. */
 const DEEPEST = { world: { '250m': 8, '500m': 7, '1km': 6, '2km': 5 }, polar: { '250m': 5, '500m': 4, '1km': 3 } };
 function grid(set) {
-  const world = view === 'world', res = [], top = world ? 0.5625 : 8192;
-  for (let z = 0; z <= DEEPEST[world ? 'world' : 'polar'][set]; z++) res.push(top / 2 ** z);
-  return new ol.tilegrid.TileGrid(world
-    ? { origin: [-180, 90], extent: [-180, -90, 180, 90], resolutions: res, tileSize: 512 }
-    : { origin: [-H, H], extent: [-H, -H, H, H], resolutions: res, tileSize: 512 });
+  const world = view === 'world';
+  return world ? FlatMap.worldGrid({ maxZoom: DEEPEST.world[set] }) : FlatMap.polarGrid({ maxZoom: DEEPEST.polar[set] });
 }
 const tileUrl = (S, ext) => c => `${GIBS}${V().gibs}/best/${S.layer}/default/${dayFor(S)}/${S.set}/${c[0]}/${c[2]}/${c[1]}.${ext}`;
-/* true colour comes as JPEG, so the gaps between a satellite's passes are drawn in black: those pixels (each colour 10
-   or less out of 255) are made see-through as each tile loads, so the Blue Marble picture underneath shows instead */
-function clearBlack(tile, src) {
-  const img = tile.getImage(), raw = new Image();
-  raw.crossOrigin = 'anonymous';
-  raw.onload = () => {
-    const c = document.createElement('canvas'); c.width = raw.width; c.height = raw.height;
-    const g = c.getContext('2d', { willReadFrequently: true }); g.drawImage(raw, 0, 0);
-    const d = g.getImageData(0, 0, c.width, c.height), a = d.data;
-    let any = false;
-    for (let i = 0; i < a.length; i += 4) if (a[i] <= 10 && a[i + 1] <= 10 && a[i + 2] <= 10) { a[i + 3] = 0; any = true; }
-    if (!any) { img.src = src; return; }                  /* nothing to clear: the original, from the browser's cache */
-    g.putImageData(d, 0, 0);
-    c.toBlob(b => { const u = URL.createObjectURL(b); img.onload = img.onerror = () => URL.revokeObjectURL(u); img.src = u; }, 'image/png');
-  };
-  raw.onerror = () => { img.src = src; };               /* lets OpenLayers see the error as before */
-  raw.src = src;
-}
+/* true colour comes as JPEG, so the gaps between a satellite's passes are drawn in black: FlatMap.clearBlack makes those
+   pixels see-through as each tile loads, so the Blue Marble picture underneath shows instead */
+const clearBlack = FlatMap.clearBlack;
 function rasterSource(S) {
   return new ol.source.XYZ({ projection: proj(), tileGrid: grid(S.set), crossOrigin: 'anonymous', transition: 150, tileUrlFunction: tileUrl(S, S.ext),
     ...(S.ext === 'jpg' ? { tileLoadFunction: clearBlack } : {}) });
@@ -137,8 +116,7 @@ function buildSources() {
 const popEl = document.createElement('div'); popEl.className = 'pop';
 const popup = new ol.Overlay({ element: popEl, stopEvent: true });
 function makeView() {
-  if (view === 'world') return new ol.View({ projection: proj(), center: [0, 0], zoom: 2, maxZoom: 10, extent: [-180, -90, 180, 90], smoothExtentConstraint: false });   /* never shows past the poles or the date line */
-  return new ol.View({ projection: proj(), center: [0, 0], maxZoom: 8, extent: [-H, -H, H, H], smoothExtentConstraint: false });
+  return view === 'world' ? FlatMap.worldView(10) : FlatMap.polarView(V().code, 8);
 }
 /* a cloud-free picture (Blue Marble, about 500 m a pixel) under the day's pictures, so the gaps between a satellite's
    passes show land and sea instead of black (decided Nov 11, 2026); not under night lights */
@@ -196,10 +174,7 @@ function nameStyle(f, res) {
   });
 }
 const nameLayer = new ol.layer.Vector({ style: nameStyle, declutter: true, visible: false, zIndex: 12, updateWhileInteracting: false });
-const gridLayer = new ol.layer.Graticule({ strokeStyle: new ol.style.Stroke({ color: 'rgba(212,184,122,.35)', width: 1, lineDash: [2, 4] }),
-  showLabels: true, wrapX: false, visible: false, zIndex: 11,
-  lonLabelStyle: new ol.style.Text({ font: '11px ui-monospace, monospace', textBaseline: 'bottom', fill: new ol.style.Fill({ color: '#D4B87A' }), stroke: new ol.style.Stroke({ color: 'rgba(14,20,31,.9)', width: 3 }) }),
-  latLabelStyle: new ol.style.Text({ font: '11px ui-monospace, monospace', textAlign: 'end', fill: new ol.style.Fill({ color: '#D4B87A' }), stroke: new ol.style.Stroke({ color: 'rgba(14,20,31,.9)', width: 3 }) }) });
+const gridLayer = FlatMap.graticule();
 function showLines() {
   const any = LINES.borders || LINES.coast || LINES.rivers || LINES.names;
   if (any && !shapes) loadShapes();
@@ -215,12 +190,7 @@ const map = new ol.Map({
   controls: ol.control.defaults.defaults({ attribution: false, rotate: false }).extend([new ol.control.ScaleLine()]),
   view: makeView(),
 });
-function fillFrame() {          /* fills the frame with no empty bands; the edges of the world crop to fit */
-  const size = map.getSize(); if (!size || !size[0]) return;
-  const [w, h] = size;
-  if (view === 'world') { map.getView().setResolution(Math.min(360 / w, 180 / h)); map.getView().setCenter([0, 0]); }
-  else map.getView().fit([-H * 0.92, -H * 0.92, H * 0.92, H * 0.92], { size });     /* the pole to about 55° */
-}
+const fillFrame = () => FlatMap.fillFrame(map, view !== 'world');   /* no empty bands; the edges crop to fit */
 map.once('change:size', fillFrame); if (map.getSize()) fillFrame();
 document.querySelectorAll('.lines [data-line]').forEach(b => b.addEventListener('click', () => {
   const k = b.dataset.line; LINES[k] = !LINES[k]; b.setAttribute('aria-pressed', LINES[k]); showLines();
