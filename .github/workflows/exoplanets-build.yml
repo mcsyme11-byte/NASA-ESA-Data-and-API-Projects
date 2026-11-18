@@ -1,0 +1,64 @@
+# NASA and ESA Data Projects · Exoplanets data, built by hand · © 2026 Malcolm Syme · mcsyme11@gmail.com
+#
+# Runs only by hand (Actions › Exoplanets data, built by hand › Run workflow). Builds the Exoplanets pages' data:
+#   planets   exoplanets/data/planets.json and summary.json, from the NASA Exoplanet Archive (fetch_planets.py)
+#   series    exoplanets/data/series/, the real measurements on the methods pages: Kepler and TESS light curves from
+#             MAST, a radial-velocity curve and a microlensing light curve from the NASA Exoplanet Archive
+#             (tools/build_series.py)
+# The archives send no CORS headers, so the pages read these files and never call them.
+# Not a scheduled data job: the weekly refresh of planets.json is a data job of its own, built by the Data updates
+# chat (handoff "2026-11-17 - data updates - Exoplanets data.md"), which may take this workflow over.
+
+name: Exoplanets data, built by hand
+
+on:
+  workflow_dispatch:
+    inputs:
+      part:
+        description: What to build
+        type: choice
+        options: [all, planets, series]
+        default: all
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: exoplanets-build
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v6
+      - name: Confirmed planets (NASA Exoplanet Archive)
+        id: planets
+        if: inputs.part != 'series'
+        continue-on-error: true
+        run: python3 exoplanets/fetch_planets.py
+      - name: Light curves and other measurements (MAST, NASA Exoplanet Archive)
+        id: series
+        if: inputs.part != 'planets'
+        continue-on-error: true
+        run: |
+          pip install --quiet numpy astropy astroquery
+          python3 exoplanets/tools/build_series.py
+      - name: Commit
+        if: always()
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add exoplanets/data
+          if git diff --cached --quiet; then echo 'nothing changed'; exit 0; fi
+          git commit -q -m "Exoplanets data: built by hand (planets: ${{ steps.planets.outcome }}, measurements: ${{ steps.series.outcome }})"
+          for i in 1 2 3; do
+            git pull --rebase --autostash --quiet && git push --quiet && exit 0
+            sleep 10
+          done
+          exit 1
