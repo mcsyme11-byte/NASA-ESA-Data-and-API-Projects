@@ -23,6 +23,8 @@ files and the daily health check. Decided Nov 14, 2026.
 | Astronaut photos (`astronaut-photos.yml`) | 07:41 and 19:11 daily | NASA Gateway to Astronaut Photography of Earth (key: `EOL_API_KEY`, or the public Latest ISS Imagery set) | `image-explorer/data/astronaut.json` | `astronaut-photos.json` |
 | Mars data (`mars-data.yml`) | 09:23 Mondays and Thursdays | NASA PDS (Curiosity REMS, Perseverance MEDA); ESA PSA (Mars Express MaRS) | `mars-data/data/` | `mars-data.json` |
 | Place and map lists (`build-places.yml`) | 03:37 on January, April, July and October 2; by hand with "names only" for just the Moon and Mars names | GeoNames; Natural Earth; the IAU's planetary names from NASA Solar System Treks or the USGS Gazetteer | `image-explorer/data/` (features, globe places, map lines, countries, names); `planet-maps/data/names-mars.json`, `names-moon.json` | `build-places.json` |
+| Orbit data (`orbit-data.yml`) | 11:13 and 23:13 daily (at least five hours from Spacecraft data, which also reads CelesTrak's active list) | CelesTrak: elements (CSV) of the active satellites and three debris clouds, the satellite catalogue (`pub/satcat.csv`), SOCRATES Plus close passes | `orbit-watch/data/` (`objects.json`, `heights.json`, `close.json`) | `orbit-data.json` |
+| Exoplanets data (`exoplanets-data.yml`) | 11:43 Tuesdays and Wednesdays; the measurements (`exoplanets-build.yml`) only by hand | NASA Exoplanet Archive (TAP, `pscomppars`) | `exoplanets/data/planets.json`, `summary.json` | `exoplanets-data.json` |
 | Rover routes (`rover-routes.yml`) | 08:29 and 20:59 daily | NASA/JPL "Where is the rover?" files (mars.nasa.gov/mmgis-maps), one source per rover | `planet-maps/data/routes.json` | `rover-routes.json` |
 | Data health (`data-health.yml`) | 22:07 daily | the jobs above (reads only); also checks that each schedule in `dev/data_jobs.json` matches its workflow | the `data-health` GitHub issue | none |
 
@@ -96,7 +98,7 @@ time and the health check's allowance for age cover this.
 
 Decided Nov 17, 2026; set up Nov 17 and 18, 2026. GitHub's own `schedule` runs here 4 to 10 hours late (median about
 7 hours), so free timers at cron-job.org start each job at its cron times instead, through GitHub's API: one timer per
-cron time (11 in all), each in UTC, sending `POST /repos/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/actions/workflows/<file>/dispatches`
+cron time (15 in all), each in UTC, sending `POST /repos/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/actions/workflows/<file>/dispatches`
 with the body `{"ref":"main"}` and the headers `Accept: application/vnd.github+json`, `X-GitHub-Api-Version:
 2022-11-28`, `Content-Type: application/json` and `Authorization: Bearer <token>`. A run started this way begins within
 about a minute. GitHub's own `schedule` stays in every workflow as the backup; a second run on the same data changes
@@ -139,6 +141,8 @@ changes.
 | Mars data | 108 | 0 |
 | Place and map lists | 2400 | 0 |
 | Rover routes | 30 | 48 |
+| Orbit data | 30 | 24 |
+| Exoplanets data | 192 | 0 |
 
 ## On the site: the live data status
 
@@ -187,6 +191,7 @@ its `last_done` to that date.
 |---|---|
 | Spacecraft catalogue (`spacecraft/catalogue.json`): ended missions taken off, new missions added | 90 days |
 | Data sources (`docs/DATA-SOURCES.md`): addresses, limits and credit lines still match the agencies' documentation | 180 days |
+| Orbit Watch figures (`orbit-watch/facts.json`): NASA's Satellite Box Score, ESA's Space Environment Statistics and yearly report | 90 days |
 
 ## Adding or changing a data job
 

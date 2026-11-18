@@ -1,5 +1,20 @@
 # Change log
 
+## November 18, 2026 — Orbit Watch and Exoplanets data jobs
+
+- New data job **Orbit data** (`orbit-data.yml`, 11:13 and 23:13 UTC daily): `orbit-watch/fetch_orbits.py` writes
+  `orbit-watch/data/` from CelesTrak (elements in CSV, the satellite catalogue, SOCRATES Plus), one source each; a check
+  step puts back any file below the hand-off's minimums. Its times sit at least five hours from Spacecraft data's,
+  which also reads CelesTrak's active list.
+- New data job **Exoplanets data** (`exoplanets-data.yml`, 11:43 UTC Tuesdays and Wednesdays): the weekly refresh of
+  `exoplanets/data/planets.json` and `summary.json` from the NASA Exoplanet Archive. The measurements stay a
+  by-hand build (`exoplanets-build.yml`).
+- Review task every 90 days for `orbit-watch/facts.json` (NASA's and ESA's figures, copied by hand).
+- `dev/datajob.py`: a source whose step was cancelled (the job's time limit) is recorded as failed, with a note,
+  instead of keeping its previous state.
+- Hand-off to the Image Explorer chat for the spacecraft script's CelesTrak download (stop at the first timeout,
+  one shared download, the CSV format).
+
 ## November 18, 2026 — counting numbers, loading shimmer, notices and pointer glow
 
 - `shared/motion.js`: stat numbers count up from zero the first time they show (0.9 s, keeping decimals, sign and

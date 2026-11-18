@@ -1,0 +1,53 @@
+# NASA and ESA Data Projects · Exoplanets data · © 2026 Malcolm Syme · mcsyme11@gmail.com
+#
+# Weekly (since Nov 18, 2026), exoplanets/fetch_planets.py (standard library only, no key) reads the NASA Exoplanet
+# Archive's TAP service (table pscomppars) and writes exoplanets/data/planets.json and summary.json, only when
+# something besides the time stamp changed. The archive adds planets in weekly updates. The script keeps both previous
+# files and ends with exit code 1 when the reply has fewer than 5,000 planets or lacks a column.
+# Two times a week, a day apart: the second run catches up when GitHub delays or skips the first, and changes nothing
+# when the first has already saved the week's update.
+# The light curves and other measurements (exoplanets/tools/build_series.py, exoplanets/data/series/) do not change
+# and are rebuilt only by hand, when a target is added: "Exoplanets data, built by hand" (exoplanets-build.yml).
+# Follows the data-job standard in docs/DATA-UPDATES.md; the last step (dev/datajob.py) checks the files, records the
+# source in shared/data/status/exoplanets-data.json and commits with the standard message.
+# Run by hand: Actions › Exoplanets data › Run workflow.
+
+name: Exoplanets data
+
+on:
+  schedule:
+    - cron: '43 11 * * 2'   # 11:43 UTC Tuesdays
+    - cron: '43 11 * * 3'   # 11:43 UTC Wednesdays, the backup
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: exoplanets-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - name: Confirmed planets (NASA Exoplanet Archive)
+        id: planets
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          python3 -u exoplanets/fetch_planets.py | tee "$RUNNER_TEMP/planets.log"
+      - name: Check, record and commit
+        if: always()
+        run: >-
+          python3 dev/datajob.py --job exoplanets-data
+          --message "Exoplanets data: weekly update from the NASA Exoplanet Archive"
+          --paths exoplanets/data/planets.json exoplanets/data/summary.json
+          --source archive=${{ steps.planets.outcome }}
+          --log "$RUNNER_TEMP/planets.log" --watch "not updated"

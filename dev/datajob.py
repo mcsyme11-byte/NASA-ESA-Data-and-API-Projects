@@ -16,7 +16,8 @@
 #   python3 dev/datajob.py --job asteroid-data --message "Asteroid data: …" \
 #       --paths asteroid-tracker/data --source close-approaches=success --source risk=failure \
 #       [--log run.log --watch "not found"] [--allow-shrink "neows/"]
-# A source given as "skipped" or "cancelled" keeps its previous state. Exit 1 when a file was refused by the guard or
+# A source given as "skipped" keeps its previous state; one given as "cancelled" (its step stopped by the job's time
+# limit, or never reached because the run stopped; since Nov 18, 2026) is recorded as failed. Exit 1 when a file was refused by the guard or
 # the push did not succeed; otherwise 0, also when nothing changed.
 # A source with every_days in dev/data_jobs.json (a monthly source, for example) also records last_run and last_ok;
 #   python3 dev/datajob.py --due asteroid-data reach phys
@@ -193,11 +194,13 @@ def main():
         outcomes['checks'] = 'failure' if refused else 'success'
     periodic = periodic_sources(a.job)
     for name, outcome in outcomes.items():
-        if outcome not in ('success', 'failure'):
-            continue                      # skipped or cancelled: the state stays as it was
+        if outcome not in ('success', 'failure', 'cancelled'):
+            continue                      # skipped: the state stays as it was
         state = 'ok' if outcome == 'success' else 'failed'
         was = sources.get(name, {})
         note = '; '.join(refused) if (name == 'checks' and refused) else ''
+        if outcome == 'cancelled':
+            note = 'stopped before it finished (the time limit, or the run was cancelled)'
         if name in periodic:
             # a source updated on a longer cycle (every_days in dev/data_jobs.json) also records when it last ran
             # and last succeeded: dev/data_health.py checks its age, and due() decides when it runs next

@@ -1,0 +1,98 @@
+# NASA and ESA Data Projects · Orbit Watch data · © 2026 Malcolm Syme · mcsyme11@gmail.com
+#
+# Twice a day (since Nov 18, 2026), orbit-watch/fetch_orbits.py (standard library only, no key) reads CelesTrak and
+# writes, into orbit-watch/data/:
+#   objects.json   orbital elements (CSV/OMM, six-digit catalogue numbers included) of the active satellites and three
+#                  debris clouds                                              source "elements" (gp.php, 4 requests)
+#   heights.json   every object in Earth orbit in the satellite catalogue, counted by kind and height
+#                                                                             source "catalogue" (pub/satcat.csv)
+#   close.json     the closest predicted passes of the next seven days       source "close passes" (SOCRATES Plus)
+# CelesTrak's usage policy asks for the active list at most once in two hours and for no retries; the script asks each
+# address once and keeps the previous file of any source that fails (log line "not found: …"). The times sit at least
+# five hours from the Spacecraft data job's, which also reads the active list (two-line format). Merging the two
+# downloads into one (hand-off of Nov 17, 2026) waits for the spacecraft script to read the CSV format.
+# A check step holds each new file to the minimums of the hand-off (10,000 objects with 8,000 active, 25,000 counted
+# in heights, one close pass); a file below them is put back to its previous copy and its source is recorded as failing.
+# Follows the data-job standard in docs/DATA-UPDATES.md; the last step (dev/datajob.py) checks the files, records each
+# source in shared/data/status/orbit-data.json and commits with the standard message.
+# Run by hand: Actions › Orbit data › Run workflow.
+
+name: Orbit data
+
+on:
+  schedule:
+    - cron: '13 11 * * *'   # 11:13 UTC daily
+    - cron: '13 23 * * *'   # 23:13 UTC daily, the backup
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: orbit-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v6
+      # exit 1 when any source failed; the files of the sources that worked are still written
+      - name: Fetch from CelesTrak
+        id: fetch
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          python3 -u orbit-watch/fetch_orbits.py --keep "$RUNNER_TEMP/celestrak" | tee "$RUNNER_TEMP/orbits.log"
+      - name: Check the files and decide each source
+        id: parts
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json, os, subprocess
+          log = open(os.path.join(os.environ['RUNNER_TEMP'], 'orbits.log'), encoding='utf-8', errors='replace').read() \
+              if os.path.exists(os.path.join(os.environ['RUNNER_TEMP'], 'orbits.log')) else ''
+          D = 'orbit-watch/data/'
+          def load(name):
+              try:
+                  return json.load(open(D + name, encoding='utf-8'))
+              except (OSError, ValueError):
+                  return None
+          def objects_ok(d):
+              return bool(d) and len(d.get('o', [])) >= 10000 and d.get('groups', {}).get('active', 0) >= 8000
+          def heights_ok(d):
+              return bool(d) and sum(d.get('total', [])) >= 25000
+          def close_ok(d):
+              return bool(d) and len(d.get('byRange', [])) >= 1
+          parts = [('elements', 'objects.json', 'not found: elements', objects_ok),
+                   ('catalogue', 'heights.json', 'not found: the satellite catalogue', heights_ok),
+                   ('close', 'close.json', 'not found: close approaches', close_ok)]
+          out = open(os.environ['GITHUB_OUTPUT'], 'a')
+          for key, name, miss, ok in parts:
+              wrote = ('wrote ' + name) in log
+              if wrote and not ok(load(name)):
+                  print(f'{name}: below the minimums, previous copy put back')
+                  subprocess.run(['git', 'checkout', '--', D + name], check=False)
+                  state = 'failure'
+              elif miss in log or not wrote:
+                  state = 'failure' if (miss in log or 'Finished' not in log) else 'skipped'
+              else:
+                  state = 'success'
+              print(f'{key}: {state}')
+              out.write(f'{key}={state}\n')
+          PY
+      - name: Check, record and commit
+        if: always()
+        run: >-
+          python3 dev/datajob.py --job orbit-data
+          --message "Orbit data: satellites, debris and close passes from CelesTrak"
+          --paths orbit-watch/data
+          --source elements=${{ steps.parts.outputs.elements || 'cancelled' }}
+          --source catalogue=${{ steps.parts.outputs.catalogue || 'cancelled' }}
+          --source close=${{ steps.parts.outputs.close || 'cancelled' }}
+          --log "$RUNNER_TEMP/orbits.log" --watch "not found|below the minimums"

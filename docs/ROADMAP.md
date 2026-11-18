@@ -88,10 +88,12 @@ one GitHub issue labelled `data-health`.
   `workflow_dispatch` within a minute of its cron time (the control room's "Started by" column shows "Outside clock").
   Set up Nov 17 and 18, 2026; confirmed so far: Spacecraft data 05:23 UTC (fired 05:23:10 on Nov 18, 2026) and
   Astronaut photos 19:11 UTC (fired 19:11:11 on Nov 18, 2026).
-- [ ] Spacecraft data: CelesTrak timed out on Nov 18, 2026 (05:23 UTC run), each group taking about 6 minutes (3 tries
-  of 120 s), so the job reached its 30-minute limit and was cancelled after the Horizons positions were saved; the
-  status file still showed the source as working. To decide with the Orbit Watch plan (shared CelesTrak download):
-  stop at the first CelesTrak timeout and keep the previous `tle.json`, and record a cancelled source as failing.
+- [ ] Spacecraft data: stop at the first CelesTrak timeout, share one download of the active list with Orbit data,
+  and read CelesTrak's CSV (six-digit catalogue numbers); changes to `spacecraft/fetch_spacecraft.py` and
+  `shared/sats.js` handed to the Image Explorer chat (`docs/handoffs/2026-11-18 - data updates - spacecraft
+  CelesTrak.md`). Then `spacecraft-data.yml` runs `orbit-watch/fetch_orbits.py --keep` first and passes the folder.
+- [ ] Confirm the first scheduled runs of **Orbit data** (`orbit-data.yml`, 11:13 and 23:13 UTC) and **Exoplanets
+  data** (`exoplanets-data.yml`, 11:43 UTC Tuesdays and Wednesdays), both added Nov 18, 2026.
 - [ ] Confirm the first scheduled runs of **Rover routes** (`rover-routes.yml`, 08:29 and 20:59 UTC, added Nov 17,
   2026). First runs by hand on Nov 17, 2026: both rovers read (Curiosity sol 5073, Perseverance sol 2022,
   `routes.json` 123 KB), and the Moon and Mars place names built (1,783 Mars and 7,982 Moon names).

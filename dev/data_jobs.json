@@ -66,9 +66,29 @@
     "curiosity": {"label": "Curiosity", "agency": "NASA/JPL"},
     "perseverance": {"label": "Perseverance", "agency": "NASA/JPL"}
    }
+  },
+  "orbit-data": {
+   "name": "Orbit data", "project": "Orbit Watch", "href": "orbit-watch/", "runs": "twice a day",
+   "cron": ["13 11 * * *", "13 23 * * *"], "max_age_hours": 30, "grace_hours": 24,
+   "data": ["orbit-watch/data/"], "scripts": ["orbit-watch/fetch_orbits.py"],
+   "about": "Satellites, rocket bodies and debris around Earth, how high they fly, and the closest passes of the coming week.",
+   "sources": {
+    "elements": {"label": "Orbits of the active satellites and debris clouds", "agency": "CelesTrak"},
+    "catalogue": {"label": "Satellite catalogue (every object)", "agency": "CelesTrak"},
+    "close": {"label": "Close passes (SOCRATES Plus)", "agency": "CelesTrak"}
+   }
+  },
+  "exoplanets-data": {
+   "name": "Exoplanets data", "project": "Exoplanets", "href": "exoplanets/", "runs": "weekly",
+   "cron": ["43 11 * * 2", "43 11 * * 3"], "max_age_hours": 192, "grace_hours": 0,
+   "data": ["exoplanets/data/planets.json", "exoplanets/data/summary.json"], "scripts": ["exoplanets/fetch_planets.py"],
+   "about": "Every confirmed planet around another star, with its size, orbit and how it was found.",
+   "sources": {
+    "archive": {"label": "Confirmed planets", "agency": "NASA Exoplanet Archive"}
+   }
   }
  },
- "clock": {"about": "The outside clock (decided Nov 17, 2026): free timers at cron-job.org start each job at its cron times through GitHub's API (workflow_dispatch), with a fine-grained token limited to this repository's Actions; GitHub's own schedule stays as the backup. set_up: the date the timers were made (empty until then); token_expires: the token's expiry date.", "service": "cron-job.org", "set_up": "2026-11-17", "token_expires": "2027-11-17", "timers": 11},
+ "clock": {"about": "The outside clock (decided Nov 17, 2026): free timers at cron-job.org start each job at its cron times through GitHub's API (workflow_dispatch), with a fine-grained token limited to this repository's Actions; GitHub's own schedule stays as the backup. set_up: the date the timers were made (empty until then); token_expires: the token's expiry date.", "service": "cron-job.org", "set_up": "2026-11-17", "token_expires": "2027-11-17", "timers": 15},
  "known_notes": [
   {"match": "Tianwen-1", "reason": "not in Horizons (ROADMAP: added if Horizons lists it later)"},
   {"match": "Tianwen-2", "reason": "not in Horizons (ROADMAP: added if Horizons lists it later)"},
@@ -79,6 +99,7 @@
  ],
  "reviews": [
   {"what": "Spacecraft catalogue (spacecraft/catalogue.json): ended missions taken off, new missions added", "every_days": 90, "last_done": "2026-11-12"},
-  {"what": "Data sources (docs/DATA-SOURCES.md): each address, limit and credit line still matches the agency's documentation", "every_days": 180, "last_done": "2026-11-12"}
+  {"what": "Data sources (docs/DATA-SOURCES.md): each address, limit and credit line still matches the agency's documentation", "every_days": 180, "last_done": "2026-11-12"},
+  {"what": "Orbit Watch figures (orbit-watch/facts.json): NASA's Satellite Box Score (each new Orbital Debris Quarterly News), ESA's Space Environment Statistics and its yearly Space Environment Report", "every_days": 90, "last_done": "2026-11-17"}
  ]
 }

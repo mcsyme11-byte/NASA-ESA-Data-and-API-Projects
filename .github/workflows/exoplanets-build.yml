@@ -6,8 +6,8 @@
 #             MAST, a radial-velocity curve and a microlensing light curve from the NASA Exoplanet Archive
 #             (tools/build_series.py)
 # The archives send no CORS headers, so the pages read these files and never call them.
-# Not a scheduled data job: the weekly refresh of planets.json is a data job of its own, built by the Data updates
-# chat (handoff "2026-11-17 - data updates - Exoplanets data.md"), which may take this workflow over.
+# Not a scheduled data job: the weekly refresh of planets.json and summary.json is the data job "Exoplanets data"
+# (exoplanets-data.yml, since Nov 18, 2026). This workflow stays for the measurements, rebuilt when a target is added.
 
 name: Exoplanets data, built by hand
 
