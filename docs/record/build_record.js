@@ -361,7 +361,7 @@ function cover() {
       { spacing: { after: 360 }, border: { bottom: { style: D.BorderStyle.SINGLE, size: 12, color: BRASS, space: 12 } } }),
     // the projects, read from the site's own list (SECTIONS in shared/footer.js) so the cover never falls behind the site
     p([new D.TextRun({ text: SITE.projects.join('  ·  '), color: NAVY, size: 24, characterSpacing: 20 })], { spacing: { after: SITE.watch.length ? 80 : 900 } }),
-    ...(SITE.watch.length ? [p([new D.TextRun({ text: 'Orbit & Space Watch:  ' + SITE.watch.join('  ·  '), color: NAVY, size: 22, characterSpacing: 20 })], { spacing: { after: 820 } })] : []),
+    ...(SITE.watch.length ? [p([new D.TextRun({ text: 'Orbit & Space Watch:  ' + SITE.watch.join('  ·  '), color: NAVY, size: 20, characterSpacing: 4 })], { spacing: { after: 820 } })] : []),
     p([new D.TextRun({ text: 'Edition', color: BRASS, size: 18, characterSpacing: 100, allCaps: true })], { spacing: { after: 40 } }),
     p([new D.TextRun({ text: `${longDate(X.date)}  ·  repository ${X.commit}  ·  ${X.count} recorded changes`, color: INK, size: 22 })], { spacing: { after: 280 } }),
     p([new D.TextRun({ text: 'Developer', color: BRASS, size: 18, characterSpacing: 100, allCaps: true })], { spacing: { after: 40 } }),
