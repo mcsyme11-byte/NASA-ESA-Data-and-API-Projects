@@ -77,6 +77,10 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
 
 **Page**
 - [x] Page live (Nov 12, 2026) with the whole record, sols 1–4843.
+- [x] Perseverance in more charts (humidity at night at two sites; the rovers' climbs) and "The 2018 dust storm"
+  section (Nov 18, 2026), built without a mock-up at the developer's request.
+- [ ] Developer review of the Nov 18 additions (the dust storm section, humidity at two sites, the rovers' climbs, the
+  home page's Explore cards), at the developer's own pace.
 - [x] "What the record shows" (Nov 17, 2026): six short paragraphs on the clearest seasonal and daily patterns, each
   linked to its chart, first on the charts page. The record counts as complete for the rovers; a paragraph on ESA's
   Mars Express profiles is added when they go live.

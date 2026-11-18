@@ -14,9 +14,9 @@
   <link rel="manifest" href="../../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../../shared/theme.css?v=2026111801">
-  <script type="module" src="../../shared/footer.js?v=2026111801"></script>
-  <link rel="stylesheet" href="../mars.css?v=2026111801">
+  <link rel="stylesheet" href="../../shared/theme.css?v=2026111802">
+  <script type="module" src="../../shared/footer.js?v=2026111802"></script>
+  <link rel="stylesheet" href="../mars.css?v=2026111802">
 </head>
 <body>
   <header class="topbar">
@@ -50,7 +50,7 @@
     </div>
 
     <nav class="secnav" id="secnav" aria-label="Sections of this page">
-      <div class="secrow" data-hscroll><a href="#shows">What it shows</a><a href="#year">The year</a><a href="#craters">Two craters</a><a href="#sol">One sol</a><a href="#mission">The whole mission</a><a href="#above">Above the surface</a><a href="../method/">How it's made</a></div>
+      <div class="secrow" data-hscroll><a href="#shows">What it shows</a><a href="#year">The year</a><a href="#craters">Two craters</a><a href="#sol">One sol</a><a href="#mission">The whole mission</a><a href="#dust">Dust storm</a><a href="#above">Above the surface</a><a href="../method/">How it's made</a></div>
     </nav>
     <p class="caption words">New to sol, Ls and Mars Year? <a href="../#words">The four words used on every chart</a> are on the Mars Data home page.</p>
 
@@ -60,11 +60,11 @@
     <div class="section-head" id="shows"><div><h2>What the record shows</h2></div><span class="aside">Curiosity, sols 1–4843; Perseverance, sols 1–1859</span></div>
     <div class="prose">
         <p><b>The air thickens and thins with the seasons.</b> Each Mars year, the air pressure at Gale Crater falls and rises again by about a fifth. It is thinnest around Ls 140–150°, in southern winter, when carbon dioxide freezes out of the air onto the south polar cap: about 745 Pa at the landing site's height. It is thickest around Ls 250°, when that ice turns back to gas: about 925 Pa. A smaller rise and fall in between comes from the northern cap. <a href="#year">Air pressure through the year</a></p>
-        <p><b>The cycle repeats almost exactly, year after year.</b> Lined up by season and corrected for the rover's climb, the Mars Years usually lie within about 6 Pa of each other, under 1 %. Even in Mars Year 34 (2018), when dust covered the whole planet, the pressure kept to its usual line. The dust showed in the sunlight instead: in that season the midday ultraviolet fell to about a quarter of its usual level, about 5 W/m² against 19–21 in other years. <a href="#year">Air pressure through the year</a>, <a href="#year">Midday ultraviolet</a></p>
+        <p><b>The cycle repeats almost exactly, year after year.</b> Lined up by season and corrected for the rover's climb, the Mars Years usually lie within about 6 Pa of each other, under 1 %. Even in Mars Year 34 (2018), when dust covered the whole planet, the pressure kept to its usual line. The dust showed in the sunlight instead: in that season the midday ultraviolet fell to about a quarter of its usual level, about 5 W/m² against 19–21 in other years. <a href="#year">Air pressure through the year</a>, <a href="#dust">The 2018 dust storm</a></p>
         <p><b>A sol swings by about 60 °C.</b> On an average sol the air's low and high are about 60 °C apart. It is coldest just before sunrise, about −72 °C at 05:00, and warmest in mid-afternoon, about −20 °C at 15:00. The ground swings further, about 83 °C, and warms first, peaking around 13:00. <a href="#sol">One sol</a></p>
         <p><b>Afternoons are warmest in southern spring and coolest in southern autumn.</b> Gale is just south of the equator. Daily highs average about −4 °C around Ls 180–210° and about −30 °C around Ls 60–90°, when Mars is farthest from the Sun. The nights change less: about −70 °C against −81 °C. <a href="#year">Season and time of day</a>, <a href="#mission">Daily highs and lows</a></p>
         <p><b>Humidity peaks in the coldest hour.</b> Cold air holds less water, so the relative humidity is highest just before dawn, between 04:00 and 06:00 on most sols. Through the year it is highest around Ls 90–120°, about 50 %, and lowest around Ls 210–240°, about 9 % (preliminary data). <a href="#year">Humidity at night</a></p>
-        <p><b>Two craters, the same rhythm.</b> Perseverance at Jezero Crater sees the same seasonal rise and fall at the same times, but with about 85–105 Pa less pressure, roughly a tenth less, because Jezero's floor lies higher than Gale's. Height matters at Gale too: Curiosity has climbed about 990 m up Mount Sharp, which alone lowers its pressure by about 8–9 %. <a href="#craters">Air pressure at two sites</a>, <a href="#mission">Curiosity's climb</a></p>
+        <p><b>Two craters: the same pressure rhythm, opposite humid seasons.</b> Perseverance at Jezero Crater sees the same seasonal rise and fall of pressure at the same times, but with about 85–105 Pa less, roughly a tenth less, because Jezero's floor lies higher than Gale's. Their most humid nights come at opposite times of year, each in its own winter: Gale, just south of the equator, around Ls 90–150°; Jezero, 18° north, around Ls 270–300°. Height matters too: Curiosity has climbed about 990 m up Mount Sharp, which alone lowers its pressure by about 8–9 %. <a href="#craters">Air pressure and humidity at two sites</a>, <a href="#mission">The rovers' climbs</a></p>
         <p class="caption">From the cleaned record: Curiosity's full sols (good data in at least 22 of 24 hours), ultraviolet to sol 3423 (the end of NASA's corrected ultraviolet), Perseverance's full sols. Figures rounded. ESA's Mars Express profiles are added in "Above the surface" once ESA's archive returns.</p>
       </div>
 
@@ -105,7 +105,7 @@
         <div class="pb">
   <div class="chartbox" id="humFrame"><svg id="cHum" class="chart" role="img" aria-label="Highest relative humidity of each sol against the season"></svg></div>
         </div>
-        <figcaption class="pf caption">The day's highest relative humidity (reached before dawn). NASA marks REMS humidity "preliminary". Source: NASA PDS, Curiosity REMS (cleaned).</figcaption>
+        <figcaption class="pf caption">The day's highest relative humidity, reached at night (the few sols whose highest value came in daylight are left out). NASA marks REMS humidity "preliminary". Source: NASA PDS, Curiosity REMS (cleaned).</figcaption>
         <details class="howto"><summary>How to read this</summary>
           <p>Relative humidity is how close the air is to frost forming. Mars's air holds very little water, but the nights are so cold that it can come close: the highest values are in the coldest nights. In the afternoon it is under 1 %.</p>
         </details>
@@ -151,6 +151,20 @@
         <details class="howto"><summary>How to read this</summary>
           <p>Solid lines are Curiosity at Gale Crater, dashed lines Perseverance at Jezero Crater, about 3,700 km apart; each colour is one Mars Year. Both rise and fall with the seasons in step, because the carbon dioxide that freezes onto the poles is taken from the whole planet's air at once.</p>
           <p>Jezero's line sits lower because Jezero is higher: less air lies above it. Both rovers have also been climbing (Curiosity about 1 km up Mount Sharp, Perseverance up the crater rim), which lowers each line a little year by year.</p>
+        </details>
+      </figure>
+
+      <figure class="panel chartcard wide">
+        <div class="ph"><h3>Humidity at night at two sites</h3><span class="pill warn">Preliminary</span></div>
+        <div class="pb">
+          <div class="legend" id="twoHumLegend"></div>
+          <div class="chartbox" id="twoHumFrame"><svg id="cTwoHum" class="chart" role="img" aria-label="Highest relative humidity of the night at Gale Crater and Jezero Crater against the season"></svg></div>
+        </div>
+        <figcaption class="pf caption" id="twoHumNote">Each sol's highest relative humidity, reached at night; middle value of each 10° of season. NASA marks REMS humidity "preliminary". Sources: NASA Planetary Data System, Curiosity REMS and Perseverance MEDA (cleaned).</figcaption>
+        <details class="howto"><summary>How to read this</summary>
+          <p>Solid lines are Gale Crater, dashed lines Jezero Crater; each colour is one Mars Year. Each point is the middle value (median) of the nights in 10° of season, which keeps single unusual nights from pulling the line.</p>
+          <p>The two craters peak at opposite times of year. Gale, just south of the equator, has its most humid nights around Ls 90–150°, in southern winter; Jezero, 18° north, around Ls 270–300°, in northern winter. In each crater the winter nights are the coldest, and the colder the air, the closer it comes to frost.</p>
+          <p>Only sols whose highest value came at night (20:00 to 08:00 local time) are used. Perseverance measures about every second hour, so on some sols no night hour was measured and the day's highest value is a dry daytime reading; those sols are left out.</p>
         </details>
       </figure>
     </div>
@@ -201,13 +215,15 @@
       </figure>
 
       <figure class="panel chartcard">
-        <div class="ph"><h3>Curiosity's climb</h3></div>
+        <div class="ph"><h3>The rovers' climbs</h3></div>
         <div class="pb">
-  <div class="chartbox"><svg id="cClimb" class="chart" role="img" aria-label="The rover's height above its landing site, sol by sol"></svg></div>
+          <div class="legend" id="climbLegend"></div>
+  <div class="chartbox"><svg id="cClimb" class="chart" role="img" aria-label="Each rover's height above its landing site, sol by sol since landing"></svg></div>
         </div>
-        <figcaption class="pf caption">Height above the landing site. Source: NASA PDS, Curiosity REMS ancillary data.</figcaption>
+        <figcaption class="pf caption">Height above each rover's landing site. Sources: NASA PDS, Curiosity REMS and Perseverance MEDA ancillary data.</figcaption>
         <details class="howto"><summary>How to read this</summary>
-          <p>Curiosity landed on the floor of Gale Crater and has been driving up Mount Sharp, the mountain in its middle. Higher up there is less air above the rover, so it measures a lower pressure: that is why the pressure chart can be corrected for the climb.</p>
+          <p>Each line starts at its rover's landing (sol 0). Curiosity landed on the floor of Gale Crater and has been driving up Mount Sharp, the mountain in its middle. Perseverance landed on the floor of Jezero Crater, crossed the delta of an ancient river and then climbed the crater's rim.</p>
+          <p>Higher up there is less air above the rover, so it measures a lower pressure: that is why the pressure chart can be corrected for the climb.</p>
         </details>
       </figure>
 
@@ -227,6 +243,48 @@
       </figure>
     </div>
 
+
+    <!-- ===================== THE 2018 DUST STORM ===================== -->
+    <!-- Mars Year 34 against the same season in Curiosity's other Mars Years. Dates of the storm: NASA (first seen
+         May 30, 2018; planet-encircling by June 20). Arrival at Gale and the figures in the captions: from the data. -->
+    <div class="section-head" id="dust"><div><h2>The 2018 dust storm</h2></div><span class="aside">Mars Year 34, from Curiosity's readings</span></div>
+    <p class="intro">NASA's Mars Reconnaissance Orbiter first saw the storm on May 30, 2018; by June 20 it had grown into a dust storm that covered the whole planet, the first since 2007. Curiosity's sunlight readings show it reaching Gale Crater in the second week of June (sols 2075–2085). Each chart sets that year, Mars Year 34, against the same season in Curiosity's other Mars Years.</p>
+    <div class="panels" id="dustPanels">
+      <figure class="panel chartcard wide">
+        <div class="ph"><h3>Sunlight at midday</h3><span class="aside">ultraviolet, 220–370 nm</span></div>
+        <div class="pb">
+          <div class="legend" id="dustLegend"></div>
+          <div class="chartbox"><svg id="cDustUV" class="chart" role="img" aria-label="Midday ultraviolet in Mars Year 34 against the same season in other years"></svg></div>
+        </div>
+        <figcaption class="pf caption">At the height of the storm the midday ultraviolet fell below 1 W/m², under a twentieth of the usual 22 at that season, and was nearly back to normal by mid-September (Ls 250°). Source: NASA PDS, Curiosity REMS corrected UV.</figcaption>
+        <details class="howto"><summary>How to read this</summary>
+          <p>The line is each sol of Mars Year 34; the shaded band is the range of Curiosity's other Mars Years at the same season (each year averaged over 5° of season), and the dashed line their average. The upright dashed line marks the sol the dust reached Gale, when the sunlight began to fall.</p>
+          <p>Ultraviolet is the part of sunlight dust blocks most clearly, so it is a good measure of how much dust is overhead.</p>
+        </details>
+      </figure>
+
+      <figure class="panel chartcard">
+        <div class="ph"><h3>Daily highs and lows</h3><span class="aside">air temperature</span></div>
+        <div class="pb">
+          <div class="chartbox"><svg id="cDustT" class="chart" role="img" aria-label="Daily highest and lowest air temperature in Mars Year 34 against the same season in other years"></svg></div>
+        </div>
+        <figcaption class="pf caption">In the thickest dust (Ls 195–210°) the afternoons were about 25 °C colder than usual and the nights about 8 °C warmer: the day's swing roughly halved, from about 68 °C to about 35 °C. Source: NASA PDS, Curiosity REMS (cleaned).</figcaption>
+        <details class="howto"><summary>How to read this</summary>
+          <p>The upper line is each sol's warmest minute, the lower line its coldest; the bands and dashed lines are the other Mars Years. Dust in the air blocks sunlight by day, so the afternoons stay cool, and at night it gives back heat to the ground, so the nights stay milder.</p>
+        </details>
+      </figure>
+
+      <figure class="panel chartcard">
+        <div class="ph"><h3>How much the pressure swings in a day</h3></div>
+        <div class="pb">
+          <div class="chartbox"><svg id="cDustP" class="chart" role="img" aria-label="Daily pressure range in Mars Year 34 against the same season in other years"></svg></div>
+        </div>
+        <figcaption class="pf caption">The daily swing grew to about 125–130 Pa, half again as large as the usual 80–95 Pa at that season, while the daily average stayed on its usual line. Source: NASA PDS, Curiosity REMS (cleaned).</figcaption>
+        <details class="howto"><summary>How to read this</summary>
+          <p>Each sol's highest minus lowest pressure. Every day the Sun's heating makes the whole atmosphere swell and settle again, a "thermal tide". Dust soaks up sunlight high in the air, which heats it more strongly by day and makes that daily swing larger.</p>
+        </details>
+      </figure>
+    </div>
 
     <!-- ===================== ABOVE THE SURFACE (ESA Mars Express) ===================== -->
     <div class="section-head" id="above"><div><h2>Above the surface</h2></div><span class="aside">ESA's Mars Express, from near the ground to about 45 km up</span></div>
@@ -303,7 +361,8 @@
       M = await r.json();
     } catch (e) {
       main.classList.remove("loading");
-      main.querySelectorAll(".charts, main > .shead, main > section.card, .secnav, .words").forEach(x => x.hidden = true);
+      // Everything that needs the data is hidden; the page head, the notice and the credits stay.
+      [...main.children].forEach(x => { if (!x.matches(".backlink, .pagehead, #pageNotice, .srcline, footer, script")) x.hidden = true; });
       notice.innerHTML = `<div class="notice warn"><span>The Mars data could not be loaded. Check the connection and reload the page.</span></div>`;
       return;
     }
@@ -373,12 +432,12 @@
       for (const [x, y] of pts) { if (y == null) { prev = null; continue; } d += (prev == null || (gapX && x - prev > gapX) ? "M" : "L") + X(x).toFixed(1) + "," + Y(y).toFixed(1); prev = x; }
       return d;
     }
-    function hover(svg, f, pts, html) { // nearest point by x
+    function hover(svg, f, pts, html, both = false) { // nearest point by x (or, with both, by x and y)
       const r = el("rect", { x: f.m.l, y: f.m.t, width: f.w - f.m.l - f.m.r, height: f.h - f.m.t - f.m.b, fill: "transparent", style: "touch-action: pan-y" }, svg);
       const dot = el("circle", { r: 4, fill: css("--brass-bright"), visibility: "hidden" }, svg); dots.push(dot);
       const at = e => {
-        const b = svg.getBoundingClientRect(), sx = (e.clientX - b.left) / b.width * f.w;
-        let best = null, bd = Infinity; for (const p of pts) { const d = Math.abs(f.X(p.x) - sx) + (p.yy != null ? 0 : 1e9); if (d < bd) { bd = d; best = p; } }
+        const b = svg.getBoundingClientRect(), sx = (e.clientX - b.left) / b.width * f.w, sy = (e.clientY - b.top) / b.height * f.h;
+        let best = null, bd = Infinity; for (const p of pts) { const d = (both ? Math.hypot(f.X(p.x) - sx, f.Y(p.yy) - sy) : Math.abs(f.X(p.x) - sx)) + (p.yy != null ? 0 : 1e9); if (d < bd) { bd = d; best = p; } }
         if (!best || bd > 30) { dot.setAttribute("visibility", "hidden"); hideTip(); return; }
         dot.setAttribute("cx", f.X(best.x)); dot.setAttribute("cy", f.Y(best.yy)); dot.setAttribute("visibility", "visible"); showTip(e, html(best));
       };
@@ -426,9 +485,12 @@
     }
 
     // ---- 7. humidity, 8. UV (seasonal scatter) ----
-    function seasonal(svgId, frameId, key, ylab, unit, d, label) {
+    // The day's highest humidity counts only when it came at night (20:00 to 08:00): a sol with no night hour measured
+    // gives a dry daytime value instead.
+    const atNight = h => h == null || h < 8 || h >= 20;
+    function seasonal(svgId, frameId, key, ylab, unit, d, label, keep = () => true) {
       const svg = document.getElementById(svgId);
-      const pts = rows.filter(r => r[key] != null).map(r => ({ x: r.ls, yy: r[key], r }));
+      const pts = rows.filter(r => r[key] != null && keep(r)).map(r => ({ x: r.ls, yy: r[key], r }));
       if (!pts.length) { document.getElementById(frameId).innerHTML = `<div class="empty">${label}</div>`; return; }
       const f = frame(svg, { w: 520, h: 300, x0: 0, x1: 360, y0: 0, y1: Math.max(...pts.map(p => p.yy)) * 1.08, xt: [0, 90, 180, 270, 360], xlab: "Season (Ls)", ylab, xfmt: v => v + "°", yfmt: v => fmt(v, d) });
       pts.forEach(p => el("circle", { cx: f.X(p.x), cy: f.Y(p.yy), r: 2.2, fill: S[years.indexOf(p.r.mars_year) % S.length], opacity: .8 }, svg));
@@ -520,16 +582,100 @@
     // ---- 6. climb ----
     function drawClimb() {
       const svg = document.getElementById("cClimb");
-      const d = rows.filter(r => r.rover_z_m != null);
-      const zs = d.map(r => r.rover_z_m);
-      const f = frame(svg, { w: 520, h: 300, x0: 0, x1: Math.ceil(meta.last_sol / 100) * 100, y0: Math.floor(Math.min(...zs) / 50) * 50, y1: Math.ceil(Math.max(...zs) / 50) * 50, xlab: "Sol", ylab: "Height (m)", xfmt: v => fmt(v) });
-      el("path", { d: path(d.map(r => [r.sol, r.rover_z_m]), f.X, f.Y, 30), fill: "none", stroke: S[2], "stroke-width": 2 }, svg);
-      hover(svg, f, d.map(r => ({ x: r.sol, yy: r.rover_z_m, r })), p => `<b>Sol ${p.r.sol}</b> · ${p.r.utc_date}<br>${fmt(p.yy, 1)} m above the landing site`);
+      const cur = rows.filter(r => r.rover_z_m != null).map(r => ({ sol: r.sol, z: r.rover_z_m, d: r.utc_date, who: "Curiosity" }));
+      let per = [];
+      if (MD) { const mc = Object.fromEntries(MD.cols.map((c, i) => [c, i])); per = MD.rows.filter(r => r[mc.rover_z_m] != null).map(r => ({ sol: r[mc.sol], z: r[mc.rover_z_m], d: r[mc.utc_date], who: "Perseverance" })); }
+      const all = cur.concat(per), zs = all.map(r => r.z);
+      const f = frame(svg, { w: 520, h: 300, x0: 0, x1: Math.ceil(Math.max(...all.map(r => r.sol)) / 100) * 100, y0: Math.floor(Math.min(...zs) / 50) * 50, y1: Math.ceil(Math.max(...zs) / 50) * 50, xlab: "Sol (since each landing)", ylab: "Height (m)", xfmt: v => fmt(v) });
+      el("path", { d: path(cur.map(r => [r.sol, r.z]), f.X, f.Y, 30), fill: "none", stroke: S[2], "stroke-width": 2 }, svg);
+      if (per.length) el("path", { d: path(per.map(r => [r.sol, r.z]), f.X, f.Y, 30), fill: "none", stroke: S[1], "stroke-width": 2, "stroke-dasharray": "6 4" }, svg);
+      hover(svg, f, all.map(r => ({ x: r.sol, yy: r.z, r })), p => `<b>${p.r.who}</b><br>Sol ${p.r.sol} · ${p.r.d}<br>${fmt(p.yy, 1)} m above the landing site`);
+      document.getElementById("climbLegend").innerHTML = `<span><i style="background:${S[2]}"></i>Curiosity, Gale Crater</span>` + (per.length ? `<span><i class="dash" style="border-color:${S[1]}"></i>Perseverance, Jezero Crater</span>` : "");
     }
 
     // ---- two craters (Gale and Jezero) ----
     let MD = null;
-    fetch("../data/meda.json").then(r => r.ok ? r.json() : null).then(j => { MD = j; drawTwo(); goToHash(); }).catch(() => {});
+    fetch("../data/meda.json").then(r => r.ok ? r.json() : null).then(j => { MD = j; drawTwo(); drawClimb(); goToHash(); }).catch(() => {});
+
+    // ---- humidity at night at two sites (Perseverance's per-sol file, which has the hour of each maximum) ----
+    let MS = null;
+    fetch("../data/meda/sols.csv").then(r => r.ok ? r.text() : null).then(t => {
+      if (!t) return;
+      const [head, ...lines] = t.trim().split("\n"), cols = head.split(",");
+      MS = lines.map(l => Object.fromEntries(l.split(",").map((v, i) => [cols[i], v === "" ? null : (isNaN(v) ? v : +v)])));
+      drawTwoHum(); goToHash();
+    }).catch(() => { document.getElementById("twoHumFrame").innerHTML = '<div class="empty">Perseverance\'s humidity could not be loaded. Reload the page to try again.</div>'; });
+    function drawTwoHum() {
+      const svg = document.getElementById("cTwoHum");
+      if (!MS) return;
+      const jez = MS.filter(r => r.humidity_max != null && atNight(r.humidity_max_hour));
+      const ys = [...new Set(jez.map(r => r.mars_year))].sort();
+      const gale = rows.filter(r => r.humidity_max != null && atNight(r.humidity_max_hour) && ys.includes(r.mars_year));
+      const median = a => { const v = a.slice().sort((x, y) => x - y), m = v.length >> 1; return v.length % 2 ? v[m] : (v[m - 1] + v[m]) / 2; };
+      const binned = (list, site) => {   // median of each 10° of season, per Mars Year; at least 5 nights
+        const g = new Map();
+        for (const r of list) { const k = r.mars_year + "|" + Math.floor(r.ls / 10); if (!g.has(k)) g.set(k, []); g.get(k).push(r.humidity_max); }
+        return [...g].map(([k, v]) => { const [y, b] = k.split("|").map(Number); return { y, x: b * 10 + 5, yy: median(v), n: v.length, site }; }).filter(p => p.n >= 5).sort((a, b) => a.x - b.x);
+      };
+      const pts = binned(gale, "Gale (Curiosity)").concat(binned(jez, "Jezero (Perseverance)"));
+      if (!pts.length) return;
+      const f = frame(svg, { x0: 0, x1: 360, y0: 0, y1: Math.min(100, Math.ceil(Math.max(...pts.map(p => p.yy)) / 10) * 10 + 10), xt: [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360], xlab: "Season (Ls, degrees)", ylab: "Relative humidity (%)", xfmt: v => v + "°" });
+      ys.forEach(y => {
+        const col = S[years.indexOf(y) % S.length];
+        for (const [site, dash] of [["Gale (Curiosity)", null], ["Jezero (Perseverance)", "5 4"]]) {
+          const line = pts.filter(p => p.y === y && p.site === site);
+          el("path", { d: path(line.map(p => [p.x, p.yy]), f.X, f.Y, 25), fill: "none", stroke: col, "stroke-width": 1.8, ...(dash ? { "stroke-dasharray": dash } : {}) }, svg);
+          line.forEach(p => el("circle", { cx: f.X(p.x), cy: f.Y(p.yy), r: 2.4, fill: col }, svg));
+        }
+      });
+      hover(svg, f, pts, p => `<b>${p.site}</b><br>Mars Year ${p.y} · Ls ${p.x - 5}–${p.x + 5}°<br>${fmt(p.yy, 0)} % (middle value of ${p.n} nights)`, true);
+      document.getElementById("twoHumLegend").innerHTML = '<span><i style="background:var(--ink2)"></i>Gale (Curiosity)</span><span><i class="dash" style="border-color:var(--ink2)"></i>Jezero (Perseverance)</span>' + ys.map(y => `<span><i style="background:${S[years.indexOf(y) % S.length]}"></i>Mars Year ${y}</span>`).join("");
+    }
+
+    // ---- the 2018 dust storm: Mars Year 34 against the same season in Curiosity's other Mars Years ----
+    const DUST = { my: 34, x0: 150, x1: 330, arrive: 2075 };   // sol 2075 (June 8, 2018): the sunlight begins to fall
+    function others(list, val) {   // per 5° of season: each other year's mean, then their range and average
+      const g = new Map();
+      for (const r of list) {
+        if (r.mars_year === DUST.my || r.ls < DUST.x0 || r.ls >= DUST.x1) continue;
+        const v = val(r); if (v == null || !isFinite(v)) continue;
+        const b = Math.floor(r.ls / 5) * 5, k = b + "|" + r.mars_year;
+        if (!g.has(k)) g.set(k, [0, 0]); const a = g.get(k); a[0] += v; a[1]++;
+      }
+      const byBin = new Map();
+      for (const [k, [sum, n]] of g) { const b = +k.split("|")[0]; if (!byBin.has(b)) byBin.set(b, []); byBin.get(b).push(sum / n); }
+      return [...byBin].filter(([, v]) => v.length >= 3).map(([b, v]) => ({ x: b + 2.5, lo: Math.min(...v), hi: Math.max(...v), mean: v.reduce((a, c) => a + c, 0) / v.length, years: v.length })).sort((a, b) => a.x - b.x);
+    }
+    function drawDust(svgId, list, series, ylab, unit, d) {
+      const svg = document.getElementById(svgId);
+      const c34 = S[years.indexOf(DUST.my) % S.length], muted = css("--ink2");
+      const my = list.filter(r => r.mars_year === DUST.my && r.ls >= DUST.x0 && r.ls < DUST.x1);
+      const bands = series.map(s => others(list, s.val));
+      const vals = series.flatMap((s, i) => my.map(s.val).concat(bands[i].flatMap(b => [b.lo, b.hi]))).filter(v => v != null && isFinite(v));
+      const span = Math.max(...vals) - Math.min(...vals), step = span > 60 ? 20 : span > 25 ? 10 : 5;
+      const f = frame(svg, { w: 520, h: 300, x0: DUST.x0, x1: DUST.x1, y0: Math.floor(Math.min(...vals) / step) * step, y1: Math.ceil(Math.max(...vals) / step) * step, xt: [150, 180, 210, 240, 270, 300, 330], xlab: "Season (Ls, degrees)", ylab, xfmt: v => v + "°" });
+      bands.forEach(b => {
+        if (!b.length) return;
+        el("path", { d: "M" + b.map(p => f.X(p.x).toFixed(1) + "," + f.Y(p.hi).toFixed(1)).join("L") + "L" + b.slice().reverse().map(p => f.X(p.x).toFixed(1) + "," + f.Y(p.lo).toFixed(1)).join("L") + "Z", fill: muted, opacity: .14 }, svg);
+        el("path", { d: path(b.map(p => [p.x, p.mean]), f.X, f.Y, 12), fill: "none", stroke: muted, "stroke-width": 1.3, "stroke-dasharray": "5 4" }, svg);
+      });
+      const at = bySol.get(DUST.arrive);
+      if (at) {
+        el("line", { x1: f.X(at.ls), x2: f.X(at.ls), y1: f.m.t, y2: f.h - f.m.b, stroke: css("--brass-dim"), "stroke-dasharray": "3 4" }, svg);
+        el("text", { x: f.X(at.ls) + 6, y: f.m.t + 12, class: "lbl" }, svg).textContent = "dust reaches Gale";
+      }
+      series.forEach(s => el("path", { d: path(my.map(r => [r.ls, s.val(r)]), f.X, f.Y, 3), fill: "none", stroke: c34, "stroke-width": 2 }, svg));
+      const near = (b, x) => b.reduce((a, c) => Math.abs(c.x - x) < Math.abs(a.x - x) ? c : a, b[0]);
+      hover(svg, f, my.filter(r => s0(r) != null).map(r => ({ x: r.ls, yy: s0(r), r })), p => `<b>Sol ${p.r.sol}</b> · ${p.r.utc_date}<br>Ls ${fmt(p.r.ls, 1)}°, Mars Year ${DUST.my}` + series.map((s, i) => { const v = s.val(p.r), o = bands[i].length ? near(bands[i], p.r.ls) : null; return v == null ? "" : `<br>${s.name}${fmt(v, d)} ${unit}${o ? ` (other years ${fmt(o.mean, d)})` : ""}`; }).join(""));
+      function s0(r) { return series[0].val(r); }
+      return c34;
+    }
+    function drawDustAll() {
+      const c34 = drawDust("cDustUV", rows.filter(r => r.uv_abc_max != null), [{ name: "", val: r => r.uv_abc_max }], "UV (W/m²)", "W/m²", 1);
+      drawDust("cDustT", fullT, [{ name: "High ", val: r => r.air_temp_max - K }, { name: "Low ", val: r => r.air_temp_min - K }], "Air temperature (°C)", "°C", 0);
+      drawDust("cDustP", fullP, [{ name: "", val: r => r.pressure_max != null && r.pressure_min != null ? r.pressure_max - r.pressure_min : null }], "Daily range (Pa)", "Pa", 0);
+      document.getElementById("dustLegend").innerHTML = `<span><i style="background:${c34}"></i>Mars Year 34 (2018)</span><span><i class="dash" style="border-color:var(--ink2)"></i>Other Mars Years, average</span><span><i style="background:var(--ink2);opacity:.35"></i>Other Mars Years, range</span>`;
+    }
     function drawTwo() {
       const svg = document.getElementById("cTwo");
       if (!MD) return;
@@ -632,9 +778,9 @@
     loadMex();
 
     function drawAll() {
-      drawTwo(); drawMex();
+      drawTwo(); drawTwoHum(); drawDustAll(); drawMex();
       drawPressure(); drawRange(); drawHeat(); drawHiLo(); drawClimb(); drawSol();
-      seasonal("cHum", "humFrame", "humidity_max", "Relative humidity (%)", "%", 0, "Humidity appears here after the sols are re-processed with cleaning rules 1.1.");
+      seasonal("cHum", "humFrame", "humidity_max", "Relative humidity (%)", "%", 0, "Humidity appears here after the sols are re-processed with cleaning rules 1.1.", r => atNight(r.humidity_max_hour));
       seasonal("cUV", "uvFrame", "uv_abc_max", "UV (W/m²)", "W/m²", 1, "Corrected UV appears here after the UV files are processed.");
     }
     drawAll();

@@ -14,7 +14,7 @@ organised by season, time of day and the rover's height, summarised, and charted
   `../planet-maps/#mars-gale` and `#mars-jezero` (the crater's card on the Mars map).
 - **`charts/index.html`, the charts,** in the project's look (`docs/DESIGN.md`), drawn as hand-made SVG from
   `data/summary.json`, `data/meda.json` and, for one sol at a time, `data/hourly/MY<n>.json`. Each section has an
-  address of its own (`charts/#shows`, `#year`, `#craters`, `#sol`, `#mission`, `#above`), reached from a section menu that stays at the
+  address of its own (`charts/#shows`, `#year`, `#craters`, `#sol`, `#mission`, `#dust`, `#above`), reached from a section menu that stays at the
   top of the screen:
 
 - **The Martian year:** air pressure through the year, one line per Mars Year, with a correction for the rover's

@@ -34,7 +34,7 @@
 .secnav a[aria-current="true"] { color: var(--brass-bright); border-bottom-color: var(--brass); }
 .secnav a:last-child { margin-left: auto; color: var(--brass); }
 @media (max-width: 600px) { .secnav a:last-child { margin-left: 0; } }
-[id="shows"], [id="year"], [id="craters"], [id="sol"], [id="mission"], [id="above"] { scroll-margin-top: 130px; }
+[id="shows"], [id="year"], [id="craters"], [id="sol"], [id="mission"], [id="dust"], [id="above"] { scroll-margin-top: 130px; }
 .statusline { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp2) var(--sp4); margin: 0 0 var(--sp5); }
 .statusline .note { margin: 0; }
 .words { margin: var(--sp3) 0 0; }

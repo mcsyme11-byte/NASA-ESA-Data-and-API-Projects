@@ -1,5 +1,29 @@
 # Change log
 
+
+## November 18, 2026 — Mars Data: Perseverance in more charts; the 2018 dust storm
+
+- **The 2018 dust storm** (`mars-data/charts/#dust`, "Dust storm" in the section menu): Mars Year 34 against the same
+  season in Curiosity's other Mars Years (shaded range and dashed average, each year averaged over 5° of season), in
+  three charts: midday ultraviolet (below 1 W/m² at the height of the storm, under a twentieth of the usual 22), daily
+  highs and lows (afternoons about 25 °C colder, nights about 8 °C warmer, the day's swing roughly halved) and the
+  daily pressure swing (about 125–130 Pa against the usual 80–95). A dashed line marks sol 2075 (June 8, 2018), when the
+  sunlight at Gale began to fall. The storm's dates in the introduction are NASA's (first seen May 30, 2018; global by
+  June 20); every figure in the captions comes from the cleaned data.
+- **Humidity at night at two sites** (in "Two craters"): Gale and Jezero, one line per Mars Year (the median of each
+  10° of season, at least 5 nights). Only sols whose highest humidity came at night (20:00 to 08:00 local time) are
+  used: Perseverance measures about every second hour, and on sols with no night hour measured the day's highest value
+  is a dry daytime reading (135 such sols). The same rule now applies to Curiosity's "Humidity at night" chart (4
+  sols). The page reads Perseverance's per-sol file (`data/meda/sols.csv`), which has the hour of each maximum; no
+  data file changed.
+- **The rovers' climbs** (in "The whole mission"): Perseverance's height beside Curiosity's, by sol since each landing.
+- "What the record shows" links the dust storm section and notes the two craters' opposite humid seasons. The home
+  page's Explore cards: six chart cards (with "The 2018 dust storm"), then "What the record shows" and "How the data is
+  made" in a row of two.
+- The value box on the humidity comparison picks the nearest point in both directions, so each line can be reached.
+- If the summary data cannot be loaded, every part that needs it is hidden (the selector still named the page's
+  earlier layout); if Perseverance's per-sol file cannot be loaded, the humidity comparison says so.
+- `mars.css`: links to `#dust` stop below the section menu. Version tag raised to 2026111802.
 ## November 17, 2026 — Image Explorer: subtitles for NASA's videos
 
 - A NASA video with a subtitle file (`.vtt` or `.srt`, listed with its other files) now plays with subtitles that can

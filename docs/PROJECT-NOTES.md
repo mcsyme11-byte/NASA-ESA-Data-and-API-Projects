@@ -134,6 +134,11 @@ How NASA and ESA Data Projects is built, the decisions made so far, and how to r
 - **Decided Nov 12, 2026 (Mars Data):** the "Mars data" job runs on main on Mondays and Thursdays at 09:23 UTC,
   publishes only after `validate.py` passes, and reports new data or a failure by opening a GitHub issue, which GitHub
   emails to people watching the repository.
+- **Decided Nov 18, 2026 (Mars Data):** Perseverance appears wherever its cleaned data (pressure, humidity, height)
+  fits: pressure and night-time humidity in "Two craters", height in "The rovers' climbs"; it has no temperature or
+  ultraviolet in this project. A night-humidity chart uses only sols whose highest humidity came between 20:00 and
+  08:00 local time. "The 2018 dust storm" sets Mars Year 34 against Curiosity's other Mars Years at the same season.
+  Built without a mock-up at the developer's request ("realistic and professional"), for review afterwards.
 - **Decided Nov 17, 2026 (Mars Data):** the charts page opens with "What the record shows", a short plain-English
   write-up of the clearest patterns, each paragraph linked to its chart. Its figures are worked out from the published
   data and rounded so they stay true as sols are added; they are checked again when the cleaning rules change.
