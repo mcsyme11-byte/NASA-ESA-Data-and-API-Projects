@@ -86,9 +86,19 @@
    "sources": {
     "archive": {"label": "Confirmed planets", "agency": "NASA Exoplanet Archive"}
    }
+  },
+  "space-weather-data": {
+   "name": "Space weather data", "project": "Space Weather", "href": "space-weather/", "runs": "twice a day",
+   "cron": ["37 12 * * *", "37 0 * * *"], "max_age_hours": 30, "grace_hours": 24,
+   "data": ["space-weather/data/"], "scripts": ["space-weather/fetch_space_weather.py"],
+   "about": "A stand-in copy of the Sun's latest events and readings, for when NASA cannot be reached, and the monthly record since 2010.",
+   "sources": {
+    "latest": {"label": "Fallback copy (events, solar wind, X-rays, Kp)", "agency": "NASA and NOAA"},
+    "archive": {"label": "Record since 2010", "agency": "NASA", "every_days": 7, "retry_days": 2, "max_age_days": 21}
+   }
   }
  },
- "clock": {"about": "The outside clock (decided Nov 17, 2026): free timers at cron-job.org start each job at its cron times through GitHub's API (workflow_dispatch), with a fine-grained token limited to this repository's Actions; GitHub's own schedule stays as the backup. set_up: the date the timers were made (empty until then); token_expires: the token's expiry date.", "service": "cron-job.org", "set_up": "2026-11-17", "token_expires": "2027-11-17", "timers": 11},
+ "clock": {"about": "The outside clock (decided Nov 17, 2026): free timers at cron-job.org start each job at its cron times through GitHub's API (workflow_dispatch), with a fine-grained token limited to this repository's Actions; GitHub's own schedule stays as the backup. set_up: the date the timers were made (empty until then); token_expires: the token's expiry date.", "service": "cron-job.org", "set_up": "2026-11-17", "token_expires": "2027-11-17", "timers": 17},
  "known_notes": [
   {"match": "Tianwen-1", "reason": "not in Horizons (ROADMAP: added if Horizons lists it later)"},
   {"match": "Tianwen-2", "reason": "not in Horizons (ROADMAP: added if Horizons lists it later)"},

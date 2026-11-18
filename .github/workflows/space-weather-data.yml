@@ -1,0 +1,76 @@
+# NASA and ESA Data Projects · Space weather data · © 2026 Malcolm Syme · mcsyme11@gmail.com
+#
+# The Space Weather page (space-weather/) reads everything live in the visitor's browser. This job (since Nov 18, 2026)
+# keeps the stand-in copy the page shows when NASA cannot be reached, and the monthly record behind its "Since 2010"
+# view (hand-off of Nov 17, 2026). space-weather/fetch_space_weather.py, standard library only, no key:
+#   latest    twice a day: the last weeks of DONKI's flares, CMEs, storms, particle events and model runs, and iSWA's
+#             solar wind, X-rays and Kp (GFZ's measured Kp, NOAA's GOES and NOAA's forecast, through NASA CCMC's iSWA)
+#             → space-weather/data/latest.json. A service that cannot be read keeps its part of the previous copy.
+#   archive   weekly: monthly counts of flares, CMEs and storms since April 2010 from DONKI → archive.json. The first
+#             run builds the whole record (about 70 requests per type, one second apart); later runs redo the last
+#             three months. Decided by the archive's age (every_days in dev/data_jobs.json), so a run whose archive
+#             is not due skips it; "Run workflow" with "archive" rebuilds it now.
+# Each part keeps its previous file when its source fails and says so in the log ("not read, previous copy kept").
+# Follows the data-job standard in docs/DATA-UPDATES.md; the last step (dev/datajob.py) checks the files, records each
+# part in shared/data/status/space-weather-data.json and commits with the standard message.
+# Run by hand: Actions › Space weather data › Run workflow.
+
+name: Space weather data
+
+on:
+  schedule:
+    - cron: '37 12 * * *'   # 12:37 UTC daily
+    - cron: '37 0 * * *'    # 00:37 UTC daily, the backup
+  workflow_dispatch:
+    inputs:
+      archive:
+        description: 'Also update the record since 2010 now'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: space-weather-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+      - name: Latest events and readings (DONKI, iSWA)
+        id: latest
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          python3 -u space-weather/fetch_space_weather.py latest | tee "$RUNNER_TEMP/sw.log"
+          # one service kept its previous part: the file is still saved, the part is recorded as failing
+          ! grep -q "not read" "$RUNNER_TEMP/sw.log"
+      - name: Is the weekly record update due?
+        id: due
+        run: |
+          if [ "${{ inputs.archive }}" = "true" ]; then echo "due=true" >> "$GITHUB_OUTPUT"; echo "Started by hand."
+          else python3 dev/datajob.py --due space-weather-data archive; fi
+      - name: Record since 2010 (DONKI)
+        id: archive
+        if: steps.due.outputs.due == 'true'
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          python3 -u space-weather/fetch_space_weather.py archive | tee -a "$RUNNER_TEMP/sw.log"
+      - name: Check, record and commit
+        if: always()
+        run: >-
+          python3 dev/datajob.py --job space-weather-data
+          --message "Space weather data: stand-in copy and monthly record from NASA"
+          --paths space-weather/data
+          --source latest=${{ steps.latest.outcome }}
+          --source archive=${{ steps.archive.outcome }}
+          --log "$RUNNER_TEMP/sw.log" --watch "not read"

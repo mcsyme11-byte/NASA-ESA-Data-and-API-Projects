@@ -1,5 +1,13 @@
 # Change log
 
+## November 18, 2026 — Space weather data job; outside clock complete
+
+- New data job **Space weather data** (`space-weather-data.yml`, 12:37 and 00:37 UTC daily): the Space Weather page's
+  stand-in copy (`space-weather/data/latest.json`, from NASA CCMC's DONKI and iSWA) and, weekly by its age, the monthly
+  record since 2010 (`archive.json`). The page reads the services live; the job only keeps the copy for when NASA
+  cannot be reached.
+- The outside clock has 17 timers: Orbit data, Exoplanets data and Space weather data added.
+
 ## November 18, 2026 — Every description of the site brought up to date; the checks procedure
 
 - `CLAUDE.md`'s table now lists every project and tool (it had only the three projects), with its section, folder and

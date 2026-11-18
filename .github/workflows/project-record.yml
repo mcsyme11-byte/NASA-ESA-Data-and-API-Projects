@@ -23,6 +23,7 @@ on:
       - 'planet-maps/data/**'
       - 'exoplanets/data/**'
       - 'orbit-watch/data/**'
+      - 'space-weather/data/**'
       - 'shared/data/**'
   workflow_dispatch:
 

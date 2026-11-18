@@ -25,6 +25,7 @@ files and the daily health check. Decided Nov 14, 2026.
 | Place and map lists (`build-places.yml`) | 03:37 on January, April, July and October 2; by hand with "names only" for just the Moon and Mars names | GeoNames; Natural Earth; the IAU's planetary names from NASA Solar System Treks or the USGS Gazetteer | `image-explorer/data/` (features, globe places, map lines, countries, names); `planet-maps/data/names-mars.json`, `names-moon.json` | `build-places.json` |
 | Orbit data (`orbit-data.yml`) | 11:13 and 23:13 daily (at least five hours from Spacecraft data, which also reads CelesTrak's active list) | CelesTrak: elements (CSV) of the active satellites and three debris clouds, the satellite catalogue (`pub/satcat.csv`), SOCRATES Plus close passes | `orbit-watch/data/` (`objects.json`, `heights.json`, `close.json`) | `orbit-data.json` |
 | Exoplanets data (`exoplanets-data.yml`) | 11:43 Tuesdays and Wednesdays; the measurements (`exoplanets-build.yml`) only by hand | NASA Exoplanet Archive (TAP, `pscomppars`) | `exoplanets/data/planets.json`, `summary.json` | `exoplanets-data.json` |
+| Space weather data (`space-weather-data.yml`) | 12:37 and 00:37 daily (latest); the record weekly, by its age | NASA CCMC DONKI and iSWA (GFZ Kp, NOAA GOES X-rays and Kp forecast through iSWA); the page reads them live, the job keeps a stand-in copy | `space-weather/data/latest.json`, `archive.json` | `space-weather-data.json` |
 | Rover routes (`rover-routes.yml`) | 08:29 and 20:59 daily | NASA/JPL "Where is the rover?" files (mars.nasa.gov/mmgis-maps), one source per rover | `planet-maps/data/routes.json` | `rover-routes.json` |
 | Data health (`data-health.yml`) | 22:07 daily | the jobs above (reads only); also checks that each schedule in `dev/data_jobs.json` matches its workflow | the `data-health` GitHub issue | none |
 
@@ -98,7 +99,7 @@ time and the health check's allowance for age cover this.
 
 Decided Nov 17, 2026; set up Nov 17 and 18, 2026. GitHub's own `schedule` runs here 4 to 10 hours late (median about
 7 hours), so free timers at cron-job.org start each job at its cron times instead, through GitHub's API: one timer per
-cron time (11 so far; Orbit data and Exoplanets data still to add), each in UTC, sending `POST /repos/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/actions/workflows/<file>/dispatches`
+cron time (17 in all), each in UTC, sending `POST /repos/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/actions/workflows/<file>/dispatches`
 with the body `{"ref":"main"}` and the headers `Accept: application/vnd.github+json`, `X-GitHub-Api-Version:
 2022-11-28`, `Content-Type: application/json` and `Authorization: Bearer <token>`. A run started this way begins within
 about a minute. GitHub's own `schedule` stays in every workflow as the backup; a second run on the same data changes
@@ -143,6 +144,7 @@ changes.
 | Rover routes | 30 | 48 |
 | Orbit data | 30 | 24 |
 | Exoplanets data | 192 | 0 |
+| Space weather data | 30 (the record: 21 days) | 24 |
 
 ## On the site: the live data status
 

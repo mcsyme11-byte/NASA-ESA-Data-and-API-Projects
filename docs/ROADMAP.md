@@ -90,10 +90,9 @@ one GitHub issue labelled `data-health`.
   and read CelesTrak's CSV (six-digit catalogue numbers); changes to `spacecraft/fetch_spacecraft.py` and
   `shared/sats.js` handed to the Image Explorer chat (`docs/handoffs/2026-11-18 - data updates - spacecraft
   CelesTrak.md`). Then `spacecraft-data.yml` runs `orbit-watch/fetch_orbits.py --keep` first and passes the folder.
-- [ ] Outside clock: add the timers for Orbit data (11:13 and 23:13 UTC, `orbit-data.yml`) and Exoplanets data
-  (11:43 UTC Tuesdays and Wednesdays, `exoplanets-data.yml`) at cron-job.org (clone a timer, set title, address and
-  schedule, switch it on), then set `clock.timers` to 15 in `dev/data_jobs.json`. Until then, both run on GitHub's own
-  schedule.
+- [ ] Confirm the first runs started by the newest timers: Orbit data (11:13 and 23:13 UTC), Exoplanets data
+  (11:43 UTC Tuesdays and Wednesdays, first Nov 24, 2026) and Space weather data (12:37 and 00:37 UTC), all set up
+  Nov 18, 2026. Confirmed so far: Spacecraft data 05:23, Astronaut photos 19:11 and Rover routes 20:59 (Nov 18, 2026).
 - [ ] Confirm the first scheduled runs of **Orbit data** (`orbit-data.yml`, 11:13 and 23:13 UTC) and **Exoplanets
   data** (`exoplanets-data.yml`, 11:43 UTC Tuesdays and Wednesdays), both added Nov 18, 2026. First runs by hand on
   Nov 18, 2026: Orbit data read every source (16,917 active satellites and 2,682 debris objects with elements, 71,365
@@ -102,17 +101,6 @@ one GitHub issue labelled `data-health`.
 - [ ] Confirm the first scheduled runs of **Rover routes** (`rover-routes.yml`, 08:29 and 20:59 UTC, added Nov 17,
   2026). First runs by hand on Nov 17, 2026: both rovers read (Curiosity sol 5073, Perseverance sol 2022,
   `routes.json` 123 KB), and the Moon and Mars place names built (1,783 Mars and 7,982 Moon names).
-
-- [ ] **Space Weather (noted Nov 17, 2026; answered the same day): scheduled runs are too late for data that changes within
-  hours.** GitHub starts this repository's scheduled runs 4 to 10 hours late (seen Nov 15 to 17, 2026), which suits
-  daily data but not space weather. Before any Space Weather data job is built, check whether its pages can read the
-  source directly in the visitor's browser (CORS allowed, free, no key, within the source's limits), with a scheduled
-  job keeping only a fallback copy for when the source is out of reach. Any source other than NASA or ESA (for example
-  NOAA's Space Weather Prediction Center) needs the developer's decision first, and a source read by visitors'
-  browsers goes on the Privacy page first. Decided with the Space Weather chat's hand-off.
-  Answered Nov 17, 2026: DONKI and iSWA allow web pages to read them, need no key and are read live by the page; the
-  job keeps only a fallback copy and the monthly record. To do here: build the job from the hand-off
-  (`docs/handoffs/2026-11-17 - data updates - Space Weather data.md`; `space-weather/fetch_space_weather.py` is ready).
 
 - [ ] Confirm over the first days: the Astronaut photos 19:11 backup run and a daily Data health run. Results so far:
   - Astronaut photos backup (19:11 UTC): ran and succeeded for Nov 15 (started 23:21 UTC) and Nov 16 (started
