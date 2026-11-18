@@ -517,7 +517,7 @@ function drawHeights() {
     if (h0 % every === 0) s += `<text x="${x}" y="${Ht - B + 16}" text-anchor="middle">${fmt(h0)}</text>`;
   });
   s += `<text x="${W - R}" y="${Ht - B + 16}" text-anchor="end">${fmt(2000)}</text>`;
-  s += `<text class="axt" x="${(W + L) / 2}" y="${Ht - 4}" text-anchor="middle">Mean height above the ground, km</text></svg>`;
+  s += `<text class="axt" x="${(W + L) / 2}" y="${Ht - 4}" text-anchor="middle">${W < 420 ? "Mean height, km" : "Mean height above the ground, km"}</text></svg>`;
   box.innerHTML = s;
   const show = (e, g) => {
     const k = +g.dataset.k, b = bins[k], h0 = (k + first) * H.step;

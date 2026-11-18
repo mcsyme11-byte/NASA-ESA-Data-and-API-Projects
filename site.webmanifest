@@ -1,7 +1,7 @@
 {
   "name": "NASA and ESA Data Projects",
   "short_name": "NEDAP",
-  "description": "Learn and explore with real NASA and ESA data: an Asteroid Tracker, an Image Explorer and a Mars Data study. By Malcolm Syme; not endorsed by NASA or ESA.",
+  "description": "Learn and explore with real NASA and ESA data: the Asteroid Tracker, the Image Explorer, Mars Data and the Orbit & Space Watch tools. By Malcolm Syme; not endorsed by NASA or ESA.",
   "id": "./",
   "start_url": "./",
   "scope": "./",

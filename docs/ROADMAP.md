@@ -5,6 +5,8 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
 
 ## 0. Repository (set up Nov 8, 2026)
 
+- [ ] The developer pastes the description and instructions of `docs/CLAUDE-PROJECT-SETUP.md` (updated Nov 18, 2026)
+  into the Claude project's settings; the project's description there still names only three projects.
 - [ ] Before any trademark filing: a trademark search on "NEDAP" (a company called Nedap N.V. exists) and advice from
   a trademark lawyer on the name and the patch (`brand/patch/README.md`).
 - [ ] **Ideas for the look and feel, for the General chat (proposed Nov 18, 2026; each needs a mock-up the developer

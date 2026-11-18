@@ -4,6 +4,15 @@ How NASA and ESA Data Projects is built, the decisions made so far, and how to r
 
 ## Decisions
 
+- **Decided Nov 18, 2026 (the checks procedure):** a repo-wide check that day still left `CLAUDE.md`'s project table,
+  the About page, the home page's description, the app description (`site.webmanifest`) and
+  `docs/CLAUDE-PROJECT-SETUP.md` naming three projects, because the check covered only the README and the Project
+  Record and no list of the places that describe the site existed. Since then: `docs/CHECKS.md` is the fixed
+  procedure for every repo-wide or site-wide check (CLAUDE.md, "Repo-wide and site-wide checks"), with the table of
+  every place that describes the site; `dev/check_docs.py` checks the names in each of them against `SECTIONS`, the
+  links from the home and Space Watch pages, the Back-button names, the READMEs in the record and the links between
+  documents; the browser page check that had been run by hand is in the repository as `dev/check_pages.py`.
+
 - **Decided Nov 18, 2026 (links in reports):** every reply that finishes work on the site ends with links to the live
   pages added, updated or fixed (the site's address plus the page's path), and GitHub links for changes not on a page.
 - **Decided Nov 18, 2026 (Orbit Watch globe):** What's in orbit is laid out like the Asteroid Tracker's solar system

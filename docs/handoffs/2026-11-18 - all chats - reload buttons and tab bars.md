@@ -49,3 +49,10 @@ other page links "Project 1 · Asteroid Tracker" or "Orbit & Space Watch · Orbi
 - `asteroid-tracker/tracker.css`: links in `.neo` tables have a 40 px tap area on phones.
 - `shared/theme.css`: one-column layouts (`.split`, `.panels`, `.cards`) use `minmax(0, 1fr)`, so a wide child no
   longer makes a page wider than the phone; the footer's layout follows its own width.
+
+## 5. Repo-wide checks (added later on Nov 18, 2026)
+
+`docs/CHECKS.md` is the fixed procedure for any repo-wide or site-wide check, and for adding, renaming or removing a
+project, tool or page. `python3 dev/check_docs.py` now refuses a live project or tool missing from CLAUDE.md's table,
+the README, the Project Record's front page, the About page, the home page and app descriptions or
+`docs/CLAUDE-PROJECT-SETUP.md`. `python3 dev/check_pages.py` checks every page in a browser at every width.

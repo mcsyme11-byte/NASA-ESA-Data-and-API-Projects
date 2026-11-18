@@ -1,5 +1,20 @@
 # Change log
 
+## November 18, 2026 — Every description of the site brought up to date; the checks procedure
+
+- `CLAUDE.md`'s table now lists every project and tool (it had only the three projects), with its section, folder and
+  live date, and the site pages that are not projects. The About page names and links the Orbit & Space Watch tools;
+  the home page's description, its opening line and the app description (`site.webmanifest`) no longer speak of three
+  projects; `docs/CLAUDE-PROJECT-SETUP.md` carries the project's current instructions and chats.
+- `docs/CHECKS.md` (new): the step-by-step procedure for every repo-wide or site-wide check, with the table of every
+  place that describes the site; a standing rule in `CLAUDE.md`.
+- `dev/check_docs.py` now also checks CLAUDE.md, the About page, the home page and app descriptions, the project
+  setup text, the links from the home and Space Watch pages, the Back-button names, every project's README in the
+  Project Record and the links between documents.
+- `dev/check_pages.py` (new in the repository): the browser check of every page and view at every width.
+- Fixes it found: long source names ran off a 320 px phone on the data-collection and control-room pages (the chips
+  wrap now); an Orbit Watch axis title ran off narrow charts. Version tag 2026111810.
+
 ## November 18, 2026 — links in reports
 
 - New standing rule in `CLAUDE.md`: every report of finished work ends with links to the live pages added, updated or

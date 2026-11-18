@@ -53,7 +53,7 @@ const PARTS = [
   { title: 'Data Sources', intro: 'Every NASA and ESA source the projects use: addresses, keys, limits, terms and credit lines.', docs: [['docs/DATA-SOURCES.md', { title: 'Data sources' }]] },
   { title: 'Data Updates', intro: 'How the data is kept up to date automatically: the data jobs, their standard, the status files and the daily health check.', docs: [['docs/DATA-UPDATES.md', { title: 'Data updates' }]] },
   { title: 'Design Language', intro: 'The navy, brass and cream look every page follows.', docs: [['docs/DESIGN.md', {}], ['brand/patch/README.md', { title: 'The NEDAP mission patch' }]] },
-  { title: 'Decisions and Working Rules', generated: 'decisions', docs: [['docs/PROJECT-NOTES.md', { title: 'Project notes and decisions' }]] },
+  { title: 'Decisions and Working Rules', generated: 'decisions', docs: [['docs/PROJECT-NOTES.md', { title: 'Project notes and decisions' }], ['docs/CHECKS.md', { title: 'Repo-wide and site-wide checks' }]] },
   { title: 'The Site\'s Pages', intro: 'The About, Privacy, Terms of use, Credits and Contact pages, as they appear on the site.', generated: 'legal' },
   { title: 'Licence and Credits', intro: 'The project\'s licence, and every outside data source and library with its terms.', docs: [['LICENSE.md', { title: 'Licence' }], ['CREDITS.md', { title: 'Credits' }]] },
   { title: 'Repository History', intro: 'Every change saved to the repository, newest first, except the daily data updates (counted, not listed).', generated: 'history' },

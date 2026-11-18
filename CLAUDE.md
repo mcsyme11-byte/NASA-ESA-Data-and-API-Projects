@@ -5,20 +5,26 @@ and APIs of NASA and ESA (the European Space Agency), one folder each. **Short n
 API Projects, decided Nov 14, 2026), used wherever the full name does not fit: the app label under the home-screen
 icon, and any other short or abbreviated use.
 
-| Project | Folder | What it is |
-|---|---|---|
-| **Asteroid Tracker** | `asteroid-tracker/` | Near-Earth objects sorted by size and distance, an interactive dashboard (NASA/JPL and ESA NEOCC) |
-| **Mars Data** | `mars-data/` | Mars mission measurements cleaned, organised, analysed and charted |
-| **Image Explorer** | `image-explorer/` | Imagery searchable by date, location and mission (NASA GIBS + Image Library, ESA/Webb + ESA/Hubble) |
+Everything on the site, by section (the site's own list of pages is `SECTIONS` in `shared/footer.js`; this table, the
+README, the Project Record's front page, the About page and `docs/CLAUDE-PROJECT-SETUP.md` must name every live one,
+and `dev/check_docs.py` refuses any that is missing):
 
-**Orbit & Space Watch** (planned and live Nov 17, 2026; a section of the site with its page at `space-watch/`), one
-chat and folder each: **Orbit Watch** (`orbit-watch/`), **Space Weather** (`space-weather/`), **Exoplanets** (`exoplanets/`) and
-**Planetary Maps** (`planet-maps/`); the Asteroid Tracker adds an asteroid mining view (`asteroid-tracker/mining.html`).
-The plan, the approved sources and what each reuses are in `docs/PROJECT-NOTES.md` and `docs/ROADMAP.md` (section 5).
+| Section | Project or tool | Folder | What it is | Live since |
+|---|---|---|---|---|
+| Project 1 | **Asteroid Tracker** | `asteroid-tracker/` | Near-Earth objects by size and distance: this week, by year, impact risk, visible from here, a search, the solar system map and the **Within reach** mining view (`mining.html`) (NASA/JPL and ESA NEOCC) | Nov 8, 2026 |
+| Project 2 | **Image Explorer** | `image-explorer/` | Imagery by date, place and mission: the daily Earth map, the globe and the picture library (NASA GIBS, EONET, Image Library, astronaut photos; ESA/Webb, ESA/Hubble) | Nov 9, 2026 |
+| Project 3 | **Mars Data** | `mars-data/` | Weather measured on Mars by Curiosity and Perseverance, cleaned, organised, analysed and charted (NASA PDS) | Nov 12, 2026 |
+| Orbit & Space Watch (`space-watch/`) | **Orbit Watch** | `orbit-watch/` | Satellites and space junk on a live globe, close passes and a collision calculator, and how orbit could be cleaned up (CelesTrak; NASA ODPO; ESA Space Debris Office) | Nov 17, 2026 |
+| Orbit & Space Watch | **Space Weather** | `space-weather/` | The Sun now: flares, CMEs, the solar wind, storms and the aurora, read live (NASA DONKI, iSWA, SDO; SOHO; NOAA SWPC; GFZ Kp) | Nov 17, 2026 |
+| Orbit & Space Watch | **Exoplanets** | `exoplanets/` | How planets around other stars are found, and every confirmed planet (NASA Exoplanet Archive, MAST) | Nov 17, 2026 |
+| Orbit & Space Watch | **Planetary Maps** | `planet-maps/` | Zoomable maps of the Moon and Mars with landing sites, rover routes and place names (NASA Solar System Treks) | Nov 17, 2026 |
+| Utility | **Sky Finder** | `sky-finder/` | An installable phone web app that points to tonight's passing asteroid | Nov 12, 2026 |
+| Utility | **Spacecraft map** | `spacecraft/` | The active spacecraft of NASA, ESA and others, previewed on the home page (data job `spacecraft-data.yml`; facts in `spacecraft/catalogue.json`, checked by hand) | Nov 12, 2026 |
 
-Utilities alongside them (since Nov 12, 2026): **Sky Finder** (`sky-finder/`, an installable phone web app that points
-to passing asteroids) and the **spacecraft map** (`spacecraft/`, previewed on the home page; data job
-`spacecraft-data.yml`; facts in `spacecraft/catalogue.json`, checked by hand).
+Orbit & Space Watch was planned and published on Nov 17, 2026, one chat and folder per tool; the plan, the approved
+sources and what each reuses are in `docs/PROJECT-NOTES.md` and `docs/ROADMAP.md` (section 5). Site pages that are not
+projects: the home page, `space-watch/`, `data-collection/`, `control-room/`, `design/` (the component page) and the
+information pages (`about/`, `contact/`, `credits/`, `legal/`, `privacy/`, `terms/`).
 
 Shared code and the look are in `shared/`; documents in `docs/`. It is separate from the Flight Deck Suite and Hot Mic
 (their own repositories), but shares their look.
@@ -36,6 +42,12 @@ inside its own folder.
   live pages that were added, updated or fixed, on the site's address
   (`https://mcsyme11-byte.github.io/NASA-ESA-Data-and-API-Projects/` plus the page's path, for example
   `orbit-watch/tracker.html`); changes that are not on a page (scripts, data jobs, documents) are linked on GitHub.
+- **Repo-wide and site-wide checks (decided Nov 18, 2026):** any check, review or tidy-up of the whole repository or
+  site, and every addition, rename or removal of a project, tool or page, follows `docs/CHECKS.md` step by step: the
+  automatic checks, every place that describes the whole site (compared with `SECTIONS` in `shared/footer.js`), the
+  page check (`dev/check_pages.py`) at every width, each page by hand, the repository's organisation, and the
+  Project Record after pushing. A check is not finished until every step is done; the report lists each step's
+  result. When a step finds something a check let through, the check is extended in the same change.
 - **After every change that's finished and checked,** commit and push it to `main` with a short plain-English commit
   message, and update `docs/ROADMAP.md` (remove what's done: the whole item with its indented lines, never a section
   heading; `dev/check_docs.py` checks the shape), `CHANGELOG.md` and, for milestones, `docs/HISTORY.md`. When a
@@ -164,5 +176,6 @@ done, not by who in a chat did it. `python3 dev/check_wording.py` checks this, a
 python3 -m http.server 8000     # then open http://localhost:8000
 python3 dev/check_wording.py    # wording, personal details and keys
 python3 dev/check_styles.py     # shared components, page styles, version tags and project tab bars
-python3 dev/check_docs.py       # every live project in the README and the Project Record; the roadmap's shape
+python3 dev/check_docs.py       # every place that describes the site names every live project; roadmap; doc links
+python3 dev/check_pages.py      # every page in a browser at every width (Playwright; docs/CHECKS.md, step 3)
 ```
