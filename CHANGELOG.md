@@ -1,5 +1,15 @@
 # Change log
 
+## November 18, 2026 — counting numbers, loading shimmer, notices and pointer glow
+
+- `shared/motion.js`: stat numbers count up from zero the first time they show (0.9 s, keeping decimals, sign and
+  commas; live changes afterwards show as they are), and a soft brass glow follows the pointer over cards and
+  panels on computers. Same pages as the reading progress line; nothing moves for visitors who ask for less motion.
+- Loading states show three shimmering lines instead of the spinner (`.loading`, every page).
+- New `toast(text)`: a small notice at the bottom left. Space Weather shows "Updated 13:20" after its timed refresh
+  when the page head's Reload button is off screen, or says when NASA could not be reached.
+- Ideas for the look and feel listed in the roadmap for the General chat. Version tag raised to 2026111807.
+
 ## November 18, 2026 — Reload buttons, project tab bars, a site-wide formatting review and the documents check
 
 - **Reload buttons** (new shared component, mock-up approved Nov 18, 2026; `shared/reload.js`, `.reload` in

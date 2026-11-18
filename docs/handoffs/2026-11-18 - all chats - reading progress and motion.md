@@ -14,6 +14,11 @@ page needed changing.
     (`[aria-selected="true"]` or `[aria-current]`). It follows changes to those attributes by itself; a page needs no
     code for it.
   - **Rising sections:** each `main .section` below the first screen fades up gently the first time it shows.
+- **Added the same day:** stat numbers (`.stat .value`, `.tile .value`) count up from zero the first time they show
+  with a plain number (later live changes show as they are); a soft brass glow follows the pointer over cards and
+  panels on computers; loading states (`.loading`) show three shimmering lines instead of the spinner; and
+  `toast(text)` (import it from `shared/motion.js`) shows a small notice at the bottom left, used by Space Weather
+  after its timed refreshes when the page head's Reload button is off screen.
 - **Left out of:** the legal, professional and technical pages (Legal, Privacy, Terms, Credits, Contact, About, How
   the data is collected, the component page, the control room, Mars Data's method page) and Sky Finder (a phone app
   with its own controls), listed in `SKIP` in `shared/motion.js`. Any other page can opt out with
@@ -22,4 +27,4 @@ page needed changing.
   rising sections. Nothing of it prints.
 - **For pages with a fixed control at the bottom right** (a map's buttons, for example): check that the Back to top
   button does not cover it; if it does, add `data-nomotion` to the page's `<body>` or tell the General chat.
-- Version tag raised to 2026111805.
+- Version tag raised to 2026111807.

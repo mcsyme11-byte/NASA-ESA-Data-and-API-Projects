@@ -7,6 +7,21 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
 
 - [ ] Before any trademark filing: a trademark search on "NEDAP" (a company called Nedap N.V. exists) and advice from
   a trademark lawyer on the name and the patch (`brand/patch/README.md`).
+- [ ] **Ideas for the look and feel, for the General chat (proposed Nov 18, 2026; each needs a mock-up the developer
+  approves):**
+  - A site search (opened with `/` or Ctrl+K): every page, project and tool, and later an asteroid or mission by
+    name, as a panel over the page.
+  - The "On this page" bar of Space Weather (shared `.tabs`, staying under the top bar) as a shared option for every
+    long page (the Asteroid Tracker's overview, Mars Data, Planetary Maps' place list).
+  - Smooth changes between pages (the browser's View Transitions between documents), the top bar staying in place.
+  - A "Copy link to this section" button beside each section heading, for sharing one part of a page.
+  - Keyboard shortcuts in the tools (arrows for the previous and next period, numbers for tabs), listed in a small
+    panel opened with `?`.
+  - Loading shapes matched to what is loading (a chart's outline, a table's rows, a tile's number) instead of one
+    shimmer for everything.
+  - A small dot in the menu for tools published since the visitor's last visit (kept in the browser only; Privacy
+    page first).
+  - Preview cards for shared links (an Open Graph picture and text per page), in the NEDAP look.
 - [ ] Reload buttons (shared component, Nov 18, 2026; Space Weather has them): each project chat adds them to its own
   pages with live or updated data, following `docs/DESIGN.md` ("Reload buttons") and the handoff of Nov 18, 2026.
 

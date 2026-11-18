@@ -7,7 +7,8 @@ import { readEvents, readWind, readXray, readKp, readSaved, readArchive } from '
 import { timeline, line24, kpBars, monthly, emptyBox, hideTip, utc, fmtKp, gName } from './charts.js';
 import { chance } from './aurora.js';
 import { currentPlace, locate, searchPlaces, setPlace, forgetPlace } from '../shared/place.js';
-import { reloadPage, reloadPart, markUpdated } from '../shared/reload.js?v=2026111806';
+import { toast } from '../shared/motion.js?v=2026111807';
+import { reloadPage, reloadPart, markUpdated } from '../shared/reload.js?v=2026111807';
 
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
@@ -69,7 +70,14 @@ function showNotice() {
 }
 document.addEventListener('click', async (e) => {
   if (!e.target.closest('[data-retry]')) return;
-  e.target.disabled = true; await refresh(); });
+  e.target.disabled = true; await refresh(); updatedNotice(); });
+// "Updated 13:20" after each refresh while the page is open; a failure says so instead
+// `auto`: from the page's own timer; then only when the page head (whose Reload button shows the time) is off screen
+function updatedNotice(auto = false) {
+  if (auto && $('#reloadAll') && $('#reloadAll').getBoundingClientRect().bottom > 0) return;
+  const ok = S.from.wind === 'live' || S.from.xray === 'live';
+  toast(ok ? `Updated ${local(Date.now())}` : 'NASA could not be reached; trying again in 5 minutes', { bad: !ok });
+}
 
 // ---------------------------------------------------------------- 1. right now
 const last = (a) => (a && a.length ? a[a.length - 1] : null);
@@ -344,6 +352,7 @@ async function start() {
     if (Date.now() - lastFull > 10 * 60e3) { await Promise.all([load('ev'), load('kp')]); lastFull = Date.now(); }
     renderAll();
     markUpdated($('#reloadAll'));
+    updatedNotice(true);
   }, 5 * 60e3);
   setInterval(() => { if (!document.hidden) { sdo(pressed($('#sdoSeg')).dataset.code); soho(pressed($('#sohoSeg')).dataset.code); oval(); } }, 15 * 60e3);
   document.addEventListener('visibilitychange', () => { if (!document.hidden && Date.now() - lastFull > 5 * 60e3) refresh(); });

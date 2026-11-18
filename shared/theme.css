@@ -439,8 +439,13 @@ a.tag.link:hover, a.badge:hover { border-color: var(--brass); color: var(--brass
 .state.small { min-height: 120px; }
 .notice { margin-bottom: var(--sp4); }
 .empty, .loading { padding: var(--sp7) var(--sp5); text-align: center; color: var(--muted); font-style: italic; text-wrap: balance; }
-.loading::before { content: ""; display: block; width: 26px; height: 26px; margin: 0 auto var(--sp3);
-  border: 2px solid var(--line2); border-top-color: var(--brass); border-radius: 50%; animation: spin 1s linear infinite; }
+/* loading: three soft lines with a slow brass shimmer passing over them (since Nov 18, 2026; was a spinner) */
+.loading::before { content: ""; display: block; width: min(100%, 360px); height: 56px; margin: 0 auto var(--sp3);
+  background: linear-gradient(100deg, var(--card) 30%, color-mix(in srgb, var(--brass) 22%, var(--card2)) 50%, var(--card) 70%) 0 0 / 220% 100%;
+  -webkit-mask: linear-gradient(#000 0 0) 0 0 / 100% 10px no-repeat, linear-gradient(#000 0 0) 0 23px / 86% 10px no-repeat, linear-gradient(#000 0 0) 0 46px / 62% 10px no-repeat;
+  mask: linear-gradient(#000 0 0) 0 0 / 100% 10px no-repeat, linear-gradient(#000 0 0) 0 23px / 86% 10px no-repeat, linear-gradient(#000 0 0) 0 46px / 62% 10px no-repeat;
+  animation: shimmer 1.6s linear infinite; }
+@keyframes shimmer { from { background-position: 110% 0; } to { background-position: -110% 0; } }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* ============================================================== tables: one style; rows stack on phones */
@@ -782,6 +787,25 @@ a, button, .btn, .chip, .badge, input, select, summary, .backlink, .back, .nav a
 .section.reveal { opacity: 0; transform: translateY(16px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
 .section.reveal.shown { opacity: 1; transform: none; }
 @media print { .readbar, .totop { display: none; } .section.reveal { opacity: 1; transform: none; } }
+
+/* "Updated 13:20": a small notice at the bottom left after live data refreshes (toast() in shared/motion.js) */
+.toasts { position: fixed; z-index: 46; left: max(16px, env(safe-area-inset-left)); bottom: max(16px, env(safe-area-inset-bottom));
+  display: flex; flex-direction: column; gap: var(--sp2); pointer-events: none; }
+.toast { display: flex; align-items: center; gap: 9px; padding: 9px 14px; border-radius: 999px; font-size: 13.5px; color: var(--ink2);
+  background: rgba(15, 21, 32, .94); border: 1px solid var(--line); box-shadow: 0 6px 20px rgba(0, 0, 0, .35);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  opacity: 0; transform: translateY(8px); transition: opacity .3s var(--ease), transform .3s var(--ease); }
+.toast.on { opacity: 1; transform: none; }
+.toast::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
+.toast.bad::before { background: var(--red); box-shadow: 0 0 8px var(--red); }
+/* the soft brass glow under the pointer on cards and panels (computers only; motion.js sets --mx, --my, --ga) */
+@property --ga { syntax: "<number>"; inherits: false; initial-value: 0; }
+@media (hover: hover) and (pointer: fine) {
+  .card.glow, .panel.glow { transition: --ga .35s var(--ease), border-color .2s var(--ease), transform .2s var(--ease), background-color .2s var(--ease);
+    background-image: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--brass) calc(var(--ga) * 9%), transparent), transparent 65%); }
+  .card.glow:hover, .panel.glow:hover { --ga: 1; }
+}
+@media print { .toasts { display: none; } }
 
 /* never rely on motion */
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
