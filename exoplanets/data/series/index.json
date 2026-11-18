@@ -1,0 +1,27 @@
+{
+ "updated": "2026-11-18T02:53:06Z",
+ "series": [
+  {
+   "key": "hot-jupiter",
+   "kind": "transit",
+   "planet": "HD 209458 b",
+   "mission": "TESS"
+  },
+  {
+   "key": "toi-700d",
+   "kind": "transit",
+   "planet": "TOI-700 d",
+   "mission": "TESS"
+  },
+  {
+   "key": "rv-51peg",
+   "kind": "rv",
+   "planet": "51 Peg b"
+  },
+  {
+   "key": "microlensing",
+   "kind": "microlensing",
+   "event": "OGLE-2005-BLG-390"
+  }
+ ]
+}
