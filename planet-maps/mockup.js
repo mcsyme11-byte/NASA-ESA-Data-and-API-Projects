@@ -159,7 +159,10 @@
         <p>${r ? `<button class="btn small" id="pGo">Zoom to ${r.name}</button> ` : `<button class="btn small" id="pGo">Zoom in</button> `}${(i.links || []).map(([t, h]) => `<a class="btn outline small" href="${h}">${t}</a>`).join(' ')}</p></div>
         <div><dl class="facts">${i.facts.map(([a, b]) => `<dt>${a}</dt><dd>${b}</dd>`).join('')}${r ? `<dt>Now</dt><dd>Sol ${r.sol.toLocaleString('en')}, ${r.km} km driven</dd>` : ''}</dl>
         ${i.esa ? `<p class="caption">${i.esa}</p>` : ''}</div></div></div>`;
-    $('pGo').onclick = () => view.animate({ center: r ? r.at : [p[4], p[3]], zoom: r ? 15 : Math.max(view.getZoom(), 6), duration: 900 });
+    /* a place with a close-up opens inside it (view zoom 13: about 5 m a pixel on the Moon, 10 m on Mars) */
+    const at = r ? r.at : [p[4], p[3]];
+    const sharp = CLOSE[S.body].some(([, , , b]) => at[0] >= b[0] && at[0] <= b[2] && at[1] >= b[1] && at[1] <= b[3]);
+    $('pGo').onclick = () => view.animate({ center: at, zoom: r ? 15 : sharp ? 13 : Math.max(view.getZoom(), 6), duration: 900 });
   }
   function draw() {
     const list = LAYERS[S.body];
