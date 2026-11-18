@@ -62,6 +62,7 @@ From the developer's review of 23 test searches (`scoreOf` in `image-explorer/ap
 
 - The developer tested the site-wide redesign (version 2 of the look), the NEDAP logo and the live data status line
   on phone, tablet and computer; all passed. Sky Finder's outdoor test at night remains open.
+- The developer's portfolio now uses the patch from `brand/patch/` in this repository (handoff of Nov 17, 2026 done).
 
 ## November 17, 2026 — the NEDAP mission patch becomes the logo
 

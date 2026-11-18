@@ -5,7 +5,6 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
 
 ## 0. Repository (set up Nov 8, 2026)
 
-- [ ] The portfolio project: replace its copy of the patch with `brand/patch/nedap-patch.svg` (handoff of Nov 17, 2026).
 - [ ] Before any trademark filing: a trademark search on "NEDAP" (a company called Nedap N.V. exists) and advice from
   a trademark lawyer on the name and the patch (`brand/patch/README.md`).
 
