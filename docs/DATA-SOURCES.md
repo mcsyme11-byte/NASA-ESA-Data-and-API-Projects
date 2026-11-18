@@ -595,7 +595,12 @@ Checked Nov 9, 2026 (live requests from the published site):
   Point Lat/Lon, Nadir Lat/Lon, Spacecraft Altitude (nautical miles), Lens mm, geon, feat, Clouds Percentage, …,
   camera, RecordType`. Most are "NotCataloged": no centre point, place or cloud cover yet, only the point below the
   Station (nadir). `frame` has a leading space. `temp/Latest_ISS_Imagery.json` is the gallery's own listing.
-- Used since Nov 11, 2026 by `fetch_astronaut_photos.py` when the repository has no `EOL_API_KEY`. Photos without a
+- Key received Nov 18, 2026 (repository secret `EOL_API_KEY`). The API answers `{"result": "SQL found no records…"}`
+  when nothing matches: on Nov 18, 2026 no photo of the last 90 days was cataloged yet (cataloging lags behind). The
+  job then tries the last 365 days, and if fewer than 60 cataloged photos are found it adds the Latest ISS Imagery set
+  below (a photo read both ways keeps its cataloged centre point).
+- Used since Nov 11, 2026 by `fetch_astronaut_photos.py` when the repository has no `EOL_API_KEY`, and since Nov 18,
+  2026 alongside the keyed API when it finds fewer than 60 cataloged photos. Photos without a
   centre point are placed below the Station and say so on the globe.
 
 ### Image and Video Library: videos, checked Nov 9, 2026

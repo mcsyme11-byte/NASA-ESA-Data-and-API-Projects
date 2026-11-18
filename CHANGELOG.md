@@ -1,5 +1,11 @@
 # Change log
 
+## November 18, 2026 — Image Explorer: astronaut-photo key in use
+
+- NASA sent the free Photos Database API key; it is the repository secret `EOL_API_KEY`. The first run found no photo
+  of the last 90 days cataloged yet and stopped; `fetch_astronaut_photos.py` now treats "no records" as none found,
+  tries the last 365 days, and adds the public Latest ISS Imagery set when fewer than 60 cataloged photos are found.
+
 ## November 18, 2026 — Orbit Watch: the globe laid out like the solar system map
 
 - **What's in orbit** now follows the Asteroid Tracker's solar system map: the globe in a map card, with the time (UTC,

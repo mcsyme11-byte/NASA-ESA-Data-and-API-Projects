@@ -41,6 +41,8 @@ def query(key, since):
     req = urllib.request.Request(url, headers={'User-Agent': 'NASA-Data-Projects/1.0 (github.com/mcsyme11-byte/NASA-ESA-Data-and-API-Projects)'})
     with urllib.request.urlopen(req, timeout=120) as r:
         rows = json.loads(r.read().decode('utf-8'))
+    if isinstance(rows, dict) and 'no records' in str(rows.get('result', '')):
+        return []                                         # nothing cataloged in that window (cataloging lags behind)
     if not isinstance(rows, list):
         raise SystemExit(f'Unexpected answer from the API: {str(rows)[:300]}')
     return rows
@@ -130,7 +132,14 @@ def main():
     else:
         for days in (90, 365):
             photos = group(query(key, (today - timedelta(days=days)).strftime('%Y%m%d')))
+            print(f'Cataloged photos of the last {days} days: {len(photos)}.')
             if len(photos) >= 60: break
+        if len(photos) < 60:                              # too few cataloged: add the newest photos, placed below the Station
+            print('Adding the public Latest ISS Imagery set.')
+            try: latest = latest_set()
+            except Exception as e: print(f'Latest ISS Imagery not read: {e}'); latest = []
+            ids = {p[0] for p in photos}
+            photos = photos + [p for p in latest if p[0] not in ids]
     if not photos:
         print('No photos read: the saved file is kept.'); return
     photos = json.loads(json.dumps(photos[:KEEP]))

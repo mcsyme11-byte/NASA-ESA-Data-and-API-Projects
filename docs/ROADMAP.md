@@ -48,10 +48,6 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
 - [ ] Picture library: tune the ranking further as the developer reviews searches (the weights are in `scoreOf` in
   `image-explorer/app.js`; second and third rounds applied Nov 17, 2026).
 - [ ] Further rounds of changes to the globe, as the developer reviews it.
-- [ ] Astronaut photos: the free API key (requested by email from jsc-earthweb@mail.nasa.gov; no answer by Nov 11,
-  2026; followed up Nov 18, 2026; low priority, as an answer may take a while) would add cataloged photos with their centre points. Without it the job uses the public Latest ISS Imagery set
-  (since Nov 11, 2026). If the key arrives: repository secret `EOL_API_KEY`, then Actions › Astronaut photos › Run
-  workflow.
 
 ## 3. Mars Data (live Nov 12, 2026)
 
