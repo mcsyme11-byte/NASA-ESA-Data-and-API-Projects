@@ -1,5 +1,10 @@
 # Change log
 
+## November 18, 2026 — links in reports
+
+- New standing rule in `CLAUDE.md`: every report of finished work ends with links to the live pages added, updated or
+  fixed, and GitHub links for changes that are not on a page.
+
 ## November 18, 2026 — Image Explorer: astronaut-photo key in use
 
 - NASA sent the free Photos Database API key; it is the repository secret `EOL_API_KEY`. The first run found no photo

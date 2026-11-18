@@ -4,6 +4,8 @@ How NASA and ESA Data Projects is built, the decisions made so far, and how to r
 
 ## Decisions
 
+- **Decided Nov 18, 2026 (links in reports):** every reply that finishes work on the site ends with links to the live
+  pages added, updated or fixed (the site's address plus the page's path), and GitHub links for changes not on a page.
 - **Decided Nov 18, 2026 (Orbit Watch globe):** What's in orbit is laid out like the Asteroid Tracker's solar system
   map (map card with overlays, control rows, Selected card and legend beside it, hover tooltips), at the developer's
   request; the asteroid map's approved layout stands in for a separate mock-up.

@@ -32,6 +32,10 @@ inside its own folder.
 
 - When the developer asks a question ("why…", "what do you think?"), answer it only. Build or change nothing until he
   explicitly says go.
+- **Links in every report (decided Nov 18, 2026):** every reply that finishes work on the site ends with links to the
+  live pages that were added, updated or fixed, on the site's address
+  (`https://mcsyme11-byte.github.io/NASA-ESA-Data-and-API-Projects/` plus the page's path, for example
+  `orbit-watch/tracker.html`); changes that are not on a page (scripts, data jobs, documents) are linked on GitHub.
 - **After every change that's finished and checked,** commit and push it to `main` with a short plain-English commit
   message, and update `docs/ROADMAP.md` (remove what's done: the whole item with its indented lines, never a section
   heading; `dev/check_docs.py` checks the shape), `CHANGELOG.md` and, for milestones, `docs/HISTORY.md`. When a
