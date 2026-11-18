@@ -1,5 +1,15 @@
 # Change log
 
+## November 17, 2026 — Planetary Maps data jobs
+
+- New data job **Rover routes** (`rover-routes.yml`, 08:29 and 20:59 UTC daily): `planet-maps/fetch_routes.py` writes
+  `planet-maps/data/routes.json` from NASA/JPL's "Where is the rover?" files, one source per rover (Curiosity,
+  Perseverance), with "not found" and "check failed" lines kept as notes. Status file `rover-routes.json`.
+- **Place and map lists** (`build-places.yml`) also rebuilds the Moon and Mars place names
+  (`planet-maps/tools/build_names.py`, `names-mars.json` and `names-moon.json`) each quarter, as its own part; a run
+  by hand can rebuild only those ("names only").
+- `planet-maps/data/`, `exoplanets/data/` and `orbit-watch/data/` added to the Project Record's `paths-ignore`.
+
 ## November 17, 2026 — Planetary Maps: links to a place
 
 - A link can open a place on Planetary Maps with its card: `planet-maps/#mars-gale`, `#mars-jezero`, `#moon-apollo11`

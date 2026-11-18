@@ -46,14 +46,25 @@
    }
   },
   "build-places": {
-   "name": "Place and map lists", "project": "Image Explorer", "href": "image-explorer/", "runs": "four times a year",
+   "name": "Place and map lists", "project": "Image Explorer and Planetary Maps", "href": "image-explorer/", "runs": "four times a year",
    "cron": ["37 3 2 1,4,7,10 *"], "max_age_hours": 2400, "grace_hours": 0,
-   "data": ["image-explorer/data/"], "scripts": ["image-explorer/tools/build_geonames_features.py", "image-explorer/tools/build_globe_spots.py", "image-explorer/tools/build_features.py", "image-explorer/tools/build_shapes.py"],
-   "about": "Natural features, volcanoes, coastlines, borders and place names for the Earth map and the globe.",
+   "data": ["image-explorer/data/", "planet-maps/data/"], "scripts": ["image-explorer/tools/build_geonames_features.py", "image-explorer/tools/build_globe_spots.py", "image-explorer/tools/build_features.py", "image-explorer/tools/build_shapes.py", "planet-maps/tools/build_names.py"],
+   "about": "Natural features, volcanoes, coastlines, borders and place names for the Earth map and the globe, and the official place names on the Moon and Mars maps.",
    "sources": {
     "geonames": {"label": "Natural features", "agency": "GeoNames"},
     "globe-places": {"label": "Globe places", "agency": "GeoNames"},
-    "natural-earth": {"label": "Map lines and names", "agency": "Natural Earth"}
+    "natural-earth": {"label": "Map lines and names", "agency": "Natural Earth"},
+    "planet-names": {"label": "Moon and Mars place names", "agency": "IAU, via NASA Trek and USGS"}
+   }
+  },
+  "rover-routes": {
+   "name": "Rover routes", "project": "Planetary Maps", "href": "planet-maps/", "runs": "twice a day",
+   "cron": ["29 8 * * *", "59 20 * * *"], "max_age_hours": 30, "grace_hours": 48,
+   "data": ["planet-maps/data/routes.json"], "scripts": ["planet-maps/fetch_routes.py"],
+   "about": "Where Curiosity and Perseverance are on Mars, and the routes they have driven, for the Mars map.",
+   "sources": {
+    "curiosity": {"label": "Curiosity", "agency": "NASA/JPL"},
+    "perseverance": {"label": "Perseverance", "agency": "NASA/JPL"}
    }
   }
  },

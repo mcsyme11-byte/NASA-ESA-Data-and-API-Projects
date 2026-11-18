@@ -8,6 +8,9 @@
 #   features.json        natural features for place search, from Natural Earth 1:10m (build_features.py)
 #   shapes.json, countries.json, labels.json   the Earth map's lines, countries and names, from Natural Earth 1:50m
 #                        (build_shapes.py)
+#   planet-maps/data/names-mars.json, names-moon.json   the Planetary Maps' official place names (since Nov 17, 2026),
+#                        from NASA Solar System Treks' catalogue or the USGS Gazetteer (planet-maps/tools/build_names.py);
+#                        a body whose list cannot be read, or shrinks below half, keeps its previous file
 # Each part runs on its own: if one source cannot be read, the others are still saved and the state is recorded.
 # Follows the data-job standard in docs/DATA-UPDATES.md: the last step (dev/datajob.py) checks the files before they are
 # saved, records each part's state in shared/data/status/build-places.json and commits with the standard message.
@@ -23,6 +26,10 @@ on:
       limit:
         description: Most GeoNames places to keep
         default: '400000'
+      names_only:
+        description: Rebuild only the Moon and Mars place names
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -43,6 +50,7 @@ jobs:
       - uses: actions/checkout@v6
       - name: Smaller natural features (GeoNames)
         id: geonames
+        if: ${{ !inputs.names_only }}
         continue-on-error: true
         run: |
           curl -sSfL -o "$RUNNER_TEMP/allCountries.zip" https://download.geonames.org/export/dump/allCountries.zip
@@ -63,8 +71,17 @@ jobs:
         if: steps.geonames.outcome == 'success'
         continue-on-error: true
         run: python3 image-explorer/tools/build_globe_spots.py
+      - name: Moon and Mars place names (NASA Trek, USGS)
+        id: names
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          python3 -u planet-maps/tools/build_names.py | tee "$RUNNER_TEMP/names.log"
+          # one body kept its previous file: the part is recorded as failing, the other body is still saved
+          ! grep -Eq "not found|check failed" "$RUNNER_TEMP/names.log"
       - name: Natural features, map lines, countries and names (Natural Earth)
         id: naturalearth
+        if: ${{ !inputs.names_only }}
         continue-on-error: true
         run: |
           ne="$RUNNER_TEMP/naturalearth"
@@ -89,8 +106,10 @@ jobs:
         if: always()
         run: >-
           python3 dev/datajob.py --job build-places
-          --message "Place and map lists: quarterly rebuild from GeoNames and Natural Earth"
-          --paths image-explorer/data
+          --message "Place and map lists: quarterly rebuild from GeoNames, Natural Earth and the planetary place names"
+          --paths image-explorer/data planet-maps/data
           --source geonames=${{ steps.geonames.outcome }}
           --source globe-places=${{ steps.spots.outcome }}
           --source natural-earth=${{ steps.naturalearth.outcome }}
+          --source planet-names=${{ steps.names.outcome }}
+          --log "$RUNNER_TEMP/names.log" --watch "not found|check failed"

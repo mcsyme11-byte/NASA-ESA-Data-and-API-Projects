@@ -1,0 +1,65 @@
+# NASA and ESA Data Projects · Planetary Maps rover routes · © 2026 Malcolm Syme · mcsyme11@gmail.com
+#
+# Twice a day (since Nov 17, 2026), reads the files behind NASA/JPL's "Where is the rover?" maps and writes
+# planet-maps/data/routes.json: Curiosity's and Perseverance's latest positions and routes (planet-maps/fetch_routes.py,
+# standard library only, no key). NASA updates the files after drives, not on a fixed timetable; the script leaves the
+# file as it is when no rover has moved. Each rover is a separate source: a rover whose files cannot be read, or whose
+# new entry fails a check, keeps its previous entry, and the log line ("not found", "check failed") becomes a note.
+# Two daily times: the second run catches up when GitHub delays or skips the first.
+# Follows the data-job standard in docs/DATA-UPDATES.md: the last step (dev/datajob.py) checks the file before it is
+# saved, records each rover's state in shared/data/status/rover-routes.json and commits with the standard message.
+# Run by hand: Actions › Rover routes › Run workflow.
+
+name: Rover routes
+
+on:
+  schedule:
+    - cron: '29 8 * * *'    # 08:29 UTC daily
+    - cron: '59 20 * * *'   # 20:59 UTC daily, the backup
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: rover-routes
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      # exits 1 only when no rover could be read; the previous file is then kept
+      - name: Fetch the rovers' routes
+        id: routes
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          python3 -u planet-maps/fetch_routes.py | tee "$RUNNER_TEMP/routes.log"
+      # one line per rover: "Curiosity: sol …" when read and checked, "…: not found" or "…: check failed" when kept
+      - name: Which rovers worked
+        id: rovers
+        if: always()
+        run: |
+          for r in Curiosity Perseverance; do
+            k=$(echo "$r" | tr 'A-Z' 'a-z')
+            if grep -q "^$r: sol " "$RUNNER_TEMP/routes.log" 2>/dev/null; then s=success
+            elif grep -Eq "^$r: (not found|check failed)" "$RUNNER_TEMP/routes.log" 2>/dev/null; then s=failure
+            else s=cancelled; fi
+            echo "$k=$s" >> "$GITHUB_OUTPUT"; echo "$r: $s"
+          done
+      - name: Check, record and commit
+        if: always()
+        run: >-
+          python3 dev/datajob.py --job rover-routes
+          --message "Rover routes: daily update"
+          --paths ${{ steps.routes.outcome == 'success' && 'planet-maps/data/routes.json' || '' }}
+          --source curiosity=${{ steps.rovers.outputs.curiosity || 'cancelled' }}
+          --source perseverance=${{ steps.rovers.outputs.perseverance || 'cancelled' }}
+          --log "$RUNNER_TEMP/routes.log" --watch "not found|check failed"

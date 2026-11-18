@@ -20,6 +20,9 @@ on:
       - 'image-explorer/data/**'
       - 'mars-data/data/**'
       - 'spacecraft/data/**'
+      - 'planet-maps/data/**'
+      - 'exoplanets/data/**'
+      - 'orbit-watch/data/**'
       - 'shared/data/**'
   workflow_dispatch:
 

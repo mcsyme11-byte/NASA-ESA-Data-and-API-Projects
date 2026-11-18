@@ -22,7 +22,8 @@ files and the daily health check. Decided Nov 14, 2026.
 | Spacecraft data (`spacecraft-data.yml`) | 05:23 and 17:53 daily; after a change to the catalogue or the past missions | NASA/JPL Horizons, CelesTrak; link check once a day; reads `spacecraft/catalogue.json` and `spacecraft/past.json` (both edited by hand) | `spacecraft/data/` (`positions.json`, `tle.json`, `links.json`, `routes.json`) | `spacecraft-data.json` |
 | Astronaut photos (`astronaut-photos.yml`) | 07:41 and 19:11 daily | NASA Gateway to Astronaut Photography of Earth (key: `EOL_API_KEY`, or the public Latest ISS Imagery set) | `image-explorer/data/astronaut.json` | `astronaut-photos.json` |
 | Mars data (`mars-data.yml`) | 09:23 Mondays and Thursdays | NASA PDS (Curiosity REMS, Perseverance MEDA); ESA PSA (Mars Express MaRS) | `mars-data/data/` | `mars-data.json` |
-| Place and map lists (`build-places.yml`) | 03:37 on January, April, July and October 2 | GeoNames; Natural Earth | `image-explorer/data/` (features, globe places, map lines, countries, names) | `build-places.json` |
+| Place and map lists (`build-places.yml`) | 03:37 on January, April, July and October 2; by hand with "names only" for just the Moon and Mars names | GeoNames; Natural Earth; the IAU's planetary names from NASA Solar System Treks or the USGS Gazetteer | `image-explorer/data/` (features, globe places, map lines, countries, names); `planet-maps/data/names-mars.json`, `names-moon.json` | `build-places.json` |
+| Rover routes (`rover-routes.yml`) | 08:29 and 20:59 daily | NASA/JPL "Where is the rover?" files (mars.nasa.gov/mmgis-maps), one source per rover | `planet-maps/data/routes.json` | `rover-routes.json` |
 | Data health (`data-health.yml`) | 22:07 daily | the jobs above (reads only); also checks that each schedule in `dev/data_jobs.json` matches its workflow | the `data-health` GitHub issue | none |
 
 Data built once and not refreshed, because its sources do not change: the town list (`places.json`, from the pinned
@@ -115,6 +116,7 @@ changes.
 | Astronaut photos | 30 | 48 |
 | Mars data | 108 | 0 |
 | Place and map lists | 2400 | 0 |
+| Rover routes | 30 | 48 |
 
 ## On the site: the live data status
 
