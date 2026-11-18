@@ -1,5 +1,29 @@
 # Change log
 
+## November 17, 2026 — Orbit Watch
+
+- New tool `orbit-watch/`, approved from a plan and mock-ups: a home page with NASA's Satellite Box Score and ESA's
+  space environment figures (`facts.json`, copied by hand with their dates) and why the two totals differ.
+- **What's in orbit** (`tracker.html`): the shared globe (`shared/globe.js`) with every object of
+  `data/objects.json` moving in real time (SGP4 by satellite.js in a background worker, `propagate.js`), coloured by
+  kind, with switches for the working satellites, the mega-constellations and the Fengyun-1C, Cosmos 2251 and
+  Iridium 33 debris clouds; search by name or number; a card with the selected object's orbit; speeds from paused to
+  ×600; the Earth turned and shaded for the time shown. Below: every catalogued object by height (50 km bands) and by
+  region.
+- **Close calls and collisions** (`collisions.html`): the 15 closest and the 15 most likely predicted passes of the
+  next seven days (CelesTrak SOCRATES Plus), each replayable on the globe; a collision calculator on the NASA standard
+  breakup model, with its three rules and the 2009 Iridium 33 and Cosmos 2251 example; a teaching model of the
+  Kessler syndrome; the biggest breakups so far.
+- **Cleaning up** (`cleanup.html`): how long junk stays up at each height (NASA), four ways to clean up, six missions
+  (RemoveDEBRIS, ELSA-d, ADRAS-J, ADRAS-J2, ClearSpace-1, NASA's Orbital Debris Program Office), why it matters.
+- New script `orbit-watch/fetch_orbits.py` (CelesTrak elements as CSV, the satellite catalogue, SOCRATES Plus); the
+  scheduled job is handed to the Data updates chat (`docs/handoffs/2026-11-17 - orbit watch - data jobs.md`). Until
+  its first run the pages show their "not copied yet" states.
+- Sources recorded in `docs/DATA-SOURCES.md` (CelesTrak's OMM elements, satellite catalogue and SOCRATES Plus; NASA
+  Orbital Debris Program Office; ESA Space Debris Office); Credits and the Privacy page updated. The footer's site map
+  and Back names list the four pages; the Space Watch page's and the home page's Orbit Watch cards open the tool.
+  New style sheet `orbit-watch/orbit.css`, added to the version-tag check; version tags raised to 2026111711.
+
 ## November 17, 2026 — Planetary Maps: globes, the poles and more places
 
 - **Four views** on Planetary Maps: Map, **Globe** (the Moon and Mars on the shared three.js globe, sharper as you come

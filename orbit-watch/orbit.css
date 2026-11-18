@@ -1,0 +1,82 @@
+/* NASA and ESA Data Projects · Orbit Watch · the inside of its tools · © 2026 Malcolm Syme · mcsyme11@gmail.com
+ *
+ * Only the inside of the tools: the globe's frame and buttons, the object card's rows, the kind keys, the height chart,
+ * the collision calculator and the teaching model. Everything else is a shared component (shared/theme.css).
+ */
+
+/* ---------- kinds: the same colours on the globe, in the keys and in the charts (docs/DESIGN.md, chart series) ---------- */
+.ow-k { display: inline-block; width: 9px; height: 9px; border-radius: 50%; flex: none; }
+.ow-k.w { background: #8AA9C9; }           /* working satellites: blue (--s2) */
+.ow-k.m { background: #5F7A96; }           /* mega-constellations: a darker blue, part of the working satellites */
+.ow-k.d { background: #B79AC8; }           /* dead satellites: lilac (--s5) */
+.ow-k.r { background: #C9784A; }           /* rocket bodies: copper (--s4) */
+.ow-k.x { background: #D1A956; }           /* debris: amber (--s6) */
+.ow-k.u { background: #8b8577; }           /* unknown */
+.ow-k.sel { background: #E2C88E; }         /* the selected object: brass-bright */
+
+/* ---------- the tracker: the globe beside its control box ---------- */
+.ow-tool { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: var(--sp4); align-items: start; }
+@media (max-width: 1000px) { .ow-tool { grid-template-columns: 1fr; } }
+.ow-frame { position: relative; height: 640px; background: #05080D; border: 1px solid var(--line); border-radius: var(--r);
+  overflow: hidden; touch-action: none; }
+.ow-frame:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+@media (max-width: 1000px) { .ow-frame { height: 560px; } }
+@media (max-width: 760px) { .ow-frame { height: 70vh; min-height: 380px; max-height: 520px; } }
+#owGlobe, #owOver { position: absolute; inset: 0; width: 100%; height: 100%; }
+#owGlobe canvas { display: block; cursor: grab; }
+#owGlobe canvas:active { cursor: grabbing; }
+#owOver { pointer-events: none; }
+.ow-tag { position: absolute; left: 10px; top: 10px; right: 60px; width: fit-content; z-index: 2; padding: 6px 10px;
+  background: rgba(15, 21, 32, .94); border: 1px solid var(--brass-dim); border-radius: 4px; font-size: 13.5px; color: var(--ink2); }
+.ow-tag strong { font-weight: 400; color: var(--brass-bright); }
+.ow-zoom { position: absolute; right: 10px; top: 10px; z-index: 2; display: grid; gap: 6px; }
+.ow-zoom .chip { width: 40px; height: 40px; padding: 0; justify-content: center; background: rgba(15, 21, 32, .9); font-size: 18px; }
+.ow-clock { position: absolute; left: 10px; bottom: 10px; right: 10px; z-index: 2; display: flex; flex-wrap: wrap; gap: 6px 10px;
+  align-items: center; pointer-events: none; }
+.ow-clock > * { pointer-events: auto; }
+.ow-clock .seg { background: rgba(15, 21, 32, .92); }
+.ow-time { padding: 6px 10px; background: rgba(15, 21, 32, .92); border: 1px solid var(--line2); border-radius: 4px;
+  font-size: 13.5px; color: var(--ink); font-variant-numeric: lining-nums tabular-nums; }
+@media (max-width: 760px) { .ow-clock { left: 6px; right: 6px; bottom: 6px; } .ow-time { font-size: 12.5px; } }
+
+/* the control box: what to show, and the selected object */
+.ow-side .chips { margin-top: var(--sp2); }
+.ow-side .chips .chip { width: 100%; justify-content: flex-start; gap: 8px; }
+.ow-n { margin-left: auto; color: var(--muted); font-size: 13px; font-variant-numeric: lining-nums tabular-nums; }
+.ow-side .ow-gap { display: block; margin-top: var(--sp5); }
+.ow-side .bigsearch { margin-top: var(--sp2); }
+.ow-side .suggest { margin-top: 4px; }
+.ow-card { margin-top: var(--sp5); padding-top: var(--sp4); border-top: 1px solid var(--line); }
+.ow-card h3 { font-size: 19px; margin: 4px 0 2px; overflow-wrap: anywhere; }
+.ow-rows { display: grid; grid-template-columns: auto 1fr; gap: 4px var(--sp3); margin: var(--sp3) 0 0; font-size: 14.5px; }
+.ow-rows dt { color: var(--muted); }
+.ow-rows dd { margin: 0; color: var(--ink); font-variant-numeric: lining-nums tabular-nums; }
+.ow-card .actions { margin-top: var(--sp4); }
+
+/* the object list under a search */
+.ow-find { position: relative; }
+.ow-find ul { list-style: none; margin: 4px 0 0; padding: 4px; max-height: 260px; overflow: auto; background: var(--deep);
+  border: 1px solid var(--line2); border-radius: 4px; }
+.ow-find li { padding: 8px 10px; border-radius: 3px; cursor: pointer; font-size: 14.5px; display: flex; gap: 8px; align-items: center; }
+.ow-find li:hover, .ow-find li[aria-selected="true"] { background: var(--card2); color: var(--brass-bright); }
+.ow-find li small { margin-left: auto; color: var(--muted); }
+
+/* ---------- the height chart ---------- */
+.ow-chart { position: relative; }
+.ow-chart svg { display: block; width: 100%; height: 320px; overflow: visible; }
+@media (max-width: 760px) { .ow-chart svg { height: 280px; } }
+.ow-chart .bar { cursor: default; }
+.ow-chart .bar:hover rect { opacity: .82; }
+
+/* ---------- the collision calculator and the teaching model ---------- */
+.ow-two { display: grid; grid-template-columns: 330px minmax(0, 1fr); gap: var(--sp4); align-items: start; }
+@media (max-width: 1000px) { .ow-two { grid-template-columns: 1fr; } }
+.ow-two .field { display: grid; gap: 4px; margin-top: var(--sp4); }
+.ow-two .field input[type=range] { width: 100%; height: 40px; padding: 0; accent-color: var(--brass); background: none; border: 0; }
+.ow-two .field output { color: var(--ink); font-variant-numeric: lining-nums tabular-nums; }
+.ow-two .ctl > .seg { margin-top: var(--sp2); }
+.ow-cloud { display: block; width: 100%; height: 240px; margin: var(--sp4) 0 var(--sp3); background: #05080D;
+  border: 1px solid var(--line); border-radius: var(--r); }
+.ow-verdict.cat { color: var(--red); }
+.ow-verdict.non { color: var(--amber); }
+.ow-model svg { display: block; width: 100%; height: 280px; overflow: visible; }

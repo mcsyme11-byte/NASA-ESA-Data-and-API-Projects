@@ -158,18 +158,19 @@ a visitor's browser contacts, in the same change; data jobs handed to the Data u
 **Shared map and globe:** done Nov 17, 2026 (`shared/globe.js`, `shared/flatmap.js`; how to use them in
 `docs/PROJECT-NOTES.md`, "Shared map and globe"). Planetary Maps and Orbit Watch can build on them.
 
-**5a. Orbit Watch (`orbit-watch/`)**
-- [ ] Sources: CelesTrak (approved Nov 17, 2026) for the orbits of every tracked object; NASA Orbital Debris Program
-  Office (counts by type, the breakup model, past collisions); ESA Space Debris Office's yearly Space Environment
-  Report. Not used: ESA DISCOS (needs an account; its terms limit sharing).
-- [ ] A globe of every tracked object around the Earth, coloured by kind (satellites, rocket bodies, debris), using
-  `shared/sats.js` and the shared globe.
-- [ ] A collision simulator (how one crash becomes a cloud of debris, from NASA's breakup model and real events).
-- [ ] A space-junk cleanup explainer (the methods and missions, with NASA and ESA sources).
-- [ ] Links: "Can I see it tonight?" opens Sky Finder; missions open on the spacecraft map, whose Earth-orbit fleet
-  switch links here.
-- [ ] Hand-off to the Data updates chat: the Spacecraft data job extended to the whole CelesTrak catalogue, written to
-  `orbit-watch/data/` (CelesTrak asked once for both tools, twice a day); the yearly ESA figures as a review task.
+**5a. Orbit Watch (`orbit-watch/`)**: live since Nov 17, 2026 (home page, What's in orbit, Close calls and
+collisions, Cleaning up; see `orbit-watch/README.md`).
+- [ ] Data updates chat: build the Orbit data job from `docs/handoffs/2026-11-17 - orbit watch - data jobs.md`
+  (`fetch_orbits.py` twice a day, one CelesTrak download shared with the spacecraft job, `orbit-watch/data/` in
+  `paths-ignore`, a quarterly review task for `facts.json`). Until then the pages show "not copied yet".
+- [ ] Developer testing, on a phone and a computer, once the first data has arrived: the globe (turning, zoom, tapping
+  a dot, search, speeds, the kind switches), a close approach's "Watch" replay, the calculator and the model.
+- [ ] Confirm on the job's first run that `https://celestrak.org/pub/satcat.csv` is the satellite catalogue's address.
+- [ ] Ask CelesTrak whether elements for every catalogued object can be had in one file; until then the globe shows
+  the working satellites and the three debris clouds published as groups, and the heights chart counts everything.
+- [ ] Spacecraft map (its owner): read CelesTrak's CSV instead of two-line elements, so craft catalogued since
+  Jul 11, 2026 (six-digit numbers) are found (handoff, section 3); its Earth-orbit fleet switch to link to Orbit Watch.
+- [ ] Possible later: "Can I see it tonight?" for any object (Sky Finder predicts passes of the space stations only).
 
 **5b. Space Weather (`space-weather/`)**: live since Nov 17, 2026
 - [x] Sources checked and recorded in `docs/DATA-SOURCES.md` (Nov 17, 2026): DONKI's new address confirmed

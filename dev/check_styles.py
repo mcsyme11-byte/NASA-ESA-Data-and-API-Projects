@@ -18,7 +18,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SKIP = ('docs/', 'dev/', 'image-explorer/vendor/', 'shared/vendor/', 'node_modules/')
 SKIP_FILES = {'mars-data/mockup.html', 'spacecraft/mockup-more.html'}           # a mock-up waiting for approval, not a page of the site
 PROJECT_CSS = ['asteroid-tracker/tracker.css', 'image-explorer/explorer.css', 'mars-data/mars.css',
-               'spacecraft/spacecraft.css', 'sky-finder/sky-finder.css', 'planet-maps/maps.css', 'space-weather/spaceweather.css']
+               'spacecraft/spacecraft.css', 'sky-finder/sky-finder.css', 'planet-maps/maps.css', 'space-weather/spaceweather.css',
+               'orbit-watch/orbit.css']
 # the shared components (shared/theme.css); a project style sheet may not restyle one of these by itself
 SHARED = ['btn', 'chip', 'chips', 'card', 'cards', 'panel', 'panels', 'seg', 'tabs', 'notice', 'badge', 'badges', 'pill',
           'tag', 'stat', 'stats', 'tile', 'tiles', 'pagehead', 'phead', 'back', 'backlink', 'howto', 'section',
@@ -62,7 +63,7 @@ def main():
             problems.append(f'{f}: missing the site\'s app icon and short name (apple-touch-icon, site.webmanifest, NEDAP)')
         if not f.startswith('sky-finder/') and 'shared/icons/favicon.svg' not in s:
             problems.append(f'{f}: missing the NEDAP browser-tab icon (shared/icons/favicon.svg; see docs/DESIGN.md, "Logo and icons")')
-        for m in re.finditer(r'(theme\.css|footer\.js|tracker\.css|explorer\.css|mars\.css|spacecraft\.css|spaceweather\.css)\?v=(\d+)', s):
+        for m in re.finditer(r'(theme\.css|footer\.js|tracker\.css|explorer\.css|mars\.css|spacecraft\.css|spaceweather\.css|orbit\.css)\?v=(\d+)', s):
             tags.setdefault(m.group(2), []).append(f'{f} ({m.group(1)})')
     if len(tags) > 1:
         newest = max(tags)

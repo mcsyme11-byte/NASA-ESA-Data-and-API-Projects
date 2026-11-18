@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<!-- NASA and ESA Data Projects · Orbit Watch · What's in orbit · © 2026 Malcolm Syme · mcsyme11@gmail.com -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>What's in orbit · Orbit Watch · NASA and ESA Data Projects</title>
+  <meta name="description" content="A globe with every working satellite and the big debris clouds moving in real time, and every catalogued object around the Earth by height.">
+  <meta name="theme-color" content="#141B26">
+  <link rel="icon" href="../shared/icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="../shared/icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../shared/icons/apple-touch-icon.png">
+  <link rel="manifest" href="../site.webmanifest">
+  <meta name="apple-mobile-web-app-title" content="NEDAP">
+  <meta name="application-name" content="NEDAP">
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111711">
+  <link rel="stylesheet" href="orbit.css?v=2026111711">
+  <script type="module" src="../shared/footer.js?v=2026111711"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../" aria-label="NASA and ESA Data Projects, home">
+        <svg class="emblem" width="26" height="26" viewBox="0 0 64 64" aria-hidden="true"><use href="../shared/emblem.svg#e"/></svg><span class="bname">NASA and ESA Data Projects</span></a>
+      <nav class="nav" aria-label="Projects">
+        <a href="../">Home</a>
+        <a href="../asteroid-tracker/">Asteroids</a>
+        <a href="../mars-data/">Mars</a>
+        <a href="../image-explorer/">Images</a>
+        <a href="../space-watch/" aria-current="page">Space Watch</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <a class="backlink" id="back" href="./">Orbit Watch</a>
+    <header class="pagehead compact">
+      <div class="kicker">Orbit Watch · Tracker</div>
+      <h1>What's in orbit</h1>
+      <p class="updated" id="owUpd">Loading the orbits…</p>
+    </header>
+
+    <section class="ow-tool" aria-label="The globe">
+      <div class="ow-frame" id="owFrame" tabindex="0" aria-describedby="owKeys">
+        <div id="owGlobe" role="img" aria-label="A globe of the Earth with the working satellites and the big debris clouds around it, moving in real time"></div>
+        <canvas id="owOver" aria-hidden="true"></canvas>
+        <div class="ow-tag" id="owTag" aria-live="polite">Loading the globe…</div>
+        <div class="ow-zoom">
+          <button class="chip" type="button" id="owIn" aria-label="Closer">+</button>
+          <button class="chip" type="button" id="owOut" aria-label="Farther">−</button>
+          <button class="chip" type="button" id="owHome" aria-label="Back to the starting view">⌂</button>
+        </div>
+        <div class="ow-clock">
+          <span class="ow-time" id="owTime" aria-live="off">–</span>
+          <div class="seg" role="group" aria-label="Speed" id="owSpeed" data-hscroll>
+            <button type="button" data-s="0" aria-pressed="false">Paused</button>
+            <button type="button" data-s="1" aria-pressed="true">Real time</button>
+            <button type="button" data-s="10" aria-pressed="false">×10</button>
+            <button type="button" data-s="60" aria-pressed="false">×60</button>
+            <button type="button" data-s="600" aria-pressed="false">×600</button>
+          </div>
+          <button class="chip" type="button" id="owNow" hidden>Now</button>
+        </div>
+      </div>
+
+      <aside class="ctl ow-side" aria-label="What to show, and the selected object">
+        <h2>Show</h2>
+        <div class="chips" role="group" aria-label="Kinds of object">
+          <button class="chip" type="button" aria-pressed="true" data-k="w"><i class="ow-k w"></i>Working satellites <span class="ow-n" data-n="w">–</span></button>
+          <button class="chip" type="button" aria-pressed="true" data-k="m"><i class="ow-k m"></i>Mega-constellations <span class="ow-n" data-n="m">–</span></button>
+          <button class="chip" type="button" aria-pressed="true" data-k="fy"><i class="ow-k x"></i>Fengyun-1C debris <span class="ow-n" data-n="fy">–</span></button>
+          <button class="chip" type="button" aria-pressed="true" data-k="co"><i class="ow-k x"></i>Cosmos 2251 debris <span class="ow-n" data-n="co">–</span></button>
+          <button class="chip" type="button" aria-pressed="true" data-k="ir"><i class="ow-k x"></i>Iridium 33 debris <span class="ow-n" data-n="ir">–</span></button>
+        </div>
+        <p class="caption">Mega-constellations (Starlink, OneWeb, Kuiper, Qianfan, Guowang) are working satellites too; switch them off to see the rest.</p>
+
+        <label class="lbl ow-gap" for="owQ">Find an object</label>
+        <div class="ow-find">
+          <label class="bigsearch">
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="1.6"/></svg>
+            <input type="search" id="owQ" placeholder="Name or catalogue number" autocomplete="off" spellcheck="false"
+              role="combobox" aria-expanded="false" aria-controls="owList" aria-autocomplete="list">
+          </label>
+          <ul id="owList" role="listbox" aria-label="Matching objects" hidden></ul>
+        </div>
+
+        <div class="ow-card" id="owCard" aria-live="polite">
+          <p class="caption">Tap a dot on the globe, or find an object by name, to see what it is, how high it flies and its orbit.</p>
+        </div>
+      </aside>
+    </section>
+
+    <details class="howto">
+      <summary>How to read this</summary>
+      <p><b>Each dot</b> is one object, placed where it is at the time shown at the bottom left, worked out in your browser
+        from its latest published orbital elements with the SGP4 model, the same model the elements are made for. Dots
+        are not to scale: the Earth is 12,742 km across and most satellites are a few metres.</p>
+      <p><b>What is on the globe:</b> every satellite CelesTrak lists as working (more than half of them in the
+        mega-constellations), and the three largest debris clouds it publishes as groups: the Chinese weather satellite
+        Fengyun-1C, destroyed in a missile test in 2007, and the Russian Cosmos 2251 and the American Iridium 33, which
+        collided in 2009. Dead satellites, rocket bodies and other debris are counted in the chart below, but CelesTrak does
+        not publish their orbits as one list, so most of them are not drawn.</p>
+      <p><b>Heights:</b> the thin shell close to the ground is low Earth orbit (up to 2,000 km), where almost everything is.
+        Zoom out to see the navigation satellites around 20,000 km and the ring of geostationary satellites at 35,786 km,
+        which go round once a day and so stay over one place.</p>
+      <p><b>Speed:</b> real time shows the satellites moving at their true pace (a low satellite circles the Earth in about
+        90 minutes); ×60 makes a minute pass each second. The Earth turns and the night side moves with the time shown.</p>
+      <p id="owKeys"><b>Keyboard:</b> select the globe (click it or press Tab), then the <b>arrow keys</b> turn it, <b>+</b>
+        and <b>−</b> zoom, <b>Home</b> goes back to the start and <b>Escape</b> clears the selection. <b>Drag</b> to turn,
+        <b>scroll or pinch</b> to zoom.</p>
+      <p><b>Out under the real sky?</b> <a href="../sky-finder/">Sky Finder</a> shows when the space stations pass over
+        your place tonight. <b>Missions</b> (telescopes, crewed stations, probes to the planets) are on the
+        <a href="../spacecraft/">spacecraft map</a>.</p>
+    </details>
+
+    <section class="section" aria-labelledby="hHeights">
+      <div class="section-head sub"><div><div class="kicker">Everything catalogued</div><h2 id="hHeights">How high everything is</h2></div><p class="aside" id="owHAside"></p></div>
+      <div class="panel">
+        <div class="ph"><h3>Objects in each 50 km band of height, up to 2,000 km</h3><span class="aside">every object in the catalogue, not only those on the globe</span></div>
+        <div class="pb">
+          <div class="ow-chart" id="owHeights"><p class="loading">Loading the catalogue…</p></div>
+          <div class="legend" id="owHLegend"><span><i class="s2"></i>Working satellites</span><span><i class="s5"></i>Dead satellites</span><span><i class="s4"></i>Rocket bodies</span><span><i class="s6"></i>Debris</span></div>
+        </div>
+        <details class="howto">
+          <summary>How to read this</summary>
+          <p>Each bar is one band of height, 50 km thick, starting at the height under it. An object is put in the band of its
+            mean height, half-way between its lowest and highest point. <b>Below about 600 km</b> the thin outer air pulls
+            things down within a few years; <b>500 to 600 km</b> holds most of today's working satellites; <b>750 to
+            1,000 km</b> holds most of the old debris, where it stays for centuries (NASA Orbital Debris Program Office).</p>
+          <p>Point at or tap a bar for its exact numbers.</p>
+        </details>
+      </div>
+
+      <div class="panel">
+        <div class="ph"><h3>All of Earth orbit</h3><span class="aside">by mean height</span></div>
+        <div class="pb flush" id="owRegions"><p class="loading">Loading the catalogue…</p></div>
+      </div>
+    </section>
+
+    <p class="srcline">Orbital elements and the satellite catalogue: CelesTrak (celestrak.org), copied twice a day. Positions worked out in your browser with the SGP4 model (satellite.js). The Earth: NASA Blue Marble. Not endorsed by NASA or ESA.</p>
+    <p class="srcline">We acknowledge the use of imagery provided by services from NASA's Global Imagery Browse Services (GIBS), part of NASA's Earth Science Data and Information System (ESDIS).</p>
+    <footer class="footer">
+      <div class="ftop"><p class="copy">© 2026 <strong>Malcolm Syme</strong> · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></p></div>
+      <p class="fnote">Data courtesy of NASA and ESA. An independent project, not endorsed by NASA or ESA.</p>
+    </footer>
+  </main>
+
+  <script type="importmap">
+    { "imports": { "three": "../shared/vendor/three-0.187.0/three.module.js",
+                   "three/addons/": "../shared/vendor/three-0.187.0/" } }
+  </script>
+  <script type="module" src="tracker.js"></script>
+</body>
+</html>

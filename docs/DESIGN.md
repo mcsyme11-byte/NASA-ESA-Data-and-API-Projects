@@ -145,7 +145,7 @@ All in `shared/theme.css`, all shown on `design/index.html`. Use these; do not r
 
 Decided Nov 13, 2026: **a page adds no styles of its own** (no `<style>` block, no `style="…"` attribute). A project's
 style sheet (`asteroid-tracker/tracker.css`, `image-explorer/explorer.css`, `mars-data/mars.css`,
-`spacecraft/spacecraft.css`, `sky-finder/sky-finder.css`, `planet-maps/maps.css`) holds only the inside of its tools: the chart drawing, the
+`spacecraft/spacecraft.css`, `sky-finder/sky-finder.css`, `planet-maps/maps.css`, `orbit-watch/orbit.css`) holds only the inside of its tools: the chart drawing, the
 maps and their buttons, the orbit diagram, the globe, the picture viewer, the asteroid tables. It may adjust a shared
 component inside its own parts (`.mapbar .seg`, `.chip.play`), never restyle one on its own (`.btn { … }`). Values a
 script works out from data (a key's colour, a tooltip's position) are set by the script.

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!-- NASA and ESA Data Projects · Orbit Watch · © 2026 Malcolm Syme · mcsyme11@gmail.com -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Orbit Watch · NASA and ESA Data Projects</title>
+  <meta name="description" content="Satellites and space junk around the Earth: where they are, how one crash becomes a cloud of debris, and how orbit could be cleaned up.">
+  <meta name="theme-color" content="#141B26">
+  <link rel="icon" href="../shared/icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="../shared/icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../shared/icons/apple-touch-icon.png">
+  <link rel="manifest" href="../site.webmanifest">
+  <meta name="apple-mobile-web-app-title" content="NEDAP">
+  <meta name="application-name" content="NEDAP">
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111711">
+  <link rel="stylesheet" href="orbit.css?v=2026111711">
+  <script type="module" src="../shared/footer.js?v=2026111711"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../" aria-label="NASA and ESA Data Projects, home">
+        <svg class="emblem" width="26" height="26" viewBox="0 0 64 64" aria-hidden="true"><use href="../shared/emblem.svg#e"/></svg><span class="bname">NASA and ESA Data Projects</span></a>
+      <nav class="nav" aria-label="Projects">
+        <a href="../">Home</a>
+        <a href="../asteroid-tracker/">Asteroids</a>
+        <a href="../mars-data/">Mars</a>
+        <a href="../image-explorer/">Images</a>
+        <a href="../space-watch/" aria-current="page">Space Watch</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <a class="backlink" id="back" href="../space-watch/">Space Watch</a>
+    <header class="pagehead">
+      <div class="kicker">Orbit &amp; Space Watch</div>
+      <h1>Orbit Watch</h1>
+      <p class="lede">Everything people have left circling the Earth: the working satellites, the dead ones, the empty rocket stages and the pieces of broken spacecraft. Where they are, why one crash can make thousands more, and how orbit could be cleaned up.</p>
+      <div class="meta badges"><span class="badge nasa">NASA</span><span class="badge esa">ESA</span><span class="badge">CelesTrak</span></div>
+    </header>
+
+    <div class="stats" id="owStats">
+      <div class="stat"><div class="label">Catalogued in orbit</div><div class="value" data-f="nasaTotal">–</div><div class="note" data-f="nasaNote">NASA</div></div>
+      <div class="stat"><div class="label">Tracked</div><div class="value" data-f="esaTracked">–</div><div class="note" data-f="esaNote">ESA</div></div>
+      <div class="stat"><div class="label">Working satellites</div><div class="value" data-f="esaWorking">–</div><div class="note">ESA</div></div>
+      <div class="stat"><div class="label">Pieces 1 to 10 cm</div><div class="value" data-f="esaSmall">–</div><div class="note">ESA's model estimate: too small to track</div></div>
+      <div class="stat"><div class="label">Mass in orbit</div><div class="value" data-f="esaMass">–</div><div class="note">ESA</div></div>
+    </div>
+
+    <section class="section" aria-labelledby="hWays">
+      <div class="section-head"><div><div class="kicker">Explore</div><h2 id="hWays">Three ways in</h2></div></div>
+      <div class="cards three">
+        <a class="card" href="tracker.html">
+          <div class="kicker">Tracker</div>
+          <h3>What's in orbit</h3>
+          <p>A globe with every working satellite and the big debris clouds moving in real time, and every catalogued object around the Earth sorted by height.</p>
+          <div class="foot"><span class="badge live">Updated twice a day</span><span class="go">Open</span></div>
+        </a>
+        <a class="card" href="collisions.html">
+          <div class="kicker">Simulator</div>
+          <h3>Close calls and collisions</h3>
+          <p>This week's closest predicted passes, a collision calculator built on NASA's breakup model, and the chain reaction known as the Kessler syndrome.</p>
+          <div class="foot"><span class="badge nasa">NASA model</span><span class="go">Open</span></div>
+        </a>
+        <a class="card" href="cleanup.html">
+          <div class="kicker">Explainer</div>
+          <h3>Cleaning up</h3>
+          <p>How long junk stays up at each height, the ways it could be removed, and the real missions trying it, from nets and harpoons to robot arms.</p>
+          <div class="foot"><span class="badges"><span class="badge nasa">NASA</span><span class="badge esa">ESA</span></span><span class="go">Open</span></div>
+        </a>
+      </div>
+    </section>
+
+    <section class="section split" aria-labelledby="hTwo">
+      <div class="prose">
+        <div class="kicker">Read this first</div>
+        <h2 id="hTwo">Why the totals differ</h2>
+        <p id="owTwo">NASA's Orbital Debris Program Office counts the objects in the public United States catalogue. ESA's Space Debris Office counts every object that surveillance networks follow regularly, including some that are not in the public catalogue.</p>
+        <p>Both are right: they count different lists, on different dates. Every number on these pages says which list it comes from.</p>
+      </div>
+      <div class="facts">
+        <div class="f"><h4>Tracked</h4><p>Objects bigger than about 10 cm in low orbit (a softball) can be followed by radar; each has a known orbit and an owner.</p></div>
+        <div class="f"><h4>Estimated</h4><p>Smaller pieces cannot be followed one by one. Their numbers come from models built on radar sweeps and on the pits found in surfaces brought back from space.</p></div>
+        <div class="f"><h4>Fast</h4><p>In low orbit everything moves at 7 to 8 km/s, and two objects meet at about 10 km/s on average, up to about 15 km/s (NASA). At that speed a 1 cm piece of aluminium hits as hard as a 1-tonne car at about 40 km/h.</p></div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="hSrc">
+      <div class="section-head"><div><div class="kicker">Sources</div><h2 id="hSrc">Where the data comes from</h2></div></div>
+      <div class="sources">
+        <div class="s"><div class="n">Orbital Debris Program Office <span class="badge nasa">NASA</span></div><div class="d">The Satellite Box Score (Orbital Debris Quarterly News), the breakup model behind the collision calculator, the past breakups, and how long junk stays up</div><div class="u">checked by hand each quarter</div></div>
+        <div class="s"><div class="n">Space Debris Office <span class="badge esa">ESA</span></div><div class="d">The Space Environment Report 2026 and ESA's space environment statistics, with the estimates of its MASTER-8 model</div><div class="u">checked by hand when ESA updates them</div></div>
+        <div class="s"><div class="n">CelesTrak <span class="badge">celestrak.org</span></div><div class="d">The orbital elements on the globe, the satellite catalogue behind the heights, and the close approaches from SOCRATES Plus</div><div class="u">copied twice a day</div></div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="hRel">
+      <div class="section-head"><div><div class="kicker">Related</div><h2 id="hRel">Elsewhere on the site</h2></div></div>
+      <div class="cards two">
+        <a class="card" href="../spacecraft/">
+          <div class="kicker">Map</div>
+          <h3>The spacecraft map</h3>
+          <p>The missions themselves: telescopes, crewed stations and probes to the planets, each with its story.</p>
+          <div class="foot"><span class="badges"><span class="badge nasa">NASA/JPL</span><span class="badge">CelesTrak</span></span><span class="go">Open</span></div>
+        </a>
+        <a class="card" href="../sky-finder/">
+          <div class="kicker">Phone app</div>
+          <h3>Can I see it tonight?</h3>
+          <p>Sky Finder shows when the space stations pass over your place, and points your phone at them.</p>
+          <div class="foot"><span class="badge">Phone</span><span class="go">Open</span></div>
+        </a>
+      </div>
+    </section>
+
+    <p class="srcline" id="owSrc">Satellite Box Score: NASA Orbital Debris Program Office, Orbital Debris Quarterly News. Tracked objects, working satellites, mass and the estimate of small pieces: ESA Space Debris Office, Space Environment Statistics (MASTER-8). Orbital data: CelesTrak. Not endorsed by NASA or ESA.</p>
+    <footer class="footer">
+      <div class="ftop"><p class="copy">© 2026 <strong>Malcolm Syme</strong> · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></p></div>
+      <p class="fnote">Data courtesy of NASA and ESA. An independent project, not endorsed by NASA or ESA.</p>
+    </footer>
+  </main>
+  <script type="module" src="home.js"></script>
+</body>
+</html>

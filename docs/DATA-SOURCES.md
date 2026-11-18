@@ -791,6 +791,83 @@ archives to the Picture library. Checked with requests from GitHub's servers and
   before 12:00 UTC; GitHub started the morning run after midday on Nov 13 and 14, so the check was skipped. The daily
   Data health check lists every broken link (docs/DATA-UPDATES.md).
 
+## Orbit Watch (`orbit-watch/`), checked Nov 17, 2026
+
+Sources approved Nov 17, 2026 (CelesTrak by the developer's decision, as a source that is neither NASA nor ESA). The
+data job (built by the Data updates chat) runs `orbit-watch/fetch_orbits.py`, which writes `orbit-watch/data/`; the
+figures copied by hand are in `orbit-watch/facts.json`, each with its source and date. Visitors' browsers read only
+this site's files, apart from NASA GIBS for the Earth's picture on the globe.
+
+### CelesTrak orbital elements (OMM), checked Nov 17, 2026
+
+- **Address:** `https://celestrak.org/NORAD/elements/gp.php?GROUP=<group>&FORMAT=csv` (no key, no account, free).
+  Groups read: `active` (every satellite CelesTrak lists as working), `fengyun-1c-debris`, `cosmos-2251-debris`,
+  `iridium-33-debris` (the debris groups listed on CelesTrak's "Current GP Element Sets" page on Nov 17, 2026).
+- **Format:** CSV with the OMM keywords (`OBJECT_NAME`, `OBJECT_ID`, `EPOCH`, `MEAN_MOTION`, `ECCENTRICITY`,
+  `INCLINATION`, `RA_OF_ASC_NODE`, `ARG_OF_PERICENTER`, `MEAN_ANOMALY`, `NORAD_CAT_ID`, `BSTAR`, `MEAN_MOTION_DOT`,
+  `MEAN_MOTION_DDOT` and others). The CSV and JSON formats carry catalogue numbers of 6 digits and more; the
+  two-line format does not. Five-digit catalogue numbers ran out on Jul 11, 2026, and objects catalogued since then are
+  missing from two-line downloads, which is why Orbit Watch reads the CSV (satellite.js 7.2.0 builds the SGP4 record
+  from these fields with `json2satrec`).
+- **Not available:** one file of elements for every catalogued object. CelesTrak publishes elements in groups, so most
+  dead satellites, rocket bodies and debris are counted (satellite catalogue, below) but not drawn on the globe. To be
+  asked of CelesTrak (roadmap section 5a).
+- **Usage policy** (celestrak.org/usage-policy.php, updated May 22, 2026): limits are enforced for the active list;
+  software must stop at any answer other than HTTP 200 and report it; on a 50x answer queries stop at once. The script
+  asks each address once per run, with no retries. The spacecraft job also reads the `active` group (two-line format):
+  the two jobs are to share one download (hand-off of Nov 17, 2026).
+- **Written to** `orbit-watch/data/objects.json`: for each object the catalogue number, name, international
+  designator, kind (from the satellite catalogue), group or mega-constellation flag, epoch (ms), the elements, and the
+  owner and launch date from the catalogue. About 2 to 3 MB.
+- **Credit:** "CelesTrak".
+
+### CelesTrak satellite catalogue (SATCAT), checked Nov 17, 2026
+
+- **Address:** `https://celestrak.org/pub/satcat.csv` (the "Raw SATCAT Data (CSV)" link on celestrak.org/satcat/; the
+  first run of the job confirms the address). Queries for parts of it: `https://celestrak.org/satcat/records.php`.
+- **Fields** (satcat-format.php): `OBJECT_NAME`, `OBJECT_ID`, `NORAD_CAT_ID`, `OBJECT_TYPE` (`PAY`, `R/B`, `DEB`,
+  `UNK`), `OPS_STATUS_CODE`, `OWNER`, `LAUNCH_DATE`, `LAUNCH_SITE`, `DECAY_DATE`, `PERIOD`, `INCLINATION`, `APOGEE`,
+  `PERIGEE` (km), `RCS`, `DATA_STATUS_CODE`, `ORBIT_CENTER`, `ORBIT_TYPE`.
+- **Operational status** (satcat/status.php): `+` operational, `-` nonoperational, `P` partially operational, `B`
+  backup or standby, `S` spare, `X` extended mission, `D` decayed, `?` unknown. "Active" is `+`, `P`, `B`, `S` or `X`;
+  Orbit Watch counts those payloads as working satellites and every other payload as dead.
+- **In orbit:** no decay date and orbit centre `EA` (Earth). Each object is counted in the 50 km band of its mean
+  height, (apogee + perigee) ÷ 2. CelesTrak's own count on Oct 15, 2026: 35,058 objects in orbit, 32,038 of them
+  tracked (the rest restricted or lost).
+- **Written to** `orbit-watch/data/heights.json`: counts by kind for each 50 km band from 0 to 2,000 km, and for the
+  regions (low, medium, the geostationary band of 35,786 km ± 200 km, higher, coming down, height not published).
+
+### CelesTrak SOCRATES Plus, checked Nov 17, 2026
+
+- **Address:** `https://celestrak.org/SOCRATES/sort-minRange.csv`, the latest run, every predicted pass within 5 km
+  over the next seven days, closest first (socrates-format.php).
+- **Columns:** `NORAD_CAT_ID_1`, `OBJECT_NAME_1`, `DSE_1` (days since the elements' epoch), `NORAD_CAT_ID_2`,
+  `OBJECT_NAME_2`, `DSE_2`, `TCA` (time of closest approach, UTC), `TCA_RANGE` (km), `TCA_RELATIVE_SPEED` (km/s),
+  `MAX_PROB` (the largest collision probability the prediction allows), `DILUTION` (km).
+- **Written to** `orbit-watch/data/close.json`: the 15 closest passes still to come and the 15 with the largest
+  `MAX_PROB`, with each object's kind and whether both are on the globe (for the replay link).
+- **Credit:** "CelesTrak SOCRATES Plus".
+
+### NASA Orbital Debris Program Office, checked Nov 17, 2026
+
+- **Satellite Box Score**, Orbital Debris Quarterly News, September 2026 (volume 30, issue 3,
+  `https://orbitaldebris.jsc.nasa.gov/quarterly-news/pdfs/ODQNv30i3.pdf`): orbital elements as of Aug 4, 2026, 19,154
+  spacecraft (working and dead) and 14,900 rocket bodies and debris, 34,054 in all. Copied by hand into `facts.json`;
+  reviewed when a new issue appears (quarterly).
+- **Past breakups**, Orbital Debris Quarterly News, February 2023 (volume 27, issue 1): pieces catalogued, Fengyun-1C
+  3,532, Cosmos 2251 1,715, Iridium 33 657, Cosmos 1408 1,785. Masses for the 2009 collision (Iridium 33 560 kg,
+  Cosmos 2251 about 900 kg) from the April 2009 issue (volume 13, issue 2).
+- **How long debris stays up** (ODPO's FAQ and its overview for teachers): below 200 km a few days; 200 to 600 km a few
+  years; 600 to 800 km decades; above 800 km centuries; geostationary practically for ever. Speeds in low orbit 7 to
+  8 km/s, average collision speed about 10 km/s, up to about 15 km/s; most debris between 750 and 1,000 km.
+- **NASA standard breakup model** (Johnson and others, "NASA's new breakup model of EVOLVE 4.0", Advances in Space
+  Research 28 (9), 2001): ε = m_small · v² ÷ (2 m_big); above 40 J/g the collision is catastrophic and the fragmenting
+  mass is M = m_big + m_small, otherwise M = m_small · v² with v in km/s; pieces larger than L metres:
+  N = 0.1 · M^0.75 · L^−1.71. The non-catastrophic form was checked against two published uses of the model
+  (arXiv 2111.12196 and 2407.18197), which agree.
+- **Terms:** NASA material; NASA marks the newsletter as a work of the US Government, public use permitted. Credit
+  "NASA Orbital Debris Program Office".
+
 ## Sky Finder (`sky-finder/`), added Nov 12, 2026
 
 - Asteroids: `asteroid-tracker/data/sky.json` (above). Space stations: `spacecraft/data/tle.json`, the ISS and
@@ -1019,6 +1096,25 @@ Maps"). Place cards may show a Mars Express picture of a place (for example Gale
 - **Sources of pictures:** ESA's own pages (esa.int, ESA Multimedia), for example "Gale Crater" (2012, 100 m a pixel)
   and "Jezero crater through the eyes of Mars Express" (2021). Each picture's page is checked for its exact credit
   before it is used.
+
+### ESA Space Debris Office: Space Environment Report and statistics, checked Nov 17, 2026
+
+Used by Orbit Watch (home page and the cleanup page), beside NASA's figures.
+- **Space Environment Statistics** (`https://sdup.esoc.esa.int/discosweb/statistics/`, "Space debris by the numbers",
+  updated Nov 13, 2026): about 47,280 objects regularly tracked and catalogued; about 7,420 launches since 1957; about
+  28,830 satellites placed in orbit, 19,760 still in space, 15,800 still working; more than 660 fragmentation events;
+  more than 17,600 tonnes in orbit. MASTER-8 estimates (reference population February 2026): 68,450 objects over
+  10 cm (including about 11,300 active payloads), 1.5 million from 1 to 10 cm, 230 million from 1 mm to 1 cm.
+- **Space Environment Report 2026** (`https://www.esa.int/Space_Safety/Space_Debris/ESA_Space_Environment_Report_2026`;
+  full report `https://www.sdo.esoc.esa.int/environment_report/Space_Environment_Report_latest.pdf`, dated Sep 8,
+  2026; data to the end of 2025): more than 300 launches and over 4,000 new payloads in 2025, about ten a day; the
+  Space Environment Health Index rose from about 4 to about 50 in a year; the long-term forecast now covers 100 years.
+- **Format:** web pages and a PDF; no CSV or JSON download. Figures are copied by hand into `orbit-watch/facts.json`
+  and reviewed when ESA updates them (review task in `dev/data_jobs.json`, hand-off of Nov 17, 2026). ESA's charts
+  (PNG) are not copied; the site draws its own from the figures.
+- **Terms and credit:** no licence of its own is stated; ESA's general terms for educational and informational use
+  apply. Credit "ESA Space Debris Office". No ESA logo.
+- **Not used:** ESA DISCOS and DISCOSweb (need an account; decided Nov 17, 2026).
 
 ### ESA NEO Coordination Centre (NEOCC): risk lists and close approaches, checked Nov 9, 2026
 

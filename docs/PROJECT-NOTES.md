@@ -4,6 +4,17 @@ How NASA and ESA Data Projects is built, the decisions made so far, and how to r
 
 ## Decisions
 
+- **Decided Nov 17, 2026 (Orbit Watch, live):** `orbit-watch/` approved from a plan and mock-ups and built the same
+  day: a home page, **What's in orbit** (the shared globe with every object CelesTrak publishes elements for, moving in
+  real time by SGP4 in a background worker, and every catalogued object by height), **Close calls and collisions**
+  (SOCRATES Plus close approaches, each replayable on the globe; a calculator on NASA's standard breakup model, as
+  three written rules; a teaching model of the Kessler syndrome; past breakups) and **Cleaning up** (lifetimes by
+  height, methods, missions). Elements are read as CSV (OMM), not two-line sets, because objects catalogued since
+  Jul 11, 2026 have six-digit numbers. CelesTrak has no single elements file for every object, so the globe shows the
+  working satellites and the three debris clouds it publishes as groups, and the heights chart counts everything in
+  its satellite catalogue. NASA's and ESA's headline figures are copied by hand into `orbit-watch/facts.json` with
+  their dates; ESA's charts are not copied. Mega-constellations are shown, with a switch to hide them (the spacecraft
+  map leaves them out). The data job is handed to the Data updates chat.
 - **Decided Nov 17, 2026 (Planetary Maps):** live at `planet-maps/`, its own folder, built from the approved mock-up on
   `shared/flatmap.js`: the Moon and Mars from NASA's Solar System Treks tiles, loaded by the visitor's browser
   (trek.nasa.gov, on the Privacy page). Layers made by the US Geological Survey from NASA mission data and served by

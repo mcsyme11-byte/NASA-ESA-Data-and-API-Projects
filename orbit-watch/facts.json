@@ -1,0 +1,47 @@
+{
+  "about": "Orbit Watch: figures copied by hand from NASA and ESA publications, each with its source and date. Checked Nov 17, 2026. Reviewed each quarter (NASA's Orbital Debris Quarterly News) and when ESA publishes a new Space Environment Report or updates its statistics page; see docs/DATA-SOURCES.md. © 2026 Malcolm Syme · mcsyme11@gmail.com",
+  "checked": "2026-11-17",
+  "nasa": {
+    "boxScore": {
+      "date": "2026-08-04",
+      "spacecraft": 19154,
+      "debris": 14900,
+      "total": 34054,
+      "note": "Satellite Box Score: objects in Earth orbit in the US catalogue. Spacecraft are working and dead; debris includes spent rocket bodies.",
+      "source": "NASA Orbital Debris Program Office, Orbital Debris Quarterly News, September 2026 (volume 30, issue 3)",
+      "url": "https://orbitaldebris.jsc.nasa.gov/quarterly-news/pdfs/ODQNv30i3.pdf"
+    }
+  },
+  "esa": {
+    "numbers": {
+      "date": "2026-11-13",
+      "tracked": 47280,
+      "satellitesInSpace": 19760,
+      "working": 15800,
+      "breakups": 660,
+      "tonnes": 17600,
+      "over10cm": 68450,
+      "from1to10cm": 1500000,
+      "from1mmTo1cm": 230000000,
+      "model": "MASTER-8, reference population February 2026",
+      "source": "ESA Space Debris Office, Space Environment Statistics (\"Space debris by the numbers\")",
+      "url": "https://sdup.esoc.esa.int/discosweb/statistics/"
+    },
+    "report": {
+      "edition": "ESA's Annual Space Environment Report 2026",
+      "dataTo": "the end of 2025",
+      "launches2025": 300,
+      "payloads2025": 4000,
+      "healthIndexBefore": 4,
+      "healthIndexNow": 50,
+      "source": "ESA Space Debris Office",
+      "url": "https://www.esa.int/Space_Safety/Space_Debris/ESA_Space_Environment_Report_2026"
+    }
+  },
+  "events": [
+    { "name": "Fengyun-1C", "date": "2007-01-11", "what": "Destroyed in an anti-satellite missile test", "km": "about 865", "catalogued": 3532 },
+    { "name": "Cosmos 2251 and Iridium 33", "date": "2009-02-10", "what": "The first accidental collision between two whole satellites, at 11.7 km/s", "km": "about 790", "catalogued": 2372 },
+    { "name": "Cosmos 1408", "date": "2021-11-15", "what": "Destroyed in an anti-satellite missile test", "km": "about 480", "catalogued": 1785 }
+  ],
+  "eventsSource": "Catalogued pieces as counted in NASA's Orbital Debris Quarterly News, February 2023 (volume 27, issue 1): Fengyun-1C 3,532; Cosmos 2251 1,715 and Iridium 33 657; Cosmos 1408 1,785. Masses for the 2009 collision (Iridium 33 560 kg, Cosmos 2251 about 900 kg) from the April 2009 issue (volume 13, issue 2)."
+}

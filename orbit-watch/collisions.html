@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<!-- NASA and ESA Data Projects · Orbit Watch · Close calls and collisions · © 2026 Malcolm Syme · mcsyme11@gmail.com -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Close calls and collisions · Orbit Watch · NASA and ESA Data Projects</title>
+  <meta name="description" content="This week's closest predicted passes between objects in orbit, a collision calculator built on NASA's breakup model, and the chain reaction known as the Kessler syndrome.">
+  <meta name="theme-color" content="#141B26">
+  <link rel="icon" href="../shared/icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="../shared/icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../shared/icons/apple-touch-icon.png">
+  <link rel="manifest" href="../site.webmanifest">
+  <meta name="apple-mobile-web-app-title" content="NEDAP">
+  <meta name="application-name" content="NEDAP">
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111711">
+  <link rel="stylesheet" href="orbit.css?v=2026111711">
+  <script type="module" src="../shared/footer.js?v=2026111711"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../" aria-label="NASA and ESA Data Projects, home">
+        <svg class="emblem" width="26" height="26" viewBox="0 0 64 64" aria-hidden="true"><use href="../shared/emblem.svg#e"/></svg><span class="bname">NASA and ESA Data Projects</span></a>
+      <nav class="nav" aria-label="Projects">
+        <a href="../">Home</a>
+        <a href="../asteroid-tracker/">Asteroids</a>
+        <a href="../mars-data/">Mars</a>
+        <a href="../image-explorer/">Images</a>
+        <a href="../space-watch/" aria-current="page">Space Watch</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <a class="backlink" id="back" href="./">Orbit Watch</a>
+    <header class="pagehead compact">
+      <div class="kicker">Orbit Watch · Simulator</div>
+      <h1>Close calls and collisions</h1>
+      <p class="lede">Objects in orbit pass close to each other thousands of times a week. Almost always they miss. When two do hit, at around 10 km/s, they become a cloud of hundreds or thousands of pieces, and each piece can hit something else.</p>
+    </header>
+
+    <section class="section" aria-labelledby="hClose">
+      <div class="section-head sub"><div><div class="kicker">The next seven days</div><h2 id="hClose">The closest predicted passes</h2></div>
+        <div class="seg" role="group" aria-label="Order" id="owOrder">
+          <button type="button" data-o="byRange" aria-pressed="true">Closest</button>
+          <button type="button" data-o="byProb" aria-pressed="false">Most likely to hit</button>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="ph"><h3 id="owCloseTitle">The 15 closest passes</h3><span class="aside" id="owCloseAside">predictions, not measurements</span></div>
+        <div class="pb flush" id="owClose"><p class="loading">Loading the close approaches…</p></div>
+        <details class="howto">
+          <summary>How to read this</summary>
+          <p>Each row is a prediction worked out by CelesTrak's SOCRATES Plus from the two objects' published orbits, for every
+            pass within 5 km over the next seven days. <b>Miss distance</b> is the predicted gap at the closest moment. <b>Chance
+            of hitting</b> is the largest chance the prediction allows: the published orbits are only known to within a few
+            hundred metres to a few kilometres, so it is an upper limit, not a forecast.</p>
+          <p>A working satellite that can move usually does when a pass looks risky. A dead satellite, a rocket body or a
+            piece of debris cannot, so two of them simply take their chances. <b>Watch</b> opens the pass on the globe,
+            five minutes before the closest moment.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="hCalc">
+      <div class="section-head sub"><div><div class="kicker">Calculator</div><h2 id="hCalc">What one collision makes</h2></div><p class="aside">NASA's standard breakup model</p></div>
+      <div class="ow-two">
+        <div class="ctl">
+          <h2>The two objects</h2>
+          <div class="seg" role="group" aria-label="Examples" data-hscroll>
+            <button type="button" data-p="2009" aria-pressed="true">2009 crash</button>
+            <button type="button" data-p="cube" aria-pressed="false">CubeSat</button>
+            <button type="button" data-p="cm" aria-pressed="false">1 cm piece</button>
+          </div>
+          <label class="field"><span class="lbl">Bigger object</span><input type="range" id="owBig" min="0" max="10000" step="1" aria-describedby="owBigV"><output id="owBigV"></output></label>
+          <label class="field"><span class="lbl">Smaller object</span><input type="range" id="owSmall" min="0" max="10000" step="1" aria-describedby="owSmallV"><output id="owSmallV"></output></label>
+          <label class="field"><span class="lbl">Speed between them</span><input type="range" id="owV" min="0.5" max="15" step="0.1" aria-describedby="owVV"><output id="owVV"></output></label>
+          <p class="caption">The masses move on a scale of tens: the bigger object from 1 kg to 10 tonnes, the smaller from 1 gram to 4 tonnes. Most collisions in low orbit happen at 7 to 15 km/s.</p>
+        </div>
+        <div class="panel">
+          <div class="ph"><h3 class="ow-verdict" id="owVerdict">–</h3><span class="aside" id="owEps"></span></div>
+          <div class="pb">
+            <div class="stats">
+              <div class="stat"><div class="label">Pieces over 10 cm</div><div class="value" id="owN10">–</div><div class="note">big enough to be tracked</div></div>
+              <div class="stat"><div class="label">Pieces over 1 cm</div><div class="value" id="owN1">–</div><div class="note">too small to track, big enough to wreck a satellite</div></div>
+              <div class="stat"><div class="label">Energy of the hit</div><div class="value" id="owE">–</div><div class="note" id="owELike"></div></div>
+            </div>
+            <canvas class="ow-cloud" id="owCloud" role="img" aria-label="An illustration of the debris cloud spreading along the orbit after the collision"></canvas>
+            <div class="seg" role="group" aria-label="Time after the collision" id="owAfter" data-hscroll>
+              <button type="button" data-h="0.17" aria-pressed="true">10 minutes</button>
+              <button type="button" data-h="6" aria-pressed="false">6 hours</button>
+              <button type="button" data-h="72" aria-pressed="false">3 days</button>
+              <button type="button" data-h="720" aria-pressed="false">1 month</button>
+            </div>
+          </div>
+          <details class="howto" open>
+            <summary>The rules the calculator follows</summary>
+            <p><b>Rule 1, how hard the hit is.</b> The energy of the smaller object for each kilogram of the bigger one:
+              ε = m<sub>small</sub> × v² ÷ (2 × m<sub>big</sub>), with v in metres per second, in joules per kilogram (÷ 1,000 for joules per gram).</p>
+            <p><b>Rule 2, which mass breaks up.</b> If ε is more than <b>40 joules per gram</b>, the collision is <b>catastrophic</b>:
+              both objects break up, and the mass that turns into pieces is M = m<sub>big</sub> + m<sub>small</sub> (in kg). If not,
+              the bigger object is only cratered, and M = m<sub>small</sub> × v², with v in kilometres per second.</p>
+            <p><b>Rule 3, how many pieces.</b> The number of pieces bigger than a size L (in metres) is
+              N = 0.1 × M<sup>0.75</sup> × L<sup>−1.71</sup>: L = 0.1 for pieces over 10 cm, L = 0.01 for pieces over 1 cm.</p>
+            <p><b>Example: the 2009 crash.</b> Iridium 33 (560 kg) and Cosmos 2251 (about 900 kg) met at 11.7 km/s.
+              Rule 1: ε = 560 × 11,700² ÷ (2 × 900) ≈ 42.6 million J/kg = 42,600 J/g. Rule 2: far above 40, so catastrophic,
+              and M = 900 + 560 = 1,460 kg. Rule 3: N = 0.1 × 1,460<sup>0.75</sup> × 0.1<sup>−1.71</sup> ≈ 1,200 pieces over
+              10 cm. The tracking network catalogued 2,372, so the model gives the size of the problem, not an exact count.</p>
+            <p><b>The cloud</b> is an illustration: each piece leaves with a slightly different speed, so the pieces spread along
+              the orbit within hours and right round the Earth within days; over months the Earth's bulge turns their orbits
+              apart, and the cloud becomes a shell around the whole planet.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="hKess">
+      <div class="section-head sub"><div><div class="kicker">The chain reaction</div><h2 id="hKess">The Kessler syndrome</h2></div><p class="aside">a teaching model, not a forecast</p></div>
+      <div class="ow-two">
+        <div class="ctl">
+          <h2>Try it</h2>
+          <div class="seg" role="group" aria-label="Height" id="owAlt" data-hscroll>
+            <button type="button" data-a="400" aria-pressed="false">400 km</button>
+            <button type="button" data-a="550" aria-pressed="false">550 km</button>
+            <button type="button" data-a="800" aria-pressed="true">800 km</button>
+          </div>
+          <label class="field"><span class="lbl">New satellites a year</span><input type="range" id="owL" min="0" max="200" step="5" value="40" aria-describedby="owLV"><output id="owLV"></output></label>
+          <label class="field"><span class="lbl">Dead objects removed a year</span><input type="range" id="owR" min="0" max="20" step="1" value="0" aria-describedby="owRV"><output id="owRV"></output></label>
+          <p class="caption">In 1978 the NASA scientist Donald Kessler showed that once a height is crowded enough, the pieces from each crash cause new crashes faster than the air can clear them, even if nothing more is launched.</p>
+        </div>
+        <div class="panel ow-model">
+          <div class="ph"><h3>Objects in one band of height over 200 years</h3><span class="aside" id="owKNote"></span></div>
+          <div class="pb">
+            <svg class="chart" id="owKess" role="img" aria-label="Line chart of the teaching model"></svg>
+            <div class="legend"><span><i class="s1"></i>With these settings</span><span><i class="s3"></i>Nothing more launched or removed</span></div>
+          </div>
+          <details class="howto">
+            <summary>How the model works</summary>
+            <p>One band of height starts with 1,500 whole objects (satellites and rocket bodies) and 1,500 pieces of debris. Each
+              year: the new satellites are added and the removed ones taken away; the air brings down a share of everything,
+              which depends on the height (half in about a year and a half at 400 km, in about 8 years at 550 km, in about
+              a century at 800 km); and collisions happen in proportion to the number of whole objects times the number of all
+              objects, each one turning a whole object into 800 pieces (Rule 3, rounded down).</p>
+            <p>It is far simpler than the agencies' own models, which follow every object, but shows the same three lessons:
+              low down, the air cleans up by itself; high up, the number can grow even with no launches; and removing a few
+              large dead objects a year slows the growth more than anything else. NASA's own studies found that removing about
+              five large objects a year from the most crowded orbits would keep the population steady, and ESA's 2026 report
+              says the same: stop making debris, and start removing it.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="hPast">
+      <div class="section-head sub"><div><div class="kicker">History</div><h2 id="hPast">The biggest breakups so far</h2></div></div>
+      <div class="panel"><div class="pb flush" id="owPast"><p class="loading">Loading…</p></div></div>
+      <p class="caption" id="owPastSrc"></p>
+    </section>
+
+    <p class="srcline">Close approaches: CelesTrak SOCRATES Plus (celestrak.org), copied twice a day. Breakup model: the NASA standard breakup model (NASA Orbital Debris Program Office; Johnson and others, "NASA's new breakup model of EVOLVE 4.0", Advances in Space Research, 2001). Past breakups: NASA Orbital Debris Quarterly News. Not endorsed by NASA or ESA.</p>
+    <footer class="footer">
+      <div class="ftop"><p class="copy">© 2026 <strong>Malcolm Syme</strong> · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></p></div>
+      <p class="fnote">Data courtesy of NASA and ESA. An independent project, not endorsed by NASA or ESA.</p>
+    </footer>
+  </main>
+  <script type="module" src="collisions.js"></script>
+</body>
+</html>

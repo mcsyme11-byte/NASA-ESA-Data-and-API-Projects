@@ -177,3 +177,11 @@ How NASA and ESA Data Projects came about, in order.
   the Image Explorer the same evening.
 - Decided: the rovers' routes are copied daily; layers made by the US Geological Survey from NASA mission data and
   served by NASA's Trek are used; the 5 m CTX mosaic of all of Mars, credited to Caltech and Esri, is not.
+
+## November 17, 2026 — Orbit Watch
+
+- The second Orbit & Space Watch tool went live: a globe of the satellites and debris around the Earth, the week's
+  closest predicted passes, a collision calculator built on NASA's breakup model, a model of the Kessler syndrome you
+  can try, and an explainer on cleaning up orbit, with NASA's and ESA's own figures beside CelesTrak's orbits.
+- Checking CelesTrak showed that objects catalogued since July 2026 no longer appear in the old two-line format, so
+  Orbit Watch reads the newer format, and the spacecraft map was flagged for the same change.
