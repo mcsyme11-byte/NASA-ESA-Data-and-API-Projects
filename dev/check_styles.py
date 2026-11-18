@@ -15,7 +15,7 @@
 #   4. (since Nov 18, 2026) every ?v= version tag in a page or a script is the same, and Sky Finder's sw.js VERSION
 #      matches it, so no file is left behind when the tag is raised;
 #   5. (since Nov 18, 2026) every page of a project with more than one page carries the project's tab bar
-#      (<nav class="tabs" aria-label="<project>">, docs/DESIGN.md "Project tab bar") linking to all of its pages,
+#      in its bar form (<nav class="tabs bar" aria-label="<project>">, docs/DESIGN.md "Project tab bar") linking to all of its pages,
 #      and a new folder with more than one page is added to TAB_PROJECTS below.
 import os, posixpath, re, subprocess, sys
 
@@ -65,9 +65,9 @@ def tabs_problems(pages, read):
         want = {page_key(f) for f in fs if f not in TAB_NOT_LINKED}
         for f in fs:
             s = read(f)
-            m = re.search(r'<nav class="tabs" aria-label="' + re.escape(label) + r'">(.*?)</nav>', s, re.S)
+            m = re.search(r'<nav class="tabs bar" aria-label="' + re.escape(label) + r'">(.*?)</nav>', s, re.S)
             if not m:
-                out.append(f'{f}: missing the project tab bar <nav class="tabs" aria-label="{label}">')
+                out.append(f'{f}: missing the project tab bar <nav class="tabs bar" aria-label="{label}">')
                 continue
             base = posixpath.dirname(f)
             have = set()

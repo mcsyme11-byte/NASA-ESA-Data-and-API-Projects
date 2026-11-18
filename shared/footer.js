@@ -139,7 +139,7 @@ function wireBack() {
 // Rows that scroll sideways (segmented controls and chip rows that don't fit a small screen): a soft fade on the side
 // where there is more, and the chosen button scrolled into view, so nothing looks cut off. Decided Nov 12, 2026; since
 // Nov 13, 2026 (version 2 of the look) tab bars wrap instead and every segmented control (.seg) gets the fade.
-const HSCROLL = '.seg, .popular, [data-hscroll]';
+const HSCROLL = '.seg, .popular, .tabs.bar, [data-hscroll]';
 function fades(el) {
   const more = el.scrollWidth - el.clientWidth;
   el.classList.toggle('hs-l', more > 2 && el.scrollLeft > 2);

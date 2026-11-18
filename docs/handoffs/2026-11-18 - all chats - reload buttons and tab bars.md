@@ -1,6 +1,6 @@
 # Handoff, Nov 18, 2026: reload buttons, project tab bars and two new checks (all chats)
 
-**Read first. Pull before starting.** Live on main since Nov 18, 2026 (version tag 2026111806).
+**Read first. Pull before starting.** Live on main since Nov 18, 2026 (version tag 2026111808).
 
 ## 1. Reload buttons (new shared component)
 
@@ -12,7 +12,7 @@ as the worked example. Full rules: `docs/DESIGN.md`, "Reload buttons"; the compo
   `<button class="reload" type="button" id="reloadAll">Reload all the data on this page</button>`
 - **Panel button:** in the panel's `.ph`, after the `h3`:
   `<button class="reload small" type="button" id="reloadKp">Reload this chart</button>`
-- **Script:** `import { reloadPage, reloadPart, markUpdated } from '../shared/reload.js?v=2026111806';`
+- **Script:** `import { reloadPage, reloadPart, markUpdated } from '../shared/reload.js?v=2026111808';`
   then `reloadPart(button, () => loadThisPart())` for each panel and `reloadPage(button, () => loadEverything())`.
   The function returns a promise; `false` or a rejection shows "Couldn't reload, try again". If the page refreshes
   itself on a timer, call `markUpdated(pageButton)` after each timed refresh.
@@ -22,7 +22,7 @@ as the worked example. Full rules: `docs/DESIGN.md`, "Reload buttons"; the compo
 
 ## 2. Project tab bars and kickers
 
-Every page of a project with more than one page now has the project's tab bar straight after the page head:
+Every page of a project with more than one page now has the project's tab bar, `<nav class="tabs bar" aria-label="<project>">` (Space Weather's sticky form, since Nov 18, 2026), straight after the page head:
 Overview first, then every page (`docs/DESIGN.md`, "Project tab bar"). Added on Nov 18, 2026 to the Asteroid Tracker
 (overview, and Overview on the other pages), Image Explorer (overview, and Overview on the explorer), Mars Data (all
 three pages) and Orbit Watch (all four pages). **A new page goes into its project's bar on every page of the project

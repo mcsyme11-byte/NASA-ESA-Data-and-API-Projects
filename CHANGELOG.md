@@ -1,5 +1,14 @@
 # Change log
 
+## November 18, 2026 — Project tab bars in Space Weather's form
+
+- Every project tab bar now has the form of Space Weather's "On this page" bar, made a shared part of the theme
+  (`.tabs.bar`): it stays under the top bar while the page scrolls, on the top bar's background; on phones it is one
+  row that scrolls sideways with the edge fade and keeps the current tab in view. Space Weather's bar uses the same
+  rule (its own copy was removed from `space-weather/spaceweather.css`). On Mars Data's charts page, whose section
+  menu already stays under the top bar, the project bar scrolls away. `dev/check_styles.py` requires the bar form.
+  Version tag raised to 2026111808.
+
 ## November 18, 2026 — Orbit Watch and Exoplanets data jobs
 
 - New data job **Orbit data** (`orbit-data.yml`, 11:13 and 23:13 UTC daily): `orbit-watch/fetch_orbits.py` writes

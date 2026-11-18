@@ -70,8 +70,8 @@ inside its own folder.
   `{ soon: true }`, which keeps it out; remove it when the page is published), in the same change as the page, with
   its name in the Back-button list (`NAMES`) of the same file. Every page's menu is Home, Asteroids, Mars, Images,
   Space Watch (copy it from any page). **Since Nov 18, 2026** every page of a project with more than one page carries
-  the project's tab bar straight after the page head (Overview first, then every page; `docs/DESIGN.md`, "Project tab
-  bar"): a new page is added to the bar on every page of its project in the same change, and a new project folder to
+  the project's tab bar (`nav.tabs.bar`) straight after the page head (Overview first, then every page; `docs/DESIGN.md`,
+  "Project tab bar"): a new page is added to the bar on every page of its project in the same change, and a new project folder to
   `TAB_PROJECTS` in `dev/check_styles.py`. The kicker follows DESIGN.md ("Page head"). Pages with live or updated data
   get the reload buttons (`shared/reload.js`, DESIGN.md "Reload buttons"). Each page's
   detailed data credits sit above the footer in `<p class="srcline">` lines, never in the footer. A new data source or library is added to `CREDITS.md` and the Credits
@@ -89,7 +89,7 @@ inside its own folder.
 - **Feel (since Nov 12, 2026):** everything pressable gives quick feedback (the shared hover and press transitions in
   `shared/theme.css`); tap targets are at least 40 px tall on phones; segmented controls and chip rows that don't
   fit a phone scroll sideways with a soft edge fade (`shared/footer.js` adds it to `.seg`, `.popular` and anything
-  marked `data-hscroll`), and tab bars wrap to a second line instead (since Nov 13, 2026); labels drawn over maps and diagrams get a dark outline; placeholders fit a 375 px phone; every page except the
+  marked `data-hscroll`), and tab bars wrap to a second line instead (since Nov 13, 2026), except the bar form `.tabs.bar` of the project tab bars, which scrolls sideways like Space Weather's (since Nov 18, 2026); labels drawn over maps and diagrams get a dark outline; placeholders fit a 375 px phone; every page except the
   site's home page has a Back button (`.backlink#back`).
 - **ESA data (decided Nov 9, 2026):** ESA's data is added alongside NASA's where it helps; NASA stays the main source,
   and pages say which agency each number or picture comes from. For every ESA source:

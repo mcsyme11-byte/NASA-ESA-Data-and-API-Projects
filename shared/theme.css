@@ -337,6 +337,18 @@ details.howto b { color: var(--ink); font-weight: 400; }
 .tabs a:hover, .tabs button:hover { color: var(--ink); }
 .tabs [aria-selected="true"], .tabs [aria-current] { color: var(--brass); border-bottom-color: var(--brass); }
 @media (max-width: 760px) { .tabs { gap: 0 var(--sp4); } .tabs a, .tabs button { min-height: 44px; font-size: 11.5px; letter-spacing: .16em; } }
+/* the bar form (since Nov 18, 2026; Space Weather's "On this page" bar, made shared for every project tab bar): it stays
+   under the top bar (61 px) while the page scrolls, on the top bar's own background, across the page's gutters; on
+   phones it is one row that scrolls sideways with the edge fade and keeps the current tab in view (shared/footer.js) */
+.tabs.bar, .tabs.bar.glides { position: sticky; top: 61px; z-index: 40; margin-inline: calc(-1 * var(--gutter)); padding: 0 var(--gutter);
+  background: rgba(15, 21, 32, .95); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+@media (max-width: 760px) {
+  .tabs.bar { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .tabs.bar::-webkit-scrollbar { display: none; }
+  .tabs.bar > a, .tabs.bar > button { flex: none; white-space: nowrap; }
+}
+/* a section reached by a link stops below the top bar and the tab bar */
+html:has(.tabs.bar) [id] { scroll-margin-top: 124px; }
 
 /* toolbar: the controls above a view */
 .toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp3) var(--sp4); margin: 0 0 var(--sp4); }
