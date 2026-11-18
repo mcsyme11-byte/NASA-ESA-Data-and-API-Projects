@@ -26,10 +26,6 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
 - [ ] Optional: if ESA's credit form or terms for the NEOCC figures are in doubt, ask the NEOCC by email
   (`neocc@esa.int`) and record the answer in `docs/DATA-SOURCES.md`.
 
-- [ ] **Developer testing, "Within reach" (live Nov 17, 2026):** `asteroid-tracker/mining.html` (filters, sorting,
-  "Show more", a row opening the asteroid's page) and the section "Could we go there, and mine it?" on asteroid pages,
-  for example Bennu, Ryugu, Apophis and 2000 SG344 (launch windows), 1943 Anteros (a measured type) and 65803 Didymos
-  (not on NHATS's list), on a phone and a computer.
 - [ ] "Within reach" data: the monthly step in the Asteroid data job (Data updates chat, handoff of Nov 17, 2026).
   Until it runs, launch windows are on this site for 184 asteroids and the rest link to JPL's page.
 - [ ] Hera: once ESA confirms the arrival at Didymos, update its line in `MISSIONS` (`asteroid-tracker/reach.js`).

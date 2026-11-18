@@ -12,6 +12,7 @@
 
 ## November 17, 2026 — Asteroid Tracker: "Within reach", the mining view
 
+- Developer testing passed the same evening (the page and the asteroid pages' new section).
 - New page `asteroid-tracker/mining.html`, a tab in the tracker and a card on its home page, approved from a mock-up:
   every near-Earth asteroid NASA/JPL's NHATS study finds reachable for a round trip from Earth orbit (7,219), cheapest
   first, with its measured spectral type where JPL's Small-Body Database has one, filters by material, size and
