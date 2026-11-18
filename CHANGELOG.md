@@ -1,5 +1,14 @@
 # Change log
 
+## November 17, 2026 — Image Explorer: picture ranking, third round; reduced motion checked
+
+- **Ranking:** the good points still count up to 4 when the main results are sorted (so the libraries take turns within
+  a tie), but the people and event words now always count (`rankOf` in `app.js`). For "comet", "Comet Scientists Honor
+  Colleagues" left the top five; 19 of the other 21 test searches keep the same top five, and for "space shuttle" and
+  "apollo 11" one launch or preparation picture moved below the fifth place.
+- **Reduced motion** checked in phone emulation (375 px, touch): with it set, the globe does not turn by itself and a
+  zoom jumps at once; without it, it turns and moves smoothly.
+
 ## November 17, 2026 — Image Explorer: links to the Moon and Mars maps
 
 - Under the globe, a "Moon and Mars maps" row opens Planetary Maps directly: the Moon's and Mars's globes, the Apollo

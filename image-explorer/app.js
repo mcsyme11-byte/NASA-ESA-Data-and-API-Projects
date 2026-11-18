@@ -710,6 +710,10 @@ const has = (text, w) => {
   const b = w.length > 3 ? w.replace(/(ies|es|s)$/, m => (m === 'ies' ? 'y' : '')) : w;
   return new RegExp(`\\b(${/y$/.test(b) ? b.slice(0, -1) + '(?:y|ies)' : b + '(?:e?s)?'})\\b`).test(text);
 };
+/* the order of the main results (revised Nov 17, 2026): the good points count up to 4, so many pictures tie and the
+   libraries take turns within a tie, but the people and event words always count, so a picture of a team or a ceremony
+   ("Comet Scientists Honor Colleagues") falls behind the clean pictures of the same subject */
+const rankOf = x => Math.min(x.score + (x.pen || 0), 4) - (x.pen || 0);
 function scoreOf(x, words) {
   const [id, title, , centre, photographer, keywords] = x, text = (title + ' ' + keywords.join(' ')).toLowerCase();
   let s = 0;
@@ -725,9 +729,9 @@ function scoreOf(x, words) {
   if (/^(NHQ|KSC|jsc)/i.test(id)) s -= 3;                           /* headquarters, Kennedy and Johnson event photography */
   if (/^NASA\//i.test(photographer)) s -= 1;                        /* a staff photographer's credit */
   s += Math.min(4, (text.match(SCI) || []).length);
-  s -= 1.2 * (text.match(PPL) || []).length;
-  if (ART.test(text)) s -= 4;
-  return s;
+  const pen = 1.2 * (text.match(PPL) || []).length + (ART.test(text) ? 4 : 0);
+  x.pen = pen;                                                      /* kept for the sort: see rankOf */
+  return s - pen;
 }
 /* a mission button searches several phrasings and merges them; one word alone finds mostly launches and people */
 const PRESETS = {
@@ -1001,7 +1005,7 @@ async function runSearch(q, page, st) {
       x.n = seen[j.who === 'nasa' ? 'nasa' : x.lib]; list.push(x);
     }
   });
-  list.sort((a, b) => Math.min(b.score, 4) - Math.min(a.score, 4) || a.n - b.n);
+  list.sort((a, b) => rankOf(b) - rankOf(a) || a.n - b.n);
   const counts = [];
   if (from !== 'esa' && next.nasa.length) counts.push(['NASA', Math.max(0, ...next.nasa)]);
   for (const a of esaAsk) counts.push([ESA[a[0]].name + (a[2] === 'videos' ? ' videos' : kinds.length > 1 ? ' pictures' : ''), next.esa[slot(a)] ?? 0]);

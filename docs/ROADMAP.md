@@ -36,21 +36,12 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
   (since Nov 11, 2026). If the key arrives: repository secret `EOL_API_KEY`, then Actions › Astronaut photos › Run
   workflow.
 - [ ] Picture library: tune the ranking further as the developer reviews searches (the weights are in `scoreOf` in
-  `image-explorer/app.js`; second round applied Nov 17, 2026). Still seen after it: "Comet Scientists Honor
-  Colleagues" stays second for "comet", because scores are capped at 4 when sorting and many pictures tie there.
+  `image-explorer/app.js`; second and third rounds applied Nov 17, 2026).
 - [ ] Polar views: a sea ice layer that works through the polar night. GIBS's microwave sea-ice records ended
   (SSMIS Aug 2021, AMSR2 Sep 2025); the current one is MODIS (a camera, daylight only). Ice surface temperature
   (`MODIS_Terra_Ice_Surface_Temp_Night`, thermal) is an option to consider.
 - [ ] Further rounds of changes to the globe, as the developer reviews it.
 - [ ] Picture library: subtitles for videos (NASA's files cannot be attached from another site; would need a copy).
-- [ ] With reduced motion set, the globe does not turn by itself and moves without animation; to be rechecked on a
-  phone.
-
-## 3. Mars Data (third)
-
-Plan confirmed Nov 11, 2026 (see PROJECT-NOTES.md): three missions, updated automatically by a GitHub Actions job.
-
-**Data and analysis**
 - [x] REMS, the whole record (sols 1–4843, August 7, 2012 to March 22, 2026; 4,703 sols with data), cleaned with rules
   1.2 in chunks; every cleaning report checked (Nov 12, 2026). Rule 11 removes the evening air-temperature glitch
   (34 sols); the set-aside list (`exclusions.csv`, rule 10) is empty.
