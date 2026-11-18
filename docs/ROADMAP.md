@@ -92,12 +92,9 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
 The standard and the jobs are in [DATA-UPDATES.md](DATA-UPDATES.md); the daily Data health check reports problems in
 one GitHub issue labelled `data-health`.
 
-- [ ] **Outside clock** (cron-job.org, decided Nov 17, 2026): 10 timers made Nov 17, 2026, one per cron time, in UTC,
-  each calling `POST …/actions/workflows/<file>/dispatches` with the fine-grained token (Actions read and write, this
-  repository only, expires Nov 17, 2027). First timer confirmed: Spacecraft data started by `workflow_dispatch` at
-  05:23:10 UTC on Nov 18, 2026. Still to do: check every timer's title and address, add the quarterly Place and map
-  lists timer (03:37 UTC on January, April, July and October 2) and remove any stray copy, then fill `clock.set_up`
-  and `token_expires` in `dev/data_jobs.json` and add a token-expiry reminder to the health check.
+- [ ] Confirm the outside clock's timers over the next few days: each job's runs should be started by
+  `workflow_dispatch` within a minute of its cron time (the control room's "Started by" column shows "Outside clock").
+  Set up Nov 17 and 18, 2026; the first timer (Spacecraft data, 05:23 UTC) fired at 05:23:10 UTC on Nov 18, 2026.
 - [ ] Confirm the first scheduled runs of **Rover routes** (`rover-routes.yml`, 08:29 and 20:59 UTC, added Nov 17,
   2026). First runs by hand on Nov 17, 2026: both rovers read (Curiosity sol 5073, Perseverance sol 2022,
   `routes.json` 123 KB), and the Moon and Mars place names built (1,783 Mars and 7,982 Moon names).
@@ -132,9 +129,6 @@ one GitHub issue labelled `data-health`.
   `phys.json` (or found them unchanged), and the status file shows both parts ok.
 - [ ] Developer testing of the control room (`control-room/`, live since Nov 17, 2026): the page on a phone and a
   computer, and the "Copy for the chat" message when something is wrong.
-- [ ] Outside clock (decided Nov 17, 2026): free timers at cron-job.org start the data jobs on time through GitHub's
-  API (a fine-grained token limited to this repository's Actions); GitHub's own schedule stays as the backup. Waiting
-  for the developer's cron-job.org account; then a 2 to 3 day trial on Spacecraft data, then every job.
 - [ ] Mars data: reduce the job to weekly once it has run without trouble for a few weeks (from about December 10,
   2026); change `mars-data.yml` and `max_age_hours` in `dev/data_jobs.json` (to 192) together.
 

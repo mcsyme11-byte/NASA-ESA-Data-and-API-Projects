@@ -92,6 +92,28 @@ time and the health check's allowance for age cover this.
   "not found" line).
 - The file changes only when a state or a note changes or data is saved, so it does not add a commit to every run.
 
+## The outside clock
+
+Decided Nov 17, 2026; set up Nov 17 and 18, 2026. GitHub's own `schedule` runs here 4 to 10 hours late (median about
+7 hours), so free timers at cron-job.org start each job at its cron times instead, through GitHub's API: one timer per
+cron time (11 in all), each in UTC, sending `POST /repos/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/actions/workflows/<file>/dispatches`
+with the body `{"ref":"main"}` and the headers `Accept: application/vnd.github+json`, `X-GitHub-Api-Version:
+2022-11-28`, `Content-Type: application/json` and `Authorization: Bearer <token>`. A run started this way begins within
+about a minute. GitHub's own `schedule` stays in every workflow as the backup; a second run on the same data changes
+nothing, because `dev/datajob.py` commits only when a file changed.
+
+- **The token:** a fine-grained personal access token ("NEDAP data job starter"), Actions read and write on this
+  repository only, nothing else. It lives only in the timers at cron-job.org, never in the repository. It expires
+  Nov 17, 2027; `clock.token_expires` in `dev/data_jobs.json` holds the date, and the health check lists it to review
+  30 days before and reports a problem once it has expired. To renew: GitHub › Settings › Developer settings ›
+  Fine-grained tokens › NEDAP data job starter › Regenerate token; paste the new value into each timer's
+  Authorization header (Edit › Advanced › Headers); set `token_expires`.
+- **Adding a job or changing a time:** change the workflow's `cron` and `dev/data_jobs.json` together, as before, then
+  add or change the matching timer (Clone an existing timer, then set its title, address and schedule; a clone starts
+  switched off, so switch it on with "Enable job" and save). Timer titles read "NEDAP <Job> <hh:mm> UTC".
+- **Stopping it:** switch the timers off at cron-job.org, or delete the token on GitHub; the jobs then run on
+  GitHub's own schedule only.
+
 ## The daily health check
 
 `dev/data_health.py`, run by `data-health.yml` at 22:07 UTC, reports:

@@ -117,6 +117,18 @@ def check(repo, cfg):
         if due >= r['every_days']:
             review.append('Review due: %s (last done %s; set last_done in dev/data_jobs.json when done)'
                           % (r['what'], r['last_done']))
+    # the outside clock's token (decided Nov 17, 2026): a reminder 30 days before it expires, a problem once it has
+    clock = cfg.get('clock', {})
+    if clock.get('token_expires'):
+        left = (date.fromisoformat(clock['token_expires']) - date.today()).days
+        if left < 0:
+            problems.append('The outside clock\'s GitHub token expired on %s: the timers at %s can no longer start '
+                            'the jobs (GitHub\'s own schedule still runs). Regenerate it and paste it into each timer.'
+                            % (clock['token_expires'], clock.get('service', 'the timer service')))
+        elif left <= 30:
+            review.append('The outside clock\'s GitHub token expires on %s (%d days): regenerate it, paste it into each '
+                          'timer at %s, and set token_expires in dev/data_jobs.json'
+                          % (clock['token_expires'], left, clock.get('service', 'the timer service')))
     return problems, review
 
 

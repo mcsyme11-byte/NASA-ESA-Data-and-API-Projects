@@ -1,5 +1,14 @@
 # Change log
 
+## November 18, 2026 — The outside clock
+
+- The data jobs are started on time by 11 free timers at cron-job.org, one per cron time, through GitHub's API
+  (`workflow_dispatch`, a fine-grained token limited to this repository's Actions, expiring Nov 17, 2027). The first
+  timer started Spacecraft data at 05:23:10 UTC on Nov 18, 2026. GitHub's own schedule stays as the backup.
+- `dev/data_jobs.json` records the clock (`set_up`, `token_expires`, `timers`); the daily health check lists the
+  token 30 days before it expires and reports a problem once it has.
+- `docs/DATA-UPDATES.md`: a section on the outside clock (how it works, renewing the token, adding a timer).
+
 ## November 18, 2026 — Space Weather: "On this page" links
 
 - Space Weather has a row of links under its heading (the shared tabs) to each section: Now, The Sun, Events,
