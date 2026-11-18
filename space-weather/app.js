@@ -273,6 +273,20 @@ function wirePlace() {
 }
 
 // ---------------------------------------------------------------- start and refresh
+// the "On this page" links: the section in view is marked as the current one
+function wireJump() {
+  const links = new Map([...document.querySelectorAll('#jump a')].map((a) => [a.getAttribute('href').slice(1), a]));
+  const seen = new Map();
+  const mark = () => {
+    let best = null;
+    for (const [id, r] of seen) if (r > 0 && (!best || r > best[1])) best = [id, r];
+    links.forEach((a, id) => (best && id === best[0] ? a.setAttribute('aria-current', 'location') : a.removeAttribute('aria-current')));
+  };
+  const io = new IntersectionObserver((es) => { es.forEach((e) => seen.set(e.target.id, e.intersectionRatio)); mark(); },
+    { rootMargin: '-84px 0px -40% 0px', threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] });
+  document.querySelectorAll('[data-jump]').forEach((s) => io.observe(s));
+}
+
 function renderAll() { renderNow(); renderMonth(); renderEarth(); renderWind(); renderKp(); renderAurora(); showNotice(); }
 let lastFull = 0;
 async function refresh() {
@@ -287,6 +301,7 @@ async function start() {
   sdo(pressed($('#sdoSeg')).dataset.code);
   soho(pressed($('#sohoSeg')).dataset.code);
   wirePlace();
+  wireJump();
   readArchive().then((a) => { if (a && a.months && a.months.length) { S.archive = a; $('#allBtn').hidden = false; } });
   await refresh();
   // keep fresh while the page is open and showing

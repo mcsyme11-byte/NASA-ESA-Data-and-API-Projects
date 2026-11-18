@@ -15,3 +15,7 @@
 .split .ctl + h3 { margin-top: var(--sp5); }
 .ctl .actions + .bigsearch { margin-top: var(--sp3); }
 .ctl .searchopts { margin-top: var(--sp2); }
+
+/* the "On this page" links: each section stops below the sticky top bar */
+[data-jump] { scroll-margin-top: 84px; }
+@media (prefers-reduced-motion: no-preference) { html:has(#jump) { scroll-behavior: smooth; } }

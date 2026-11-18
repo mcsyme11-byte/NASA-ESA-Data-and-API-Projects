@@ -13,9 +13,9 @@
   <link rel="manifest" href="../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111802">
-  <script type="module" src="../shared/footer.js?v=2026111802"></script>
-  <link rel="stylesheet" href="spaceweather.css?v=2026111802">
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111803">
+  <script type="module" src="../shared/footer.js?v=2026111803"></script>
+  <link rel="stylesheet" href="spaceweather.css?v=2026111803">
   <script type="module" src="app.js"></script>
 </head>
 <body>
@@ -43,9 +43,13 @@
         <span class="small" id="checked">Reading the latest measurements…</span></p>
     </header>
 
+    <nav class="tabs" id="jump" aria-label="On this page">
+      <a href="#now">Now</a><a href="#sun">The Sun</a><a href="#events">Events</a><a href="#earth">Heading for Earth</a><a href="#wind">Solar wind</a><a href="#kp">Kp</a><a href="#aurora">Aurora</a><a href="#impacts">Who feels it</a><a href="#rules">Rules</a>
+    </nav>
+
     <div id="notice" aria-live="polite"></div>
 
-    <section class="section" aria-labelledby="hNow">
+    <section class="section" id="now" data-jump aria-labelledby="hNow">
       <div class="section-head"><div><div class="kicker">Right now</div><h2 id="hNow">Reading the Sun…</h2></div>
         <p class="aside">The solar wind is measured 1.5 million km sunward of Earth, about an hour before it arrives.</p></div>
       <div class="stats" id="nowStats">
@@ -57,7 +61,7 @@
       </div>
     </section>
 
-    <section class="section" aria-labelledby="hSun">
+    <section class="section" id="sun" data-jump aria-labelledby="hSun">
       <div class="section-head"><div><div class="kicker">The Sun today</div><h2 id="hSun">Two spacecraft watching the Sun</h2></div></div>
       <div class="panels">
         <section class="panel" aria-labelledby="hSdo">
@@ -89,7 +93,7 @@
       </div>
     </section>
 
-    <section class="section" aria-labelledby="hMonth">
+    <section class="section" id="events" data-jump aria-labelledby="hMonth">
       <div class="section-head"><div><div class="kicker" id="kMonth">The last 30 days</div><h2 id="hMonth">Flares, clouds and storms</h2></div>
         <div class="seg" role="group" aria-label="Period" id="periodSeg">
           <button type="button" data-days="7">7 days</button><button type="button" data-days="30" aria-pressed="true">30 days</button><button type="button" data-days="60">60 days</button><button type="button" data-days="all" id="allBtn" hidden>Since 2010</button>
@@ -106,7 +110,7 @@
       <p class="srcline">Flares, CMEs, model runs and storms: NASA Community Coordinated Modeling Center, DONKI (Moon to Mars Space Weather Analysis Office). DONKI is preliminary NASA research information; NOAA's Space Weather Prediction Center is the official U.S. source of space weather forecasts.</p>
     </section>
 
-    <section class="section" aria-labelledby="hEarth">
+    <section class="section" id="earth" data-jump aria-labelledby="hEarth">
       <div class="section-head"><div><div class="kicker">Heading for Earth</div><h2 id="hEarth">Reading NASA's forecasts…</h2></div></div>
       <div class="split">
         <div class="prose">
@@ -121,7 +125,7 @@
       </div>
     </section>
 
-    <section class="section" aria-labelledby="hWind">
+    <section class="section" id="wind" data-jump aria-labelledby="hWind">
       <div class="section-head"><div><div class="kicker">The solar wind</div><h2 id="hWind">The last 24 hours, upstream of Earth</h2></div></div>
       <div class="panels">
         <section class="panel" aria-labelledby="hSpeed"><div class="ph"><h3 id="hSpeed">Speed</h3><span class="aside" id="aSpeed"></span></div>
@@ -134,7 +138,7 @@
       <p class="srcline">Solar wind: NASA's IMAP spacecraft, I-ALiRT real-time data (IMAP Principal Investigator Prof. David J. McComas, Princeton University), through the NASA Community Coordinated Modeling Center's iSWA service.</p>
     </section>
 
-    <section class="section" aria-labelledby="hKp">
+    <section class="section" id="kp" data-jump aria-labelledby="hKp">
       <div class="section-head"><div><div class="kicker">Around Earth</div><h2 id="hKp">Geomagnetic activity, last 7 days and next 3</h2></div>
         <p class="aside" id="stormList"></p></div>
       <section class="panel" aria-labelledby="hKpChart"><div class="ph"><h3 id="hKpChart">Kp, every 3 hours</h3><span class="aside">0 is calm, 9 is extreme</span></div>
@@ -144,7 +148,7 @@
       <p class="srcline">Kp measured: GFZ Helmholtz Centre for Geosciences, CC BY 4.0. Kp forecast: NOAA Space Weather Prediction Center. Both through the NASA Community Coordinated Modeling Center's iSWA service. Storms: NASA DONKI.</p>
     </section>
 
-    <section class="section" aria-labelledby="hAur">
+    <section class="section" id="aurora" data-jump aria-labelledby="hAur">
       <div class="section-head"><div><div class="kicker">Aurora</div><h2 id="hAur">Could you see it tonight?</h2></div></div>
       <div class="split">
         <div>
@@ -174,7 +178,7 @@
       <p class="srcline">Aurora map: NOAA Space Weather Prediction Center, OVATION Prime model. The Kp each place needs: NOAA's rule (the edge of the aurora reaches about 66° geomagnetic latitude at Kp 0 and 2° nearer the equator for each step of Kp), with the geomagnetic pole of the World Magnetic Model 2025 (NOAA NCEI). Darkness worked out in this browser.</p>
     </section>
 
-    <section class="section" aria-labelledby="hWho">
+    <section class="section" id="impacts" data-jump aria-labelledby="hWho">
       <div class="section-head"><div><div class="kicker">Why it matters</div><h2 id="hWho">Who feels space weather</h2></div></div>
       <div class="facts">
         <div class="f"><h4>Satellites</h4><p>A storm heats and puffs up the upper air, which drags on low satellites. In February 2022 a minor storm brought down 38 of 49 newly launched Starlink satellites. <b>Watch:</b> Kp.</p></div>
@@ -185,7 +189,7 @@
       </div>
     </section>
 
-    <section class="section" aria-labelledby="hRules">
+    <section class="section" id="rules" data-jump aria-labelledby="hRules">
       <div class="section-head"><div><div class="kicker">How to read the numbers</div><h2 id="hRules">Five rules</h2></div></div>
       <dl class="terms">
         <div><dt>1 · Flare class</dt><dd>The letter is a power of ten, the number a multiplier, in watts per square metre of X-rays at Earth: A 10⁻⁸, B 10⁻⁷, C 10⁻⁶, M 10⁻⁵, X 10⁻⁴. <b>Example:</b> an M1.7 is 1.7 × 10⁻⁵ W/m², 17 times a C1.</dd></div>

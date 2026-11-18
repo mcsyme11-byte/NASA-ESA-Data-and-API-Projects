@@ -186,6 +186,9 @@ collisions, Cleaning up; see `orbit-watch/README.md`).
   and NOAA's aurora map load, the place search works, and the page reads well on a phone.
 - [ ] Once the Data updates chat has built the job: the "Since 2010" button appears, and the page falls back to the
   saved copy when NASA cannot be reached.
+- [x] "On this page" links to each section (Nov 18, 2026).
+- [ ] Reload buttons, once the General chat has added the shared component (requested Nov 18, 2026): one for the
+  whole page next to the "Readings to …" line, and a small one in each panel's header that reloads only its part.
 - [ ] Later, if wanted: a short animation of the last day's SOHO pictures (SOHO offers movies, not checked yet); the
   section page's live figures (flares, storm level) once the section page shows live figures.
 
