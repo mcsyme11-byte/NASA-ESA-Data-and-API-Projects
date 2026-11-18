@@ -18,7 +18,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SKIP = ('docs/', 'dev/', 'image-explorer/vendor/', 'shared/vendor/', 'node_modules/')
 SKIP_FILES = {'mars-data/mockup.html', 'spacecraft/mockup-more.html'}           # a mock-up waiting for approval, not a page of the site
 PROJECT_CSS = ['asteroid-tracker/tracker.css', 'image-explorer/explorer.css', 'mars-data/mars.css',
-               'spacecraft/spacecraft.css', 'sky-finder/sky-finder.css']
+               'spacecraft/spacecraft.css', 'sky-finder/sky-finder.css', 'planet-maps/maps.css']
 # the shared components (shared/theme.css); a project style sheet may not restyle one of these by itself
 SHARED = ['btn', 'chip', 'chips', 'card', 'cards', 'panel', 'panels', 'seg', 'tabs', 'notice', 'badge', 'badges', 'pill',
           'tag', 'stat', 'stats', 'tile', 'tiles', 'pagehead', 'phead', 'back', 'backlink', 'howto', 'section',

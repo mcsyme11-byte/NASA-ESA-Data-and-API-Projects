@@ -1,5 +1,20 @@
 # Change log
 
+## November 17, 2026 — Planetary Maps
+
+- **Planetary Maps is live** (`planet-maps/`), built from the approved mock-up on the shared flat map: the Moon and
+  Mars on NASA's Solar System Treks tiles, from the whole world down to 25 cm a pixel at Jezero and about 0.5 m at
+  five Apollo sites. Maps: photo and height for both, and Mars height sharpened with ESA Mars Express data. 34 places
+  written by hand (every landing site, craters, volcanoes, valleys), each with a short explanation and facts;
+  positions checked against NASA Trek's IAU feature names. The rovers' routes from a daily copy, search by name or
+  coordinates, a grid, a scale bar in each body's own size, and "How these maps were made" with four rules for a
+  map's sharpness.
+- **Data jobs prepared:** `planet-maps/fetch_routes.py` (the rovers' routes) and `planet-maps/tools/build_names.py`
+  (every official feature name), for the Data updates chat (hand-off updated).
+- **Site:** the page is listed in the site-map footer and named for the Back button; its cards on the home page and
+  Space Watch open it; the Privacy page lists trek.nasa.gov; `CREDITS.md` and the Credits page list Trek, the rovers'
+  routes, the IAU names and ESA's Mars Express HRSC. Version tags raised to `2026111707`. The mock-up was removed.
+
 ## November 17, 2026 — shared map and globe
 
 - The Image Explorer's map set-up and globe moved into `shared/` for Planetary Maps and Orbit Watch:

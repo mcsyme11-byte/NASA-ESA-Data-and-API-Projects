@@ -177,20 +177,16 @@ a visitor's browser contacts, in the same change; data jobs handed to the Data u
 - [ ] Where each host star is in the sky (`shared/sky.js` and the star list).
 - [ ] Hand-off to the Data updates chat: a weekly Exoplanets job.
 
-**5d. Planetary Maps (`planet-maps/`)**
-- [ ] Its own folder (decided Nov 17, 2026), on the shared map and globe moved out of Image Explorer.
-- [ ] Sources: NASA Moon Trek and Mars Trek map tiles (LRO, MRO, Viking and ESA's Mars Express); landing sites and the
-  rovers' routes (NASA, checked by hand); place names from Trek's own layers, or the IAU names kept by the US
-  Geological Survey (approved Nov 17, 2026) where Trek's do not cover them.
-- [ ] Moon and Mars maps from the whole world down to single craters, with height, names, every landing site and the
-  rovers' routes.
-- [ ] Links: Image Explorer's globe ("Moon and Mars maps"), Mars Data's "Two craters" chart (Gale and Jezero), and the
-  spacecraft map's Moon and Mars orbiters.
-- [x] Sources checked and recorded in `docs/DATA-SOURCES.md` (Nov 17, 2026): Trek layers, rovers' routes, place
-  names, ESA Mars Express HRSC. Not used: the 5 m CTX mosaic of all of Mars (credited to Caltech and Esri).
-- [x] Hand-off to the Data updates chat written (Nov 17, 2026, `docs/handoffs/2026-11-17 - planetary maps - data
-  jobs.md`): the rovers' routes daily (decided Nov 17, 2026, instead of with the Mars data job); the place names built
-  once, then refreshed quarterly with Place and map lists.
-- [ ] Mock-up (`planet-maps/mockup.html`, Nov 17, 2026): approval by the developer, on a phone and a computer.
-- [ ] Build the page once the shared map and globe are in `shared/`, with `planet-maps/fetch_routes.py` and
-  `planet-maps/tools/build_names.py` for the two data jobs; the Privacy page (trek.nasa.gov) and the credits first.
+**5d. Planetary Maps (`planet-maps/`)**: live Nov 17, 2026 (`planet-maps/README.md`)
+- [ ] Data updates chat: the rovers' routes daily and the place names (once, then quarterly), from the hand-off of
+  Nov 17, 2026; the scripts are ready (`planet-maps/fetch_routes.py`, `planet-maps/tools/build_names.py`). Until the
+  first runs, the page shows a note for the routes and searches only the marked places.
+- [ ] Developer testing on a phone and a computer: both tabs, the three Mars maps, the close-ups (Apollo 11's
+  "Zoom into the close-up", Jezero's "Zoom to Perseverance"), search by name and by coordinates, the grid and the place
+  card's links to Mars Data.
+- [ ] Links to it: Image Explorer's globe ("Moon and Mars maps", Image Explorer chat); Mars Data's "Two craters"
+  chart (Mars Data chat); the spacecraft map's Moon and Mars orbiters.
+- [ ] ESA Mars Express pictures in the Gale and Jezero cards (ESA/DLR/FU Berlin, CC BY-SA 3.0 IGO), copied to the site
+  at a reduced size with the licence noted.
+- [ ] Later: the Moon and Mars as globes (`shared/globe.js`), and polar views (Trek's north- and south-pole layers,
+  for the Moon's south pole and the Artemis landing regions).

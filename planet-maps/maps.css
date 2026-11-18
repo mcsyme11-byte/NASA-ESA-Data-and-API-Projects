@@ -1,0 +1,68 @@
+/* NASA and ESA Data Projects · Planetary Maps: the inside of its tool, on top of shared/theme.css ·
+ * © 2026 Malcolm Syme · mcsyme11@gmail.com
+ *
+ * General components (page head, tabs, figures, control boxes, segmented controls, chips, search box, panels, notices,
+ * buttons, badges, steps, sources) come from shared/theme.css. This file holds only the map tool: its layout beside
+ * the controls, the map frame and the map's own buttons, and the place list under the search box. The layout follows
+ * the Image Explorer's Earth map, so both tools read the same way. See docs/DESIGN.md, "Page styles".
+ */
+
+/* ---------- the controls beside the map ---------- */
+.pmtool { display: grid; grid-template-columns: 290px minmax(0, 1fr); gap: var(--sp5); align-items: start; margin-top: var(--sp5); }
+.pmside { display: flex; flex-direction: column; gap: var(--sp4); min-width: 0; }
+.pmcol { min-width: 0; }
+.pmside .seg { width: 100%; }
+.pmside .seg > .chip { flex: 1; justify-content: center; }
+
+/* the search box's list of matches */
+.pmfind { position: relative; }
+.pmlist { position: absolute; left: 0; right: 0; top: calc(100% + 4px); z-index: 20; margin: 0; padding: 4px 0; list-style: none;
+  background: var(--bg2); border: 1px solid var(--brass-dim); border-radius: var(--r-btn); max-height: 300px; overflow-y: auto;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .35); }
+.pmlist li { display: flex; justify-content: space-between; gap: 10px; padding: 9px 12px; cursor: pointer; }
+.pmlist li[aria-selected="true"], .pmlist li:hover { background: rgba(192, 160, 98, .10); }
+.pmlist li .k { font-size: 12px; color: var(--muted); font-style: italic; white-space: nowrap; }
+
+/* ---------- the map ---------- */
+/* twice as wide as tall, the shape of the whole map, so wider screens show the whole world; on phones a fixed 380 px,
+   where the map then pans sideways */
+.pmframe { position: relative; aspect-ratio: 2 / 1; border-radius: var(--r); overflow: hidden; }
+#pmap { position: absolute; inset: 0; cursor: grab; touch-action: none; outline: none; }
+#pmap:active { cursor: grabbing; }
+#pmap:focus-visible { box-shadow: inset 0 0 0 2px var(--brass); }
+.pmframe .ol-zoom { top: 10px; left: auto; right: 10px; }
+.pmframe .ol-overlaycontainer-stopevent { z-index: 3 !important; }    /* the map's buttons above its drawn names */
+.pmframe .ol-control { background: none; padding: 0; }
+.pmframe .ol-control button { background: rgba(15, 21, 32, .97); color: var(--brass); border: 1px solid var(--brass-dim);
+  border-radius: var(--r-btn); font-family: var(--font); width: 32px; height: 32px; margin: 2px; }
+.pmframe .ol-control button:hover, .pmframe .ol-control button:focus { background: var(--bg2); color: var(--brass-bright); outline: none; }
+.pmframe .ol-scale-line { left: 10px; bottom: 10px; background: rgba(15, 21, 32, .85); border-radius: var(--r-btn); padding: 3px 6px; }
+.pmframe .ol-scale-line-inner { border-color: var(--brass-dim); color: var(--ink2); font: 11px var(--font); }
+/* the position under the pointer, and the note of what the map is showing */
+.pmpos { position: absolute; right: 10px; bottom: 10px; z-index: 2; background: rgba(15, 21, 32, .85); border-radius: var(--r-btn);
+  padding: 3px 8px; font: 12px var(--mono); color: var(--ink2); pointer-events: none; }
+.pmtag { position: absolute; left: 10px; top: 10px; z-index: 2; max-width: calc(100% - 70px); background: rgba(15, 21, 32, .97);
+  border: 1px solid var(--brass-dim); border-radius: var(--r-btn); padding: 6px 10px; font-size: 13px; color: var(--ink2); pointer-events: none; }
+.pmtag strong { font-weight: 400; color: var(--brass-bright); }
+.pmcol .caption { margin-top: var(--sp3); }
+
+/* the key under the map: shapes drawn as they are on the map */
+.pmkey { display: flex; flex-wrap: wrap; gap: 6px var(--sp4); margin-top: var(--sp3); font-size: 13.5px; color: var(--ink2); }
+.pmkey span { display: inline-flex; align-items: center; gap: 6px; }
+.pmkey svg { flex: none; }
+
+/* the place card's two buttons */
+#pmCard .pmgo { display: flex; flex-wrap: wrap; gap: var(--sp2); }
+
+@media (max-width: 1024px) {
+  .pmtool { grid-template-columns: 1fr; }
+  .pmtool > .pmcol { order: -1; }                   /* the map before its controls on tablets and phones */
+  .pmside { display: grid; grid-template-columns: 1fr 1fr; }
+  .pmside .pmplace { grid-column: 1 / -1; }
+}
+@media (max-width: 760px) {
+  .pmside { grid-template-columns: 1fr; }
+  .pmframe { aspect-ratio: auto; height: 380px; }
+  .pmframe .ol-control button { width: 40px; height: 40px; }
+  #pmCard .pmgo .btn { min-height: 40px; }
+}

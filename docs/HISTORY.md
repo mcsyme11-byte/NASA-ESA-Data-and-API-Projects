@@ -168,3 +168,12 @@ How NASA and ESA Data Projects came about, in order.
   mining them, on a new page and on every asteroid's page.
 - Building it showed that JPL's servers refuse an address after several hundred quick requests, so the monthly data
   step asks one question a second.
+
+## November 17, 2026 — Planetary Maps
+
+- Planetary Maps, the first Orbit & Space Watch tool, went live: maps of the Moon and Mars from NASA's orbiters, served
+  by NASA's Solar System Treks, with every landing site, the rovers' routes and the best-known features. Its sources
+  were checked the same day, a live mock-up was approved, and it was built on the flat map moved into `shared/` by
+  the Image Explorer the same evening.
+- Decided: the rovers' routes are copied daily; layers made by the US Geological Survey from NASA mission data and
+  served by NASA's Trek are used; the 5 m CTX mosaic of all of Mars, credited to Caltech and Esri, is not.

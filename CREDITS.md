@@ -13,6 +13,9 @@ there in the same change.
 | NASA NeoWs (api.nasa.gov) | Asteroid Tracker: close approaches, sizes, the hazard flag | NASA data; generally not under copyright in the United States |
 | NASA/JPL Solar System Dynamics: Close-Approach Data, Small-Body Database (orbits, spectral types, spin, albedo), Horizons, approximate planetary elements, Sentry, NHATS (round trips) | Asteroid Tracker: approaches, orbits, spacecraft and planet positions, NASA's impact-risk list, the positions behind "Visible from here", the round trips and spectral types on "Within reach"; spacecraft map: deep-space, Lagrange-point, Moon and Mars positions; Sky Finder: asteroid positions | NASA/JPL data |
 | CelesTrak (celestrak.org), general perturbations orbital elements | Spacecraft map: satellites in Earth orbit; Sky Finder: the space stations' passes | Published orbital data; credit "CelesTrak" |
+| NASA Solar System Treks (trek.nasa.gov, JPL for NASA's Solar System Exploration Research Virtual Institute): Moon Trek and Mars Trek map tiles | Planetary Maps: the Moon (LRO photo, LOLA height, Apollo-site close-ups) and Mars (Viking photo, MOLA height, HiRISE and CTX close-ups of Jezero and Gale) | NASA mission data; credits "NASA/GSFC/Arizona State University" (LRO), "NASA/GSFC" (LOLA), "NASA/JPL/USGS" (Viking), "NASA/JPL/GSFC" (MOLA), "NASA/JPL-Caltech/University of Arizona" (HiRISE), "NASA/JPL-Caltech/MSSS" (CTX), with the Jezero mosaics made by the USGS |
+| NASA/JPL "Where is the rover?" maps (mars.nasa.gov/mmgis-maps) | Planetary Maps: Curiosity's and Perseverance's routes and positions, copied daily | NASA material; credit "NASA/JPL-Caltech" |
+| IAU Working Group for Planetary System Nomenclature (Gazetteer of Planetary Nomenclature, kept by the USGS), through NASA Solar System Treks | Planetary Maps: the official names of craters, mountains, valleys and plains | Public names; credit the IAU Working Group |
 | NASA GIBS (Global Imagery Browse Services), including Blue Marble | Image Explorer: the Earth map, the polar views, the globe's surface | NASA imagery; acknowledgement required (below) |
 | NASA Image and Video Library | Image Explorer: the picture library | NASA material; some items carry their own credit or rights, shown with each item |
 | NASA EONET (Earth Observatory Natural Event Tracker) | Image Explorer: events on the globe | NASA data |
@@ -38,6 +41,7 @@ with its exact credit line, in the same change that adds it, and ESA's credit is
 |---|---|---|
 | ESA/Webb picture and video archives (esawebb.org) | Image Explorer: Picture library and the globe's pictures, beside NASA's | CC BY 4.0 (esawebb.org/copyright); each picture's own credit line, shown in full with it, for example "NASA, ESA, CSA, STScI. Image Processing: J. Depasquale (STScI)"; captions credited to ESA/Webb |
 | ESA/Hubble picture and video archives (esahubble.org) | Image Explorer: Picture library and the globe's pictures, beside NASA's | CC BY 4.0 (esahubble.org/copyright); each picture's own credit line, shown in full with it, for example "NASA, ESA, and STScI"; captions credited to ESA/Hubble |
+| ESA Mars Express High Resolution Stereo Camera (HRSC), heights blended with NASA's MOLA, served by NASA's Mars Trek | Planetary Maps: the Mars "Sharper" height map | CC BY-SA 3.0 IGO; credit "ESA/DLR/FU Berlin, CC BY-SA 3.0 IGO" |
 | ESA NEO Coordination Centre (NEOCC, neo.ssa.esa.int): risk list, special risk list, close approaches | Asteroid Tracker: ESA's impact-risk list beside NASA's, and ESA's close-approach distances | ESA's terms for educational and informational use; credit "ESA NEO Coordination Centre (©ESA)" |
 
 **ESA's terms:** some ESA images, videos and other works are released, where expressly stated, under the Creative
@@ -50,7 +54,7 @@ with ESA's credit (ESA's terms and conditions, esa.int). ESA's logo is not used:
 
 | Library | Version | Used for | Licence |
 |---|---|---|---|
-| OpenLayers (`ol`) | 10.11.0 | Flat maps (`shared/flatmap.js`): the Image Explorer's Earth map | BSD 2-Clause |
+| OpenLayers (`ol`) | 10.11.0 | Flat maps (`shared/flatmap.js`): the Image Explorer's Earth map, the Planetary Maps of the Moon and Mars | BSD 2-Clause |
 | proj4js (`proj4`) | 2.22.0 | Image Explorer: the polar map projections | MIT |
 | three.js (`three`) | 0.187.0 | Globes (`shared/globe.js`): the Image Explorer's globe | MIT |
 | satellite.js, © 2013 Shashwat Kandadai | 7.2.0 | Spacecraft map and Sky Finder: satellite positions from orbital elements (SGP4); bundled as an ES module, `shared/vendor/satellite.min.js`, licence `shared/vendor/LICENSE-satellite.js.md` | MIT |

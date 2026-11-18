@@ -21,7 +21,7 @@ Maps"). The map tiles themselves need no job: visitors' browsers read them from 
 | Output | `planet-maps/data/routes.json` (format below), expected under 300 KB |
 | Status file | as the Data updates chat names the job |
 | Schedule | daily, with the standard second run; NASA updates the files after drives, not on a fixed timetable |
-| Fetch script | `planet-maps/fetch_routes.py`, written by the Planetary Maps chat with the page (DATA-UPDATES.md: project chats keep their fetch scripts); the workflow, `dev/data_jobs.json` entry and status are the Data updates chat's |
+| Fetch script | `planet-maps/fetch_routes.py` (ready since Nov 17, 2026; standard library only; `--test` runs it on sample data without the network). Prints one line per rover, with "not found" or "check failed" when a rover keeps its previous entry; exits 1 only when no rover could be read; leaves the file untouched when no rover has moved. The workflow, `dev/data_jobs.json` entry and status are the Data updates chat's |
 
 Options for the workflow, for the Data updates chat to choose: a new job (for example "Rover routes",
 `rover-routes.yml`), or a daily step in an existing daily job. The Mars data job runs twice a week and would need to
@@ -55,15 +55,19 @@ entry):
 
 ## 2. Place names, built once, then quarterly
 
-- `planet-maps/tools/build_names.py` (Planetary Maps chat) writes `planet-maps/data/names-moon.json` and
+- `planet-maps/tools/build_names.py` (ready since Nov 17, 2026; `--test` for sample data) writes `planet-maps/data/names-moon.json` and
   `names-mars.json`: each official feature's name, kind (crater, mons, vallis …), position and size, from Trek's
   catalogue (`nomenclature` items) or the USGS Gazetteer.
-- Built once by hand with the page; then refreshed quarterly with the Place and map lists job (`build-places.yml`,
+- Format: `{"updated", "source", "names": [[name, kind, latitude, longitude], …]}`. A body whose list cannot be read,
+  or that comes back with under half the previous count, keeps its previous file; exits 1 only when both fail.
+- Built once (the first run of the job, or Actions by hand); then refreshed quarterly with the Place and map lists job (`build-places.yml`,
   January, April, July and October 2), which already rebuilds the GeoNames and Natural Earth lists.
 
 ## For the Data updates chat
 
 - Add `planet-maps/data/` to `paths-ignore` in `project-record.yml`, and each job to `dev/data_jobs.json` and the tables in
   `DATA-UPDATES.md`.
-- Both jobs wait for the Planetary Maps chat's fetch and build scripts, which come with the page, after the shared map
-  and globe are moved out of Image Explorer (roadmap section 5).
+- Both scripts are ready, and the page is live (Nov 17, 2026). Until the first runs, the page shows "the daily copy is
+  not available yet" for the routes and searches only the marked places, and the browser logs a "not found" for each
+  of the three missing files. Neither script has been run against the live services yet (the Planetary Maps chat's
+  machine cannot reach them); the first run by hand is the check, and its log lines show the counts.

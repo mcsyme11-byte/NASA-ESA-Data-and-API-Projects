@@ -4,6 +4,13 @@ How NASA and ESA Data Projects is built, the decisions made so far, and how to r
 
 ## Decisions
 
+- **Decided Nov 17, 2026 (Planetary Maps):** live at `planet-maps/`, its own folder, built from the approved mock-up on
+  `shared/flatmap.js`: the Moon and Mars from NASA's Solar System Treks tiles, loaded by the visitor's browser
+  (trek.nasa.gov, on the Privacy page). Layers made by the US Geological Survey from NASA mission data and served by
+  Trek (the Viking mosaic, the Jezero mosaics) and the IAU names it keeps are used; the 5 m CTX mosaic of all of Mars
+  (credited to Caltech and Esri) is not. The rovers' routes are copied daily by a data job; the place names once, then
+  quarterly. The places marked on the map are written by hand (`planet-maps/places.json`); globes and polar views
+  come later.
 - **Decided Nov 17, 2026 (site-map footer and menu):** every page's footer is a site map, built by `shared/footer.js`
   from one list: the NEDAP mark and name with the live data status; a column for each part of the site (Asteroid
   Tracker, Image Explorer, Mars Data, Space Watch, More) listing its pages, with the current page marked; the
