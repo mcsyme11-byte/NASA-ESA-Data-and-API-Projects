@@ -109,12 +109,16 @@
     controls: ol.control.defaults.defaults({ attribution: false, rotate: false }) });
 
   /* the whole world fills the frame: wide frames show it all, narrow ones (phones) let it pan sideways */
-  function home() {
-    const [w, h] = map.getSize() || [0, 0]; if (!w || !h) return;
+  /* the smallest zoom keeps the frame filled; a resize keeps the place and zoom, unless the frame would show empty space */
+  function fill() {
+    const [w, h] = map.getSize() || [0, 0]; if (!w || !h) return false;
     const r = Math.min(360 / w, 180 / h);
-    view.setMinZoom(0); view.setResolution(r); view.setCenter([0, 0]); view.setMinZoom(view.getZoom());
+    view.setMinZoom(0); view.setMinZoom(view.getZoomForResolution(r));
+    return true;
   }
-  new ResizeObserver(() => { map.updateSize(); home(); }).observe($('map'));
+  function home() { if (fill()) { view.setZoom(view.getMinZoom()); view.setCenter([0, 0]); } }
+  let sized = false;
+  new ResizeObserver(() => { map.updateSize(); if (!sized) { sized = fill(); if (sized) home(); } else fill(); }).observe($('map'));
 
   /* ---------- the rovers (live from NASA/JPL in the mock-up) ---------- */
   const R = {};
