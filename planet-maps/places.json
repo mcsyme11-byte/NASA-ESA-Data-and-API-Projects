@@ -1,111 +1,925 @@
 {
   "about": "Planetary Maps: the places marked on the Moon and Mars maps. Written by hand; positions checked Nov 17, 2026 against NASA Trek's IAU feature names (craters, mountains, valleys, plains) and Trek's landing-site areas, and landing points against NASA's mission pages (docs/DATA-SOURCES.md, Planetary Maps). Latitude north positive, longitude east positive (-180 to 180). group: land (landing site), crater, volc (volcano or mountain), valley (valley, canyon or plain).",
   "mars": [
-    { "id": "jezero", "name": "Jezero Crater", "kind": "Crater · Perseverance, 2021", "group": "land", "lat": 18.4082, "lon": 77.6873, "rover": "perseverance",
-      "facts": [["Size", "45 km across"], ["Landed", "Perseverance and the Ingenuity helicopter, February 18, 2021"], ["Sharpest map", "25 cm a pixel over the crater floor and delta (HiRISE), 6 m around it"]],
+    {
+      "id": "jezero",
+      "name": "Jezero Crater",
+      "kind": "Crater · Perseverance, 2021",
+      "group": "land",
+      "lat": 18.4082,
+      "lon": 77.6873,
+      "rover": "perseverance",
+      "facts": [
+        [
+          "Size",
+          "45 km across"
+        ],
+        [
+          "Landed",
+          "Perseverance and the Ingenuity helicopter, February 18, 2021"
+        ],
+        [
+          "Sharpest map",
+          "25 cm a pixel over the crater floor and delta (HiRISE), 6 m around it"
+        ]
+      ],
       "text": "A crater that held a lake about 3.5 billion years ago. A river flowed in through a gap in the western rim and left a fan of mud and sand, the delta: the reason Perseverance was sent here. Rocks from the delta, which could hold signs of ancient life, are sealed in sample tubes. Ingenuity, the first helicopter to fly on another world, made 72 flights here.",
-      "links": [["Weather at Jezero (Mars Data)", "../mars-data/charts/#craters"]] },
-    { "id": "gale", "name": "Gale Crater", "kind": "Crater · Curiosity, 2012", "group": "land", "lat": -5.3672, "lon": 137.811, "rover": "curiosity",
-      "facts": [["Size", "154 km across"], ["Landed", "Curiosity, August 6, 2012"], ["Sharpest map", "About 6 m a pixel (CTX)"]],
+      "links": [
+        [
+          "Weather at Jezero (Mars Data)",
+          "../mars-data/charts/#craters"
+        ]
+      ]
+    },
+    {
+      "id": "gale",
+      "name": "Gale Crater",
+      "kind": "Crater · Curiosity, 2012",
+      "group": "land",
+      "lat": -5.3672,
+      "lon": 137.811,
+      "rover": "curiosity",
+      "facts": [
+        [
+          "Size",
+          "154 km across"
+        ],
+        [
+          "Landed",
+          "Curiosity, August 6, 2012"
+        ],
+        [
+          "Sharpest map",
+          "About 6 m a pixel (CTX)"
+        ]
+      ],
       "text": "A huge crater with a mountain in the middle, Aeolis Mons (\"Mount Sharp\"), built of layers laid down in lakes and later by wind. Curiosity is climbing it layer by layer, reading the history of Mars' climate like the pages of a book.",
-      "links": [["Weather at Gale (Mars Data)", "../mars-data/charts/#craters"]] },
-    { "id": "aeolis", "name": "Aeolis Mons", "kind": "Mountain (\"Mount Sharp\")", "group": "volc", "lat": -5.0834, "lon": 137.8453,
-      "facts": [["Height", "About 5 km above the crater floor"]],
-      "text": "The layered mountain in the middle of Gale Crater. Its lowest layers formed in water; higher up the rocks change, recording how Mars dried out. Curiosity has been climbing its lower slopes since 2014." },
-    { "id": "olympus", "name": "Olympus Mons", "kind": "Volcano", "group": "volc", "lat": 18.6528, "lon": -133.8025,
-      "facts": [["Size", "About 600 km across and 22 km high"]],
-      "text": "The tallest volcano in the solar system, about two and a half times the height of Mount Everest above sea level. Its slopes are so gentle and it is so wide that someone standing on the top would not see that they were on a mountain." },
-    { "id": "ascraeus", "name": "Ascraeus Mons", "kind": "Volcano · Tharsis", "group": "volc", "lat": 11.9216, "lon": -104.0808,
-      "facts": [["Where", "The northern of the three Tharsis volcanoes"]],
-      "text": "One of three giant volcanoes standing in a line on the Tharsis bulge, a raised region of lava the size of a continent." },
-    { "id": "pavonis", "name": "Pavonis Mons", "kind": "Volcano · Tharsis", "group": "volc", "lat": 1.4801, "lon": -112.9624,
-      "facts": [["Where", "The middle of the three Tharsis volcanoes, on the equator"]],
-      "text": "The middle volcano of the Tharsis line. Like its neighbours it is a shield volcano: built by runny lava flowing out over a very long time, like the volcanoes of Hawaii but much bigger." },
-    { "id": "arsia", "name": "Arsia Mons", "kind": "Volcano · Tharsis", "group": "volc", "lat": -8.2571, "lon": -120.0925,
-      "facts": [["Where", "The southern of the three Tharsis volcanoes"]],
-      "text": "The southern volcano of the Tharsis line, with a summit crater about 110 km across. A long, thin cloud often forms over it in the early morning." },
-    { "id": "elysium", "name": "Elysium Mons", "kind": "Volcano", "group": "volc", "lat": 25.0232, "lon": 147.2138,
-      "facts": [["Where", "The Elysium volcanic region, on the other side of Mars from Tharsis"]],
-      "text": "The largest volcano of Mars' second volcanic region. NASA's InSight lander measured marsquakes on the plains to its south." },
-    { "id": "vm", "name": "Valles Marineris", "kind": "Canyon", "group": "valley", "lat": -14.0059, "lon": -58.5877,
-      "facts": [["Size", "More than 4,000 km long and up to about 7 km deep"]],
-      "text": "A system of canyons as long as the United States is wide. It formed as the crust cracked and pulled apart beside the Tharsis volcanoes, then was widened by landslides. It is named after Mariner 9, the orbiter that found it in 1971." },
-    { "id": "hellas", "name": "Hellas Planitia", "kind": "Impact basin", "group": "crater", "lat": -42.4301, "lon": 70.5025,
-      "facts": [["Size", "About 2,300 km across and 7 km deep"]],
-      "text": "One of the largest impact craters in the solar system, made by a huge collision about 4 billion years ago. Its floor is the lowest ground on Mars, where the air is thickest." },
-    { "id": "argyre", "name": "Argyre Planitia", "kind": "Impact basin", "group": "crater", "lat": -49.8406, "lon": -43.3098,
-      "facts": [["Size", "About 1,800 km across"]],
-      "text": "A large impact basin in the southern highlands, ringed by mountains thrown up by the collision that made it." },
-    { "id": "ares", "name": "Ares Vallis", "kind": "Outflow channel", "group": "valley", "lat": 10.2924, "lon": -25.6083,
-      "facts": [["Visited", "Mars Pathfinder landed at its mouth in 1997"]],
-      "text": "A channel cut by enormous floods that once poured north across the plains. Pathfinder was sent to its mouth to find rocks washed down from the highlands." },
-    { "id": "viking1", "name": "Viking 1", "kind": "Lander · 1976", "group": "land", "lat": 22.27, "lon": -47.95,
-      "facts": [["Landed", "July 20, 1976, Chryse Planitia"], ["Worked until", "November 1982"]],
-      "text": "The first lander to work on Mars for a long time, and NASA's first on another planet. It sent back the first pictures from the surface and tested the soil for signs of life." },
-    { "id": "viking2", "name": "Viking 2", "kind": "Lander · 1976", "group": "land", "lat": 47.64, "lon": 134.29,
-      "facts": [["Landed", "September 3, 1976, Utopia Planitia"], ["Worked until", "April 1980"]],
-      "text": "Viking 1's twin, on the northern plains. It photographed frost on the ground in the Martian winter." },
-    { "id": "pathfinder", "name": "Mars Pathfinder", "kind": "Lander and rover · 1997", "group": "land", "lat": 19.13, "lon": -33.22,
-      "facts": [["Landed", "July 4, 1997, Ares Vallis"], ["Rover", "Sojourner, the first rover on Mars"]],
-      "text": "Landed by bouncing on airbags. Its small rover, Sojourner, drove about 100 m in total, studying the rocks around the lander." },
-    { "id": "spirit", "name": "Spirit", "kind": "Rover · 2004", "group": "land", "lat": -14.5684, "lon": 175.4726,
-      "facts": [["Landed", "January 4, 2004, Gusev Crater"], ["Worked until", "March 2010"]],
-      "text": "Planned for 90 days, Spirit worked for six years. In the Columbia Hills it found rocks altered by hot water, and silica left by ancient hot springs." },
-    { "id": "opportunity", "name": "Opportunity", "kind": "Rover · 2004", "group": "land", "lat": -1.9462, "lon": -5.5266,
-      "facts": [["Landed", "January 25, 2004, Meridiani Planum"], ["Worked until", "June 2018"], ["Drove", "45 km"]],
-      "text": "Planned for 90 days, it lasted more than 14 years, until a planet-wide dust storm. Small round grains it found, nicknamed \"blueberries\", formed in water soaking through the rock." },
-    { "id": "phoenix", "name": "Phoenix", "kind": "Lander · 2008", "group": "land", "lat": 68.22, "lon": -125.75,
-      "facts": [["Landed", "May 25, 2008, the far north"], ["Worked until", "November 2008"]],
-      "text": "Dug into the ground near the north polar cap and found water ice just under the soil." },
-    { "id": "insight", "name": "InSight", "kind": "Lander · 2018", "group": "land", "lat": 4.502, "lon": 135.623,
-      "facts": [["Landed", "November 26, 2018, Elysium Planitia"], ["Worked until", "December 2022"]],
-      "text": "Listened to the inside of Mars. Its seismometer recorded more than 1,300 marsquakes, which showed how thick the crust is and how big the core is." },
-    { "id": "zhurong", "name": "Zhurong (CNSA)", "kind": "Rover · 2021", "group": "land", "lat": 25.066, "lon": 109.925,
-      "facts": [["Landed", "May 2021, Utopia Planitia"], ["Agency", "China National Space Administration"]],
-      "text": "China's first Mars rover. It drove about 1.9 km before going to sleep for the winter in May 2022, and did not wake again." }
+      "links": [
+        [
+          "Weather at Gale (Mars Data)",
+          "../mars-data/charts/#craters"
+        ]
+      ]
+    },
+    {
+      "id": "aeolis",
+      "name": "Aeolis Mons",
+      "kind": "Mountain (\"Mount Sharp\")",
+      "group": "volc",
+      "lat": -5.0834,
+      "lon": 137.8453,
+      "facts": [
+        [
+          "Height",
+          "About 5 km above the crater floor"
+        ]
+      ],
+      "text": "The layered mountain in the middle of Gale Crater. Its lowest layers formed in water; higher up the rocks change, recording how Mars dried out. Curiosity has been climbing its lower slopes since 2014."
+    },
+    {
+      "id": "olympus",
+      "name": "Olympus Mons",
+      "kind": "Volcano",
+      "group": "volc",
+      "lat": 18.6528,
+      "lon": -133.8025,
+      "facts": [
+        [
+          "Size",
+          "About 600 km across and 22 km high"
+        ]
+      ],
+      "text": "The tallest volcano in the solar system, about two and a half times the height of Mount Everest above sea level. Its slopes are so gentle and it is so wide that someone standing on the top would not see that they were on a mountain."
+    },
+    {
+      "id": "ascraeus",
+      "name": "Ascraeus Mons",
+      "kind": "Volcano · Tharsis",
+      "group": "volc",
+      "lat": 11.9216,
+      "lon": -104.0808,
+      "facts": [
+        [
+          "Where",
+          "The northern of the three Tharsis volcanoes"
+        ]
+      ],
+      "text": "One of three giant volcanoes standing in a line on the Tharsis bulge, a raised region of lava the size of a continent."
+    },
+    {
+      "id": "pavonis",
+      "name": "Pavonis Mons",
+      "kind": "Volcano · Tharsis",
+      "group": "volc",
+      "lat": 1.4801,
+      "lon": -112.9624,
+      "facts": [
+        [
+          "Where",
+          "The middle of the three Tharsis volcanoes, on the equator"
+        ]
+      ],
+      "text": "The middle volcano of the Tharsis line. Like its neighbours it is a shield volcano: built by runny lava flowing out over a very long time, like the volcanoes of Hawaii but much bigger."
+    },
+    {
+      "id": "arsia",
+      "name": "Arsia Mons",
+      "kind": "Volcano · Tharsis",
+      "group": "volc",
+      "lat": -8.2571,
+      "lon": -120.0925,
+      "facts": [
+        [
+          "Where",
+          "The southern of the three Tharsis volcanoes"
+        ]
+      ],
+      "text": "The southern volcano of the Tharsis line, with a summit crater about 110 km across. A long, thin cloud often forms over it in the early morning."
+    },
+    {
+      "id": "elysium",
+      "name": "Elysium Mons",
+      "kind": "Volcano",
+      "group": "volc",
+      "lat": 25.0232,
+      "lon": 147.2138,
+      "facts": [
+        [
+          "Where",
+          "The Elysium volcanic region, on the other side of Mars from Tharsis"
+        ]
+      ],
+      "text": "The largest volcano of Mars' second volcanic region. NASA's InSight lander measured marsquakes on the plains to its south."
+    },
+    {
+      "id": "vm",
+      "name": "Valles Marineris",
+      "kind": "Canyon",
+      "group": "valley",
+      "lat": -14.0059,
+      "lon": -58.5877,
+      "facts": [
+        [
+          "Size",
+          "More than 4,000 km long and up to about 7 km deep"
+        ]
+      ],
+      "text": "A system of canyons as long as the United States is wide. It formed as the crust cracked and pulled apart beside the Tharsis volcanoes, then was widened by landslides. It is named after Mariner 9, the orbiter that found it in 1971."
+    },
+    {
+      "id": "hellas",
+      "name": "Hellas Planitia",
+      "kind": "Impact basin",
+      "group": "crater",
+      "lat": -42.4301,
+      "lon": 70.5025,
+      "facts": [
+        [
+          "Size",
+          "About 2,300 km across and 7 km deep"
+        ]
+      ],
+      "text": "One of the largest impact craters in the solar system, made by a huge collision about 4 billion years ago. Its floor is the lowest ground on Mars, where the air is thickest."
+    },
+    {
+      "id": "argyre",
+      "name": "Argyre Planitia",
+      "kind": "Impact basin",
+      "group": "crater",
+      "lat": -49.8406,
+      "lon": -43.3098,
+      "facts": [
+        [
+          "Size",
+          "About 1,800 km across"
+        ]
+      ],
+      "text": "A large impact basin in the southern highlands, ringed by mountains thrown up by the collision that made it."
+    },
+    {
+      "id": "ares",
+      "name": "Ares Vallis",
+      "kind": "Outflow channel",
+      "group": "valley",
+      "lat": 10.2924,
+      "lon": -25.6083,
+      "facts": [
+        [
+          "Visited",
+          "Mars Pathfinder landed at its mouth in 1997"
+        ]
+      ],
+      "text": "A channel cut by enormous floods that once poured north across the plains. Pathfinder was sent to its mouth to find rocks washed down from the highlands."
+    },
+    {
+      "id": "viking1",
+      "name": "Viking 1",
+      "kind": "Lander · 1976",
+      "group": "land",
+      "lat": 22.27,
+      "lon": -47.95,
+      "facts": [
+        [
+          "Landed",
+          "July 20, 1976, Chryse Planitia"
+        ],
+        [
+          "Worked until",
+          "November 1982"
+        ]
+      ],
+      "text": "The first lander to work on Mars for a long time, and NASA's first on another planet. It sent back the first pictures from the surface and tested the soil for signs of life."
+    },
+    {
+      "id": "viking2",
+      "name": "Viking 2",
+      "kind": "Lander · 1976",
+      "group": "land",
+      "lat": 47.64,
+      "lon": 134.29,
+      "facts": [
+        [
+          "Landed",
+          "September 3, 1976, Utopia Planitia"
+        ],
+        [
+          "Worked until",
+          "April 1980"
+        ]
+      ],
+      "text": "Viking 1's twin, on the northern plains. It photographed frost on the ground in the Martian winter."
+    },
+    {
+      "id": "pathfinder",
+      "name": "Mars Pathfinder",
+      "kind": "Lander and rover · 1997",
+      "group": "land",
+      "lat": 19.13,
+      "lon": -33.22,
+      "facts": [
+        [
+          "Landed",
+          "July 4, 1997, Ares Vallis"
+        ],
+        [
+          "Rover",
+          "Sojourner, the first rover on Mars"
+        ]
+      ],
+      "text": "Landed by bouncing on airbags. Its small rover, Sojourner, drove about 100 m in total, studying the rocks around the lander."
+    },
+    {
+      "id": "spirit",
+      "name": "Spirit",
+      "kind": "Rover · 2004",
+      "group": "land",
+      "lat": -14.5684,
+      "lon": 175.4726,
+      "facts": [
+        [
+          "Landed",
+          "January 4, 2004, Gusev Crater"
+        ],
+        [
+          "Worked until",
+          "March 2010"
+        ]
+      ],
+      "text": "Planned for 90 days, Spirit worked for six years. In the Columbia Hills it found rocks altered by hot water, and silica left by ancient hot springs."
+    },
+    {
+      "id": "opportunity",
+      "name": "Opportunity",
+      "kind": "Rover · 2004",
+      "group": "land",
+      "lat": -1.9462,
+      "lon": -5.5266,
+      "facts": [
+        [
+          "Landed",
+          "January 25, 2004, Meridiani Planum"
+        ],
+        [
+          "Worked until",
+          "June 2018"
+        ],
+        [
+          "Drove",
+          "45 km"
+        ]
+      ],
+      "text": "Planned for 90 days, it lasted more than 14 years, until a planet-wide dust storm. Small round grains it found, nicknamed \"blueberries\", formed in water soaking through the rock."
+    },
+    {
+      "id": "phoenix",
+      "name": "Phoenix",
+      "kind": "Lander · 2008",
+      "group": "land",
+      "lat": 68.22,
+      "lon": -125.75,
+      "facts": [
+        [
+          "Landed",
+          "May 25, 2008, the far north"
+        ],
+        [
+          "Worked until",
+          "November 2008"
+        ]
+      ],
+      "text": "Dug into the ground near the north polar cap and found water ice just under the soil."
+    },
+    {
+      "id": "insight",
+      "name": "InSight",
+      "kind": "Lander · 2018",
+      "group": "land",
+      "lat": 4.502,
+      "lon": 135.623,
+      "facts": [
+        [
+          "Landed",
+          "November 26, 2018, Elysium Planitia"
+        ],
+        [
+          "Worked until",
+          "December 2022"
+        ]
+      ],
+      "text": "Listened to the inside of Mars. Its seismometer recorded more than 1,300 marsquakes, which showed how thick the crust is and how big the core is."
+    },
+    {
+      "id": "zhurong",
+      "name": "Zhurong (CNSA)",
+      "kind": "Rover · 2021",
+      "group": "land",
+      "lat": 25.066,
+      "lon": 109.925,
+      "facts": [
+        [
+          "Landed",
+          "May 2021, Utopia Planitia"
+        ],
+        [
+          "Agency",
+          "China National Space Administration"
+        ]
+      ],
+      "text": "China's first Mars rover. It drove about 1.9 km before going to sleep for the winter in May 2022, and did not wake again."
+    },
+    {
+      "id": "gusev",
+      "name": "Gusev Crater",
+      "kind": "Crater · Spirit's home",
+      "group": "crater",
+      "lat": -14.5308,
+      "lon": 175.5244,
+      "facts": [
+        [
+          "Size",
+          "About 160 km across"
+        ]
+      ],
+      "text": "Chosen for Spirit because a long valley, Ma'adim Vallis, runs into it, so it may once have held a lake. Spirit found volcanic rock on its floor and signs of hot water in the Columbia Hills."
+    },
+    {
+      "id": "endeavour",
+      "name": "Endeavour Crater",
+      "kind": "Crater · Opportunity",
+      "group": "crater",
+      "lat": -2.2836,
+      "lon": -5.1955,
+      "facts": [
+        [
+          "Size",
+          "About 22 km across"
+        ],
+        [
+          "Explored",
+          "Opportunity, 2011–2018"
+        ]
+      ],
+      "text": "Opportunity drove for three years to reach it and then explored its rim for seven more, finding veins of gypsum left by water flowing through cracks."
+    },
+    {
+      "id": "korolev",
+      "name": "Korolev Crater",
+      "kind": "Crater filled with ice",
+      "group": "crater",
+      "lat": 72.7677,
+      "lon": 164.584,
+      "facts": [
+        [
+          "Size",
+          "About 80 km across"
+        ]
+      ],
+      "text": "Filled with a mound of water ice about 1.8 km thick that stays all year. Air over the ice is cold, so it acts as a trap that keeps the ice from turning to vapour."
+    },
+    {
+      "id": "boreum",
+      "name": "Planum Boreum",
+      "kind": "The north polar cap",
+      "group": "valley",
+      "lat": 87.3236,
+      "lon": 54.9585,
+      "facts": [
+        [
+          "Size",
+          "About 1,000 km across and up to 3 km thick"
+        ]
+      ],
+      "text": "A dome of water ice in thin layers, laid down over millions of years as Mars' climate changed. Spiral troughs cut into it by wind make it look like a swirl from above."
+    },
+    {
+      "id": "australe",
+      "name": "Planum Australe",
+      "kind": "The south polar cap",
+      "group": "valley",
+      "lat": -83.3518,
+      "lon": 157.698,
+      "facts": [
+        [
+          "Made of",
+          "Layers of water ice and dust, topped with frozen carbon dioxide"
+        ]
+      ],
+      "text": "The south polar ice. Each winter carbon dioxide from the air freezes onto it, and in spring it turns back into gas, changing the air pressure all over Mars by about a quarter."
+    },
+    {
+      "id": "utopia",
+      "name": "Utopia Planitia",
+      "kind": "Plain",
+      "group": "valley",
+      "lat": 46.7363,
+      "lon": 117.5168,
+      "facts": [
+        [
+          "Size",
+          "About 3,300 km across"
+        ],
+        [
+          "Landed here",
+          "Viking 2 (1976) and Zhurong (2021)"
+        ]
+      ],
+      "text": "The largest known impact basin on Mars, filled in to make a vast plain. Radar from orbit found a layer of buried ice beneath part of it holding about as much water as Lake Superior."
+    }
   ],
   "moon": [
-    { "id": "apollo11", "name": "Apollo 11", "kind": "Landing site · 1969", "group": "land", "lat": 0.6742, "lon": 23.4731,
-      "facts": [["Landed", "July 20, 1969, Sea of Tranquillity"], ["On the surface", "Neil Armstrong and Buzz Aldrin"], ["Sharpest map", "About 0.5 m a pixel (LRO Narrow Angle Camera)"]],
-      "text": "The first landing by people. Zoom in to see the descent stage of the lunar module Eagle, photographed by NASA's Lunar Reconnaissance Orbiter, still standing where it landed." },
-    { "id": "apollo12", "name": "Apollo 12", "kind": "Landing site · 1969", "group": "land", "lat": -3.0124, "lon": -23.4216,
-      "facts": [["Landed", "November 19, 1969, Ocean of Storms"], ["On the surface", "Pete Conrad and Alan Bean"]],
-      "text": "A pinpoint landing within walking distance of Surveyor 3, a robot lander that had arrived two and a half years earlier. The crew brought parts of it back to Earth." },
-    { "id": "apollo14", "name": "Apollo 14", "kind": "Landing site · 1971", "group": "land", "lat": -3.6453, "lon": -17.4714,
-      "facts": [["Landed", "February 5, 1971, Fra Mauro highlands"], ["On the surface", "Alan Shepard and Edgar Mitchell"]],
-      "text": "Explored rocks thrown out by the impact that made the Imbrium basin. Alan Shepard hit two golf balls here." },
-    { "id": "apollo15", "name": "Apollo 15", "kind": "Landing site · 1971", "group": "land", "lat": 26.1322, "lon": 3.6339,
-      "facts": [["Landed", "July 30, 1971, Hadley Rille"], ["On the surface", "David Scott and James Irwin"]],
-      "text": "The first mission with the Lunar Roving Vehicle, at the foot of the Apennine mountains beside a winding lava channel. The crew found the \"Genesis Rock\", a piece of the Moon's ancient crust." },
-    { "id": "apollo16", "name": "Apollo 16", "kind": "Landing site · 1972", "group": "land", "lat": -8.973, "lon": 15.5002,
-      "facts": [["Landed", "April 21, 1972, Descartes highlands"], ["On the surface", "John Young and Charles Duke"]],
-      "text": "The only Apollo landing in the bright highlands. Geologists expected volcanic rock; the crew found mostly rock broken and welded together by impacts." },
-    { "id": "apollo17", "name": "Apollo 17", "kind": "Landing site · 1972", "group": "land", "lat": 20.1908, "lon": 30.7717,
-      "facts": [["Landed", "December 11, 1972, Taurus–Littrow valley"], ["On the surface", "Eugene Cernan and Harrison Schmitt"]],
-      "text": "The last time people walked on the Moon so far. Harrison Schmitt, a geologist, found orange soil made of tiny glass beads from an ancient volcanic eruption." },
-    { "id": "change4", "name": "Chang'e 4 (CNSA)", "kind": "Far-side landing · 2019", "group": "land", "lat": -45.4446, "lon": 177.5991,
-      "facts": [["Landed", "January 3, 2019, Von Kármán crater"], ["Agency", "China National Space Administration"]],
-      "text": "The first landing on the far side of the Moon, which never faces the Earth. Its rover, Yutu-2, explored the floor of Von Kármán crater, inside the huge South Pole–Aitken basin." },
-    { "id": "change5", "name": "Chang'e 5 (CNSA)", "kind": "Sample return · 2020", "group": "land", "lat": 43.0576, "lon": -51.9161,
-      "facts": [["Landed", "December 1, 2020, Ocean of Storms"], ["Brought back", "1.7 kg of rock and soil"]],
-      "text": "The first samples brought back from the Moon since 1976. They come from some of its youngest lava, about 2 billion years old." },
-    { "id": "change6", "name": "Chang'e 6 (CNSA)", "kind": "Far-side sample return · 2024", "group": "land", "lat": -41.625, "lon": -153.978,
-      "facts": [["Landed", "June 2024, Apollo basin, far side"], ["Brought back", "1.9 kg of rock and soil"]],
-      "text": "The first samples ever brought back from the far side of the Moon." },
-    { "id": "chandrayaan3", "name": "Chandrayaan-3 (ISRO)", "kind": "Landing site · 2023", "group": "land", "lat": -69.373, "lon": 32.319,
-      "facts": [["Landed", "August 23, 2023"], ["Agency", "Indian Space Research Organisation"]],
-      "text": "India's lander Vikram and its rover Pragyan, the first to land this close to the Moon's south pole, where ice may lie in craters that sunlight never reaches." },
-    { "id": "tycho", "name": "Tycho", "kind": "Crater", "group": "crater", "lat": -43.3101, "lon": -11.3619,
-      "facts": [["Size", "About 85 km across"], ["Age", "About 100 million years: young for the Moon"]],
-      "text": "A young, sharp crater whose bright rays of thrown-out rock stretch across much of the near side. At full Moon it is easy to see from Earth with binoculars." },
-    { "id": "copernicus", "name": "Copernicus", "kind": "Crater", "group": "crater", "lat": 9.6209, "lon": -20.0786,
-      "facts": [["Size", "About 93 km across"]],
-      "text": "A classic crater with terraced walls and mountains in the middle, pushed up by the rebound of the ground after the impact." },
-    { "id": "shackleton", "name": "Shackleton", "kind": "Crater at the south pole", "group": "crater", "lat": -89.6258, "lon": 132.3218,
-      "facts": [["Size", "About 21 km across"]],
-      "text": "Sits almost exactly on the south pole. Its rim gets sunlight most of the time, but its floor never does, so it is one of the coldest places known and may hold ice. The flat map stretches it sideways near the pole." },
-    { "id": "tranquillitatis", "name": "Mare Tranquillitatis", "kind": "Lava plain (a \"sea\")", "group": "valley", "lat": 8.3487, "lon": 30.8346,
-      "facts": [["What it is", "A plain of dark, solidified lava"]],
-      "text": "The dark patches seen on the Moon from Earth are \"seas\" (maria): huge plains of lava that filled old impact basins more than 3 billion years ago. Apollo 11 landed at this one's south-western edge." }
+    {
+      "id": "apollo11",
+      "name": "Apollo 11",
+      "kind": "Landing site · 1969",
+      "group": "land",
+      "lat": 0.6742,
+      "lon": 23.4731,
+      "facts": [
+        [
+          "Landed",
+          "July 20, 1969, Sea of Tranquillity"
+        ],
+        [
+          "On the surface",
+          "Neil Armstrong and Buzz Aldrin"
+        ],
+        [
+          "Sharpest map",
+          "About 0.5 m a pixel (LRO Narrow Angle Camera)"
+        ]
+      ],
+      "text": "The first landing by people. Zoom in to see the descent stage of the lunar module Eagle, photographed by NASA's Lunar Reconnaissance Orbiter, still standing where it landed."
+    },
+    {
+      "id": "apollo12",
+      "name": "Apollo 12",
+      "kind": "Landing site · 1969",
+      "group": "land",
+      "lat": -3.0124,
+      "lon": -23.4216,
+      "facts": [
+        [
+          "Landed",
+          "November 19, 1969, Ocean of Storms"
+        ],
+        [
+          "On the surface",
+          "Pete Conrad and Alan Bean"
+        ]
+      ],
+      "text": "A pinpoint landing within walking distance of Surveyor 3, a robot lander that had arrived two and a half years earlier. The crew brought parts of it back to Earth."
+    },
+    {
+      "id": "apollo14",
+      "name": "Apollo 14",
+      "kind": "Landing site · 1971",
+      "group": "land",
+      "lat": -3.6453,
+      "lon": -17.4714,
+      "facts": [
+        [
+          "Landed",
+          "February 5, 1971, Fra Mauro highlands"
+        ],
+        [
+          "On the surface",
+          "Alan Shepard and Edgar Mitchell"
+        ]
+      ],
+      "text": "Explored rocks thrown out by the impact that made the Imbrium basin. Alan Shepard hit two golf balls here."
+    },
+    {
+      "id": "apollo15",
+      "name": "Apollo 15",
+      "kind": "Landing site · 1971",
+      "group": "land",
+      "lat": 26.1322,
+      "lon": 3.6339,
+      "facts": [
+        [
+          "Landed",
+          "July 30, 1971, Hadley Rille"
+        ],
+        [
+          "On the surface",
+          "David Scott and James Irwin"
+        ]
+      ],
+      "text": "The first mission with the Lunar Roving Vehicle, at the foot of the Apennine mountains beside a winding lava channel. The crew found the \"Genesis Rock\", a piece of the Moon's ancient crust."
+    },
+    {
+      "id": "apollo16",
+      "name": "Apollo 16",
+      "kind": "Landing site · 1972",
+      "group": "land",
+      "lat": -8.973,
+      "lon": 15.5002,
+      "facts": [
+        [
+          "Landed",
+          "April 21, 1972, Descartes highlands"
+        ],
+        [
+          "On the surface",
+          "John Young and Charles Duke"
+        ]
+      ],
+      "text": "The only Apollo landing in the bright highlands. Geologists expected volcanic rock; the crew found mostly rock broken and welded together by impacts."
+    },
+    {
+      "id": "apollo17",
+      "name": "Apollo 17",
+      "kind": "Landing site · 1972",
+      "group": "land",
+      "lat": 20.1908,
+      "lon": 30.7717,
+      "facts": [
+        [
+          "Landed",
+          "December 11, 1972, Taurus–Littrow valley"
+        ],
+        [
+          "On the surface",
+          "Eugene Cernan and Harrison Schmitt"
+        ]
+      ],
+      "text": "The last time people walked on the Moon so far. Harrison Schmitt, a geologist, found orange soil made of tiny glass beads from an ancient volcanic eruption."
+    },
+    {
+      "id": "change4",
+      "name": "Chang'e 4 (CNSA)",
+      "kind": "Far-side landing · 2019",
+      "group": "land",
+      "lat": -45.4446,
+      "lon": 177.5991,
+      "facts": [
+        [
+          "Landed",
+          "January 3, 2019, Von Kármán crater"
+        ],
+        [
+          "Agency",
+          "China National Space Administration"
+        ]
+      ],
+      "text": "The first landing on the far side of the Moon, which never faces the Earth. Its rover, Yutu-2, explored the floor of Von Kármán crater, inside the huge South Pole–Aitken basin."
+    },
+    {
+      "id": "change5",
+      "name": "Chang'e 5 (CNSA)",
+      "kind": "Sample return · 2020",
+      "group": "land",
+      "lat": 43.0576,
+      "lon": -51.9161,
+      "facts": [
+        [
+          "Landed",
+          "December 1, 2020, Ocean of Storms"
+        ],
+        [
+          "Brought back",
+          "1.7 kg of rock and soil"
+        ]
+      ],
+      "text": "The first samples brought back from the Moon since 1976. They come from some of its youngest lava, about 2 billion years old."
+    },
+    {
+      "id": "change6",
+      "name": "Chang'e 6 (CNSA)",
+      "kind": "Far-side sample return · 2024",
+      "group": "land",
+      "lat": -41.625,
+      "lon": -153.978,
+      "facts": [
+        [
+          "Landed",
+          "June 2024, Apollo basin, far side"
+        ],
+        [
+          "Brought back",
+          "1.9 kg of rock and soil"
+        ]
+      ],
+      "text": "The first samples ever brought back from the far side of the Moon."
+    },
+    {
+      "id": "chandrayaan3",
+      "name": "Chandrayaan-3 (ISRO)",
+      "kind": "Landing site · 2023",
+      "group": "land",
+      "lat": -69.373,
+      "lon": 32.319,
+      "facts": [
+        [
+          "Landed",
+          "August 23, 2023"
+        ],
+        [
+          "Agency",
+          "Indian Space Research Organisation"
+        ]
+      ],
+      "text": "India's lander Vikram and its rover Pragyan, the first to land this close to the Moon's south pole, where ice may lie in craters that sunlight never reaches."
+    },
+    {
+      "id": "tycho",
+      "name": "Tycho",
+      "kind": "Crater",
+      "group": "crater",
+      "lat": -43.3101,
+      "lon": -11.3619,
+      "facts": [
+        [
+          "Size",
+          "About 85 km across"
+        ],
+        [
+          "Age",
+          "About 100 million years: young for the Moon"
+        ]
+      ],
+      "text": "A young, sharp crater whose bright rays of thrown-out rock stretch across much of the near side. At full Moon it is easy to see from Earth with binoculars."
+    },
+    {
+      "id": "copernicus",
+      "name": "Copernicus",
+      "kind": "Crater",
+      "group": "crater",
+      "lat": 9.6209,
+      "lon": -20.0786,
+      "facts": [
+        [
+          "Size",
+          "About 93 km across"
+        ]
+      ],
+      "text": "A classic crater with terraced walls and mountains in the middle, pushed up by the rebound of the ground after the impact."
+    },
+    {
+      "id": "shackleton",
+      "name": "Shackleton",
+      "kind": "Crater at the south pole",
+      "group": "crater",
+      "lat": -89.6258,
+      "lon": 132.3218,
+      "facts": [
+        [
+          "Size",
+          "About 21 km across"
+        ]
+      ],
+      "text": "Sits almost exactly on the south pole. Its rim gets sunlight most of the time, but its floor never does, so it is one of the coldest places known and may hold ice. The flat map stretches it sideways near the pole."
+    },
+    {
+      "id": "tranquillitatis",
+      "name": "Mare Tranquillitatis",
+      "kind": "Lava plain (a \"sea\")",
+      "group": "valley",
+      "lat": 8.3487,
+      "lon": 30.8346,
+      "facts": [
+        [
+          "What it is",
+          "A plain of dark, solidified lava"
+        ]
+      ],
+      "text": "The dark patches seen on the Moon from Earth are \"seas\" (maria): huge plains of lava that filled old impact basins more than 3 billion years ago. Apollo 11 landed at this one's south-western edge."
+    },
+    {
+      "id": "cabeus",
+      "name": "Cabeus",
+      "kind": "Crater near the south pole",
+      "group": "crater",
+      "lat": -85.2771,
+      "lon": -41.8055,
+      "facts": [
+        [
+          "Size",
+          "About 100 km across"
+        ]
+      ],
+      "text": "NASA crashed the spent rocket stage of its LCROSS mission into a permanently dark part of this crater on October 9, 2009, and measured the plume that rose out of it: it held water ice."
+    },
+    {
+      "id": "haworth",
+      "name": "Haworth",
+      "kind": "Crater near the south pole",
+      "group": "crater",
+      "lat": -87.2029,
+      "lon": -7.4937,
+      "facts": [
+        [
+          "Size",
+          "About 50 km across"
+        ]
+      ],
+      "text": "Its floor lies in permanent shadow and is one of the places where ice may be trapped. The region around it is on NASA's list of possible landing regions for the first crewed landing near the south pole."
+    },
+    {
+      "id": "faustini",
+      "name": "Faustini",
+      "kind": "Crater near the south pole",
+      "group": "crater",
+      "lat": -87.1771,
+      "lon": 85.0241,
+      "facts": [
+        [
+          "Size",
+          "About 40 km across"
+        ]
+      ],
+      "text": "Sunlight never reaches its floor. LRO's instruments map such permanently shadowed craters by the faint light reflected from nearby peaks and by their own warmth."
+    },
+    {
+      "id": "amundsen",
+      "name": "Amundsen",
+      "kind": "Crater near the south pole",
+      "group": "crater",
+      "lat": -84.4398,
+      "lon": 83.0691,
+      "facts": [
+        [
+          "Size",
+          "About 100 km across"
+        ]
+      ],
+      "text": "A large crater with central peaks, named after Roald Amundsen, who led the first expedition to reach the Earth's South Pole."
+    },
+    {
+      "id": "mouton",
+      "name": "Mons Mouton",
+      "kind": "Mountain near the south pole",
+      "group": "volc",
+      "lat": -84.81,
+      "lon": 38.15,
+      "facts": [
+        [
+          "Named",
+          "2022, after Melba Roy Mouton, a NASA mathematician"
+        ]
+      ],
+      "text": "A broad, flat-topped mountain several kilometres high near the south pole. It was named when NASA studied landing regions for its crewed missions; Intuitive Machines' lander Athena came down near it in March 2025."
+    },
+    {
+      "id": "malapert",
+      "name": "Malapert",
+      "kind": "Crater near the south pole",
+      "group": "crater",
+      "lat": -84.798,
+      "lon": 12.3057,
+      "facts": [
+        [
+          "Where",
+          "Beside the Malapert massif, a mountain that can often see the Earth"
+        ]
+      ],
+      "text": "The mountains around Malapert are high enough to stay in sunlight much of the time and to keep the Earth above the horizon, which makes them attractive for future landings."
+    },
+    {
+      "id": "odysseus",
+      "name": "Odysseus (Intuitive Machines)",
+      "kind": "Landing site · 2024",
+      "group": "land",
+      "lat": -80.13,
+      "lon": 1.44,
+      "facts": [
+        [
+          "Landed",
+          "February 22, 2024, near Malapert A"
+        ],
+        [
+          "Carried",
+          "Instruments for NASA"
+        ]
+      ],
+      "text": "The first landing on the Moon by a private company, and the first American landing since Apollo 17. It tipped onto its side as it landed but kept working for about a week."
+    },
+    {
+      "id": "peary",
+      "name": "Peary",
+      "kind": "Crater near the north pole",
+      "group": "crater",
+      "lat": 88.5688,
+      "lon": 25.7342,
+      "facts": [
+        [
+          "Size",
+          "About 75 km across"
+        ]
+      ],
+      "text": "Near the Moon's north pole. Parts of its rim are lit by the Sun for most of the lunar year, so it has been studied as a place for solar power."
+    },
+    {
+      "id": "hermite",
+      "name": "Hermite",
+      "kind": "Crater near the north pole",
+      "group": "crater",
+      "lat": 86.077,
+      "lon": -91.314,
+      "facts": [
+        [
+          "Size",
+          "About 100 km across"
+        ],
+        [
+          "Coldest measured",
+          "About −247 °C, by LRO's Diviner"
+        ]
+      ],
+      "text": "Parts of its floor are among the coldest places ever measured in the solar system, colder than the surface of Pluto, because sunlight never reaches them."
+    },
+    {
+      "id": "change3",
+      "name": "Chang'e 3 (CNSA)",
+      "kind": "Landing site · 2013",
+      "group": "land",
+      "lat": 44.12,
+      "lon": -19.51,
+      "facts": [
+        [
+          "Landed",
+          "December 14, 2013, Mare Imbrium"
+        ],
+        [
+          "Rover",
+          "Yutu"
+        ]
+      ],
+      "text": "The first soft landing on the Moon since 1976, and China's first. Its rover Yutu used ground-penetrating radar to look at the layers of lava beneath it."
+    },
+    {
+      "id": "luna9",
+      "name": "Luna 9 (Soviet Union)",
+      "kind": "Landing site · 1966",
+      "group": "land",
+      "lat": 7.08,
+      "lon": -64.37,
+      "facts": [
+        [
+          "Landed",
+          "February 3, 1966, Ocean of Storms"
+        ]
+      ],
+      "text": "The first spacecraft to land softly on the Moon and send pictures from the surface. It showed that the ground was firm enough to stand on."
+    },
+    {
+      "id": "lunokhod1",
+      "name": "Lunokhod 1 (Soviet Union)",
+      "kind": "Rover · 1970",
+      "group": "land",
+      "lat": 38.32,
+      "lon": -35.0,
+      "facts": [
+        [
+          "Landed",
+          "November 17, 1970, Mare Imbrium (Luna 17)"
+        ],
+        [
+          "Drove",
+          "About 10 km"
+        ]
+      ],
+      "text": "The first remote-controlled rover on another world, driven by a team on Earth for ten months. A reflector on it still bounces laser pulses back from Earth."
+    }
   ]
 }

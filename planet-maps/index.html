@@ -14,9 +14,9 @@
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
   <link rel="stylesheet" href="../shared/vendor/ol-10.11.0/ol.css">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111709">
-  <script type="module" src="../shared/footer.js?v=2026111709"></script>
-  <link rel="stylesheet" href="maps.css?v=2026111709">
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111710">
+  <script type="module" src="../shared/footer.js?v=2026111710"></script>
+  <link rel="stylesheet" href="maps.css?v=2026111710">
 </head>
 <body>
   <header class="topbar">
@@ -63,6 +63,16 @@
           <p class="caption" id="pmFindNote">A place on the map, or coordinates such as <i>18.4, 77.5</i> (latitude, longitude; south and west negative).</p>
         </div>
         <div class="ctl">
+          <h2>View</h2>
+          <div class="seg" id="pmViews" role="group" aria-label="View">
+            <button class="chip" type="button" aria-pressed="true" data-view="map">Map</button>
+            <button class="chip" type="button" aria-pressed="false" data-view="globe">Globe</button>
+            <button class="chip" type="button" aria-pressed="false" data-view="north">North</button>
+            <button class="chip" type="button" aria-pressed="false" data-view="south">South</button>
+          </div>
+          <p class="caption" id="pmViewNote">The whole world unrolled flat. North and South look straight down on a pole, without the flat map's stretch.</p>
+        </div>
+        <div class="ctl">
           <h2>Map</h2>
           <div class="seg" id="pmLayers" role="group" aria-label="Map"></div>
           <p class="caption" id="pmLayerNote"></p>
@@ -84,6 +94,11 @@
       <div class="pmcol">
         <div class="frame pmframe">
           <div id="pmap" tabindex="0" aria-label="Map of the surface. Drag to move, scroll or pinch to zoom, or use the arrow keys and plus and minus."></div>
+          <div class="pmglobe" id="pmGlobe" tabindex="0" hidden aria-label="Globe. Drag to turn, scroll or pinch to zoom, or use the arrow keys and plus and minus.">
+            <div class="pmglobehost" id="pmGlobeHost"></div>
+            <canvas class="pmglobeover" id="pmGlobeOver" aria-hidden="true"></canvas>
+            <div class="pmglobebtns"><button type="button" id="pmGIn" aria-label="Zoom in">+</button><button type="button" id="pmGOut" aria-label="Zoom out">−</button></div>
+          </div>
           <div class="pmtag" id="pmTag" hidden></div>
           <div class="pmpos" id="pmPos" hidden></div>
         </div>
@@ -105,6 +120,9 @@
             so hills and craters stand out.</p>
           <p><b>Close-ups.</b> Around Jezero and Gale on Mars, and at five of the Apollo sites, much sharper pictures appear
             as you zoom in. Elsewhere, zooming further only makes the pixels bigger.</p>
+          <p><b>Globe and poles.</b> The globe wraps the same pictures round a ball, the way the world really is.
+            North and South look straight down on a pole (a polar stereographic map), out to 65° of latitude, so the
+            craters and ice caps there keep their true shape.</p>
           <p><b>Longitude</b> is counted east from 0° to 180° and west to −180°, the convention NASA uses for its maps of
             both worlds.</p>
         </details>
@@ -154,7 +172,7 @@
       </div>
     </section>
 
-    <p class="srcline">Map tiles: NASA Solar System Treks (JPL, for NASA's Solar System Exploration Research Virtual Institute). Moon: NASA/GSFC/Arizona State University; LOLA: NASA/GSFC. Mars: Viking, NASA/JPL/USGS; MOLA, NASA/JPL/GSFC; HiRISE, NASA/JPL-Caltech/University of Arizona; CTX, NASA/JPL-Caltech/MSSS; Jezero mosaics, USGS. Mars Express HRSC: ESA/DLR/FU Berlin, <a href="https://creativecommons.org/licenses/by-sa/3.0/igo/" target="_blank" rel="noopener">CC BY-SA 3.0 IGO</a>. Rovers' routes: NASA/JPL-Caltech. Place names: IAU Working Group for Planetary System Nomenclature. Map: OpenLayers.</p>
+    <p class="srcline">Map tiles: NASA Solar System Treks (JPL, for NASA's Solar System Exploration Research Virtual Institute). Moon: NASA/GSFC/Arizona State University; LOLA: NASA/GSFC. Mars: Viking, NASA/JPL/USGS; MOLA, NASA/JPL/GSFC; HiRISE, NASA/JPL-Caltech/University of Arizona; CTX, NASA/JPL-Caltech/MSSS; Jezero mosaics, USGS. Mars Express HRSC: ESA/DLR/FU Berlin, <a href="https://creativecommons.org/licenses/by-sa/3.0/igo/" target="_blank" rel="noopener">CC BY-SA 3.0 IGO</a>. Rovers' routes: NASA/JPL-Caltech. Place names: IAU Working Group for Planetary System Nomenclature. Map: OpenLayers; globe: three.js.</p>
 
     <footer class="footer">
       <div class="ftop"><p class="copy">© 2026 <strong>Malcolm Syme</strong> · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></p></div>
@@ -162,9 +180,13 @@
     </footer>
   </main>
 
+  <script type="importmap">
+    { "imports": { "three": "../shared/vendor/three-0.187.0/three.module.js",
+                   "three/addons/": "../shared/vendor/three-0.187.0/" } }
+  </script>
   <script src="../shared/vendor/ol-10.11.0/ol.js"></script>
   <script src="../shared/vendor/proj4-2.22.0/proj4.js"></script>
-  <script src="../shared/flatmap.js?v=2026111709"></script>
-  <script src="app.js?v=2026111709"></script>
+  <script src="../shared/flatmap.js?v=2026111710"></script>
+  <script src="app.js?v=2026111710"></script>
 </body>
 </html>

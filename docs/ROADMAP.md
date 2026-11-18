@@ -202,12 +202,15 @@ a visitor's browser contacts, in the same change; data jobs handed to the Data u
 - [ ] Data updates chat: the rovers' routes daily and the place names (once, then quarterly), from the hand-off of
   Nov 17, 2026; the scripts are ready (`planet-maps/fetch_routes.py`, `planet-maps/tools/build_names.py`). Until the
   first runs, the page shows a note for the routes and searches only the marked places.
-- [ ] Developer testing on a phone and a computer: both tabs, the three Mars maps, the close-ups (Apollo 11's
+- [ ] Developer testing on a phone and a computer: the Globe, North and South views (added Nov 17, 2026), both tabs, the three Mars maps, the close-ups (Apollo 11's
   "Zoom into the close-up", Jezero's "Zoom to Perseverance"), search by name and by coordinates, the grid and the place
   card's links to Mars Data.
 - [ ] Links to it: Image Explorer's globe ("Moon and Mars maps", Image Explorer chat); Mars Data's "Two craters"
   chart (Mars Data chat); the spacecraft map's Moon and Mars orbiters.
-- [ ] ESA Mars Express pictures in the Gale and Jezero cards (ESA/DLR/FU Berlin, CC BY-SA 3.0 IGO), copied to the site
-  at a reduced size with the licence noted.
-- [ ] Later: the Moon and Mars as globes (`shared/globe.js`), and polar views (Trek's north- and south-pole layers,
-  for the Moon's south pole and the Artemis landing regions).
+- [ ] ESA Mars Express pictures in the Gale and Jezero cards (ESA/DLR/FU Berlin, CC BY-SA 3.0 IGO): each picture's
+  address and exact credit from its ESA page, then either loaded from esa.int (Privacy page first) or copied to the
+  site at a reduced size with the licence noted. Needs a browser connected to the chat (the Planetary Maps chat's
+  machine cannot reach esa.int).
+- [ ] A check of the live page with NASA's real tiles (the Globe, North and South views, the close-ups) in a
+  browser connected to the chat; the automated tests use stand-in tiles.
+- [ ] Artemis landing regions on the South view, once NASA publishes a current list (DATA-SOURCES.md, Planetary Maps).

@@ -820,7 +820,15 @@ confirm that visitors' browsers may read it. No key, no account, free.
   tiles, top-left corner (−180°, 90°). Level `z` is `2^(z+1)` tiles across and `2^z` down, so one pixel is
   `360 / (256 × 2^(z+1))` degrees. Level 0 is two tiles; regional layers use the same grid and have tiles only inside
   their bounding box ("If the image tile is missing, that means there is no data coverage in that area").
-- **Polar views:** the same service has north- and south-pole (stereographic) versions of many layers; not used yet.
+- **Polar views:** the service has north- and south-pole (stereographic) versions of some layers. The page does not use
+  them: its North and South views (added Nov 17, 2026) reproject the equirectangular layers above in the browser
+  (OpenLayers with proj4js; `+proj=stere +lat_0=±90 +lon_0=0` on a sphere of Trek's radius: Mars 3,396,190 m, the
+  Moon 1,737,400 m), out to 65° of latitude. The same tiles, so no other source and no change to the Privacy page.
+- **Artemis landing regions (not shown, decided Nov 17, 2026):** Trek's layer `A3_Named_regions` is the list of 13
+  candidate regions NASA announced in August 2022. NASA published a list of nine in October 2024, and reports in
+  2026 describe Artemis III changed to a test flight in Earth orbit, with the first landing moved to a later mission.
+  The regions are left off the map until NASA publishes a current list; the craters and mountains named in it
+  (Haworth, Mons Mouton, Malapert and others) are marked as places.
 - **Catalogue:** `https://trek.nasa.gov/<moon|mars>/TrekServices/ws/index/eq/searchItems?key=<words>&start=0&rows=<n>`
   (JSON: layer name, title, description, bounding box; also landing-site bookmarks and IAU feature names). Readable
   from trek.nasa.gov's own pages only (no CORS header), so it is used by hand and by build scripts, never by the page.
@@ -875,6 +883,10 @@ Layers chosen (all checked Nov 17, 2026; levels as listed in each capabilities f
   Nov 17, 2026 to the Data updates chat), so visitors' browsers do not contact mars.nasa.gov and do not download 3 MB.
 - **Terms:** NASA material, credit "NASA/JPL-Caltech". Not a published data product: the files may move without
   notice, so the job keeps the previous copy when they fail (DATA-UPDATES.md).
+- **Places added Nov 17, 2026** (positions from Trek's IAU names): on the Moon Cabeus, Haworth, Faustini, Amundsen,
+  Mons Mouton, Malapert, Peary and Hermite; on Mars Gusev, Endeavour, Korolev, Planum Boreum, Planum Australe and
+  Utopia Planitia. Landing points from NASA's and the agencies' published values: Odysseus 80.13° S, 1.44° E;
+  Chang'e 3 44.12° N, 19.51° W; Luna 9 7.08° N, 64.37° W; Lunokhod 1 38.32° N, 35.00° W.
 - **Landing sites:** the coordinates in the place list are checked by hand against Trek's landing-site bookmarks and
   NASA's mission pages (Apollo 11, for example, 0.674° N, 23.473° E).
 

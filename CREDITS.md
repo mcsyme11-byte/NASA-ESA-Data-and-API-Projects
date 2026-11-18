@@ -63,8 +63,8 @@ with ESA's credit (ESA's terms and conditions, esa.int). ESA's logo is not used:
 | Library | Version | Used for | Licence |
 |---|---|---|---|
 | OpenLayers (`ol`) | 10.11.0 | Flat maps (`shared/flatmap.js`): the Image Explorer's Earth map, the Planetary Maps of the Moon and Mars | BSD 2-Clause |
-| proj4js (`proj4`) | 2.22.0 | Image Explorer: the polar map projections | MIT |
-| three.js (`three`) | 0.187.0 | Globes (`shared/globe.js`): the Image Explorer's globe | MIT |
+| proj4js (`proj4`) | 2.22.0 | Image Explorer: the polar map projections, the Planetary Maps' north and south poles | MIT |
+| three.js (`three`) | 0.187.0 | Globes (`shared/globe.js`): the Image Explorer's globe, the Planetary Maps' Moon and Mars | MIT |
 | satellite.js, © 2013 Shashwat Kandadai | 7.2.0 | Spacecraft map and Sky Finder: satellite positions from orbital elements (SGP4); bundled as an ES module, `shared/vendor/satellite.min.js`, licence `shared/vendor/LICENSE-satellite.js.md` | MIT |
 
 Analysis tools (run on GitHub's servers to prepare data; not sent to visitors): pandas (BSD 3-Clause), for the Mars

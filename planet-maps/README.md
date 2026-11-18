@@ -11,9 +11,10 @@ Live since Nov 17, 2026. Built from the mock-up approved by the developer on Nov
 | File | What it is |
 |---|---|
 | `index.html` | The page: the Moon and Mars tabs, figures, the map with its controls, the place card, how the maps were made, sources |
-| `app.js` | The map (on `shared/flatmap.js`, OpenLayers), the layers and close-ups, places, routes, search, the place card |
+| `app.js` | The four views (Map, Globe, North, South), the layers and close-ups, places, routes, search, the place card |
+| `globe.js` | The Globe view (on `shared/globe.js`, three.js), loaded the first time it is chosen |
 | `maps.css` | The inside of the map tool (layout beside the controls, the frame, the map's buttons, the key, the search list) |
-| `places.json` | The marked places, written by hand: name, kind, group, position, facts and a short explanation. Positions checked Nov 17, 2026 against NASA Trek's IAU feature names and landing-site areas |
+| `places.json` | The 52 marked places (26 on each world), written by hand: name, kind, group, position, facts and a short explanation. Positions checked Nov 17, 2026 against NASA Trek's IAU feature names and landing-site areas |
 | `fetch_routes.py` | The rovers' routes: reads NASA/JPL's "Where is the rover?" files and writes `data/routes.json` (daily data job) |
 | `tools/build_names.py` | Every official feature name for the search box: writes `data/names-mars.json` and `data/names-moon.json` (built once, then quarterly) |
 | `data/` | What the two data jobs write. The page works without these files: it shows a note for the routes and searches the marked places only |
@@ -35,7 +36,13 @@ sharpness and credit lines are in `docs/DATA-SOURCES.md` ("Planetary Maps").
   the map pans sideways. The smallest zoom always fills the frame; resizing keeps the place and zoom.
 - **Scale bar:** OpenLayers measures degrees on the Earth, so the page gives it each body's own size (Trek's spheres:
   Mars 3,396.19 km, the Moon 1,737.4 km). The bar is true north to south.
-- **The body is kept in the address** (`#moon`, `#mars`), so links can open either.
+- **Views (added Nov 17, 2026):** Map (flat); Globe (`globe.js`: the body's picture from Trek level 2, then level 3
+  where the graphics card allows, and `closeUp()` laying sharper Trek tiles over the part in view; the places and
+  rovers drawn on a 2D layer above); North and South (polar stereographic on each body's sphere, out to 65°: the same
+  Trek tiles reprojected by OpenLayers and proj4js in the browser, so no other source is used). Close-ups and the
+  rovers' routes are shown on the flat map only; a place outside a pole view opens on the flat map.
+- **The body and view are kept in the address** (`#mars`, `#moon`, `#moon-south`, `#mars-globe`, `#mars-north` …), so
+  links can open any of them.
 
 ## States
 
@@ -44,6 +51,7 @@ sharpness and credit lines are in `docs/DATA-SOURCES.md` ("Planetary Maps").
 | `data/routes.json` missing | The rover figures say "the daily copy is not available yet"; a note under the map; no route key |
 | `data/names-*.json` missing | The search box finds the marked places and coordinates only |
 | trek.nasa.gov out of reach | An error note under the map; the places are still drawn |
+| WebGL not available (Globe view) | A note that the globe needs WebGL; the map views still work |
 | `places.json` cannot be read | "The list of places could not be loaded" with Try again |
 
 ## Data jobs

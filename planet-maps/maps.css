@@ -38,6 +38,15 @@
 .pmframe .ol-control button:hover, .pmframe .ol-control button:focus { background: var(--bg2); color: var(--brass-bright); outline: none; }
 .pmframe .ol-scale-line { left: 10px; bottom: 10px; background: rgba(15, 21, 32, .85); border-radius: var(--r-btn); padding: 3px 6px; }
 .pmframe .ol-scale-line-inner { border-color: var(--brass-dim); color: var(--ink2); font: 11px var(--font); }
+/* the globe (planet-maps/globe.js on shared/globe.js), in the same frame as the map */
+.pmglobe { position: absolute; inset: 0; background: #05080d; outline: none; touch-action: none; }
+.pmglobe:focus-visible { box-shadow: inset 0 0 0 2px var(--brass); }
+.pmglobehost, .pmglobeover { position: absolute; inset: 0; width: 100%; height: 100%; }
+.pmglobeover { pointer-events: none; }
+.pmglobebtns { position: absolute; top: 10px; right: 10px; z-index: 2; display: flex; flex-direction: column; }
+.pmglobebtns button { background: rgba(15, 21, 32, .97); color: var(--brass); border: 1px solid var(--brass-dim); border-radius: var(--r-btn);
+  font: 18px var(--font); width: 32px; height: 32px; margin: 2px; cursor: pointer; }
+.pmglobebtns button:hover, .pmglobebtns button:focus-visible { background: var(--bg2); color: var(--brass-bright); outline: none; }
 /* the position under the pointer, and the note of what the map is showing */
 .pmpos { position: absolute; right: 10px; bottom: 10px; z-index: 2; background: rgba(15, 21, 32, .85); border-radius: var(--r-btn);
   padding: 3px 8px; font: 12px var(--mono); color: var(--ink2); pointer-events: none; }
@@ -63,6 +72,6 @@
 @media (max-width: 760px) {
   .pmside { grid-template-columns: 1fr; }
   .pmframe { aspect-ratio: auto; height: 380px; }
-  .pmframe .ol-control button { width: 40px; height: 40px; }
+  .pmframe .ol-control button, .pmglobebtns button { width: 40px; height: 40px; }
   #pmCard .pmgo .btn { min-height: 40px; }
 }

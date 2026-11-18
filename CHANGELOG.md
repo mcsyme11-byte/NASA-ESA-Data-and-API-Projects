@@ -1,5 +1,17 @@
 # Change log
 
+## November 17, 2026 — Planetary Maps: globes, the poles and more places
+
+- **Four views** on Planetary Maps: Map, **Globe** (the Moon and Mars on the shared three.js globe, sharper as you come
+  close, with the places and the rovers marked) and **North** and **South** (looking straight down on each pole, out to
+  65°, from the same NASA Trek tiles reprojected in the browser). The view is kept in the address (`#moon-south`,
+  `#mars-globe` …).
+- **18 more places, 52 in all:** the Moon's polar craters (Cabeus, Haworth, Faustini, Amundsen, Malapert, Peary,
+  Hermite), Mons Mouton, Odysseus, Chang'e 3, Luna 9 and Lunokhod 1; on Mars Gusev, Endeavour, Korolev, both polar
+  caps and Utopia Planitia. Positions from NASA Trek's IAU names.
+- Not added: the Artemis landing regions (NASA's list has changed since Trek's layer; DATA-SOURCES.md).
+- The Credits page and `CREDITS.md` list three.js and proj4js for Planetary Maps. Version tags raised to `2026111710`.
+
 ## November 17, 2026 — Space Weather
 
 - **Space Weather is live** (`space-weather/`), built from the approved mock-up: right now (solar wind speed, density
