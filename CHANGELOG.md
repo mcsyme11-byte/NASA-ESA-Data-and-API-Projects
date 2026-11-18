@@ -1,5 +1,13 @@
 # Change log
 
+## November 17, 2026 — Image Explorer: subtitles for NASA's videos
+
+- A NASA video with a subtitle file (`.vtt` or `.srt`, listed with its other files) now plays with subtitles that can
+  be turned on in the player: the page reads NASA's file, makes it WebVTT and attaches its own copy (a player cannot
+  attach a file from another site, but the page can read it). A file that cannot be read is skipped. Tested with
+  stand-in NASA files at 375 and 1280 px: two cues read from an `.srt`, the note under the video says so, and a video
+  without a subtitle file shows none.
+
 ## November 17, 2026 — Image Explorer: sea ice through the polar night
 
 - In the Arctic and Antarctic views, Sea ice now shows the ice in each pole's dark season: from October to March in

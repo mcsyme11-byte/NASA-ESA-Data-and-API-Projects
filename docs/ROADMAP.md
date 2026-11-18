@@ -38,7 +38,6 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
 - [ ] Picture library: tune the ranking further as the developer reviews searches (the weights are in `scoreOf` in
   `image-explorer/app.js`; second and third rounds applied Nov 17, 2026).
 - [ ] Further rounds of changes to the globe, as the developer reviews it.
-- [ ] Picture library: subtitles for videos (NASA's files cannot be attached from another site; would need a copy).
 - [x] REMS, the whole record (sols 1–4843, August 7, 2012 to March 22, 2026; 4,703 sols with data), cleaned with rules
   1.2 in chunks; every cleaning report checked (Nov 12, 2026). Rule 11 removes the evening air-temperature glitch
   (34 sols); the set-aside list (`exclusions.csv`, rule 10) is empty.

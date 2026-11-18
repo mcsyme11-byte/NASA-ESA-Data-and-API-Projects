@@ -606,8 +606,11 @@ Checked Nov 9, 2026 (live requests from the published site):
   `asset/{nasa_id}` lists them (with `http://` links that also work as `https://`).
 - Sizes for three Apollo 11 films: `~mobile.mp4` 118–177 MB, `~small.mp4` 534–799 MB, `~orig.mp4` 1.5–5.3 GB. The
   page plays the smallest version listed and links the largest.
-- The video files send no CORS headers: they play in a page, but subtitles (`.vtt`) cannot be attached from another
-  site, so the page shows none.
+- The video files send no CORS headers: they play in a page, but a player cannot attach subtitles from another site.
+  Checked again Nov 17, 2026: the subtitle files listed by `asset/{nasa_id}` (`.srt` on the videos checked, for
+  example "Artemis Origins"; `.vtt` on others) can be read with `fetch` from this site (status 200), so the page
+  reads the file, makes it WebVTT and attaches its own copy (a `blob:` address). A file that cannot be read is
+  skipped and the video plays without subtitles.
 - "apollo 11": 71 videos.
 
 ### Image and Video Library: what the results are, checked Nov 9, 2026

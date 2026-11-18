@@ -610,11 +610,33 @@ function skyIn(text) {
     (!best || s.famous > best.famous || (s.famous === best.famous && s.f.length > best.f.length))) best = s;
   return best;
 }
+/* subtitles (added Nov 17, 2026): NASA lists a video's subtitle file (.vtt or .srt) with its other files. A player
+   cannot attach a file from another site, but the page can read it (NASA allows that) and attach its own copy, made
+   into WebVTT. If the file cannot be read, the video plays without subtitles. */
+function clearSubtitles(vid) {
+  for (const t of vid.querySelectorAll('track')) { URL.revokeObjectURL(t.src); t.remove(); }
+}
+const toVtt = text => {
+  const t = text.replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n');
+  return /^WEBVTT/.test(t) ? t : 'WEBVTT\n\n' + t.replace(/(\d\d:\d\d:\d\d),(\d\d\d)/g, '$1.$2');
+};
+async function addSubtitles(vid, url, id) {
+  try {
+    const r = await fetch(url);
+    if (!r.ok) return;
+    const vtt = toVtt(await r.text());
+    if ($('vTitle').dataset.id !== id || !/-->/.test(vtt)) return;         /* another picture opened meanwhile, or no cues */
+    const tr = Object.assign(document.createElement('track'), { kind: 'subtitles', label: 'English', srclang: 'en',
+      src: URL.createObjectURL(new Blob([vtt], { type: 'text/vtt' })) });
+    vid.appendChild(tr);
+    $('vNote').textContent += ' Subtitles can be turned on in the player (CC, or its menu).';
+  } catch { /* not readable from this site: the video plays without subtitles */ }
+}
 function openViewer(x) {
   if (x.lib) return openEsa(x);
   const [id, t, d, c, p, k, s, type] = x, base = assets(type), img = $('vImg'), vid = $('vVid'), video = type === 'video';
   $('vTitle').dataset.id = id; $('vCredit').hidden = true;
-  img.hidden = video; vid.hidden = !video; vid.onerror = null; vid.pause(); vid.removeAttribute('src'); vid.load();
+  img.hidden = video; vid.hidden = !video; vid.onerror = null; vid.pause(); vid.removeAttribute('src'); clearSubtitles(vid); vid.load();
   img.dataset.id = id; img.dataset.base = base; img.dataset.try = 'medium'; img.alt = t;
   if (!video) img.src = `${base}${id}/${id}~medium.jpg`;
   $('vTitle').textContent = t; $('vDesc').textContent = s;
@@ -634,6 +656,8 @@ function openViewer(x) {
       if (!play) { $('vNote').textContent = 'NASA lists no playable file for this video.'; return; }
       vid.src = play; $('vFull').href = full;
       $('vNote').textContent = 'Plays the smallest version NASA offers; the full-size file can be several gigabytes.';
+      const cap = files.find(f => /\.vtt$/i.test(f)) || files.find(f => /\.srt$/i.test(f));
+      if (cap) addSubtitles(vid, cap, id);
     }).catch(() => { $('vNote').textContent = 'NASA\u2019s library can\u2019t be reached right now, so the video can\u2019t be played.'; });
   }
   $('vKind').textContent = (x.score < 0 ? 'Behind the scenes · ' : '') + (video ? 'Video' : 'Picture');
