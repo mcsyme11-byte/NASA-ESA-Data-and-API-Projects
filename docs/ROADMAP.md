@@ -26,7 +26,6 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
 - [ ] Optional: if ESA's credit form or terms for the NEOCC figures are in doubt, ask the NEOCC by email
   (`neocc@esa.int`) and record the answer in `docs/DATA-SOURCES.md`.
 
-- [ ] "Within reach" data: the monthly step in the Asteroid data job (Data updates chat, handoff of Nov 17, 2026).
   Until it runs, launch windows are on this site for 184 asteroids and the rest link to JPL's page.
 - [ ] Hera: once ESA confirms the arrival at Didymos, update its line in `MISSIONS` (`asteroid-tracker/reach.js`).
 
@@ -125,6 +124,9 @@ one GitHub issue labelled `data-health`.
 - [ ] Confirm the monthly refresh of `asteroid-tracker/data/famous.json` on December 1, 2026 (the "Asteroid data" log
   shows "famous.json written").
 - [ ] Confirm the first scheduled run of "Place and map lists" on January 2, 2027.
+- [ ] "Within reach" (monthly, since Nov 17, 2026): confirm its first scheduled run, due about December 15, 2026 (28
+  days after the files were built by hand): the Asteroid data run's job "reach" ran, saved `reach.json` and
+  `phys.json` (or found them unchanged), and the status file shows both parts ok.
 - [ ] Mars data: reduce the job to weekly once it has run without trouble for a few weeks (from about December 10,
   2026); change `mars-data.yml` and `max_age_hours` in `dev/data_jobs.json` (to 192) together.
 

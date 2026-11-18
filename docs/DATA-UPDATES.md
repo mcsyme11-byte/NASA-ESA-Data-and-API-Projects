@@ -18,7 +18,7 @@ files and the daily health check. Decided Nov 14, 2026.
 
 | Job (workflow) | Runs (UTC) | Sources | Files written | Status file |
 |---|---|---|---|---|
-| Asteroid data (`asteroid-data.yml`) | 06:17 and 14:47 daily; after a fetch script changes | NASA/JPL CAD, SBDB, Horizons, Sentry; ESA NEOCC; NASA NeoWs (key: `NASA_API_KEY`) | `asteroid-tracker/data/` | `asteroid-data.json` |
+| Asteroid data (`asteroid-data.yml`) | 06:17 and 14:47 daily; after a fetch script changes. A second job, "Within reach", about once a month (see below) | NASA/JPL CAD, SBDB, Horizons, Sentry; ESA NEOCC; NASA NeoWs (key: `NASA_API_KEY`); monthly: NASA/JPL NHATS and SBDB physical data | `asteroid-tracker/data/` (monthly: `reach.json`, `phys.json`) | `asteroid-data.json` |
 | Spacecraft data (`spacecraft-data.yml`) | 05:23 and 17:53 daily; after a change to the catalogue or the past missions | NASA/JPL Horizons, CelesTrak; link check once a day; reads `spacecraft/catalogue.json` and `spacecraft/past.json` (both edited by hand) | `spacecraft/data/` (`positions.json`, `tle.json`, `links.json`, `routes.json`) | `spacecraft-data.json` |
 | Astronaut photos (`astronaut-photos.yml`) | 07:41 and 19:11 daily | NASA Gateway to Astronaut Photography of Earth (key: `EOL_API_KEY`, or the public Latest ISS Imagery set) | `image-explorer/data/astronaut.json` | `astronaut-photos.json` |
 | Mars data (`mars-data.yml`) | 09:23 Mondays and Thursdays | NASA PDS (Curiosity REMS, Perseverance MEDA); ESA PSA (Mars Express MaRS) | `mars-data/data/` | `mars-data.json` |
@@ -59,6 +59,13 @@ time and the health check's allowance for age cover this.
 9. **Listed for the health check.** Every data job has an entry in `dev/data_jobs.json` with its longest allowed time
    between successful runs (`max_age_hours`) and how long a source may stay failed before it is reported
    (`grace_hours`).
+10. **Sources on a longer cycle** (since Nov 17, 2026). A source updated monthly or less often runs as its own job
+    in the same workflow, after the daily job has saved (`needs:`), so the daily data never waits for it. In
+    `dev/data_jobs.json` it has `every_days` (how often), `retry_days` (how soon after a failure) and `max_age_days`
+    (the longest time allowed since its last success). Its job first asks `python3 dev/datajob.py --due JOB SOURCE…`
+    and runs only when a source is due, so a late or skipped run never makes it miss a cycle. The first such sources
+    are "Within reach" (`reach`, `phys`; every 28 days, allowed 45), in the Asteroid data workflow's job `reach`,
+    which can also be started by hand (Run workflow › "reach").
 
 ## Status files
 
@@ -79,6 +86,7 @@ time and the health check's allowance for age cover this.
 
 - `state` is `ok` or `failed`; `since` is when that state began. A skipped step keeps its previous state.
 - `checks` is the data guard's own entry; its note names any refused file and the reason.
+- A source with `every_days` also has `last_run` and `last_ok` (when it last ran, and last succeeded).
 - `notes` are lines from the run's log that match the job's `--watch` pattern (the spacecraft job keeps every
   "not found" line).
 - The file changes only when a state or a note changes or data is saved, so it does not add a commit to every run.
@@ -89,7 +97,8 @@ time and the health check's allowance for age cover this.
 
 - **Problems:** a data workflow switched off (GitHub switches off schedules in a repository with no activity for 60
   days); no successful run within `max_age_hours`; a latest run that failed; a source failed for longer than its
-  `grace_hours`.
+  `grace_hours`; a source on a longer cycle not updated within its `max_age_days`; a schedule in
+  `dev/data_jobs.json` that differs from its workflow.
 - **To review:** log notes not listed in `known_notes`; the spacecraft catalogue's links that no longer answer
   (`spacecraft/data/links.json`); review tasks that are due.
 

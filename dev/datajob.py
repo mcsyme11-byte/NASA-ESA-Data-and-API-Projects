@@ -18,6 +18,9 @@
 #       [--log run.log --watch "not found"] [--allow-shrink "neows/"]
 # A source given as "skipped" or "cancelled" keeps its previous state. Exit 1 when a file was refused by the guard or
 # the push did not succeed; otherwise 0, also when nothing changed.
+# A source with every_days in dev/data_jobs.json (a monthly source, for example) also records last_run and last_ok;
+#   python3 dev/datajob.py --due asteroid-data reach phys
+# prints whether any of them is due (every_days since its last run, or retry_days after a failed run).
 import argparse, csv, io, json, os, re, subprocess, sys, time
 from datetime import datetime, timezone
 
@@ -111,7 +114,47 @@ def notes_from(logs, watch):
     return out[:MAX_NOTES]
 
 
+def job_config(job):
+    try:
+        with open(os.path.join(ROOT, 'dev/data_jobs.json'), encoding='utf-8') as f:
+            return json.load(f)['jobs'].get(job, {})
+    except (OSError, ValueError, KeyError):
+        return {}
+
+
+def periodic_sources(job):
+    return {k: v for k, v in job_config(job).get('sources', {}).items() if v.get('every_days')}
+
+
+def due(job, source):
+    """Whether a periodic source should run now: its last run is every_days old or more, or it failed and its last
+    try is retry_days old or more. Never run before: due."""
+    cfg = periodic_sources(job).get(source)
+    if not cfg:
+        return True
+    try:
+        with open(os.path.join(ROOT, STATUS_DIR, job + '.json'), encoding='utf-8') as f:
+            st = json.load(f)['sources'].get(source, {})
+    except (OSError, ValueError, KeyError):
+        st = {}
+    last = st.get('last_run') or st.get('last_ok')
+    if not last:
+        return True
+    age = (datetime.now(timezone.utc) - datetime.strptime(last, '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=timezone.utc)).days
+    wait = cfg.get('retry_days', 3) if st.get('state') == 'failed' else cfg['every_days']
+    return age >= wait
+
+
 def main():
+    # "--due JOB SOURCE [SOURCE…]": print true when any of the sources is due, else false (and set the step output
+    # "due"); used before a periodic step
+    if len(sys.argv) >= 4 and sys.argv[1] == '--due':
+        answer = 'true' if any(due(sys.argv[2], src) for src in sys.argv[3:]) else 'false'
+        print('Due: ' + answer)
+        if os.environ.get('GITHUB_OUTPUT'):
+            with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as f:
+                f.write('due=%s\n' % answer)
+        return 0
     ap = argparse.ArgumentParser()
     ap.add_argument('--job', required=True)
     ap.add_argument('--message', required=True)
@@ -148,12 +191,25 @@ def main():
     complete = all(o in ('success', 'failure') for o in outcomes.values())
     if paths:                             # the guard ran: record its result
         outcomes['checks'] = 'failure' if refused else 'success'
+    periodic = periodic_sources(a.job)
     for name, outcome in outcomes.items():
         if outcome not in ('success', 'failure'):
             continue                      # skipped or cancelled: the state stays as it was
         state = 'ok' if outcome == 'success' else 'failed'
         was = sources.get(name, {})
         note = '; '.join(refused) if (name == 'checks' and refused) else ''
+        if name in periodic:
+            # a source updated on a longer cycle (every_days in dev/data_jobs.json) also records when it last ran
+            # and last succeeded: dev/data_health.py checks its age, and due() decides when it runs next
+            entry = {k: v for k, v in was.items() if k in ('last_ok',)}
+            entry.update({'state': state, 'since': stamp if was.get('state') != state else was.get('since', stamp),
+                          'note': note, 'last_run': stamp})
+            if state == 'ok':
+                entry['last_ok'] = stamp
+            elif run:
+                entry['run'] = run
+            sources[name] = entry
+            continue
         if was.get('state') == state and was.get('note', '') == note:
             continue
         sources[name] = {'state': state, 'since': stamp if was.get('state') != state else was.get('since', stamp),

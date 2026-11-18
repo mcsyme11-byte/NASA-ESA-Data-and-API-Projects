@@ -7,7 +7,8 @@
 #   - that it has succeeded within its max_age_hours, and that its latest run did not fail;
 #   - that its schedule in dev/data_jobs.json (shown on the site) matches its workflow file;
 #   - its status file (shared/data/status/<job>.json, written by dev/datajob.py): any source failed for longer than
-#     the job's grace_hours, and any note from its log not listed as known;
+#     the job's grace_hours, any source on a longer cycle not updated within its max_age_days, and any note from its
+#     log not listed as known;
 # and also the spacecraft catalogue's broken links (spacecraft/data/links.json) and the review tasks that are due.
 # The result is kept in one GitHub issue labelled "data-health": opened when something needs attention, edited and
 # given a comment when the list changes (GitHub emails the comment to the repository's owner), and closed with a
@@ -85,6 +86,15 @@ def check(repo, cfg):
             st = json.load(open(os.path.join(ROOT, 'shared/data/status/%s.json' % job), encoding='utf-8'))
         except (OSError, ValueError):
             continue
+        # sources on a longer cycle (max_age_days in dev/data_jobs.json): the time since their last success
+        for src, c in j.get('sources', {}).items():
+            if c.get('max_age_days'):
+                last = st.get('sources', {}).get(src, {}).get('last_ok')
+                if not last:
+                    problems.append('**%s**, source "%s": no successful update recorded yet.' % (name, src))
+                elif hours_since(last) > c['max_age_days'] * 24:
+                    problems.append('**%s**, source "%s": last updated %s ago (allowed: %d days); it runs every %d days.'
+                                    % (name, src, age(hours_since(last)), c['max_age_days'], c.get('every_days', 0)))
         for src, s in st.get('sources', {}).items():
             if s.get('state') == 'failed':
                 h = hours_since(s['since'])

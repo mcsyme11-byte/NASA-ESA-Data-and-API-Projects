@@ -1,5 +1,5 @@
 {
- "about": "The data jobs, read by the daily Data health check (dev/data_health.py) and by the site's live data status (shared/datastatus.js: the footer and the data-collection page). Rules in docs/DATA-UPDATES.md. cron: the workflow's schedule in UTC, exactly as in its .yml file (the health check compares them); max_age_hours: the longest time allowed since the job's last successful run; grace_hours: how long a source may stay failed before it is reported (0: at once); sources: the names used in the job's status file, with a label and the agency for the site. known_notes: notes from a job's log that are already known and listed in docs/ROADMAP.md, left out of the report. reviews: tasks done by hand on a cycle; after doing one, set its last_done to that date.",
+ "about": "The data jobs, read by the daily Data health check (dev/data_health.py) and by the site's live data status (shared/datastatus.js: the footer and the data-collection page). Rules in docs/DATA-UPDATES.md. cron: the workflow's schedule in UTC, exactly as in its .yml file (the health check compares them); max_age_hours: the longest time allowed since the job's last successful run; grace_hours: how long a source may stay failed before it is reported (0: at once); sources: the names used in the job's status file, with a label and the agency for the site; a source updated on a longer cycle also has every_days (how often it runs), retry_days (how soon a failed run is tried again) and max_age_days (the longest time allowed since its last success, checked by the health check). known_notes: notes from a job's log that are already known and listed in docs/ROADMAP.md, left out of the report. reviews: tasks done by hand on a cycle; after doing one, set its last_done to that date.",
  "jobs": {
   "asteroid-data": {
    "name": "Asteroid data", "project": "Asteroid Tracker", "href": "asteroid-tracker/", "runs": "twice a day",
@@ -10,7 +10,9 @@
     "orbits-and-spacecraft": {"label": "Orbits and spacecraft", "agency": "NASA/JPL"},
     "risk-lists": {"label": "Impact-risk lists", "agency": "NASA/JPL and ESA"},
     "neows-copy": {"label": "This week's asteroids", "agency": "NASA"},
-    "sky-positions": {"label": "Sky positions", "agency": "NASA/JPL"}
+    "sky-positions": {"label": "Sky positions", "agency": "NASA/JPL"},
+    "reach": {"label": "Launch windows (monthly)", "agency": "NASA/JPL", "every_days": 28, "retry_days": 3, "max_age_days": 45},
+    "phys": {"label": "Physical data (monthly)", "agency": "NASA/JPL", "every_days": 28, "retry_days": 3, "max_age_days": 45}
    }
   },
   "spacecraft-data": {
