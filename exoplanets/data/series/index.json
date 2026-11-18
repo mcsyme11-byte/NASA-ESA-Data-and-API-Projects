@@ -1,11 +1,17 @@
 {
- "updated": "2026-11-18T02:56:59Z",
+ "updated": "2026-11-18T03:00:25Z",
  "series": [
   {
    "key": "hot-jupiter",
    "kind": "transit",
    "planet": "HD 209458 b",
    "mission": "TESS"
+  },
+  {
+   "key": "kepler-10b",
+   "kind": "transit",
+   "planet": "Kepler-10 b",
+   "mission": "Kepler"
   },
   {
    "key": "toi-700d",
