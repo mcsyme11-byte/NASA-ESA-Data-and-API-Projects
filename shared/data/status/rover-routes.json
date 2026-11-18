@@ -1,0 +1,23 @@
+{
+ "job": "rover-routes",
+ "workflow": ".github/workflows/rover-routes.yml",
+ "last_data_change": "2026-11-18T03:42:39Z",
+ "sources": {
+  "checks": {
+   "state": "ok",
+   "since": "2026-11-18T03:42:39Z",
+   "note": ""
+  },
+  "curiosity": {
+   "state": "ok",
+   "since": "2026-11-18T03:42:39Z",
+   "note": ""
+  },
+  "perseverance": {
+   "state": "ok",
+   "since": "2026-11-18T03:42:39Z",
+   "note": ""
+  }
+ },
+ "notes": []
+}
