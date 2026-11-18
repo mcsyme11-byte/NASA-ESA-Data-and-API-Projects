@@ -324,6 +324,12 @@
       </div></div>
     </dialog>
 
+    <script>
+      // the view named in the address (#globe, #library) is shown before the page is first drawn, so nothing swaps in view
+      (function () { var v = location.hash.slice(1); if (v !== 'globe' && v !== 'library') return;
+        ['earth', 'globe', 'library'].forEach(function (k) { document.getElementById('view-' + k).hidden = k !== v; });
+        document.querySelectorAll('.tabs [data-view]').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.view === v); }); })();
+    </script>
     <p class="srcline">We acknowledge the use of imagery provided by services from NASA's Global Imagery Browse Services (GIBS), part of
         NASA's Earth Science Data and Information System (ESDIS).</p>
     <p class="srcline">Pictures: NASA Image and Video Library; ESA/Webb and ESA/Hubble (CC BY 4.0, each picture with its own credit line, shown with it). Events: NASA EONET. Earthquakes: US Geological Survey. Astronaut photos: Earth Science and Remote Sensing Unit, NASA Johnson Space Center
