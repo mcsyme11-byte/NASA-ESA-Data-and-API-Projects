@@ -127,7 +127,7 @@ def transit(target):
                     d = h[1].data
                     t = np.array(d['TIME'], float) + ref
                     f = np.array(d['PDCSAP_FLUX'], float)
-                    q = np.array(d['QUALITY'], int)
+                    q = np.array(d['QUALITY' if 'QUALITY' in h[1].columns.names else 'SAP_QUALITY'], int)
                 ok = np.isfinite(t) & np.isfinite(f) & (q == 0)
                 t, f = t[ok], f[ok]
                 if t.size == 0:
@@ -190,9 +190,9 @@ def ipac(text):
     kw, names, rows = {}, None, []
     for line in text.splitlines():
         if line.startswith('\\'):
-            m = re.match(r"\\(\w+)\s*=\s*'?(.*?)'?\s*$", line)
+            m = re.match(r"\\(\w+)\s*=\s*(.*?)\s*$", line)
             if m:
-                kw[m.group(1).upper()] = m.group(2).strip()
+                kw[m.group(1).upper()] = m.group(2).strip().strip('"\'').strip()
         elif line.startswith('|'):
             if names is None:
                 names = [c.strip().lower() for c in line.strip().strip('|').split('|')]
