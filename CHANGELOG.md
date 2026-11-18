@@ -1,5 +1,10 @@
 # Change log
 
+## November 17, 2026 — Planetary Maps: links to a place
+
+- A link can open a place on Planetary Maps with its card: `planet-maps/#mars-gale`, `#mars-jezero`, `#moon-apollo11`
+  (the place's `id` in `places.json`), for the links from Mars Data and the Image Explorer.
+
 ## November 17, 2026 — Control room: technical detail and reports
 
 - The control room (`control-room/`) adds **Jobs in detail** (each job's workflow file, cron times in UTC, limits,

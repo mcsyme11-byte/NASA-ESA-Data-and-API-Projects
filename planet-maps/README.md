@@ -42,7 +42,8 @@ sharpness and credit lines are in `docs/DATA-SOURCES.md` ("Planetary Maps").
   Trek tiles reprojected by OpenLayers and proj4js in the browser, so no other source is used). Close-ups and the
   rovers' routes are shown on the flat map only; a place outside a pole view opens on the flat map.
 - **The body and view are kept in the address** (`#mars`, `#moon`, `#moon-south`, `#mars-globe`, `#mars-north` …), so
-  links can open any of them.
+  links can open any of them. A link may name a place instead (`#mars-gale`, `#mars-jezero`, `#moon-apollo11`: the
+  place's `id` in `places.json`); the flat map opens on it with its card.
 
 ## States
 

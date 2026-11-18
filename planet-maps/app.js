@@ -428,15 +428,21 @@
   $('pmap').addEventListener('pointerleave', () => { $('pmPos').hidden = true; });
 
   /* the body and view are kept in the address (#mars, #moon, #moon-south, #mars-globe …), so a link can open either
-     and Back returns to it */
+     and Back returns to it. A link may also name a place instead of a view (#mars-gale, #moon-apollo11): the flat map
+     opens on it, with its card. */
   const VIEWS = ['map', 'globe', 'north', 'south'];
   function setHash() { history.replaceState(null, '', `#${S.body}${S.view === 'map' ? '' : '-' + S.view}`); }
   function fromHash() {
     const [b, v] = location.hash.slice(1).split('-');
-    return BODIES[b] ? { body: b, view: VIEWS.includes(v) ? v : 'map' } : null;
+    return BODIES[b] ? { body: b, view: VIEWS.includes(v) ? v : 'map', place: VIEWS.includes(v) ? null : v || null } : null;
   }
   window.addEventListener('hashchange', () => {
-    const h = fromHash(); if (!h || (h.body === S.body && h.view === S.view)) return;
+    const h = fromHash(); if (!h) return;
+    if (h.place && PLACES[h.body].some(p => p.id === h.place)) {
+      if (h.body !== S.body || S.view !== 'map') { S.body = h.body; S.view = 'map'; setView(); drawBody(); }
+      choose(h.place); setHash(); return;
+    }
+    if (h.body === S.body && h.view === S.view) return;
     S.body = h.body; S.view = h.view; S.sel = null; pinAt = null; if (S.view !== 'globe') setView(); drawBody();
   });
 
@@ -464,6 +470,7 @@
   json('places.json').then(d => {
     PLACES = { mars: d.mars || [], moon: d.moon || [] };
     drawBody();
+    if (start && start.place && PLACES[S.body].some(p => p.id === start.place)) { choose(start.place); setHash(); }
     if (pending) { const p = pending; pending = null; if (sized) view.animate({ center: toView(p.at), zoom: Math.max(view.getZoom(), p.minZoom), duration: 0 }); }
   }).catch(() => {
     $('pmCard').innerHTML = `<div class="pb"><p class="state">The list of places could not be loaded. <button class="linkbtn" type="button" id="pmRetry">Try again</button></p></div>`;
