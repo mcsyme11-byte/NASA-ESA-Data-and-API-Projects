@@ -102,6 +102,10 @@ Plan confirmed Nov 11, 2026 (see PROJECT-NOTES.md): three missions, updated auto
 The standard and the jobs are in [DATA-UPDATES.md](DATA-UPDATES.md); the daily Data health check reports problems in
 one GitHub issue labelled `data-health`.
 
+- [ ] Confirm the first scheduled runs of **Rover routes** (`rover-routes.yml`, 08:29 and 20:59 UTC, added Nov 17,
+  2026). First runs by hand on Nov 17, 2026: both rovers read (Curiosity sol 5073, Perseverance sol 2022,
+  `routes.json` 123 KB), and the Moon and Mars place names built (1,783 Mars and 7,982 Moon names).
+
 - [ ] **Space Weather (noted Nov 17, 2026; answered the same day): scheduled runs are too late for data that changes within
   hours.** GitHub starts this repository's scheduled runs 4 to 10 hours late (seen Nov 15 to 17, 2026), which suits
   daily data but not space weather. Before any Space Weather data job is built, check whether its pages can read the
@@ -208,9 +212,6 @@ collisions, Cleaning up; see `orbit-watch/README.md`).
 - [ ] ESA PLATO (launch planned January 2027): its card's note to be updated once it flies.
 
 **5d. Planetary Maps (`planet-maps/`)**: live Nov 17, 2026 (`planet-maps/README.md`)
-- [ ] Data updates chat: the rovers' routes daily and the place names (once, then quarterly), from the hand-off of
-  Nov 17, 2026; the scripts are ready (`planet-maps/fetch_routes.py`, `planet-maps/tools/build_names.py`). Until the
-  first runs, the page shows a note for the routes and searches only the marked places.
 - [ ] Developer testing on a phone and a computer: the Globe, North and South views (added Nov 17, 2026), both tabs, the three Mars maps, the close-ups (Apollo 11's
   "Zoom into the close-up", Jezero's "Zoom to Perseverance"), search by name and by coordinates, the grid and the place
   card's links to Mars Data.
