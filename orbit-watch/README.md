@@ -10,7 +10,7 @@ where they are, how one crash becomes a cloud of debris, and how orbit could be 
 | Page | File | What it shows |
 |---|---|---|
 | Orbit Watch | `index.html` | NASA's and ESA's headline figures (from `facts.json`), why their totals differ, the three tools, the sources |
-| What's in orbit | `tracker.html` | A globe (`shared/globe.js`) with every object in `data/objects.json` moving in real time, by kind; search, selection, a card with the object's orbit; speeds from paused to ×600; below, every catalogued object by height (`data/heights.json`) |
+| What's in orbit | `tracker.html` | Laid out like the Asteroid Tracker's solar system map (since Nov 18, 2026): a globe (`shared/globe.js`) in a map card with every object in `data/objects.json` moving in real time, by kind; the time and a search box over it; a tooltip with the name and height of the dot under the pointer; zoom and full-screen buttons; rows of controls (view, distance, time and speed, kinds shown, well-known satellites, Share this view); beside it the Selected card (live height and speed, orbit, owner, launch date, Follow it) and the legend; below, every catalogued object by height (`data/heights.json`) |
 | Close calls and collisions | `collisions.html` | The closest predicted passes of the next seven days (`data/close.json`), each replayable on the globe; a collision calculator on NASA's breakup model; a teaching model of the Kessler syndrome; the biggest breakups so far |
 | Cleaning up | `cleanup.html` | How long junk stays up at each height, the ways it can be removed, the real missions, why it matters |
 
@@ -30,9 +30,17 @@ where they are, how one crash becomes a cloud of debris, and how orbit could be 
 - **Frame.** Positions from SGP4 are Earth-centred (TEME, km). In the scene, `(x, y, z)` becomes `(x, z, −y) ÷ 6,371`,
   the rule of `shared/globe.js` (x towards right ascension 0, y north); the Earth is turned by Greenwich mean sidereal
   time for the time shown, and its night side follows the Sun.
-- **Speed.** The worker answers with every position and velocity for one moment; the page moves each dot along its
-  velocity until the next answer. Positions more than 10 minutes from the last answer are not drawn (after a jump in
-  time), so a dot is never far from where SGP4 puts it.
+- **Speed.** The worker answers with every position and velocity for one moment; until the next answer the page moves
+  each dot round a circle through that position, with that velocity, at the angular rate of a circular orbit of that
+  radius: p = cos(wΔt)·p₀ + sin(wΔt)/w·v₀, w = √(μ/r³). For near-circular orbits this stays within a few kilometres of
+  SGP4 for several minutes, even at an hour a second. Positions more than 30 minutes from the last answer are not
+  drawn (after a jump in time).
+- **Pointing and tapping.** The dot nearest the pointer (within 10 px; 18 px for a finger), not behind the Earth, is
+  found by projecting every shown dot; the tooltip (mouse only) is the shared `.tip`.
+- **Labels.** The International Space Station, Tiangong and Hubble are always labelled; eight well-known satellites
+  have a button each under the globe, with a short description in the Selected card.
+- **Shared links.** `tracker.html?view=1&sel=<catalogue number>&t=<ISO time>&cam=<x,y,z>&spd=<speed>` (written by
+  Share this view, with `asteroid-tracker/share.js`).
 - **Hidden dots** (a kind switched off, a failed model) are placed at the Earth's centre, where the Earth hides them.
 - **Replay of a close approach:** `tracker.html?pass=<catalogue number>,<catalogue number>&t=<ms>` selects both,
   draws both orbits and starts five minutes before the closest moment at ×10, with the live distance between them.

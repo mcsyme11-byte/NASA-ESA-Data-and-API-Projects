@@ -13,9 +13,9 @@
   <link rel="manifest" href="../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111808">
-  <link rel="stylesheet" href="orbit.css?v=2026111808">
-  <script type="module" src="../shared/footer.js?v=2026111808"></script>
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111809">
+  <link rel="stylesheet" href="orbit.css?v=2026111809">
+  <script type="module" src="../shared/footer.js?v=2026111809"></script>
 </head>
 <body>
   <header class="topbar">
@@ -47,78 +47,120 @@
       <a href="cleanup.html">Cleaning up</a>
     </nav>
 
-    <section class="ow-tool" aria-label="The globe">
-      <div class="ow-frame" id="owFrame" tabindex="0" aria-describedby="owKeys">
-        <div id="owGlobe" role="img" aria-label="A globe of the Earth with the working satellites and the big debris clouds around it, moving in real time"></div>
-        <canvas id="owOver" aria-hidden="true"></canvas>
-        <div class="ow-tag" id="owTag" aria-live="polite">Loading the globe…</div>
-        <div class="ow-zoom">
-          <button class="chip" type="button" id="owIn" aria-label="Closer">+</button>
-          <button class="chip" type="button" id="owOut" aria-label="Farther">−</button>
-          <button class="chip" type="button" id="owHome" aria-label="Back to the starting view">⌂</button>
-        </div>
-        <div class="ow-clock">
-          <span class="ow-time" id="owTime" aria-live="off">–</span>
-          <div class="seg" role="group" aria-label="Speed" id="owSpeed" data-hscroll>
-            <button type="button" data-s="0" aria-pressed="false">Paused</button>
-            <button type="button" data-s="1" aria-pressed="true">Real time</button>
-            <button type="button" data-s="10" aria-pressed="false">×10</button>
-            <button type="button" data-s="60" aria-pressed="false">×60</button>
-            <button type="button" data-s="600" aria-pressed="false">×600</button>
+    <section class="panel mapcard" id="mapcard" aria-label="The globe">
+      <div class="maplayout">
+        <div class="mapmain">
+          <div class="mapframe" id="owFrame" tabindex="0" aria-describedby="owKeys">
+            <div id="owGlobe" role="img" aria-label="A globe of the Earth with the working satellites and the big debris clouds around it, moving in real time. Drag to turn, pinch or scroll to zoom; arrow keys turn, plus and minus zoom. Point at a dot for its name, tap it for details."></div>
+            <canvas id="owOver" aria-hidden="true"></canvas>
+            <div class="ovl ovl-date" aria-live="polite"><span class="eyebrow">Time (UTC)</span><strong id="owDate">–</strong><span class="note" id="owSub"></span></div>
+            <div class="ovl ovl-find">
+              <label class="findbox"><span class="sr">Find a satellite or a piece of debris on the globe</span>
+                <input type="search" id="owQ" placeholder="Find a satellite…" autocomplete="off" spellcheck="false"
+                  role="combobox" aria-expanded="false" aria-controls="owList" aria-autocomplete="list">
+              </label>
+              <ul class="findlist" id="owList" role="listbox" aria-label="Matching objects" hidden></ul>
+            </div>
+            <div class="ovl ovl-zoom">
+              <button class="mbtn" type="button" id="owIn" aria-label="Zoom in">+</button>
+              <button class="mbtn" type="button" id="owOut" aria-label="Zoom out">−</button>
+              <button class="mbtn" type="button" id="owFull" aria-label="Full screen" title="Full screen"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M3 8V3h5M12 3h5v5M17 12v5h-5M8 17H3v-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+            <div class="ovl ovl-hint" id="owHint">Drag to turn · scroll or pinch to zoom · point at a dot for its name, tap it for details</div>
+            <div class="tourbanner" id="owBanner" hidden></div>
+            <div class="loading" id="owLoading"><span>Loading about 20,000 orbits…</span></div>
           </div>
-          <button class="chip" type="button" id="owNow" hidden>Now</button>
+
+          <div class="mapbar">
+            <div class="seg" role="group" aria-label="View">
+              <span class="barlbl">View</span>
+              <button class="chip" type="button" data-v="pole">From above</button>
+              <button class="chip" type="button" data-v="tilt" aria-pressed="true">Tilted</button>
+              <button class="chip" type="button" data-v="side">Side on</button>
+            </div>
+            <div class="seg" role="group" aria-label="Out to">
+              <span class="barlbl">Out to</span>
+              <button class="chip" type="button" data-r="4.3" aria-pressed="true">Low orbit</button>
+              <button class="chip" type="button" data-r="11">Navigation satellites</button>
+              <button class="chip" type="button" data-r="19">Geostationary</button>
+            </div>
+          </div>
+
+          <div class="mapbar">
+            <div class="seg" role="group" aria-label="Time">
+              <button class="chip" type="button" data-step="-3600" aria-label="Back one hour">« 1 h</button>
+              <button class="chip play" type="button" id="owPlay" aria-pressed="true">❚❚ Pause</button>
+              <button class="chip" type="button" data-step="3600" aria-label="Forward one hour">1 h »</button>
+              <button class="chip" type="button" id="owNow">Now</button>
+            </div>
+            <label class="speed">Speed <select id="owSpeed">
+              <option value="1" selected>Real time</option>
+              <option value="10">10 seconds a second</option>
+              <option value="60">1 minute a second</option>
+              <option value="600">10 minutes a second</option>
+              <option value="3600">1 hour a second</option>
+            </select></label>
+            <div class="seg sharebox">
+              <button class="chip" type="button" id="owShare" title="A link that opens the globe as it is now">Share this view</button>
+              <span class="sharemsg" id="owShareMsg" role="status" aria-live="polite" hidden></span>
+            </div>
+          </div>
+
+          <div class="mapbar">
+            <div class="seg" role="group" aria-label="Show" data-hscroll>
+              <span class="barlbl">Show</span>
+              <button class="chip" type="button" aria-pressed="true" data-k="w"><i class="ow-k w"></i>Working satellites</button>
+              <button class="chip" type="button" aria-pressed="true" data-k="m"><i class="ow-k m"></i>Mega-constellations</button>
+              <button class="chip" type="button" aria-pressed="true" data-k="fy"><i class="ow-k x"></i>Fengyun-1C</button>
+              <button class="chip" type="button" aria-pressed="true" data-k="co"><i class="ow-k x"></i>Cosmos 2251</button>
+              <button class="chip" type="button" aria-pressed="true" data-k="ir"><i class="ow-k x"></i>Iridium 33</button>
+            </div>
+          </div>
+
+          <div class="mapbar famous">
+            <span class="barlbl">Well-known satellites</span>
+            <div class="seg" role="group" aria-label="Well-known satellites" id="owFamous" data-hscroll></div>
+          </div>
         </div>
+
+        <aside class="mapside" aria-label="Details">
+          <div class="card selcard" id="owSelCard">
+            <div class="label">Selected</div>
+            <div id="owSel" aria-live="polite"><p class="note">Point at a dot for its name, tap it for details, or use "Find a satellite".</p></div>
+          </div>
+          <div class="legendbox card">
+            <div class="label">On the globe</div>
+            <ul class="classlist" id="owLegend"></ul>
+            <p class="note">Every dot is one object, where it is at the time shown. Dots are not to scale: most satellites are a few metres across.</p>
+          </div>
+        </aside>
       </div>
 
-      <aside class="ctl ow-side" aria-label="What to show, and the selected object">
-        <h2>Show</h2>
-        <div class="chips" role="group" aria-label="Kinds of object">
-          <button class="chip" type="button" aria-pressed="true" data-k="w"><i class="ow-k w"></i>Working satellites <span class="ow-n" data-n="w">–</span></button>
-          <button class="chip" type="button" aria-pressed="true" data-k="m"><i class="ow-k m"></i>Mega-constellations <span class="ow-n" data-n="m">–</span></button>
-          <button class="chip" type="button" aria-pressed="true" data-k="fy"><i class="ow-k x"></i>Fengyun-1C debris <span class="ow-n" data-n="fy">–</span></button>
-          <button class="chip" type="button" aria-pressed="true" data-k="co"><i class="ow-k x"></i>Cosmos 2251 debris <span class="ow-n" data-n="co">–</span></button>
-          <button class="chip" type="button" aria-pressed="true" data-k="ir"><i class="ow-k x"></i>Iridium 33 debris <span class="ow-n" data-n="ir">–</span></button>
-        </div>
-        <p class="caption">Mega-constellations (Starlink, OneWeb, Kuiper, Qianfan, Guowang) are working satellites too; switch them off to see the rest.</p>
-
-        <label class="lbl ow-gap" for="owQ">Find an object</label>
-        <div class="ow-find">
-          <label class="bigsearch">
-            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="1.6"/></svg>
-            <input type="search" id="owQ" placeholder="Name or catalogue number" autocomplete="off" spellcheck="false"
-              role="combobox" aria-expanded="false" aria-controls="owList" aria-autocomplete="list">
-          </label>
-          <ul id="owList" role="listbox" aria-label="Matching objects" hidden></ul>
-        </div>
-
-        <div class="ow-card" id="owCard" aria-live="polite">
-          <p class="caption">Tap a dot on the globe, or find an object by name, to see what it is, how high it flies and its orbit.</p>
-        </div>
-      </aside>
+      <details class="howto">
+        <summary>How to read this</summary>
+        <p><b>Each dot</b> is one object, placed where it is at the time shown at the top left, worked out in your browser
+          from its latest published orbital elements with the SGP4 model, the model the elements are made for. <b>Point at</b>
+          a dot for its name and height; <b>tap</b> it for its orbit, owner and launch date, and <b>Follow it</b> to ride along
+          as the Earth turns below.</p>
+        <p><b>What is on the globe:</b> every satellite CelesTrak lists as working (more than half of them in the
+          mega-constellations), and the three largest debris clouds it publishes as groups: the Chinese weather satellite
+          Fengyun-1C, destroyed in a missile test in 2007, and the Russian Cosmos 2251 and the American Iridium 33, which
+          collided in 2009. Dead satellites, rocket bodies and other debris are counted in the chart below, but CelesTrak does
+          not publish their orbits as one list, so most of them are not drawn.</p>
+        <p><b>Heights:</b> the thin shell close to the ground is low Earth orbit (up to 2,000 km), where almost everything is.
+          <b>Out to</b> zooms out to the navigation satellites around 20,000 km and the ring of geostationary satellites at
+          35,786 km, which go round once a day and so stay over one place.</p>
+        <p><b>Time:</b> real time shows the satellites moving at their true pace (a low satellite circles the Earth in about
+          90 minutes); the speed list runs time faster, and the buttons step an hour back or forward. <b>Now</b> returns to the
+          live time. The Earth turns and the night side moves with the time shown.</p>
+        <p id="owKeys"><b>Keyboard:</b> select the globe (click it or press Tab), then the <b>arrow keys</b> turn it, <b>+</b>
+          and <b>−</b> zoom, <b>Home</b> goes back to the start, <b>space</b> pauses and <b>Escape</b> clears the selection.</p>
+        <p><b>Out under the real sky?</b> <a href="../sky-finder/">Sky Finder</a> shows when the space stations pass over
+          your place tonight. <b>Missions</b> (telescopes, crewed stations, probes to the planets) are on the
+          <a href="../spacecraft/">spacecraft map</a>.</p>
+      </details>
     </section>
-
-    <details class="howto">
-      <summary>How to read this</summary>
-      <p><b>Each dot</b> is one object, placed where it is at the time shown at the bottom left, worked out in your browser
-        from its latest published orbital elements with the SGP4 model, the same model the elements are made for. Dots
-        are not to scale: the Earth is 12,742 km across and most satellites are a few metres.</p>
-      <p><b>What is on the globe:</b> every satellite CelesTrak lists as working (more than half of them in the
-        mega-constellations), and the three largest debris clouds it publishes as groups: the Chinese weather satellite
-        Fengyun-1C, destroyed in a missile test in 2007, and the Russian Cosmos 2251 and the American Iridium 33, which
-        collided in 2009. Dead satellites, rocket bodies and other debris are counted in the chart below, but CelesTrak does
-        not publish their orbits as one list, so most of them are not drawn.</p>
-      <p><b>Heights:</b> the thin shell close to the ground is low Earth orbit (up to 2,000 km), where almost everything is.
-        Zoom out to see the navigation satellites around 20,000 km and the ring of geostationary satellites at 35,786 km,
-        which go round once a day and so stay over one place.</p>
-      <p><b>Speed:</b> real time shows the satellites moving at their true pace (a low satellite circles the Earth in about
-        90 minutes); ×60 makes a minute pass each second. The Earth turns and the night side moves with the time shown.</p>
-      <p id="owKeys"><b>Keyboard:</b> select the globe (click it or press Tab), then the <b>arrow keys</b> turn it, <b>+</b>
-        and <b>−</b> zoom, <b>Home</b> goes back to the start and <b>Escape</b> clears the selection. <b>Drag</b> to turn,
-        <b>scroll or pinch</b> to zoom.</p>
-      <p><b>Out under the real sky?</b> <a href="../sky-finder/">Sky Finder</a> shows when the space stations pass over
-        your place tonight. <b>Missions</b> (telescopes, crewed stations, probes to the planets) are on the
-        <a href="../spacecraft/">spacecraft map</a>.</p>
-    </details>
+    <div class="tip" id="owTip" hidden></div>
 
     <section class="section" aria-labelledby="hHeights">
       <div class="section-head sub"><div><div class="kicker">Everything catalogued</div><h2 id="hHeights">How high everything is</h2></div><p class="aside" id="owHAside"></p></div>

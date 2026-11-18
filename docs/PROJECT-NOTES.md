@@ -4,6 +4,9 @@ How NASA and ESA Data Projects is built, the decisions made so far, and how to r
 
 ## Decisions
 
+- **Decided Nov 18, 2026 (Orbit Watch globe):** What's in orbit is laid out like the Asteroid Tracker's solar system
+  map (map card with overlays, control rows, Selected card and legend beside it, hover tooltips), at the developer's
+  request; the asteroid map's approved layout stands in for a separate mock-up.
 - **Decided Nov 18, 2026 (reload buttons, tab bars, checks):** a shared reload button (`shared/reload.js`,
   `docs/DESIGN.md` "Reload buttons"; mock-up approved that day): one in the page head beside the "Readings to …" line
   reloads all of a page's data without reloading the page, a smaller one in a panel's header reloads that panel; an

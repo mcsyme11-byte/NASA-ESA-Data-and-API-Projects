@@ -1,5 +1,21 @@
 # Change log
 
+## November 18, 2026 — Orbit Watch: the globe laid out like the solar system map
+
+- **What's in orbit** now follows the Asteroid Tracker's solar system map: the globe in a map card, with the time (UTC,
+  with a "live" mark) and a "Find a satellite" box over it, zoom and full-screen buttons, and rows of controls under
+  it: View (from above, tilted, side on), Out to (low orbit, navigation satellites, geostationary), time (an hour back
+  or forward, Play and Pause, Now, speeds from real time to an hour a second), Share this view, the kinds shown, and
+  eight well-known satellites (the space stations, Hubble, Landsat 9, Sentinel-2C, Galileo, GOES 19, Meteosat-12).
+- Pointing at a dot shows its name, kind, height and lap time in a tooltip; tapping it fills the Selected card beside
+  the globe (live height and speed, orbit, catalogue number, owner, launch date, a description for the well-known
+  ones) with **Follow it**, which keeps the camera over the object as it moves. The space stations and Hubble are
+  always labelled. A legend beside the globe gives the count of each kind.
+- Between the background worker's answers, dots now move round a circular arc instead of a straight line, so they stay
+  on their orbits at every speed (at an hour a second, the space station's height stays within a few kilometres).
+- The map-card rules (asteroid-tracker/tracker.css) are repeated in `orbit-watch/orbit.css`; version tags raised to
+  2026111809.
+
 ## November 18, 2026 — Project tab bars in Space Weather's form
 
 - Every project tab bar now has the form of Space Weather's "On this page" bar, made a shared part of the theme
