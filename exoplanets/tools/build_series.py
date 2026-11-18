@@ -133,15 +133,20 @@ def transit(target):
                 if t.size == 0:
                     continue
                 files.append(os.path.basename(path))
+                # how many points make a whole transit depends on how often the telescope measures (TESS: every 2
+                # minutes; Kepler's long cadence: every 29.4 minutes)
+                cad = float(np.median(np.diff(t))) if t.size > 1 else 0.02
+                need = max(8, int(0.6 * 2 * win / cad))
+                side, inside = max(3, need // 4), max(1, int(0.5 * 2 * half_in / cad))
                 n0, n1 = math.ceil((t.min() - T0) / P - 0.5), math.floor((t.max() - T0) / P + 0.5)
                 for n in range(n0, n1 + 1):
                     tc = T0 + n * P
                     m = np.abs(t - tc) < win
-                    if m.sum() < 20:
+                    if m.sum() < need:
                         continue
                     x, y = t[m] - tc, f[m]
                     oot = np.abs(x) > half_in
-                    if (oot & (x < 0)).sum() < 8 or (oot & (x > 0)).sum() < 8 or (~oot).sum() < 4:
+                    if (oot & (x < 0)).sum() < side or (oot & (x > 0)).sum() < side or (~oot).sum() < inside:
                         continue                     # a gap: the transit is not covered on both sides
                     c = np.polyfit(x[oot], y[oot], 1)
                     dts.append(x * 24)

@@ -56,8 +56,8 @@ HZ = {
     'early_mars': (0.320, 5.547e-5, 1.526e-9, -2.874e-12, -5.011e-16),
 }
 TEFF_MIN, TEFF_MAX = 2600, 7200
-# "about Earth's size": a radius of 0.5 to 1.6 Earths, or, for a planet with no measured radius, a mass (or minimum
-# mass) of 0.1 to 3 Earths
+# "about Earth's size": a measured radius of 0.5 to 1.6 Earths; for a planet with no measured radius, a measured mass
+# (or minimum mass) of 0.1 to 3 Earths; failing both, an estimated radius of 0.5 to 1.6 Earths
 SMALL_R, SMALL_M = (0.5, 1.6), (0.1, 3.0)
 
 
@@ -93,11 +93,23 @@ def zone(p):
     return nasa, 0
 
 
+# Methods that measure a planet's radius. For other planets the composite table fills the radius in from the mass
+# (a mass–radius relation), so it is marked as an estimate, unless the planet was later seen to transit (a transit
+# depth is known).
+RADIUS_METHODS = {'Transit', 'Transit Timing Variations', 'Eclipse Timing Variations'}
+
+
+def radius_measured(p):
+    return p.get('pl_rade') is not None and (p['discoverymethod'] in RADIUS_METHODS or p.get('pl_trandep') is not None)
+
+
 def small(p):
     r, m = p.get('pl_rade'), p.get('pl_bmasse')
-    if r is not None:
+    if radius_measured(p):
         return SMALL_R[0] <= r <= SMALL_R[1]
-    return m is not None and SMALL_M[0] <= m <= SMALL_M[1]
+    if m is not None and p.get('pl_bmassprov') != 'M-R relationship':
+        return SMALL_M[0] <= m <= SMALL_M[1]
+    return r is not None and SMALL_R[0] <= r <= SMALL_R[1]
 
 
 def sig(v, n=4):
@@ -135,7 +147,7 @@ def write_if_changed(name, obj):
     print('  wrote %s' % name)
 
 
-FIELDS = ['name', 'host', 'method', 'year', 'facility', 'period', 'a', 'radius', 'mass', 'mass_kind', 'ecc', 'teq',
+FIELDS = ['name', 'host', 'method', 'year', 'facility', 'period', 'a', 'radius', 'radius_kind', 'mass', 'mass_kind', 'ecc', 'teq',
           'light', 'light_from', 'depth', 'k', 'teff', 'srad', 'smass', 'slum', 'dist', 'ra', 'dec', 'npl', 'vmag',
           'hz_nasa', 'hz_temp', 'small']
 
@@ -156,7 +168,8 @@ def build(rows, now, min_rows=MIN_ROWS):
         sm = small(p)
         kind = {'Msini': 'msini', 'Mass': 'mass', 'M-R relationship': 'est'}.get(p.get('pl_bmassprov'))
         out.append([p['pl_name'], p['hostname'], code, p['disc_year'], p['disc_facility'], sig(p['pl_orbper'], 6),
-                    sig(p['pl_orbsmax']), sig(p['pl_rade']), sig(p['pl_bmasse']), kind, sig(p['pl_orbeccen'], 3),
+                    sig(p['pl_orbsmax']), sig(p['pl_rade']),
+                    None if p['pl_rade'] is None else ('measured' if radius_measured(p) else 'est'), sig(p['pl_bmasse']), kind, sig(p['pl_orbeccen'], 3),
                     sig(p['pl_eqt']), sig(light), src, sig(p['pl_trandep']), sig(p['pl_rvamp']), sig(p['st_teff']),
                     sig(p['st_rad']), sig(p['st_mass']), sig(p['st_lum']), sig(p['sy_dist'], 5), sig(p['ra'], 7),
                     sig(p['dec'], 7), p['sy_pnum'], sig(p['sy_vmag']), hn, ht, 1 if sm else 0])
