@@ -182,6 +182,7 @@ JS = r"""
   const res = performance.getEntriesByType('resource').concat(performance.getEntriesByType('navigation'));
   out.kb = Math.round(res.reduce((t, r) => t + (r.encodedBodySize || r.transferSize || 0), 0) / 1024);
   out.cls = Math.round((window.__cls || 0) * 1000) / 1000;
+  out.clsWhat = (window.__clsWhat || []).slice(0, 6);
   const ids = {}; for (const e of document.querySelectorAll('[id]')) ids[e.id] = (ids[e.id] || 0) + 1;
   out.dupid = Object.entries(ids).filter(([k, v]) => v > 1).map(([k, v]) => k + '×' + v);
   out.h1 = [...document.querySelectorAll('h1')].filter(vis).length;
@@ -208,7 +209,7 @@ async def run(outdir, widths, only):
             ctx = await b.new_context(viewport={'width': w, 'height': 900}, service_workers='block', device_scale_factor=1,
                                       reduced_motion='reduce')
             # layout shift as the page loads (Nov 18, 2026: tiles and stats drawn only by script pushed pages down)
-            await ctx.add_init_script("window.__cls=0;new PerformanceObserver(l=>{for(const e of l.getEntries())if(!e.hadRecentInput)window.__cls+=e.value}).observe({type:'layout-shift',buffered:true});")
+            await ctx.add_init_script("window.__cls=0;window.__clsWhat=[];new PerformanceObserver(l=>{for(const e of l.getEntries())if(!e.hadRecentInput){window.__cls+=e.value;if(e.value>0.02)for(const s of (e.sources||[]).slice(0,3)){const n=s.node;window.__clsWhat.push((n&&n.nodeType===1?n.tagName.toLowerCase()+(n.id?'#'+n.id:'')+(n.className&&n.className.baseVal===undefined?'.'+String(n.className).trim().split(/\\s+/)[0]:''):'text')+' moved '+Math.round(s.currentRect.y-s.previousRect.y)+'px, height '+Math.round(s.previousRect.height)+' to '+Math.round(s.currentRect.height)+' at '+Math.round(e.startTime)+' ms')}}}).observe({type:'layout-shift',buffered:true});")
             pg = await ctx.new_page()
             errs, bad = [], []
             pg.on('pageerror', lambda e: errs.append('pageerror: ' + str(e)[:160]))
@@ -256,7 +257,7 @@ async def run(outdir, widths, only):
             if r.get(x):
                 issues[x] = r[x]
         if r.get('cls', 0) > CLS_MAX:
-            issues['layout-shift'] = f"{r['cls']} (more than {CLS_MAX}: something is drawn late and pushes the page; draw placeholders in the HTML)"
+            issues['layout-shift'] = f"{r['cls']} (more than {CLS_MAX}: something is drawn late and pushes the page; draw placeholders in the HTML): " + '; '.join(r.get('clsWhat', []))
         page = k.split(' ', 1)[1]
         budget = next((kb for pat, kb in WEIGHT_OK.items() if pat in page), WEIGHT_KB)
         if r.get('kb', 0) > budget:
