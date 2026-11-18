@@ -1,7 +1,7 @@
 {
  "job": "build-places",
  "workflow": ".github/workflows/build-places.yml",
- "last_data_change": "2026-11-15T02:43:06Z",
+ "last_data_change": "2026-11-18T03:42:35Z",
  "sources": {
   "checks": {
    "state": "ok",
@@ -21,6 +21,11 @@
   "natural-earth": {
    "state": "ok",
    "since": "2026-11-15T02:43:06Z",
+   "note": ""
+  },
+  "planet-names": {
+   "state": "ok",
+   "since": "2026-11-18T03:42:35Z",
    "note": ""
   }
  },
