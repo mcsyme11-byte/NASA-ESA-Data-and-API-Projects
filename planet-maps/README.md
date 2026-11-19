@@ -45,6 +45,14 @@ sharpness and credit lines are in `docs/DATA-SOURCES.md` ("Planetary Maps").
   links can open any of them. A link may name a place instead (`#mars-gale`, `#mars-jezero`, `#moon-apollo11`: the
   place's `id` in `places.json`); the flat map opens on it with its card.
 
+## Reload
+
+The page head says when the daily copy of the rovers' routes was made and how far each rover had got ("Rovers'
+routes copied Nov 18, 2026 · Curiosity to sol 5,073, …"), with the shared Reload button (`shared/reload.js`, added Nov
+18, 2026), which fetches `data/routes.json` again with a new query value. A failed reload keeps the routes already
+shown. The map tiles, places and names are not reloaded: they change rarely, and the browser fetches tiles as the map
+moves.
+
 ## States
 
 | Situation | What the page shows |

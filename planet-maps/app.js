@@ -448,16 +448,27 @@
 
   /* ---------- data ---------- */
   async function json(url) { const r = await fetch(url, { cache: 'no-cache' }); if (!r.ok) throw new Error(`${url}: ${r.status}`); return r.json(); }
-  async function loadRoutes() {
-    try { ROUTES = await json('data/routes.json'); routesState = 'ok'; }
-    catch { ROUTES = null; routesState = 'missing'; }
+  /* the line in the page head: when the daily copy of the routes was made, and how far each rover had got */
+  function copied() {
+    const r = ROUTES && ROUTES.rovers || {};
+    const sols = ['curiosity', 'perseverance'].filter(k => r[k]).map(k => `${r[k].name} to sol ${nf(r[k].sol)}`).join(', ');
+    $('pmCopied').textContent = routesState === 'ok' && ROUTES.updated
+      ? `Rovers' routes copied ${new Date(ROUTES.updated).toLocaleDateString('en', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' })}${sols ? ` · ${sols}` : ''} · NASA/JPL-Caltech`
+      : routesState === 'missing' ? "Rovers' routes: the daily copy of NASA/JPL's files is not available right now" : "Rovers' routes: reading the daily copy of NASA/JPL's files…";
+  }
+  /* fresh: a reload by hand asks for the file with a new query value, so no saved copy answers */
+  async function loadRoutes(fresh) {
+    const was = ROUTES;
+    try { ROUTES = await json(`data/routes.json${fresh ? `?t=${Date.now()}` : ''}`); routesState = 'ok'; }
+    catch { if (fresh && was) { copied(); return false; } ROUTES = null; routesState = 'missing'; }
     drawRoutes(); globeItems();
     if (ROUTES && ROUTES.updated) {
       const d = new Date(ROUTES.updated);
       $('pmRouteDate').textContent = `NASA/JPL-Caltech · copied ${d.toLocaleDateString('en', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' })}`;
     }
     $('keyRoutes').hidden = S.body !== 'mars' || routesState !== 'ok';
-    stats(); card(); notes();
+    copied(); stats(); card(); notes();
+    return routesState === 'ok';
   }
   async function loadNames(body) {
     try { const d = await json(`data/names-${body}.json`); NAMES[body] = Array.isArray(d.names) ? d.names : null; } catch { NAMES[body] = null; }
@@ -478,4 +489,7 @@
   });
   loadRoutes();
   loadNames('mars'); loadNames('moon');
+  /* the Reload button (shared/reload.js, a module, loaded from this plain script): fetches the routes again */
+  import('../shared/reload.js?v=2026111813').then(m => m.reloadPage($('reloadAll'), () => loadRoutes(true)))
+    .catch(() => { $('reloadAll').hidden = true; });
 })();

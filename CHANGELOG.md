@@ -1,5 +1,11 @@
 # Change log
 
+## November 18, 2026 — Planetary Maps: Reload button
+
+- **Planetary Maps:** the page head says when the rovers' routes were copied and how far each rover had got, with the
+  shared Reload button, which fetches the routes again (`shared/reload.js`). No panel buttons: the maps, places and
+  names change rarely.
+
 ## November 18, 2026 — Close calls no longer jumps as its list arrives
 
 - Close calls (`orbit-watch/collisions.html`) is written with a placeholder of the list's own size: the table's
