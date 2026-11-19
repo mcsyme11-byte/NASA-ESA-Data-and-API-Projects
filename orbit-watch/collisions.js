@@ -19,6 +19,7 @@ let close = null, order = 'byRange';
 const kindLabel = (k) => (KINDS[k] ? KINDS[k].name : 'Object');
 function closeTable() {
   const el = $('#owClose'), list = close[order];
+  el.removeAttribute('aria-busy');
   $('#owCloseTitle').textContent = order === 'byRange' ? `The ${list.length} closest passes` : `The ${list.length} passes most likely to hit`;
   if (!list.length) { el.innerHTML = '<p class="empty">No passes in this list this week.</p>'; return; }
   const dist = (km) => (km < 1 ? `${fmt(km * 1000)} m` : `${fmt(km, 2)} km`);
@@ -39,7 +40,7 @@ $$('#owOrder button').forEach((b) => b.addEventListener('click', () => {
 (async () => {
   const res = await load('data/close.json');
   if (!res.data) {
-    $('#owClose').innerHTML = `<p class="empty">${res.missing ? 'The close approaches have not been copied to the site yet: they arrive with the next run of the data job.' : 'The close approaches could not be loaded. Check the connection and reload the page.'}</p>`;
+    $('#owClose').removeAttribute('aria-busy'); $('#owClose').innerHTML = `<p class="empty">${res.missing ? 'The close approaches have not been copied to the site yet: they arrive with the next run of the data job.' : 'The close approaches could not be loaded. Check the connection and reload the page.'}</p>`;
     return;
   }
   close = res.data;

@@ -21,13 +21,6 @@
       "owner": "Asteroid Tracker",
       "since": "2026-11-18",
       "why": "the search view is drawn by script after the page opens; its box and first lines need placeholders in the page"
-    },
-    {
-      "page": "orbit-watch/collisions.html",
-      "check": "layout-shift",
-      "owner": "Orbit Watch",
-      "since": "2026-11-18",
-      "why": "at 390 px the list of passes replaces a short placeholder; the placeholder should hold the list's first rows' height"
     }
   ]
 }

@@ -1,5 +1,13 @@
 # Change log
 
+## November 18, 2026 — Close calls no longer jumps as its list arrives
+
+- Close calls (`orbit-watch/collisions.html`) is written with a placeholder of the list's own size: the table's
+  heading and 15 rows of "…" (the number of passes the data job keeps), with a "…" Watch button on each row. On
+  phones the list used to replace a short "Loading" line and push the rest of the page down. Measured with the data
+  held back: 4,345 px of placeholder against 4,305 px of list at 375 and 390 px, the same 1,100 px at 1280 px. The
+  entry is removed from `dev/known_issues.json`.
+
 ## November 18, 2026 — Exoplanets: Every planet no longer moves as it loads
 
 - `exoplanets/explorer.html`: the method buttons, the planet count ("… planets") and the "Planet list as of …" line
