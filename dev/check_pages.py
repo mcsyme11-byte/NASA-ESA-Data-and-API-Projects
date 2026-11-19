@@ -154,7 +154,9 @@ JS = r"""
     if (!vis(e)) continue;
     const r = e.getBoundingClientRect();
     const inline = e.tagName === 'A' && getComputedStyle(e).display === 'inline' && e.closest('p,li,td,dd,.note,.lede,.srcline,.fnote,figcaption');
-    if (phone && !inline && !e.classList.contains('reload') && r.height < 40 && !(e.type === 'checkbox' || e.type === 'radio')) out.tap.push(desc(e) + ` ${Math.round(r.width)}x${Math.round(r.height)}`);
+    // an invisible tap area drawn by ::before or ::after counts (link pills, the reload buttons)
+    const area = Math.max(r.height, ...['::before', '::after'].map((w) => { const cs = getComputedStyle(e, w); return cs.content !== 'none' && cs.position === 'absolute' ? parseFloat(cs.height) || 0 : 0; }));
+    if (phone && !inline && !e.classList.contains('reload') && area < 40 && !(e.type === 'checkbox' || e.type === 'radio')) out.tap.push(desc(e) + ` ${Math.round(r.width)}x${Math.round(r.height)}`);
     const name = (e.getAttribute('aria-label') || e.innerText || e.value || e.title || (e.labels && e.labels[0] && e.labels[0].innerText) || e.getAttribute('placeholder') || (e.querySelector && e.querySelector('img[alt],svg title') ? 'img' : '') || e.getAttribute('aria-labelledby') || '').trim();
     if (!name) out.noname.push(desc(e));
     if (/INPUT|SELECT|TEXTAREA/.test(e.tagName) && !(e.labels && e.labels.length) && !e.getAttribute('aria-label') && !e.getAttribute('aria-labelledby') && !e.title) out.nolabel.push(desc(e));

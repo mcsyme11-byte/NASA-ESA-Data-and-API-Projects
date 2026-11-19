@@ -7,6 +7,13 @@
       "owner": "Space Weather",
       "since": "2026-11-18",
       "why": "picture() in app.js waits 20 seconds before its second try and leaves the failed picture on show meanwhile; hide it (data-failed, or a 'retrying' state) from the first failure, and show it again when the second try loads"
+    },
+    {
+      "page": "asteroid-tracker/object.html?id=2138175",
+      "check": "layout-shift",
+      "owner": "Asteroid Tracker",
+      "since": "2026-11-19",
+      "why": "at 1280 px the page content above the pills is 23 px taller as a placeholder than when drawn (div#content 468 to 445 px), so everything below moves up"
     }
   ]
 }
