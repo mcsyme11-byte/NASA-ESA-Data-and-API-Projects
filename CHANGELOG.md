@@ -1,5 +1,13 @@
 # Change log
 
+## November 18, 2026 — Space Weather: checked on the live site; pictures try again
+
+- Checked on the live site in a browser: the live readings (IMAP solar wind, GFZ Kp, GOES X-rays), DONKI's events,
+  the SDO and SOHO pictures, the place search, the aurora verdict and the "Since 2010" record all work.
+- A picture that fails to load (NOAA's aurora map once lost its connection) is tried again once after 20 seconds,
+  and every later try (a Reload button, a change of place) gets its own address, since a browser does not ask
+  again for an address that has just failed.
+
 ## November 18, 2026 — Space Weather: chart labels on narrow phones
 
 - The timeline's row titles are shorter on narrow screens ("CMEs · speed (km/s)"), so none is cut off at 320 px; a

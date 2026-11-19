@@ -164,9 +164,9 @@ collisions, Cleaning up; see `orbit-watch/README.md`).
 **5b. Space Weather (`space-weather/`)**: live since Nov 17, 2026
 - [ ] Developer testing of the reload buttons (added Nov 18, 2026): the page head's button and each panel's, on a
   phone and a computer.
-- [ ] Check on the live site, in a browser (the build environment could not reach the services; the page was checked
-  against sample answers built from the real readings of Nov 17, 2026): the live readings arrive, the three pictures
-  and NOAA's aurora map load, the place search works, and the page reads well on a phone.
+- [ ] The developer's own look on a phone, at his own pace (the live site was checked in a browser on Nov 18, 2026:
+  live solar wind, Kp, X-rays and DONKI events arrive, the SDO, SOHO and NOAA pictures load, the place search and
+  the aurora verdict work, "Since 2010" shows).
 - [ ] The data job runs since Nov 18, 2026 (`space-weather-data.yml`; first run by hand wrote `latest.json` with 31
   flares and 145 solar wind points, and `archive.json` with 200 months from April 2010). Check on the live site: the
   "Since 2010" button appears, and the page falls back to the saved copy when NASA cannot be reached.

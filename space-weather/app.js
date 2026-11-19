@@ -123,11 +123,25 @@ function picture(img, err, url, fresh) {
   const f = Number(img.dataset.fresh || 0);
   const src = url + '?t=' + (Date.now() - f < 15 * 60e3 ? 'r' + f : tick());
   return new Promise((done) => {
-    if (img.src === src && img.complete) { done(img.naturalWidth > 0); return; }
+    if (img.src === src && img.complete && img.naturalWidth > 0) { done(true); return; }
+    // a browser does not ask again for an address that just failed, so a new try gets its own (…&a=n)
+    const again = img.src.startsWith(src) && img.complete && !img.naturalWidth;
+    const n = again ? Number(img.dataset.tries || 1) + 1 : 1;
+    img.dataset.tries = n;
     img.removeAttribute('data-failed'); err.hidden = true;
     img.onload = () => done(true);
-    img.onerror = () => { img.dataset.failed = ''; err.hidden = false; done(false); };
-    img.src = src;
+    img.onerror = () => {
+      // one more try 20 seconds after a failure (a dropped connection), before saying it could not be loaded
+      if (n === 1 && img.dataset.retried !== src) {
+        img.dataset.retried = src;
+        setTimeout(() => { img.dataset.tries = 2; img.src = src + '&a=2'; }, 20e3);
+        img.onerror = () => { img.dataset.failed = ''; err.hidden = false; done(false); };
+        img.onload = () => done(true);
+        return;
+      }
+      img.dataset.failed = ''; err.hidden = false; done(false);
+    };
+    img.src = n > 1 ? src + '&a=' + n : src;
   });
 }
 function sdo(code, fresh) {
