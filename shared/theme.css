@@ -643,7 +643,8 @@ a.stage:hover { color: var(--ink); }
 .flegal .copy { margin: 0; color: var(--ink2); }
 .nowrap { white-space: nowrap; }                     /* words that must stay on one line (the footer's " · email") */
 /* a picture that failed to load (shared/footer.js), with the figure that holds only it */
-img.img-failed, figure:has(> img.img-failed) { display: none; }
+/* (any depth, for a picture inside a link; a figure that still has another picture keeps showing) */
+img.img-failed, figure:has(img.img-failed):not(:has(img:not(.img-failed))) { display: none; }
 .flinks { display: flex; flex-wrap: wrap; gap: 0 var(--sp4); }
 .flinks a { display: inline-flex; align-items: center; min-height: 36px; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--ink2); }
 .flinks a:hover, .flinks a[aria-current] { color: var(--brass); }

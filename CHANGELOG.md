@@ -1,5 +1,11 @@
 # Change log
 
+## November 18, 2026 — Failed pictures inside links
+
+- A figure whose picture sits inside a link (Planetary Maps' ESA pictures) is now hidden with it when the picture
+  cannot be loaded; the page check reports any failed picture left on show (`brokenimg`). Found by the Planetary Maps
+  chat. Version tag 2026111814.
+
 ## November 19, 2026 — The map card becomes a shared component
 
 - The map card (a big interactive map with its overlays, rows of controls and the column beside it) is now in

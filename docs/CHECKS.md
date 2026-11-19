@@ -164,7 +164,8 @@ enforces the ones marked (auto).
    it takes its own line only while it shows.
 9. In the footer the " · email" part never breaks apart (`shared/footer.js` keeps it together).
 10. A picture that cannot be loaded is hidden with its figure, never shown as its description in a frame
-    (`shared/footer.js`, for every page without its own error handling).
+    (`shared/footer.js`, for every page without its own error handling; the figure goes too when the picture sits
+    inside a link in it) (auto, since Nov 18, 2026: `brokenimg`).
 11. A bar held at the bottom of the screen has a solid background behind its button; text never shows through.
 12. A sideways row is scrolled on arrival only when its chosen item is out of view, measured against the row itself
     (auto).

@@ -17,6 +17,7 @@
 #   plainlink  a link inside running text that is not underlined (told apart by colour alone)
 #   scrolled   a sideways row scrolled on arrival although its chosen first item was in view
 #   aria       aria-selected outside tabs, options and rows; aria-expanded on a table row; an empty table heading
+#   brokenimg  a picture that failed to load left on show (its description in an empty frame)
 #   staleview  the footer still marks the old view after a switch of view inside the page
 #   layout-shift  the page jumps as it loads (more than CLS_MAX)     weight  more loaded on arrival than the budget
 # Requests to other sites are blocked, so every page is also seen in its "NASA out of reach" state; with
@@ -188,6 +189,12 @@ JS = r"""
     if (!/^(tab|option|row|gridcell|columnheader|rowheader|treeitem)$/.test(role) && e.tagName !== 'TR' && e.tagName !== 'LI') (out.aria = out.aria || []).push(desc(e).slice(0, 60) + ' aria-selected'); }
   for (const e of document.querySelectorAll('tr[aria-expanded]')) (out.aria = out.aria || []).push(desc(e).slice(0, 40) + ' aria-expanded on a table row');
   for (const th of document.querySelectorAll('th')) if (vis(th) && !th.textContent.trim() && !th.getAttribute('aria-label')) (out.aria = out.aria || []).push('an empty table heading');
+  // (Nov 18, 2026, from the Planetary Maps chat) a picture that failed to load is hidden, never left on show as its
+  // description in an empty frame; the page check has no outside servers, so this tests every outside picture
+  for (const im of document.querySelectorAll('img')) {
+    if (!vis(im) || !im.complete || im.naturalWidth || !im.currentSrc) continue;
+    const fig = im.closest('figure');
+    (out.brokenimg = out.brokenimg || []).push(desc(im).slice(0, 50) + (fig ? ' in ' + desc(fig).slice(0, 40) : '')); }
   // page weight and layout shift (measured by the page check's start-up script)
   const res = performance.getEntriesByType('resource').concat(performance.getEntriesByType('navigation'));
   out.kb = Math.round(res.reduce((t, r) => t + (r.encodedBodySize || r.transferSize || 0), 0) / 1024);
@@ -277,7 +284,7 @@ async def run(outdir, widths, only):
     for k, r in report.items():
         issues = {x: r.get(x) for x in ('clip', 'svgclip', 'nofade', 'offscreen', 'overlap', 'tap', 'tiny', 'noname', 'noalt',
                                         'dupid', 'nolabel', 'errors', 'bad') if r.get(x)}
-        for x in ('headings', 'nolabelcell', 'plainlink', 'scrolled', 'aria', 'staleview'):
+        for x in ('headings', 'nolabelcell', 'plainlink', 'scrolled', 'aria', 'staleview', 'brokenimg'):
             if r.get(x):
                 issues[x] = r[x]
         if r.get('cls', 0) > CLS_MAX:
