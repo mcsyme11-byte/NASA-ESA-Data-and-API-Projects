@@ -1,5 +1,14 @@
 # Change log
 
+## November 19, 2026 — Space Weather: the site tools of Nov 19
+
+- Loading shapes in place of `.loading`: `.skel.chart` on the timeline, the solar wind and the Kp charts,
+  `.skel.rows` on the event list, `.skel.num` in the five reading tiles (with `aria-busy` until the readings arrive).
+- The "On this page" bar is marked by the shared `data-spy`; the page's own marking code is removed, and a small
+  observer keeps the marked link in view on phones, where the bar scrolls sideways. The preview card tags were
+  already current (`dev/build_social.py`: nothing to update); the page has no previous or next period buttons.
+  Version tag raised to 2026111905.
+
 ## November 19, 2026 — Asteroid Tracker: the site tools of Nov 19
 
 - **"On this page" bar** on the overview, under the project tab bar: In numbers, The tools, Why, Sources, Words and

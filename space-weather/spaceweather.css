@@ -17,6 +17,4 @@
 .ctl .searchopts { margin-top: var(--sp2); }
 
 /* the "On this page" links use the shared bar form of the tabs (.tabs.bar, shared/theme.css, since Nov 18, 2026) */
-/* each section stops below the top bar and the links */
-[data-jump] { scroll-margin-top: 124px; }
 @media (prefers-reduced-motion: no-preference) { html:has(#jump) { scroll-behavior: smooth; } }

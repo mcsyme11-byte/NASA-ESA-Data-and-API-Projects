@@ -9,7 +9,7 @@
 //   3. A note in the browser's console for anyone who opens it, with the link to the source code.
 // docs/DESIGN.md ("Small surprises") lists them; a new one is added here and there, never on its own in a page.
 
-import { toast } from './motion.js?v=2026111904';
+import { toast } from './motion.js?v=2026111905';
 
 const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
 

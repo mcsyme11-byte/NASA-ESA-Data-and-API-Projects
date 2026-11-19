@@ -374,7 +374,7 @@ async function reloadAll() {
   showNewest();
   return ok;
 }
-import('../shared/reload.js?v=2026111904').then(m => m.reloadPage($('reloadAll'), reloadAll));
+import('../shared/reload.js?v=2026111905').then(m => m.reloadPage($('reloadAll'), reloadAll));
 
 /* play: one step per tick; waits for the map to finish drawing before the next day */
 let timer = null;

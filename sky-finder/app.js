@@ -8,7 +8,7 @@
 
 import { currentPlace, locate, searchPlaces, setPlace, forgetPlace } from '../shared/place.js';
 import { loadSky, resetSky, tonightList, dirText } from './targets.js';
-import { reloadPage } from '../shared/reload.js?v=2026111904';
+import { reloadPage } from '../shared/reload.js?v=2026111905';
 import { openFromTap } from './view.js';
 
 const $ = (s) => document.querySelector(s);

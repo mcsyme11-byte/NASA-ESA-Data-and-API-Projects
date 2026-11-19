@@ -7,8 +7,8 @@ import { readEvents, readWind, readXray, readKp, readSaved, readArchive } from '
 import { timeline, line24, kpBars, monthly, emptyBox, hideTip, utc, fmtKp, gName } from './charts.js';
 import { chance } from './aurora.js';
 import { currentPlace, locate, searchPlaces, setPlace, forgetPlace } from '../shared/place.js';
-import { toast } from '../shared/motion.js?v=2026111904';
-import { reloadPage, reloadPart, markUpdated } from '../shared/reload.js?v=2026111904';
+import { toast } from '../shared/motion.js?v=2026111905';
+import { reloadPage, reloadPart, markUpdated } from '../shared/reload.js?v=2026111905';
 
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
@@ -99,6 +99,7 @@ function renderNow() {
   set('Flare', xrMax ? flareClass(xrMax) : '–', '', xrMax ? `${utc(xrT, false)}${match && match.region ? ', region ' + match.region : ''}${r ? ' · ' + r + ' radio blackout' : ''}` : 'not available just now');
   $('#hNow').textContent = !sp && !kp && !xrMax ? 'The live readings could not be loaded'
     : headline({ speed: sp ? sp[1] : 0, bz: bz ? bz[1] : null }, kp ? kp.kp : null, xrMax);
+  $('#nowStats').removeAttribute('aria-busy');
   const newest = sp ? sp[0] : kp ? kp.t : null;
   $('#checked').textContent = newest ? `Readings to ${utc(newest)} · checked again every 5 minutes while the page is open` : 'The live readings could not be loaded.';
 }
@@ -313,23 +314,6 @@ function wirePlace() {
 }
 
 // ---------------------------------------------------------------- start and refresh
-// the "On this page" links: the section in view is marked as the current one
-function wireJump() {
-  const links = new Map([...document.querySelectorAll('#jump a')].map((a) => [a.getAttribute('href').slice(1), a]));
-  const seen = new Map();
-  const mark = () => {
-    let best = null;
-    for (const [id, r] of seen) if (r > 0 && (!best || r > best[1])) best = [id, r];
-    links.forEach((a, id) => (best && id === best[0] ? a.setAttribute('aria-current', 'location') : a.removeAttribute('aria-current')));
-    // on phones the row scrolls sideways: keep the current link in view
-    const cur = best && links.get(best[0]), bar = document.getElementById('jump');
-    if (cur && bar.scrollWidth > bar.clientWidth) bar.scrollTo({ left: cur.offsetLeft - (bar.clientWidth - cur.offsetWidth) / 2, behavior: 'smooth' });
-  };
-  const io = new IntersectionObserver((es) => { es.forEach((e) => seen.set(e.target.id, e.intersectionRatio)); mark(); },
-    { rootMargin: '-124px 0px -40% 0px', threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] });
-  document.querySelectorAll('[data-jump]').forEach((s) => io.observe(s));
-}
-
 // the reload buttons (shared/reload.js): the page head's reloads everything, each panel's only its own part
 function wireReload() {
   const sdoNow = (f) => sdo(pressed($('#sdoSeg')).dataset.code, f), sohoNow = (f) => soho(pressed($('#sohoSeg')).dataset.code, f);
@@ -348,6 +332,19 @@ function wireReload() {
   });
 }
 
+// The "On this page" bar is marked by shared/footer.js (data-spy); on phones, where the bar scrolls sideways, the
+// link it marks is kept in view
+function followJump() {
+  const bar = document.getElementById('jump');
+  if (!bar) return;
+  new MutationObserver(() => {
+    const cur = bar.querySelector('[aria-current="location"]');
+    if (!cur || bar.scrollWidth <= bar.clientWidth) return;
+    const r = bar.getBoundingClientRect(), q = cur.getBoundingClientRect();
+    if (q.left < r.left + 8 || q.right > r.right - 8) bar.scrollTo({ left: q.left - r.left + bar.scrollLeft - (bar.clientWidth - q.width) / 2, behavior: 'smooth' });
+  }).observe(bar, { subtree: true, attributes: true, attributeFilter: ['aria-current'] });
+}
+
 function renderAll() { renderNow(); renderMonth(); renderEarth(); renderWind(); renderKp(); renderAurora(); showNotice(); }
 let lastFull = 0;
 async function refresh() {
@@ -362,7 +359,7 @@ async function start() {
   sdo(pressed($('#sdoSeg')).dataset.code);
   soho(pressed($('#sohoSeg')).dataset.code);
   wirePlace();
-  wireJump();
+  followJump();
   readArchive().then((a) => { if (a && a.months && a.months.length) { S.archive = a; $('#allBtn').hidden = false; } });
   await refresh();
   wireReload();

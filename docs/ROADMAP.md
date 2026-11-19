@@ -18,6 +18,8 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
   Asteroid Tracker done Nov 19, 2026 ("On this page" bar on the overview; ← and → on the tracker's week and year, an
   asteroid's day steps and the map's 30-day steps; loading shapes for the figures and the tables). Sky Finder: no
   period buttons or tab bar, and its lists open with placeholder rows already.
+  Space Weather done Nov 19, 2026 (loading shapes on its charts, event list and reading tiles; its "On this page"
+  bar marked by the shared `data-spy`; no period buttons).
 - [ ] Developer testing of the site tools of Nov 19, 2026 (the test list of that day): the search, the shortcuts,
   "Copy link to this section", the menu's dots, the Lost in space page, the Space Watch figures, and a shared link's
   preview card.

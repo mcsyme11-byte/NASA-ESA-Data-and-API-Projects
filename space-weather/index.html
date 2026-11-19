@@ -25,9 +25,9 @@
   <link rel="manifest" href="../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111904">
-  <script type="module" src="../shared/footer.js?v=2026111904"></script>
-  <link rel="stylesheet" href="spaceweather.css?v=2026111904">
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111905">
+  <script type="module" src="../shared/footer.js?v=2026111905"></script>
+  <link rel="stylesheet" href="spaceweather.css?v=2026111905">
   <script type="module" src="app.js"></script>
 </head>
 <body>
@@ -56,7 +56,7 @@
         <button class="reload" type="button" id="reloadAll">Reload all the readings and pictures on this page</button></p>
     </header>
 
-    <nav class="tabs bar" id="jump" aria-label="On this page">
+    <nav class="tabs bar" id="jump" data-spy aria-label="On this page">
       <a href="#now">Now</a><a href="#sun">The Sun</a><a href="#events">Events</a><a href="#earth">Heading for Earth</a><a href="#wind">Solar wind</a><a href="#kp">Kp</a><a href="#aurora">Aurora</a><a href="#impacts">Who feels it</a><a href="#rules">Rules</a>
     </nav>
 
@@ -65,12 +65,12 @@
     <section class="section" id="now" data-jump aria-labelledby="hNow">
       <div class="section-head"><div><div class="kicker">Right now</div><h2 id="hNow">Reading the Sun…</h2></div>
         <p class="aside">The solar wind is measured 1.5 million km sunward of Earth, about an hour before it arrives.</p></div>
-      <div class="stats" id="nowStats">
-        <div class="stat"><div class="label">Solar wind speed</div><div class="value" id="vSpeed">–</div><div class="note" id="nSpeed">&nbsp;</div></div>
-        <div class="stat"><div class="label">Density</div><div class="value" id="vDens">–</div><div class="note" id="nDens">&nbsp;</div></div>
-        <div class="stat"><div class="label">Field north–south (Bz)</div><div class="value" id="vBz">–</div><div class="note" id="nBz">&nbsp;</div></div>
-        <div class="stat"><div class="label">Kp, now</div><div class="value" id="vKp">–</div><div class="note" id="nKp">&nbsp;</div></div>
-        <div class="stat"><div class="label">Strongest flare, 24 hours</div><div class="value" id="vFlare">–</div><div class="note" id="nFlare">&nbsp;</div></div>
+      <div class="stats" id="nowStats" aria-busy="true">
+        <div class="stat"><div class="label">Solar wind speed</div><div class="value" id="vSpeed"><span class="skel num" aria-hidden="true"></span></div><div class="note" id="nSpeed">&nbsp;</div></div>
+        <div class="stat"><div class="label">Density</div><div class="value" id="vDens"><span class="skel num" aria-hidden="true"></span></div><div class="note" id="nDens">&nbsp;</div></div>
+        <div class="stat"><div class="label">Field north–south (Bz)</div><div class="value" id="vBz"><span class="skel num" aria-hidden="true"></span></div><div class="note" id="nBz">&nbsp;</div></div>
+        <div class="stat"><div class="label">Kp, now</div><div class="value" id="vKp"><span class="skel num" aria-hidden="true"></span></div><div class="note" id="nKp">&nbsp;</div></div>
+        <div class="stat"><div class="label">Strongest flare, 24 hours</div><div class="value" id="vFlare"><span class="skel num" aria-hidden="true"></span></div><div class="note" id="nFlare">&nbsp;</div></div>
       </div>
     </section>
 
@@ -113,12 +113,12 @@
         </div></div>
       <section class="panel" aria-labelledby="hTimeline">
         <div class="ph"><h3 id="hTimeline">Flares, coronal mass ejections and storms</h3><button class="reload small" type="button" id="reloadEv">Reload the flares, CMEs and storms</button><span class="aside">point at a mark for its details</span></div>
-        <div class="pb" id="timeline"><p class="loading">Reading NASA's space weather database…</p></div>
+        <div class="pb" id="timeline"><div class="skel chart" aria-hidden="true"></div><span class="sr">Reading NASA's space weather database…</span></div>
         <div class="pf"><div class="legend" id="timelineKey"></div><p class="caption" id="timelineNote" hidden>DONKI lists X-class flares fully from 2010, M-class from 2014 and C-class from 2021; before 2014 the M-class bars are paler, because their counts are incomplete.</p></div>
         <details class="howto"><summary>How to read this</summary>
           <p>Three rows share one time line. <b>Top:</b> every flare NASA's analysts logged, by its peak X-ray class. <b>Middle:</b> every CME they measured, by speed; most leave the side or back of the Sun and miss Earth. The brass triangles mark the model runs that said one would reach Earth. <b>Bottom:</b> geomagnetic storms at Earth (Kp 5 or more), by their highest Kp.</p></details>
         <details class="howto"><summary>The events as a list</summary>
-          <div id="eventList"><p class="loading">Loading…</p></div></details>
+          <div id="eventList"><div class="skel rows" aria-hidden="true"></div><span class="sr">Loading the events…</span></div></details>
       </section>
       <p class="srcline">Flares, CMEs, model runs and storms: NASA Community Coordinated Modeling Center, DONKI (Moon to Mars Space Weather Analysis Office). DONKI is preliminary NASA research information; NOAA's Space Weather Prediction Center is the official U.S. source of space weather forecasts.</p>
     </section>
@@ -142,10 +142,10 @@
       <div class="section-head"><div><div class="kicker">The solar wind</div><h2 id="hWind">The last 24 hours, upstream of Earth</h2></div></div>
       <div class="panels">
         <section class="panel" aria-labelledby="hSpeed"><div class="ph"><h3 id="hSpeed">Speed</h3><button class="reload small" type="button" id="reloadSpeed">Reload the solar wind</button><span class="aside" id="aSpeed"></span></div>
-          <div class="pb" id="speedChart"><p class="loading">Reading NASA's IMAP spacecraft…</p></div>
+          <div class="pb" id="speedChart"><div class="skel chart" aria-hidden="true"></div><span class="sr">Reading NASA's IMAP spacecraft…</span></div>
           <details class="howto"><summary>How to read this</summary><p>Below 400 km/s is slow wind. A fast stream from a coronal hole (a dark patch in the 193 Å picture) runs at 500 to 800 km/s; a jump of a hundred km/s or more within minutes is usually a CME's shock arriving.</p></details></section>
         <section class="panel" aria-labelledby="hBz"><div class="ph"><h3 id="hBz">Magnetic field north–south (Bz)</h3><button class="reload small" type="button" id="reloadBz">Reload the solar wind</button><span class="aside" id="aBz"></span></div>
-          <div class="pb" id="bzChart"><p class="loading">Reading NASA's IMAP spacecraft…</p></div>
+          <div class="pb" id="bzChart"><div class="skel chart" aria-hidden="true"></div><span class="sr">Reading NASA's IMAP spacecraft…</span></div>
           <details class="howto"><summary>How to read this</summary><p>Earth's own field points north. When the solar wind's field points <b>south</b> (below the line), the two join and energy pours in. Hours below about −10 nT bring storms and aurora; while it points north, Earth stays shielded.</p></details></section>
       </div>
       <p class="srcline">Solar wind: NASA's IMAP spacecraft, I-ALiRT real-time data (IMAP Principal Investigator Prof. David J. McComas, Princeton University), through the NASA Community Coordinated Modeling Center's iSWA service.</p>
@@ -155,7 +155,7 @@
       <div class="section-head"><div><div class="kicker">Around Earth</div><h2 id="hKp">Geomagnetic activity, last 7 days and next 3</h2></div>
         <p class="aside" id="stormList"></p></div>
       <section class="panel" aria-labelledby="hKpChart"><div class="ph"><h3 id="hKpChart">Kp, every 3 hours</h3><button class="reload small" type="button" id="reloadKp">Reload the Kp index</button><span class="aside">0 is calm, 9 is extreme</span></div>
-        <div class="pb" id="kpChart"><p class="loading">Reading the Kp index…</p></div>
+        <div class="pb" id="kpChart"><div class="skel chart" aria-hidden="true"></div><span class="sr">Reading the Kp index…</span></div>
         <div class="pf"><div class="legend"><span><i class="s3"></i>Quiet (0–3)</span><span><i class="s6"></i>Active (4)</span><span><i class="s4"></i>Storm (5–9)</span><span>Paler bars: NOAA's forecast</span></div></div>
         <details class="howto"><summary>How to read this</summary><p>Kp measures how much Earth's magnetic field shook in each 3-hour block, from 13 observatories around the world. Each step up is roughly twice the disturbance, and each step has thirds: 2−, 2 and 2+ (in numbers 1.67, 2 and 2.33). NOAA names storms by Kp: G1 minor at 5, G2 moderate at 6, G3 strong at 7, G4 severe at 8, G5 extreme at 9.</p></details></section>
       <p class="srcline">Kp measured: GFZ Helmholtz Centre for Geosciences, CC BY 4.0. Kp forecast: NOAA Space Weather Prediction Center. Both through the NASA Community Coordinated Modeling Center's iSWA service. Storms: NASA DONKI.</p>
