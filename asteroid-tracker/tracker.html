@@ -71,9 +71,9 @@
       <h2 class="sr">This week</h2>
       <div class="periodbar">
         <div class="seg" role="group" aria-label="Week">
-          <button id="prevWeek" aria-label="Previous week">‹ Prev</button>
+          <button id="prevWeek" data-key="prev" aria-label="Previous week">‹ Prev</button>
           <button id="thisWeek" aria-pressed="true">This week</button>
-          <button id="nextWeek" aria-label="Next week">Next ›</button>
+          <button id="nextWeek" data-key="next" aria-label="Next week">Next ›</button>
         </div>
         <div class="period" aria-live="polite"><span class="lbl">Week of</span><strong id="weekLabel"></strong></div>
         <div class="grow"></div>
@@ -82,7 +82,7 @@
       </div>
 
       <div id="weekNotice"></div>
-      <div class="tiles" id="weekTiles"><div class="tile"><div class="label">Passing Earth</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">Closest</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">Biggest</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">Fastest</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">Potentially hazardous</div><div class="value">…</div><div class="note">loading</div></div></div>
+      <div class="tiles" id="weekTiles"><div class="tile"><div class="label">Passing Earth</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div><div class="tile"><div class="label">Closest</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div><div class="tile"><div class="label">Biggest</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div><div class="tile"><div class="label">Fastest</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div><div class="tile"><div class="label">Potentially hazardous</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div></div>
 
       <div class="filters" aria-label="Filter">
         <div class="seg" role="group" aria-label="Hazard flag">
@@ -154,14 +154,14 @@
       <h2 class="sr">By year</h2>
       <div class="periodbar">
         <div class="seg" role="group" aria-label="Year">
-          <button id="prevYear" aria-label="Previous year">‹ Prev</button>
+          <button id="prevYear" data-key="prev" aria-label="Previous year">‹ Prev</button>
           <button id="thisYear" aria-pressed="true">This year</button>
-          <button id="nextYear" aria-label="Next year">Next ›</button>
+          <button id="nextYear" data-key="next" aria-label="Next year">Next ›</button>
         </div>
         <div class="period"><span class="lbl">Year</span><select id="yearSel" aria-label="Year"></select></div>
       </div>
       <div id="yearNotice"></div>
-      <div class="tiles" id="yearTiles"><div class="tile"><div class="label">Close approaches</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">Closest</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">…</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">…</div><div class="value">…</div><div class="note">loading</div></div></div>
+      <div class="tiles" id="yearTiles"><div class="tile"><div class="label">Close approaches</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div><div class="tile"><div class="label">Closest</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div><div class="tile"><div class="label">…</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div><div class="tile"><div class="label">…</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div></div>
 
       <div class="filters">
         <span class="lbl">Show approaches within</span>
@@ -210,7 +210,7 @@
         <h2>Every object with any chance of hitting Earth</h2>
         <p class="lede">Two centres watch for possible impacts independently: <b>ESA's NEO Coordination Centre</b> in Italy and <b>NASA/JPL's Sentry</b> in California. Each lists every object whose orbit still allows even a tiny chance of a future impact. Almost every object leaves the lists once more observations pin its orbit down.</p>
       </div>
-      <div class="tiles" id="riskTiles"><div class="tile"><div class="label">ESA NEOCC</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">NASA/JPL Sentry</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">On both lists</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">Highest Torino rating</div><div class="value">…</div><div class="note">loading</div></div></div>
+      <div class="tiles" id="riskTiles"><div class="tile"><div class="label">ESA NEOCC</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div><div class="tile"><div class="label">NASA/JPL Sentry</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div><div class="tile"><div class="label">On both lists</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div><div class="tile"><div class="label">Highest Torino rating</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div></div>
       <div class="filters">
         <div class="seg" role="group" aria-label="Which list">
           <button aria-pressed="true" data-risklist="all">All</button>

@@ -72,7 +72,7 @@
     </div>
 
     <div id="notice"></div>
-    <div class="tiles" id="tiles"><div class="tile"><div class="label">On the list</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">Cheapest trip</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">Type measured</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">100 m or more</div><div class="value">…</div><div class="note">loading</div></div></div>
+    <div class="tiles" id="tiles"><div class="tile"><div class="label">On the list</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div><div class="tile"><div class="label">Cheapest trip</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div><div class="tile"><div class="label">Type measured</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div><div class="tile"><div class="label">100 m or more</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div></div>
 
     <div class="filters">
       <div class="seg" role="group" aria-label="Made of" id="typeSeg"><button type="button" aria-pressed="true" data-type="all">All</button><button type="button" aria-pressed="false" data-type="C">Carbon-rich</button><button type="button" aria-pressed="false" data-type="S">Stony</button><button type="button" aria-pressed="false" data-type="X">X group, maybe metal</button><button type="button" aria-pressed="false" data-type="O">Other types</button><button type="button" aria-pressed="false" data-type="U">Unknown</button></div>
@@ -95,7 +95,7 @@
           <th data-k="dur" tabindex="0" class="num">Trip length</th>
           <th data-k="launch" tabindex="0">Cheapest launch</th>
         </tr></thead>
-        <tbody><tr><td colspan="6"><div class="loading">Loading NASA/JPL's list…</div></td></tr></tbody>
+        <tbody><tr class="msg"><td colspan="6"><div class="skel rows" aria-hidden="true"></div><span class="sr">Loading NASA/JPL's list…</span></td></tr></tbody>
       </table>
       <details class="howto"><summary>How to read this: the rules</summary>
         <p><b>Rule 1, round trip</b> is the total change in speed (delta-v) a spacecraft needs: leaving a 400 km orbit around Earth, matching the asteroid's speed, leaving it again, and slowing down for Earth's atmosphere. For comparison, a round trip to orbit around the Moon needs about 5 km/s, and a landing on the Moon and back about 9 km/s.</p>

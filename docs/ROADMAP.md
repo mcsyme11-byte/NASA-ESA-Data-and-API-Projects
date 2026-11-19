@@ -7,7 +7,7 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
 
 - [ ] The site tools of Nov 19, 2026 that each project adopts on its own pages (handoff
   `docs/handoffs/2026-11-19 - all chats - site tools.md`): "On this page" bars under the project tab bar on long pages
-  (the Asteroid Tracker's overview, Mars Data), loading shapes (`.skel`) where the shape of what loads is known, and
+  (Mars Data), loading shapes (`.skel`) where the shape of what loads is known, and
   `data-key="prev"` / `data-key="next"` on the previous and next period buttons. Planetary Maps done Nov 19, 2026
   (loading shapes; it is one page with no tab bar and no period buttons, and its preview tags were already built). Done on
   the control room and "How the data is collected" (Nov 19, 2026: loading shapes; they have no period buttons or
@@ -15,6 +15,9 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
   latter in place of its row of method chips; loading shapes for the stat figures, the planet tables and the star map;
   no period buttons; preview tags already built).
   Image Explorer done Nov 19, 2026 (the explorer's day buttons) and the spacecraft map (its list's loading shape).
+  Asteroid Tracker done Nov 19, 2026 ("On this page" bar on the overview; ← and → on the tracker's week and year, an
+  asteroid's day steps and the map's 30-day steps; loading shapes for the figures and the tables). Sky Finder: no
+  period buttons or tab bar, and its lists open with placeholder rows already.
 - [ ] Developer testing of the site tools of Nov 19, 2026 (the test list of that day): the search, the shortcuts,
   "Copy link to this section", the menu's dots, the Lost in space page, the Space Watch figures, and a shared link's
   preview card.

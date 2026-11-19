@@ -72,7 +72,7 @@
 
     <div id="content">
       <script>/* before the first paint: no asteroid chosen, so no placeholders */ if (!/^\d{5,9}$/.test((new URLSearchParams(location.search).get('id') || '').trim())) { document.getElementById('content').hidden = true; document.getElementById('pills').textContent = ''; document.getElementById('decode').hidden = true; document.getElementById('objMeta').hidden = true; document.getElementById('name').textContent = 'No asteroid chosen'; document.getElementById('notice').innerHTML = '<div class="notice warn" role="alert"><span class="t">This page shows one asteroid. Open one from the <a href="./">Asteroid Tracker</a>: tap a row in the week\'s list, then "Open this asteroid\'s page".</span></div>'; }</script>
-      <div class="tiles" id="facts"><div class="tile"><div class="label">Size, est.</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">Year length</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">From the Sun</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">Orbit tilt</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">Closest its orbit gets to Earth's</div><div class="value">…</div><div class="note">loading</div></div></div>
+      <div class="tiles" id="facts"><div class="tile"><div class="label">Size, est.</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div><div class="tile"><div class="label">Year length</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div><div class="tile"><div class="label">From the Sun</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div><div class="tile"><div class="label">Orbit tilt</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div><div class="tile"><div class="label">Closest its orbit gets to Earth's</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div></div>
 
       <!-- ===================== ORBIT DIAGRAM ===================== -->
       <section class="panel orbitcard" aria-labelledby="orbitTitle">
@@ -102,9 +102,9 @@
             <div class="timebar">
               <div class="seg" role="group" aria-label="Step through time">
                 <button class="chip" data-step="-30" aria-label="Back 30 days">« 30 d</button>
-                <button class="chip" data-step="-1" aria-label="Back 1 day">‹ 1 d</button>
+                <button class="chip" data-step="-1" data-key="prev" aria-label="Back 1 day">‹ 1 d</button>
                 <button class="chip play" id="play" aria-pressed="false">▶ Play</button>
-                <button class="chip" data-step="1" aria-label="Forward 1 day">1 d ›</button>
+                <button class="chip" data-step="1" data-key="next" aria-label="Forward 1 day">1 d ›</button>
                 <button class="chip" data-step="30" aria-label="Forward 30 days">30 d »</button>
               </div>
               <label class="speed">Speed <select id="speed"><option value="1">Slow · 1 day a second</option><option value="5" selected>Normal · 5 days a second</option><option value="20">Fast · 20 days a second</option><option value="90">Fastest · 90 days a second</option></select></label>
@@ -122,7 +122,7 @@
             </div>
           </div>
           <aside class="orbitside" aria-label="Readings for the date shown">
-            <div class="tiles readouts" id="readouts"><div class="tile"><div class="label">From Earth</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">From the Sun</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">Speed around the Sun</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">Height above Earth's orbit plane</div><div class="value">…</div><div class="note">loading</div></div></div>
+            <div class="tiles readouts" id="readouts"><div class="tile"><div class="label">From Earth</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div><div class="tile"><div class="label">From the Sun</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div><div class="tile"><div class="label">Speed around the Sun</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div><div class="tile"><div class="label">Height above Earth's orbit plane</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div></div>
             <p class="note" id="approachNote">Loading the close approaches worked out by NASA/JPL, and the next one after the date shown…</p>
 
             <div class="legend" aria-label="Legend">
@@ -170,7 +170,7 @@
       <!-- ===================== IMPACT RISK ===================== -->
       <section class="section" aria-labelledby="riskTitle">
         <div class="section-head"><div><div class="kicker">ESA and NASA</div><h2 id="riskTitle">Impact risk</h2></div><span class="aside">each from its own calculation</span></div>
-        <div class="panel riskcard" id="riskCard"><div class="tiles two"><div class="tile"><div class="label">ESA NEOCC</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">NASA/JPL Sentry</div><div class="value">…</div><div class="note">loading</div></div></div><p class="note">Checking both impact-risk lists…</p></div>
+        <div class="panel riskcard" id="riskCard"><div class="tiles two"><div class="tile"><div class="label">ESA NEOCC</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div><div class="tile"><div class="label">NASA/JPL Sentry</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div></div><p class="note">Checking both impact-risk lists…</p></div>
       </section>
 
       <section class="section" aria-labelledby="aboutTitle">

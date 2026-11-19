@@ -174,7 +174,7 @@ export function mountRisk(root, url) {
 
   // resolves true when the lists were read (for the reload button)
   function load() {
-    $('#riskTable tbody').innerHTML = `<tr class="msg"><td colspan="5"><div class="state small">Loading both risk lists…</div></td></tr>`;
+    $('#riskTable tbody').innerHTML = `<tr class="msg"><td colspan="5"><div class="skel rows" aria-hidden="true"></div><span class="sr">Loading both risk lists…</span></td></tr>`;
     return fetch(url, { cache: 'no-cache' }).then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); }).then((d) => {
       const F = d.fields, ix = Object.fromEntries(F.map((f, i) => [f, i]));
       st.rows = d.rows.map((r) => {

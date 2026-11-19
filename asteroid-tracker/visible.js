@@ -127,7 +127,7 @@ export function mountVisible(root, url) {
       tb.querySelector('[data-retry]').addEventListener('click', load);
       tiles([]); chart(null); return;
     }
-    if (!data) { tb.innerHTML = `<tr class="msg"><td colspan="6"><div class="state small">Loading the passes of the next 30 days…</div></td></tr>`; return; }
+    if (!data) { tb.innerHTML = `<tr class="msg"><td colspan="6"><div class="skel rows" aria-hidden="true"></div><span class="sr">Loading the passes of the next 30 days…</span></td></tr>`; return; }
     const objs = data.objects || [];
     if (!objs.length) {
       tb.innerHTML = `<tr class="msg"><td colspan="6"><div class="state small">No asteroid passing in the next 30 days is expected to be bright enough for a backyard telescope. The list is updated every day.</div></td></tr>`;

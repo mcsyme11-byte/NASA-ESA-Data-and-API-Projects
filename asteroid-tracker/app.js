@@ -48,7 +48,7 @@ function tiles(target, list) {
     `<div class="${t.sub ? 'sub' : 'note'}">${t.note}</div></div>`).join('');
 }
 function loadingTiles(target, labels) {
-  tiles(target, labels.map((label) => ({ label, value: '…', note: 'loading' })));
+  tiles(target, labels.map((label) => ({ label, value: '<span class="skel num" aria-hidden="true"></span>', note: 'loading' })));
 }
 function notice(target, msg, actions = '') {
   $(target).innerHTML = msg ? `<div class="notice warn" role="alert"><span class="t">${esc(msg)}</span>${actions}</div>` : '';
@@ -78,7 +78,7 @@ async function loadWeek() {
   notice('#weekNotice', '');
   loadingTiles('#weekTiles', ['Passing Earth', 'Closest', 'Biggest', 'Fastest', 'Potentially hazardous']);
   ['#cScatter', '#cDays', '#cBig'].forEach((s) => loadingChart(s));
-  $('#weekTable tbody').innerHTML = `<tr class="msg"><td colspan="6"><div class="state small">Loading this week's close approaches from NASA…</div></td></tr>`;
+  $('#weekTable tbody').innerHTML = `<tr class="msg"><td colspan="6"><div class="skel rows" aria-hidden="true"></div><span class="sr">Loading this week's close approaches from NASA…</span></td></tr>`;
   $('#filterCount').textContent = '';
   $('#moreRow').hidden = true;
   fillDays();

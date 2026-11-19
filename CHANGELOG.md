@@ -1,5 +1,16 @@
 # Change log
 
+## November 19, 2026 — Asteroid Tracker: the site tools of Nov 19
+
+- **"On this page" bar** on the overview, under the project tab bar: In numbers, The tools, Why, Sources, Words and
+  numbers, with the section being read marked.
+- **← and →** step the tracker's week or year, an asteroid's date by a day, and the solar system map by 30 days
+  (`data-key="prev"` / `"next"`).
+- **Loading shapes:** the figures in the tiles (`.skel.num`) and the tables of the week, the risk lists, Visible from
+  here and Within reach (`.skel.rows`), with the words for screen readers beside them. The charts, drawn in SVG, keep
+  their own "Loading…".
+- Preview-card tags: no page title or description changed (`dev/build_social.py` updated nothing).
+
 ## November 19, 2026 — Spacecraft map: orbital elements updated again; site tools on the Image Explorer
 
 - `spacecraft/fetch_spacecraft.py`: CelesTrak's 404 for TESS (an object it does not carry) had stopped the run's

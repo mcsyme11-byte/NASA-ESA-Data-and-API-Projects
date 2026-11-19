@@ -20,7 +20,7 @@ function tiles(list) {
 
 // resolves true when the list was read (for the reload button)
 async function load(again = false) {
-  if (!again || !st.rows) tiles(['On the list', 'Cheapest trip', 'Type measured', '100 m or more'].map((label) => ({ label, value: '…', note: 'loading' })));
+  if (!again || !st.rows) tiles(['On the list', 'Cheapest trip', 'Type measured', '100 m or more'].map((label) => ({ label, value: '<span class="skel num" aria-hidden="true"></span>', note: 'loading' })));
   let reach, phys;
   try {
     [reach, phys] = await Promise.all([loadReach(), loadPhys().catch(() => ({ byDes: new Map() }))]);
