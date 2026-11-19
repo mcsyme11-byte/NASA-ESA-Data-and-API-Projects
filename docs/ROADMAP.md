@@ -20,6 +20,8 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
   period buttons or tab bar, and its lists open with placeholder rows already.
   Space Weather done Nov 19, 2026 (loading shapes on its charts, event list and reading tiles; its "On this page"
   bar marked by the shared `data-spy`; no period buttons).
+  Orbit Watch done Nov 19, 2026 (`data-key` on the hour buttons of What's in orbit; loading shapes for the heights
+  chart, the regions table and the breakups table; no new page or title, and no long overview).
 - [ ] Developer testing of the site tools of Nov 19, 2026 (the test list of that day): the search, the shortcuts,
   "Copy link to this section", the menu's dots, the Lost in space page, the Space Watch figures, and a shared link's
   preview card.

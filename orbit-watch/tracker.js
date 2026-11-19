@@ -21,7 +21,7 @@ import { THREE, gmst, createGlobe, bodyTexture, closeUp, GIBS_BLUE_MARBLE } from
 import * as sat from '../shared/vendor/satellite.min.js';
 import { takeShared, linkWith, shareButton } from '../asteroid-tracker/share.js';
 import { $, $$, esc, load, fmt, utc, ago, day, KINDS, CLOUDS } from './common.js';
-import { reloadPage } from '../shared/reload.js?v=2026111905';
+import { reloadPage } from '../shared/reload.js?v=2026111906';
 
 const RE = 6371, MU = 398600.4418, R_EQ = 6378.137;
 const MON = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];

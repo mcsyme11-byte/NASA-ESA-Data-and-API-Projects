@@ -5,7 +5,7 @@
 // planets each method has found (data/planets.json).
 
 import { fmt, sig, esc, PC_LY, M_JUP_EARTH, METHOD_NAMES, TIMING_CODES, loadPlanets, loadSeriesIndex, loadSeries, planetUrl, forgetPlanets, copiedText, COPY_FAILED } from './data.js';
-import { reloadPage } from '../shared/reload.js?v=2026111905';
+import { reloadPage } from '../shared/reload.js?v=2026111906';
 import { rvCurve, microCurve, microModel, emptyChart } from './charts.js';
 
 const $ = (s) => document.querySelector(s);

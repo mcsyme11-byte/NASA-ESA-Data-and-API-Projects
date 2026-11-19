@@ -12,7 +12,7 @@
 // 4. The biggest breakups so far (facts.json, from NASA's Orbital Debris Quarterly News).
 
 import { $, $$, esc, load, fmt, big, utc, day, KINDS } from './common.js';
-import { reloadPart } from '../shared/reload.js?v=2026111905';
+import { reloadPart } from '../shared/reload.js?v=2026111906';
 
 
 // ------------------------------------------------------------------ 1. close approaches

@@ -25,9 +25,9 @@
   <link rel="manifest" href="../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111905">
-  <link rel="stylesheet" href="orbit.css?v=2026111905">
-  <script type="module" src="../shared/footer.js?v=2026111905"></script>
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111906">
+  <link rel="stylesheet" href="orbit.css?v=2026111906">
+  <script type="module" src="../shared/footer.js?v=2026111906"></script>
 </head>
 <body>
   <header class="topbar">
@@ -101,9 +101,9 @@
 
           <div class="mapbar">
             <div class="seg" role="group" aria-label="Time">
-              <button class="chip" type="button" data-step="-3600" aria-label="Back one hour">« 1 h</button>
+              <button class="chip" type="button" data-step="-3600" data-key="prev" aria-label="Back one hour">« 1 h</button>
               <button class="chip play" type="button" id="owPlay" aria-pressed="true">❚❚ Pause</button>
-              <button class="chip" type="button" data-step="3600" aria-label="Forward one hour">1 h »</button>
+              <button class="chip" type="button" data-step="3600" data-key="next" aria-label="Forward one hour">1 h »</button>
               <button class="chip" type="button" id="owNow">Now</button>
             </div>
             <label class="speed">Speed <select id="owSpeed">
@@ -180,7 +180,7 @@
       <div class="panel">
         <div class="ph"><h3>Objects in each 50 km band of height, up to 2,000 km</h3><span class="aside">every object in the catalogue, not only those on the globe</span></div>
         <div class="pb">
-          <div class="ow-chart" id="owHeights"><p class="loading">Loading the catalogue…</p></div>
+          <div class="ow-chart" id="owHeights"><div class="skel chart" aria-hidden="true"></div><span class="sr">Loading the catalogue…</span></div>
           <div class="legend" id="owHLegend"><span><i class="s2"></i>Working satellites</span><span><i class="s5"></i>Dead satellites</span><span><i class="s4"></i>Rocket bodies</span><span><i class="s6"></i>Debris</span></div>
         </div>
         <details class="howto">
@@ -195,7 +195,7 @@
 
       <div class="panel">
         <div class="ph"><h3>All of Earth orbit</h3><span class="aside">by mean height</span></div>
-        <div class="pb flush" id="owRegions"><p class="loading">Loading the catalogue…</p></div>
+        <div class="pb flush" id="owRegions"><div class="skel rows" aria-hidden="true"></div><span class="sr">Loading the catalogue…</span></div>
       </div>
     </section>
 

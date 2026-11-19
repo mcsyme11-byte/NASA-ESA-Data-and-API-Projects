@@ -72,3 +72,13 @@ dl.mini dd { margin: 0; font-variant-numeric: lining-nums tabular-nums; }
 .ow-verdict.cat { color: var(--red); }
 .ow-verdict.non { color: var(--amber); }
 .ow-model svg { display: block; width: 100%; height: 280px; overflow: visible; }
+
+/* ---------- loading shapes, sized to what arrives (CHECKS.md rule 14): the heights chart, the regions table, the
+   breakups table ---------- */
+#owHeights .skel.chart { height: 320px; }
+#owPast .skel.rows { height: 190px; }
+@media (max-width: 760px) {
+  #owHeights .skel.chart { height: 280px; }
+  #owRegions .skel.rows { height: 1300px; }
+  #owPast .skel.rows { height: 620px; }
+}

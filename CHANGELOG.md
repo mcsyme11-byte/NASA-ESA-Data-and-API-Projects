@@ -1,5 +1,14 @@
 # Change log
 
+## November 19, 2026 — Orbit Watch adopts the site tools
+
+- What's in orbit: the "« 1 h" and "1 h »" buttons carry `data-key="prev"` / `data-key="next"`, so ← and → step the
+  globe's time and the `?` panel lists them. The heights chart and the regions table load with the loading shapes
+  (`.skel.chart`, `.skel.rows`) in place of `.loading`.
+- Close calls: the table of breakups loads with `.skel.rows`.
+- Each shape is sized in `orbit-watch/orbit.css` to what arrives (within 7 px at 390 and 1280 px), so nothing moves
+  when the data arrives. No new page or changed title, so the preview-card tags are unchanged. Version tag 2026111906.
+
 ## November 19, 2026 — Space Weather: the site tools of Nov 19
 
 - Loading shapes in place of `.loading`: `.skel.chart` on the timeline, the solar wind and the Kp charts,
