@@ -17,6 +17,17 @@ if git diff --name-only origin/main 2>/dev/null | grep -qvE '/data/|^shared/data
     echo "The page check needs Playwright: pip install playwright && python3 -m playwright install chromium" >&2
     exit 1
   fi
-  python3 dev/check_pages.py --changed
+  # the same changes already passed the page check (a push refused because another chat pushed first, then pulled
+  # and rebased): not checked again; the other chat's commits passed its own check (Nov 19, 2026)
+  git fetch -q origin main 2>/dev/null || true
+  base=$(git merge-base origin/main HEAD)
+  mine=$( (git diff "$base" HEAD; git diff) | git patch-id --stable | cut -c1-40)
+  stamp="$(git rev-parse --git-dir)/nedap-pages-checked"
+  if [ -n "$mine" ] && [ -f "$stamp" ] && [ "$(cat "$stamp")" = "$mine" ]; then
+    echo "Page check: these changes passed it already (only rebased onto newer work)."
+  else
+    python3 dev/check_pages.py --changed
+    [ -n "$mine" ] && echo "$mine" > "$stamp"
+  fi
 fi
 echo "All checks passed."

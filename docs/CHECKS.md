@@ -9,7 +9,8 @@ naming three projects a day after Orbit & Space Watch went live). It is written 
 Every copy of the repository runs `sh dev/setup.sh` once, before its first commit. From then on `git push` first runs
 `.githooks/pre-push`: step 1 below in full and the page check (step 3) for the pages the push changes (all pages when a
 file in `shared/` changed), at 375 and 1280 px. A push that fails is not sent; the findings are fixed and the push is
-repeated. `git push --no-verify` is not used. GitHub runs step 1 and the page check of every page after every push
+repeated. When a push is refused only because another chat pushed first, pull with rebase and push again: the
+hook remembers changes that already passed the page check and does not run it again for them. `git push --no-verify` is not used. GitHub runs step 1 and the page check of every page after every push
 (`.github/workflows/checks.yml`), so a copy without the hook is still caught. A finding that belongs to another chat
 is handed to it and listed, with its owner and date, in `dev/known_issues.json` and `docs/ROADMAP.md`: the page check
 then shows it as known and does not fail on it, and reports it as overdue after 14 days.
