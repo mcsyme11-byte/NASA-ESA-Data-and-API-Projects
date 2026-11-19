@@ -24,6 +24,9 @@ async function file(name) {
   } catch { return null; }
 }
 
+// a reload button forgets the copy's index, so the next request reads it again
+export function forgetCopy() { index = null; }
+
 // { feed, updated } for the week starting on this Sunday (YYYY-MM-DD), or null when the copy doesn't hold it
 export async function weekCopy(startIso) {
   const i = await loadIndex();

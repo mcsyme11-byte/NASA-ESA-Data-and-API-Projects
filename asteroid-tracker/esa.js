@@ -8,9 +8,12 @@
 
 const once = {};
 function load(url) {
-  if (!once[url]) once[url] = fetch(url).then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); }).catch(() => null);
+  if (!once[url]) once[url] = fetch(url, { cache: 'no-cache' }).then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); }).catch(() => null);
   return once[url];
 }
+
+// a reload button forgets the files read, so the next request reads them again
+export function forgetLists() { for (const k of Object.keys(once)) delete once[k]; }
 
 // The designation as both centres write it, from a NeoWs or JPL name:
 // "433 Eros (A898 PA)" → "433"; "(2026 VT3)" → "2026 VT3"; "99942 Apophis (2004 MN4)" → "99942".

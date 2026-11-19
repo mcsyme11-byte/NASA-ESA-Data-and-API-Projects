@@ -6,10 +6,11 @@
 import { SolarMap, wrap180, Asteroids, CLASSES, COL, spacecraftAt, classOf, COMET_CODES, hermiteAt, hermiteVel } from './skymap.js';
 import { planetPosition, jdFromMs, msFromJd, dist, LD_AU, AU_KM } from './orbit.js';
 import { fmt, sizeText, sizePicture, diameterM, LD_KM } from './format.js';
-import { loadMapData } from './mapdata.js';
+import { loadMapData, loadExtras } from './mapdata.js';
+import { reloadPage } from '../shared/reload.js?v=2026111903';
 import { searchNames, neowsId, decodeName } from './search.js';
 import { placeKeeper, scrollBack } from './back.js';
-import { riskDesignations } from './esa.js';
+import { riskDesignations, forgetLists } from './esa.js';
 import { takeShared, linkWith, shareButton } from './share.js';
 
 const $ = (s) => document.querySelector(s);
@@ -54,6 +55,27 @@ async function start() {
   shareButton($('#shareBtn'), $('#shareMsg'), shareLink, 'Solar system map · Asteroid Tracker');
   syncButtons();
 }
+
+// ---------------------------------------------------------------- the reload button
+// Reads again what changes during the day: the spacecraft positions, this week's visitors and the impact-risk list. The
+// asteroids' orbits (data/neos.json) are copied once a day and stay as loaded: the map is built on them, and opening
+// the page again reads the new copy. The view, the date, the selection and the filters stay as they are.
+reloadPage($('#reloadAll'), async () => {
+  if (!map) return false;
+  let extras;
+  try { extras = await loadExtras({ fresh: true }); } catch { return false; }
+  const shown = new Map(map.spacecraft.map((c) => [c.name, c.show]));
+  map.spacecraft = extras.spacecraft.map((c) => ({ ...c, show: shown.has(c.name) ? shown.get(c.name) : true }));
+  buildCraft();
+  const byDes = new Map(data.rows.map((r, k) => [String(r[COL.pdes]), k]));
+  const week = new Set();
+  extras.visitors.forEach((d) => { const k = byDes.get(String(d)); if (k !== undefined) week.add(k); });
+  if ($('#weekBtn').getAttribute('aria-pressed') === 'false') map._savedHighlight = week; else map.highlight = week;
+  forgetLists(); riskLoad = null;
+  const risk = await loadRisk();
+  map.request();
+  return risk !== false;
+});
 
 // ---------------------------------------------------------------- coming back to the same view
 // On Back or a reload, the map returns to the view it was left in: zoom, angle, centre, selection, date (or the live

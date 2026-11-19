@@ -11,7 +11,7 @@ const APP = [
   './', './index.html', './how-to.html', './sky-finder.css', './app.js', './view.js', './orient.js', './targets.js',
   './manifest.webmanifest', './icons/icon.svg', './icons/icon-192.png', './data/stars.json',
   '../shared/theme.css', '../shared/footer.js', '../shared/sky.js', '../shared/passes.js', '../shared/place.js',
-  '../shared/sats.js', '../shared/datastatus.js', '../shared/vendor/satellite.min.js', '../asteroid-tracker/orbit.js', '../shared/emblem.svg', '../shared/icons/favicon.svg', '../brand/patch/nedap-mark.svg',
+  '../shared/sats.js', '../shared/datastatus.js', '../shared/reload.js', '../shared/vendor/satellite.min.js', '../asteroid-tracker/orbit.js', '../shared/emblem.svg', '../shared/icons/favicon.svg', '../brand/patch/nedap-mark.svg',
 ];
 const DATA = ['/asteroid-tracker/data/sky.json', '/spacecraft/data/tle.json', '/image-explorer/data/places.json'];
 // saved on the first visit too, so the list and the space stations work offline after one visit

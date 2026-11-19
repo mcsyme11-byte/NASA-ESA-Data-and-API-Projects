@@ -17,7 +17,8 @@ import { COL, COMET_CODES } from './skymap.js';
 import { neowsId } from './search.js';
 import { placeKeeper, scrollBack } from './back.js';
 import { takeShared, linkWith, shareButton } from './share.js';
-import { weekCopy } from './neows.js';
+import { weekCopy, forgetCopy } from './neows.js';
+import { reloadPage } from '../shared/reload.js?v=2026111903';
 import { mountRisk, chanceText } from './risk.js';
 import { mountVisible } from './visible.js';
 import { esaApproach, riskOf } from './esa.js';
@@ -440,7 +441,7 @@ function setView(v, year) {
   if (v === 'risk' && !risk) risk = mountRisk($('#view-risk'), 'data/risk.json');
   if (v === 'visible') { if (!visible) visible = mountVisible($('#view-visible'), 'data/sky.json'); else visible.refresh(); }
   if (v === 'year') { loadIds(); if (year || !state.year) loadYear(year || state.yearShown); else renderYear(); }
-  else if (v === 'search') { if (!search) search = mountSearch($('#view-search'), () => loadNeos().then((d) => d.rows)); setTimeout(() => search.focus(), 0); }
+  else if (v === 'search') { if (!search) search = mountSearch($('#view-search'), (fresh) => loadNeos({ fresh }).then((d) => d.rows)); setTimeout(() => search.focus(), 0); }
   else if (state.week) renderFiltered();
 }
 $$('[data-view]').forEach((b) => b.addEventListener('click', () => {
@@ -449,6 +450,30 @@ $$('[data-view]').forEach((b) => b.addEventListener('click', () => {
   setView(v);
 }));
 addEventListener('hashchange', () => setView(hashView(), hashYear()));
+
+// the reload button (shared/reload.js): reads the open view's data again, keeping the week, year, filters and open row.
+// The view's file is asked for first (a HEAD request), so a reload without a connection leaves the view as it was.
+const VIEW_FILE = { week: 'data/neows/index.json', year: 'data/years.json', risk: 'data/risk.json', visible: 'data/sky.json', search: 'data/neos.json' };
+async function reloadView() {
+  try {
+    const r = await fetch(VIEW_FILE[state.view], { method: 'HEAD', cache: 'no-cache' });
+    if (!r.ok) return false;
+  } catch { return false; }
+  if (state.view === 'week') {
+    forgetCopy();
+    keepRow = { weekStart: state.weekStart, selected: state.selected, showAll: state.showAll };
+    await loadWeek();
+    return !state.weekError;
+  }
+  if (state.view === 'year') {
+    state.index = null; yearCache.delete(state.yearShown);
+    await loadYear(state.yearShown);
+    return !state.yearError;
+  }
+  const view = { risk, visible, search }[state.view];
+  return view ? view.reload() : false;
+}
+reloadPage($('#reloadAll'), reloadView);
 
 let resizeTimer;
 addEventListener('resize', () => {

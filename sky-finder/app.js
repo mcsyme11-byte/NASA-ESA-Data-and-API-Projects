@@ -7,7 +7,8 @@
 // at it. Works offline once visited (sw.js); the data files are the same for every visitor.
 
 import { currentPlace, locate, searchPlaces, setPlace, forgetPlace } from '../shared/place.js';
-import { loadSky, tonightList, dirText } from './targets.js';
+import { loadSky, resetSky, tonightList, dirText } from './targets.js';
+import { reloadPage } from '../shared/reload.js?v=2026111903';
 import { openFromTap } from './view.js';
 
 const $ = (s) => document.querySelector(s);
@@ -239,5 +240,16 @@ addEventListener('popstate', () => { if (viewing) { const v = viewing; viewing =
 // ------------------------------------------------------------ start
 loadSky().then((s) => { sky = s; render(); });
 render();
+// the reload button: reads the asteroid list, the stars and the space stations' orbits again (the offline copy answers
+// only when the network does not)
+reloadPage($('#reloadAll'), async () => {
+  const old = sky;
+  resetSky();
+  const s = await loadSky();
+  const ok = !s.errors.sky && !s.errors.tle;
+  if (!ok && old) { resetSky(); return false; }   // a failed reload leaves tonight's list as it was
+  sky = s; render();
+  return ok;
+});
 setInterval(() => { if (!viewing && sky) render(); }, 5 * 60 * 1000);
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});

@@ -172,9 +172,10 @@ export function mountRisk(root, url) {
       <p class="note">${sz ? 'Size: ' + esc(sz) + '. ' : ''}${r.v ? `Speed if it hit: about ${fmt(r.v, 1)} km/s. ` : ''}${r.id ? `<a href="object.html?id=${encodeURIComponent(r.id)}">Its orbit and close approaches ›</a>` : ''}</p></td></tr>`;
   }
 
+  // resolves true when the lists were read (for the reload button)
   function load() {
     $('#riskTable tbody').innerHTML = `<tr class="msg"><td colspan="5"><div class="state small">Loading both risk lists…</div></td></tr>`;
-    fetch(url).then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); }).then((d) => {
+    return fetch(url, { cache: 'no-cache' }).then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); }).then((d) => {
       const F = d.fields, ix = Object.fromEntries(F.map((f, i) => [f, i]));
       st.rows = d.rows.map((r) => {
         const g = (f) => r[ix[f]];
@@ -196,9 +197,11 @@ export function mountRisk(root, url) {
       ].map(([l, v, n]) => `<div class="tile"><div class="label">${l}</div><div class="value">${v}</div><div class="note">${n}</div></div>`).join('');
       $('#riskUpdated').textContent = `ESA's list of ${d.esa_updated || 'an unknown date'}; NASA's list fetched ${d.updated.replace('T', ' ').replace('Z', ' UTC')}.`;
       render();
+      return true;
     }).catch(() => {
       $('#riskTiles').innerHTML = '';
       $('#riskTable tbody').innerHTML = `<tr class="msg"><td colspan="5"><div class="state small">The risk lists could not be loaded. Check the connection and reload the page.</div></td></tr>`;
+      return false;
     });
   }
 
@@ -219,5 +222,5 @@ export function mountRisk(root, url) {
   $('#riskTable tbody').addEventListener('click', (e) => { const tr = e.target.closest('tr[data-des]'); if (tr && !e.target.closest('a')) toggle(tr); });
   $('#riskTable tbody').addEventListener('keydown', (e) => { const tr = e.target.closest('tr[data-des]'); if (tr && (e.key === 'Enter' || e.key === ' ') && !e.target.closest('a')) { e.preventDefault(); toggle(tr); } });
   load();
-  return { get state() { return st; } };
+  return { get state() { return st; }, reload: () => load() };
 }

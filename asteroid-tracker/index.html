@@ -44,7 +44,8 @@
       <div class="kicker">Project 1</div>
       <h1>Asteroid Tracker</h1>
       <p class="lede">The asteroids passing Earth: which ones, how big, how close, whether any could ever hit, and which you can see from your own backyard, from NASA's and ESA's open data.</p>
-      <div class="meta badges"><span class="badge nasa">NASA</span><span class="badge nasa">NASA/JPL</span><span class="badge esa">ESA</span><span class="badge live">Updated twice a day</span></div>
+      <div class="meta badges"><span class="badge nasa">NASA</span><span class="badge nasa">NASA/JPL</span><span class="badge esa">ESA</span><span class="badge live">Updated twice a day</span>
+        <button class="reload" type="button" id="reloadAll">Reload the numbers on this page</button></div>
     </header>
 
     <nav class="tabs bar" aria-label="Asteroid Tracker">
@@ -171,10 +172,12 @@
 
   <script type="module">
     // NASA and ESA Data Projects · the headline numbers, from the tracker's own data files · © 2026 Malcolm Syme · mcsyme11@gmail.com
+    import { reloadPage } from '../shared/reload.js?v=2026111903';
     const $ = (id) => document.getElementById(id);
     const fmt = (v, d = 0) => v.toLocaleString('en-CA', { minimumFractionDigits: d, maximumFractionDigits: d });
     const get = (u) => fetch(u, { cache: 'no-cache' }).then((r) => (r.ok ? r.json() : Promise.reject(new Error(r.status))));
-    get('data/soon.json').then((s) => {
+    // resolves true when all three files were read (for the reload button)
+    const load = () => Promise.allSettled([get('data/soon.json').then((s) => {
       const f = s.fields, now = Date.now(), T = f.indexOf('time_ms_utc'), D = f.indexOf('distance_ld'), N = f.indexOf('name');
       const coming = s.rows.filter((r) => r[T] >= now).sort((a, b) => a[T] - b[T]);
       $('tWeek').textContent = fmt(coming.filter((r) => r[T] < now + 7 * 864e5).length);
@@ -183,13 +186,14 @@
         $('tNext').innerHTML = `${fmt(close[D], close[D] < 10 ? 1 : 0)}<small>LD</small>`;
         $('tNextN').textContent = `${close[N]}, ${new Date(close[T]).toLocaleDateString('en-CA', { month: 'short', day: 'numeric' })}`;
       }
-    }).catch(() => {});
-    get('data/risk.json').then((r) => {
+    }), get('data/risk.json').then((r) => {
       const c = r.counts;
       $('tRisk').textContent = fmt(c.nasa + c.esa - c.both);
       $('tRiskN').textContent = `${fmt(c.nasa)} on NASA's, ${fmt(c.esa)} on ESA's`;
-    }).catch(() => {});
-    get('data/preview.json').then((p) => { if (p && p.total) $('tNeos').textContent = fmt(p.total); }).catch(() => {});
+    }), get('data/preview.json').then((p) => { if (p && p.total) $('tNeos').textContent = fmt(p.total); })])
+      .then((r) => r.every((x) => x.status === 'fulfilled'));
+    load();
+    reloadPage($('reloadAll'), load);
   </script>
 </body>
 </html>

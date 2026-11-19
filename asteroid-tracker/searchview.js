@@ -23,12 +23,12 @@ export function mountSearch(root, loadRows) {
     const n = Number(v.slice(1));
     return v[0] === 'y' ? (r) => r[COL.found] === n : (r) => r[COL.found] >= n && r[COL.found] < n + 10;
   };
-  let rows = null, loading = null;
+  let rows = null, loading = null, fresh = false;
   const ensure = () => {
     if (rows) return Promise.resolve(rows);
     if (!loading) {
       if (!out.querySelector('.state')) out.innerHTML = '<div class="state small">Loading the list of asteroids…</div>';
-      loading = loadRows().then((r) => { rows = r; root.querySelector('#qcount').textContent = ` (${fmt(r.length)})`; if (out.querySelector('.state')) out.innerHTML = READY; return r; })
+      loading = loadRows(fresh).then((r) => { rows = r; root.querySelector('#qcount').textContent = ` (${fmt(r.length)})`; if (out.querySelector('.state')) out.innerHTML = READY; return r; })
         .catch(() => { loading = null; out.innerHTML = '<div class="notice warn"><span class="t">The list of asteroids could not be loaded.</span><button class="btn outline small" data-retry>Try again</button></div>'; throw new Error('load'); });
     }
     return loading;
@@ -70,5 +70,7 @@ export function mountSearch(root, loadRows) {
     const b = e.target.closest('[data-q]'); if (b) { q.value = b.dataset.q; clear.hidden = false; show(); q.focus(); }
     if (e.target.closest('[data-retry]')) { ensure().then(show).catch(() => {}); }
   });
-  return { focus: () => q.focus(), set: (v) => { q.value = v; clear.hidden = !v; show(); } };
+  // the reload button: read the list again (checking with the server for a newer copy), then show the same search
+  const reload = () => { rows = null; loading = null; fresh = true; return ensure().then(() => { fresh = false; show(); return true; }, () => { fresh = false; return false; }); };
+  return { focus: () => q.focus(), set: (v) => { q.value = v; clear.hidden = !v; show(); }, reload };
 }

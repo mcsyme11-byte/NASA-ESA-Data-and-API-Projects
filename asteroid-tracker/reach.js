@@ -39,6 +39,9 @@ async function json(url) {
   if (!r.ok) throw new Error(`HTTP ${r.status}`);
   return r.json();
 }
+// a reload button forgets the files read, so the next request reads them again
+export function forgetReach() { reachP = null; physP = null; }
+
 export function loadReach() {
   reachP ||= json(new URL('data/reach.json', import.meta.url)).then((d) => {
     const f = Object.fromEntries(d.fields.map((k, i) => [k, i]));

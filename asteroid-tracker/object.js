@@ -8,15 +8,16 @@
 
 import { backLink } from './back.js';
 import { nasaGet } from '../shared/nasa.js';
-import { neoCopy } from './neows.js';
+import { neoCopy, forgetCopy } from './neows.js';
+import { reloadPage } from '../shared/reload.js?v=2026111903';
 import { fmt, sizeText, dateText, sizePicture, LD_KM } from './format.js';
 import { hoverTip, tipApi, hideTip } from './charts.js';
 import { asteroidElements, asteroidPosition, planetPosition, jdFromMs, msFromJd, dist, LD_AU, AU_KM, wrap180 } from './orbit.js';
 import { OrbitView } from './orbitview.js';
 import { decodeName } from './search.js';
-import { esaApproach, riskOf } from './esa.js';
+import { esaApproach, riskOf, forgetLists } from './esa.js';
 import { chanceText, riskChart } from './risk.js';
-import { loadReach, loadPhys, reachOf, typeOf, sizeOf, massOf, tonnes, sizeText as reachSize, verdict, propellantShare, densityRange, nhatsPage, MISSIONS, MOON_ORBIT_DV, MOON_SURFACE_DV, NHATS_MAX_DV, SPIN_BARRIER_H } from './reach.js';
+import { loadReach, loadPhys, forgetReach, reachOf, typeOf, sizeOf, massOf, tonnes, sizeText as reachSize, verdict, propellantShare, densityRange, nhatsPage, MISSIONS, MOON_ORBIT_DV, MOON_SURFACE_DV, NHATS_MAX_DV, SPIN_BARRIER_H } from './reach.js';
 
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => [...document.querySelectorAll(s)];
@@ -46,31 +47,42 @@ function tiles(target, list) {
 }
 
 // ---------------------------------------------------------------- load
-async function load() {
+// resolves true when the asteroid was read (for the reload button)
+async function load(again = false) {
   if (!/^\d{5,9}$/.test(id)) {
     $('#name').textContent = 'No asteroid chosen';
     $('#pills').textContent = '';
     $('#decode').hidden = true;
+    $('#objMeta').hidden = true;
     notice('This page shows one asteroid. Open one from the <a href="./">Asteroid Tracker</a>: tap a row in the week\'s list, then "Open this asteroid\'s page".');
     return;
   }
-  notice('');
-  $('#content').hidden = false;
-  $('#name').textContent = 'Loading the asteroid…';
+  if (!again) {
+    notice('');
+    $('#content').hidden = false;
+    $('#name').textContent = 'Loading the asteroid…';
+  }
   try {
     const copy = await neoCopy(id);              // the daily copy first (no key); otherwise NASA directly
-    state.neo = copy ? copy.neo : await nasaGet('/neo/rest/v1/neo/' + id);
+    const neo = copy ? copy.neo : await nasaGet('/neo/rest/v1/neo/' + id);
+    if (again && !state.neo) notice('');
+    state.neo = neo;
   } catch (e) {
+    if (again && state.neo) return false;   // a failed reload leaves the asteroid on show
     $('#content').hidden = true;
     $('#pills').textContent = '';
     $('#decode').hidden = true;
     $('#name').textContent = e.status === 404 ? 'Asteroid not found' : 'Asteroid ' + id;
     const msg = e.status === 404 ? 'NASA has no asteroid with this number. Open one from the <a href="./">Asteroid Tracker</a>.' : esc(e.message);
     notice(msg, e.status === 404 ? '' : '<button class="btn outline small" data-act="retry">Try again</button>');
-    return;
+    return false;
   }
   render();
+  return true;
 }
+// the reload button: the daily copies and both lists are read again (NASA's own answer for an asteroid outside the copy
+// is kept for an hour in this tab, shared/nasa.js, so the demo key is not spent twice)
+reloadPage($('#reloadAll'), () => { forgetCopy(); forgetLists(); forgetReach(); return load(true); });
 document.addEventListener('click', (e) => { if (e.target.closest('[data-act=retry]')) load(); });
 
 // ---------------------------------------------------------------- render
@@ -114,6 +126,8 @@ function render() {
 
   $('#content').hidden = false;
   $('.orbitcard').classList.toggle('hazard', !!n.is_potentially_hazardous_asteroid);
+  // drawn again after a reload: a clean copy of the drawing, so the earlier view's drag handlers go with the old one
+  if (state.view) { const old = $('#orbit'), svg = old.cloneNode(false); old.replaceWith(svg); }
   state.view = new OrbitView($('#orbit'), { k, name: n.name, hazardous: n.is_potentially_hazardous_asteroid, tip: tipApi });
   state.view.onViewChange = syncViewButtons;
   setAnchor(startMs);

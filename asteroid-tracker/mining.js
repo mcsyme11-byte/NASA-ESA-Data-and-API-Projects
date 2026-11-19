@@ -5,7 +5,8 @@
 // are in reach.js.
 
 import { fmt } from '../shared/nasa.js';
-import { loadReach, loadPhys, typeOf, sizeOf, sizeText, pageOf, nhatsPage, TYPE_FILTERS, MISSIONS } from './reach.js';
+import { reloadPage } from '../shared/reload.js?v=2026111903';
+import { loadReach, loadPhys, forgetReach, typeOf, sizeOf, sizeText, pageOf, nhatsPage, TYPE_FILTERS, MISSIONS } from './reach.js';
 
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
@@ -17,18 +18,21 @@ function tiles(list) {
   $('#tiles').innerHTML = list.map((t) => `<div class="tile"><div class="label">${t.label}</div><div class="value">${t.value}</div><div class="note">${t.note}</div></div>`).join('');
 }
 
-async function load() {
-  tiles(['On the list', 'Cheapest trip', 'Type measured', '100 m or more'].map((label) => ({ label, value: '…', note: 'loading' })));
+// resolves true when the list was read (for the reload button)
+async function load(again = false) {
+  if (!again || !st.rows) tiles(['On the list', 'Cheapest trip', 'Type measured', '100 m or more'].map((label) => ({ label, value: '…', note: 'loading' })));
   let reach, phys;
   try {
     [reach, phys] = await Promise.all([loadReach(), loadPhys().catch(() => ({ byDes: new Map() }))]);
   } catch (e) {
+    if (again && st.rows) return false;   // a failed reload leaves the list on show
     tiles(['On the list', 'Cheapest trip', 'Type measured', '100 m or more'].map((label) => ({ label, value: '—', note: 'not loaded' })));
     $('#notice').innerHTML = `<div class="notice error" role="alert"><span class="t">The list of reachable asteroids could not be loaded (${esc(e.message)}). Check the connection, then try again.</span><button class="btn outline small" id="retry">Try again</button></div>`;
     $('#table tbody').innerHTML = '<tr><td colspan="6"><div class="empty">Nothing to show yet.</div></td></tr>';
-    $('#retry').addEventListener('click', () => location.reload());
-    return;
+    $('#retry').addEventListener('click', () => { forgetReach(); load(); });
+    return false;
   }
+  $('#notice').innerHTML = '';
   st.rows = reach.rows.map((r) => {
     const p = phys.byDes.get(r.des), type = typeOf(p), size = sizeOf(r, p);
     const w = (reach.windows[r.des] || [])[0] ? reach.windows[r.des].reduce((a, b) => (b.dv < a.dv ? b : a)) : null;
@@ -43,6 +47,7 @@ async function load() {
   ]);
   $('#updated').textContent = `NHATS list as of ${new Date(reach.updated).toLocaleDateString('en-CA', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' })}.`;
   render();
+  return true;
 }
 
 function filtered() {
@@ -108,8 +113,9 @@ $('#table tbody').addEventListener('keydown', (e) => {
   if (tr && e.key === 'Enter' && !e.target.closest('a')) tr.click();
 });
 
-$('#missions tbody').innerHTML = MISSIONS.map((m) => `<tr><td>${esc(m.name)} <span class="badge ${m.badge}">${esc(m.agency)}</span></td>`
+$('#missions tbody').innerHTML = MISSIONS.map((m) => `<tr><td data-label="Mission">${esc(m.name)} <span class="badge ${m.badge}">${esc(m.agency)}</span></td>`
   + `<td data-label="Target">${m.des ? `<a href="object.html?id=${2000000 + Number(m.des)}">${esc(m.target)}</a>` : esc(m.target)}</td>`
   + `<td data-label="Type, size">${esc(m.type)}, ${esc(m.size)}</td><td data-label="What it did">${esc(m.did)}</td></tr>`).join('');
 
+reloadPage($('#reloadAll'), () => { forgetReach(); return load(true); });
 load();

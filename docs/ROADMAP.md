@@ -24,9 +24,10 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
   - A small dot in the menu for tools published since the visitor's last visit (kept in the browser only; Privacy
     page first).
   - Preview cards for shared links (an Open Graph picture and text per page), in the NEDAP look.
-- [ ] Reload buttons (shared component, Nov 18, 2026; Space Weather has them): each project chat adds them to its own
-  pages with live or updated data, following `docs/DESIGN.md` ("Reload buttons") and the handoff of Nov 18, 2026.
-  Done Nov 19, 2026: Image Explorer (the explorer), the spacecraft map and Mars Data (home and charts pages).
+- [ ] Reload buttons (shared component, Nov 18, 2026): still to check, by the Image Explorer chat, on its pages other
+  than the explorer with live or updated data, following `docs/DESIGN.md` ("Reload buttons") and the handoff of Nov
+  18, 2026. Done Nov 19, 2026: Space Weather, Orbit Watch, Planetary Maps, Exoplanets, Mars Data (home and charts),
+  the Image Explorer's explorer, the spacecraft map, the Asteroid Tracker and Sky Finder.
 
 - [ ] Ideas from the review of Nov 18, 2026, each needing a mock-up the developer approves: a "Lost in space" 404 page
   (GitHub Pages shows `404.html` for a missing address); preview cards (Open Graph) for shared links.
@@ -47,8 +48,6 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
   experimental, so a change of format stops the step and the previous files are kept), fix `fetch_risk.py`.
 - [ ] Optional: if ESA's credit form or terms for the NEOCC figures are in doubt, ask the NEOCC by email
   (`neocc@esa.int`) and record the answer in `docs/DATA-SOURCES.md`.
-- [ ] Shared map card (Nov 19, 2026; handoff `docs/handoffs/2026-11-19 - asteroid tracker - shared map card.md`):
-  delete the map card's rules from `asteroid-tracker/tracker.css`, now in `shared/theme.css`.
 - [ ] Hera: once ESA confirms the arrival at Didymos, update its line in `MISSIONS` (`asteroid-tracker/reach.js`).
 
 ## 2. Image Explorer (version 1 live Nov 9, 2026; home page Nov 12)

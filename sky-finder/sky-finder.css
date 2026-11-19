@@ -36,6 +36,7 @@ html.viewing, html.viewing body { overflow: hidden; height: 100%; overscroll-beh
 
 /* ---------------------------------------------------------------- where you are */
 .sfplace-row { display: flex; align-items: center; justify-content: space-between; gap: var(--sp3); }
+.sfplace-row #changePlace { margin-left: auto; }   /* Change and the reload button together on the right */
 .sfplace-name { margin: 0; min-width: 0; font-size: 19px; line-height: 1.3; color: var(--ink); overflow-wrap: anywhere; }
 .sfplace-name b { font-weight: 400; }
 .sfplace .btn.small { flex: none; }

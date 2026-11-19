@@ -41,6 +41,8 @@
       <p class="lede" id="lede">Its size, its path around the Sun, and every time it passes Earth, from NASA's record, loading now.</p>
       <p class="decode" id="decode">Its name, decoded: the year it was found, the half-month and the order of its discovery, and its number in the official list, once NASA's record has loaded.</p>
       <div class="pills" id="pills"><span class="tag">Hazard rating …</span> <span class="tag link">Show on the solar system map ›</span> <span class="tag link">JPL's page ›</span></div>
+      <p class="meta" id="objMeta"><span class="small">NASA and ESA data, copied daily</span>
+        <button class="reload" type="button" id="reloadAll">Reload this asteroid's data</button></p>
     </header>
 
     <nav class="tabs bar" aria-label="Asteroid Tracker">
@@ -57,7 +59,7 @@
     <div id="notice"></div>
 
     <div id="content">
-      <script>/* before the first paint: no asteroid chosen, so no placeholders */ if (!/^\d{5,9}$/.test((new URLSearchParams(location.search).get('id') || '').trim())) { document.getElementById('content').hidden = true; document.getElementById('pills').textContent = ''; document.getElementById('decode').hidden = true; document.getElementById('name').textContent = 'No asteroid chosen'; document.getElementById('notice').innerHTML = '<div class="notice warn" role="alert"><span class="t">This page shows one asteroid. Open one from the <a href="./">Asteroid Tracker</a>: tap a row in the week\'s list, then "Open this asteroid\'s page".</span></div>'; }</script>
+      <script>/* before the first paint: no asteroid chosen, so no placeholders */ if (!/^\d{5,9}$/.test((new URLSearchParams(location.search).get('id') || '').trim())) { document.getElementById('content').hidden = true; document.getElementById('pills').textContent = ''; document.getElementById('decode').hidden = true; document.getElementById('objMeta').hidden = true; document.getElementById('name').textContent = 'No asteroid chosen'; document.getElementById('notice').innerHTML = '<div class="notice warn" role="alert"><span class="t">This page shows one asteroid. Open one from the <a href="./">Asteroid Tracker</a>: tap a row in the week\'s list, then "Open this asteroid\'s page".</span></div>'; }</script>
       <div class="tiles" id="facts"><div class="tile"><div class="label">Size, est.</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">Year length</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">From the Sun</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">Orbit tilt</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">Closest its orbit gets to Earth's</div><div class="value">…</div><div class="note">loading</div></div></div>
 
       <!-- ===================== ORBIT DIAGRAM ===================== -->

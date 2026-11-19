@@ -1,5 +1,21 @@
 # Change log
 
+## November 19, 2026 — Reload buttons in the Asteroid Tracker and Sky Finder; the shared map card
+
+- **Reload buttons** (`shared/reload.js`, `docs/DESIGN.md` "Reload buttons") read a page's data again without
+  reloading the page:
+  - the Asteroid Tracker's overview (the headline numbers), the tracker (the open view: the week, the year, the risk
+    lists, Visible from here or the search list, keeping the week, year, filters and open row), an asteroid's page
+    (the daily copy of NASA's record, the risk lists and the round trips), Within reach (the list of reachable
+    asteroids) and the solar system map (the spacecraft, this week's visitors and the risk list; the orbits are copied
+    once a day and stay as loaded);
+  - Sky Finder, beside "Change" (tonight's asteroids, the stars and the space stations' orbits; `shared/reload.js`
+    is in its offline copy);
+  A reload that fails leaves the page as it was and says "Couldn't reload, try again". The tracker first asks for the
+  open view's file (a HEAD request), so a reload without a connection changes nothing.
+- **Shared map card:** the map card's rules are deleted from `asteroid-tracker/tracker.css`; the solar system map uses
+  the shared ones in `shared/theme.css` (handoff of Nov 19, 2026). The orbit diagram's phone rule for the date is
+  scoped to `.orbitframe`. Version tag 2026111903.
 ## November 19, 2026 — Mars Data: reload buttons
 
 - The Mars Data home page and the charts page have a reload button at the end of the page head's line (the shared

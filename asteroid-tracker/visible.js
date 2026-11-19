@@ -188,9 +188,10 @@ export function mountVisible(root, url) {
       $('#visSource').textContent = `Positions from NASA/JPL (close-approach data and Horizons), updated ${data.updated || "after the first daily run"}; brightness estimated from each asteroid's size and distance, so treat it as about ± 1 magnitude.`;
     } catch (e) { err = e; }
     render();
+    return !err;   // for the reload button
   }
   let rt = null;
   addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { if (!root.hidden && passes[sel]) chart(passes[sel].visible ? passes[sel] : null); }, 150); });
   load();
-  return { refresh: () => render() };
+  return { refresh: () => render(), reload: () => load() };
 }
