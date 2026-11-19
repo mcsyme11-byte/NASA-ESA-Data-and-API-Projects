@@ -128,18 +128,23 @@ function picture(img, err, url, fresh) {
     const again = img.src.startsWith(src) && img.complete && !img.naturalWidth;
     const n = again ? Number(img.dataset.tries || 1) + 1 : 1;
     img.dataset.tries = n;
-    img.removeAttribute('data-failed'); err.hidden = true;
-    img.onload = () => done(true);
+    // the frame's message: "could not be loaded" (written in the page), or "trying again" while the second try waits
+    if (!err.dataset.text) err.dataset.text = err.textContent;
+    const shown = () => { img.removeAttribute('data-failed'); err.hidden = true; err.textContent = err.dataset.text; done(true); };
+    const failed = () => { img.dataset.failed = ''; err.textContent = err.dataset.text; err.hidden = false; done(false); };
+    img.removeAttribute('data-failed'); err.hidden = true; err.textContent = err.dataset.text;
+    img.onload = shown;
     img.onerror = () => {
-      // one more try 20 seconds after a failure (a dropped connection), before saying it could not be loaded
+      // one more try 20 seconds after a failure (a dropped connection); the broken picture is hidden meanwhile
       if (n === 1 && img.dataset.retried !== src) {
         img.dataset.retried = src;
-        setTimeout(() => { img.dataset.tries = 2; img.src = src + '&a=2'; }, 20e3);
-        img.onerror = () => { img.dataset.failed = ''; err.hidden = false; done(false); };
-        img.onload = () => done(true);
+        img.dataset.failed = '';
+        err.textContent = 'The picture could not be loaded just now; trying again in a moment.';
+        err.hidden = false;
+        setTimeout(() => { img.dataset.tries = 2; img.onload = shown; img.onerror = failed; img.src = src + '&a=2'; }, 20e3);
         return;
       }
-      img.dataset.failed = ''; err.hidden = false; done(false);
+      failed();
     };
     img.src = n > 1 ? src + '&a=' + n : src;
   });

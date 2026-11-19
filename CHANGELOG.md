@@ -1,5 +1,11 @@
 # Change log
 
+## November 18, 2026 — Space Weather: a failed picture is hidden while it waits
+
+- A Sun or aurora picture that fails is hidden from the first failure, with "trying again in a moment" in its frame;
+  it shows again if the second try (20 seconds later) loads, and the usual "could not be loaded" message stays if
+  that fails too. The known issue is removed from `dev/known_issues.json` and the roadmap.
+
 ## November 19, 2026 — Tap areas for link pills and section-head links
 
 - Link pills (`a.tag.link`, `a.badge`) and section-head links (`a.aside`) have a 40 px tap area on phones (they were
