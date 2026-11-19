@@ -1,7 +1,7 @@
 {
  "job": "astronaut-photos",
  "workflow": ".github/workflows/astronaut-photos.yml",
- "last_data_change": "2026-11-18T21:36:01Z",
+ "last_data_change": "2026-11-19T07:43:04Z",
  "sources": {
   "astronaut-photos": {
    "state": "ok",
