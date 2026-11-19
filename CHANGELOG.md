@@ -1,5 +1,11 @@
 # Change log
 
+## November 19, 2026 — Status pages: loading shapes
+
+- The control room and "How the data is collected" show the row shape (`.skel.rows`, with the words for screen
+  readers in `.sr`) in place of `.loading` while the job list and tables load (site tools of Nov 19, 2026). Neither
+  page has period buttons or a project tab bar; titles and descriptions are unchanged.
+
 ## November 19, 2026 — Site search, shortcuts, preview cards, Lost in space and the Space Watch figures
 
 - **Site search** (`shared/search.js`): a search button in the top bar, "Search the site" in the footer, and the keys
