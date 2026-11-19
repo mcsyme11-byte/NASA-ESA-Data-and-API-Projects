@@ -93,17 +93,14 @@ Plan confirmed Nov 11, 2026 (see PROJECT-NOTES.md): three missions, updated auto
 The standard and the jobs are in [DATA-UPDATES.md](DATA-UPDATES.md); the daily Data health check reports problems in
 one GitHub issue labelled `data-health`.
 
-- [ ] Confirm the outside clock's timers over the next few days: each job's runs should be started by
-  `workflow_dispatch` within a minute of its cron time (the control room's "Started by" column shows "Outside clock").
-  Set up Nov 17 and 18, 2026; confirmed so far: Spacecraft data 05:23 UTC (fired 05:23:10 on Nov 18, 2026) and
-  Astronaut photos 19:11 UTC (fired 19:11:11 on Nov 18, 2026).
 - [ ] Spacecraft data: stop at the first CelesTrak timeout, share one download of the active list with Orbit data,
   and read CelesTrak's CSV (six-digit catalogue numbers); changes to `spacecraft/fetch_spacecraft.py` and
   `shared/sats.js` handed to the Image Explorer chat (`docs/handoffs/2026-11-18 - data updates - spacecraft
   CelesTrak.md`). Then `spacecraft-data.yml` runs `orbit-watch/fetch_orbits.py --keep` first and passes the folder.
-- [ ] Confirm the first runs started by the newest timers: Orbit data (11:13 and 23:13 UTC), Exoplanets data
-  (11:43 UTC Tuesdays and Wednesdays, first Nov 24, 2026) and Space weather data (12:37 and 00:37 UTC), all set up
-  Nov 18, 2026. Confirmed so far: Spacecraft data 05:23, Astronaut photos 19:11 and Rover routes 20:59 (Nov 18, 2026).
+- [ ] Confirm the first run started by the Exoplanets data timers (11:43 UTC Tuesdays and Wednesdays, first Nov 24,
+  2026). Every other timer is confirmed (Nov 18 and 19, 2026): Spacecraft data 05:23, Astronaut photos 19:11, Rover
+  routes 20:59, Data health 22:07, Orbit data 23:13 and Space weather data 00:37 UTC each started its job within
+  11 seconds.
 - [ ] Confirm the first scheduled runs of **Orbit data** (`orbit-data.yml`, 11:13 and 23:13 UTC) and **Exoplanets
   data** (`exoplanets-data.yml`, 11:43 UTC Tuesdays and Wednesdays), both added Nov 18, 2026. First runs by hand on
   Nov 18, 2026: Orbit data read every source (16,917 active satellites and 2,682 debris objects with elements, 71,365
