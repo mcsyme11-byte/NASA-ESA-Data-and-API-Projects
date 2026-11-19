@@ -524,7 +524,7 @@ table.credits td:first-child { color: var(--ink); }
 .ack { font-size: 14.5px; font-style: italic; color: var(--muted); }
 
 .list { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--sp3); }
-.list li { position: relative; padding-left: 22px; color: var(--ink2); }
+.list li { position: relative; padding-left: 22px; color: var(--ink2); min-width: 0; overflow-wrap: anywhere; }
 .list li::before { content: ""; position: absolute; left: 2px; top: .62em; width: 7px; height: 7px; border: 1px solid var(--brass); transform: rotate(45deg); }
 .list li b, .list li strong { color: var(--ink); font-weight: 400; }
 

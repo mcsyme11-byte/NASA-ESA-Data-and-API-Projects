@@ -2,8 +2,10 @@
 
 ## November 19, 2026 — The site's version in the footer
 
+- Items in shared lists (`.list`) wrap long addresses, so a list of web links no longer runs off the page (found by
+  GitHub's page check on the control room). Version tag 2026111902.
 - An asteroid's page keeps two lines for the line that decodes its name, so it no longer jumps when it fills in.
-- The footer's legal links end with the site's version ("Version 2026.11.19.01", read from the version tag of
+- The footer's legal links end with the site's version ("Version 2026.11.19.02", read from the version tag of
   `shared/footer.js`), linked to the repository's history of changes on GitHub. Version tag 2026111901.
 
 
