@@ -49,15 +49,21 @@ function tiles(target, list) {
 async function load() {
   if (!/^\d{5,9}$/.test(id)) {
     $('#name').textContent = 'No asteroid chosen';
+    $('#pills').textContent = '';
+    $('#decode').hidden = true;
     notice('This page shows one asteroid. Open one from the <a href="./">Asteroid Tracker</a>: tap a row in the week\'s list, then "Open this asteroid\'s page".');
     return;
   }
   notice('');
-  $('#name').textContent = 'Loading…';
+  $('#content').hidden = false;
+  $('#name').textContent = 'Loading the asteroid…';
   try {
     const copy = await neoCopy(id);              // the daily copy first (no key); otherwise NASA directly
     state.neo = copy ? copy.neo : await nasaGet('/neo/rest/v1/neo/' + id);
   } catch (e) {
+    $('#content').hidden = true;
+    $('#pills').textContent = '';
+    $('#decode').hidden = true;
     $('#name').textContent = e.status === 404 ? 'Asteroid not found' : 'Asteroid ' + id;
     const msg = e.status === 404 ? 'NASA has no asteroid with this number. Open one from the <a href="./">Asteroid Tracker</a>.' : esc(e.message);
     notice(msg, e.status === 404 ? '' : '<button class="btn outline small" data-act="retry">Try again</button>');
@@ -363,7 +369,7 @@ async function renderReach(n, neowsSize) {
   const windowsHtml = !row ? '' : windows.length ? `<div class="panel tablecard">
       <div class="ph"><h3>Launch windows</h3><span class="aside">the cheapest round trip in each five-year launch period still ahead</span></div>
       <table class="neo"><thead><tr><th>Launch period</th><th>Leave Earth</th><th class="num">Out · at it · back</th><th class="num">Round trip</th></tr></thead><tbody>
-      ${windows.map((w) => `<tr><td>${esc(w.period.replace('-', '–'))}</td><td>${month(w.launch)}${w === cheapest ? '<span class="s">cheapest ahead</span>' : ''}</td><td class="num">${w.out} · ${w.stay} · ${w.back} days</td><td class="num">${fmt(w.dv, 1)} km/s</td></tr>`).join('')}
+      ${windows.map((w) => `<tr><td data-label="Launch period">${esc(w.period.replace('-', '–'))}</td><td data-label="Leave Earth">${month(w.launch)}${w === cheapest ? '<span class="s">cheapest ahead</span>' : ''}</td><td data-label="Out · at it · back" class="num">${w.out} · ${w.stay} · ${w.back} days</td><td data-label="Round trip" class="num">${fmt(w.dv, 1)} km/s</td></tr>`).join('')}
       </tbody></table>
       <details class="howto"><summary>Where each km/s goes</summary>
         <p>The cheapest trip ahead, launching ${month(cheapest.launch)}, as its four burns: leave Earth orbit <b>${fmt(cheapest.leave, 2)}</b>, match the asteroid's speed <b>${fmt(cheapest.arrive, 2)}</b>, leave it <b>${fmt(cheapest.depart, 2)}</b>, and slow down for Earth's atmosphere <b>${fmt(cheapest.ret, 2)}</b> km/s. Total <b>${fmt(cheapest.dv, 2)}</b> km/s, arriving home at ${fmt(cheapest.entry, 1)} km/s. With a hydrogen-oxygen engine, ${fmt(100 * propellantShare(cheapest.dv), 0)}% of the spacecraft leaving Earth orbit would be propellant (the rocket equation, on the <a href="mining.html">Within reach</a> page).</p>
@@ -393,7 +399,7 @@ async function renderReach(n, neowsSize) {
     <dl class="terms">${sizeTerms}</dl>
     <div class="section-head sub"><h2>How real missions compare</h2><a class="aside" href="mining.html">the rules and the maths ›</a></div>
     <div class="panel tablecard"><table class="neo"><thead><tr><th>Mission</th><th>Target</th><th>Type, size</th><th>What it did</th></tr></thead><tbody>
-      ${MISSIONS.map((m) => `<tr><td>${esc(m.name)} <span class="badge ${m.badge}">${esc(m.agency)}</span></td><td>${m.des && m.des !== des ? `<a href="object.html?id=${2000000 + Number(m.des)}">${esc(m.target)}</a>` : esc(m.target)}</td><td>${esc(m.type)}, ${esc(m.size)}</td><td>${esc(m.did)}</td></tr>`).join('')}
+      ${MISSIONS.map((m) => `<tr><td data-label="Mission">${esc(m.name)} <span class="badge ${m.badge}">${esc(m.agency)}</span></td><td data-label="Target">${m.des && m.des !== des ? `<a href="object.html?id=${2000000 + Number(m.des)}">${esc(m.target)}</a>` : esc(m.target)}</td><td data-label="Type, size">${esc(m.type)}, ${esc(m.size)}</td><td data-label="What it did">${esc(m.did)}</td></tr>`).join('')}
     </tbody></table></div>`;
 
   const svg = $('#dvChart');

@@ -59,7 +59,26 @@
       </div>
     </section>
 
-    <div class="stats" id="tonightStats" hidden></div>
+    <div class="stats" id="tonightStats" hidden><div class="stat"><div class="label">Dark from</div><div class="value">…</div><div class="note">…</div></div><div class="stat"><div class="label">Moon</div><div class="value">…</div><div class="note">…</div></div><div class="stat"><div class="label">Asteroids</div><div class="value">…</div><div class="note">…</div></div></div>
+    <script>
+      // Decided before the page is first drawn, so nothing moves when app.js starts: with no place kept on this phone
+      // the place panel is open; with one, its name, tonight's figures and the first rows of the lists show
+      // (placeholders until app.js fills them).
+      (function () {
+        var p = null, d = document;
+        try { p = JSON.parse(localStorage.getItem('nasa-data-projects.sky-place') || 'null'); } catch (e) { p = null; }
+        if (p && p.name && isFinite(p.lat) && isFinite(p.lon)) {
+          d.getElementById('placeName').textContent = p.name;
+          d.getElementById('tonightStats').hidden = false;
+        } else {
+          d.getElementById('placeSheet').hidden = false;
+          d.getElementById('closePlace').hidden = true;
+          var c = d.getElementById('changePlace');
+          c.textContent = 'Close';
+          c.setAttribute('aria-expanded', 'true');
+        }
+      })();
+    </script>
 
     <div class="notice warn" id="found" role="status" hidden></div>
 
@@ -78,6 +97,16 @@
       <div class="sflist" id="alsoList"></div>
       <p class="sfnote">Easy to see, so they show you are pointed the right way, and good for calibrating the compass.</p>
     </section>
+    <script>
+      // With a place kept on this phone, the lists open with placeholder rows of their usual size (app.js replaces them).
+      (function () {
+        var d = document;
+        if (d.getElementById('tonightStats').hidden) return;
+        var r = function (ic) { return '<button class="sfitem" type="button" disabled><span class="ic ' + ic + '" aria-hidden="true"></span><span class="t"><span class="nm"><b>…</b></span><span class="d">working out tonight\'s sky for this place…</span></span></button>'; };
+        d.getElementById('astList').innerHTML = '<h3 class="sfgroup">Tonight</h3>' + r('ast') + r('ast') + r('ast');
+        d.getElementById('alsoList').innerHTML = r('moon') + r('planet') + r('planet') + r('station');
+      })();
+    </script>
 
     <div class="sfgo">
       <button class="btn sfpoint" type="button" id="point">Point at the sky</button>

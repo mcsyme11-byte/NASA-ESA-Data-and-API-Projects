@@ -1,5 +1,25 @@
 # Change log
 
+## November 19, 2026 — Asteroid Tracker and Sky Finder open without jumping
+
+- **Sky Finder:** whether the "Where are you?" panel is open is decided before the first paint, from the stored
+  place; with a stored place, tonight's figures and the first rows of both lists are placeholders of their usual size
+  until the lists are worked out.
+- **An asteroid's page** (`asteroid-tracker/object.html`): the content is shown at once with placeholders of its final
+  size (the name, what the name means, the tags, the facts, the readings beside the orbit, twelve rows of close
+  approaches, the impact-risk tiles and the orbit numbers); with no asteroid chosen the notice is written before the
+  first paint. The close-approach table's last column has a heading for screen readers, and the launch-period and
+  mission tables of "Could we go there" show each value's label on phones.
+- **The tracker's Search view:** the search box, the year choice, the suggested names, the first line of results and
+  the guide to asteroid names are written into `tracker.html`; the view named in the address (`#search`, `#year`,
+  `#risk`) is opened before the first paint. The first line now says when the list is ready ("Type a name or a
+  code…"); it used to keep saying "Loading" after the list arrived.
+- **Solar system map:** the asteroid count in the first line holds its width while it loads (it pushed the map down
+  by a line at 320 px).
+- **Page check:** the sample asteroid page is now the first asteroid in the daily copy (`?id=99942` was not a NeoWs
+  id, and with NASA blocked it only showed the error state). The three entries are removed from
+  `dev/known_issues.json`; layout shift is under 0.1 at every width. Checking the whole page found two shared links
+  shorter than 40 px on phones (handed to the General/Files/Repo chat).
 ## November 18, 2026 — Orbit Watch: reload buttons
 
 - What's in orbit (`orbit-watch/tracker.html`): a reload button at the end of the page head's line fetches the orbit

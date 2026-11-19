@@ -47,7 +47,16 @@ WEIGHT_OK = {'orbit-watch/tracker.html': 6000, 'asteroid-tracker/map.html': 7000
              # the year view and the search read the whole asteroid list (data/neos.json, about 43,000 orbits) on purpose
              'asteroid-tracker/tracker.html#year': 6500, 'asteroid-tracker/tracker.html#search': 6500}   # first match wins
 # views that are not separate files: a page's tabs reached by address, and one asteroid's own page
-EXTRA = ['asteroid-tracker/tracker.html#year', 'asteroid-tracker/tracker.html#search', 'asteroid-tracker/object.html?id=99942']
+# (since Nov 19, 2026 the asteroid is the first one in the daily copy: the page check blocks NASA, so an asteroid
+# outside the copy only ever showed the "NASA could not be reached" state; 99942 was also not a NeoWs id)
+def _copied_asteroid():
+    try:
+        with open(os.path.join(ROOT, 'asteroid-tracker/data/neows/index.json'), encoding='utf-8') as f:
+            return json.load(f)['neo'][0]
+    except (OSError, ValueError, KeyError, IndexError):
+        return '2099942'
+EXTRA = ['asteroid-tracker/tracker.html#year', 'asteroid-tracker/tracker.html#search',
+         'asteroid-tracker/object.html?id=' + _copied_asteroid()]
 
 
 def pages():

@@ -37,10 +37,10 @@
     <a class="backlink" id="back" href="./">Asteroid Tracker</a>
     <header class="pagehead compact">
       <div class="kicker"><a href="./">Project 1 · Asteroid Tracker</a></div>
-      <h1 id="name">Loading…</h1>
-      <p class="lede" id="lede">Its size, its path around the Sun, and every time it passes Earth.</p>
-      <p class="decode" id="decode" hidden></p>
-      <div class="pills" id="pills"></div>
+      <h1 id="name">Loading the asteroid…</h1>
+      <p class="lede" id="lede">Its size, its path around the Sun, and every time it passes Earth, from NASA's record for this asteroid, which is loading now.</p>
+      <p class="decode" id="decode">Its name, decoded: the year it was found, the half-month and the order of its discovery, and its number in the official list, once NASA's record has loaded.</p>
+      <div class="pills" id="pills"><span class="tag">Hazard rating …</span> <span class="tag link">Show on the solar system map ›</span> <span class="tag link">JPL's page ›</span></div>
     </header>
 
     <nav class="tabs bar" aria-label="Asteroid Tracker">
@@ -56,8 +56,9 @@
 
     <div id="notice"></div>
 
-    <div id="content" hidden>
-      <div class="tiles" id="facts"></div>
+    <div id="content">
+      <script>/* before the first paint: no asteroid chosen, so no placeholders */ if (!/^\d{5,9}$/.test((new URLSearchParams(location.search).get('id') || '').trim())) { document.getElementById('content').hidden = true; document.getElementById('pills').textContent = ''; document.getElementById('decode').hidden = true; document.getElementById('name').textContent = 'No asteroid chosen'; document.getElementById('notice').innerHTML = '<div class="notice warn" role="alert"><span class="t">This page shows one asteroid. Open one from the <a href="./">Asteroid Tracker</a>: tap a row in the week\'s list, then "Open this asteroid\'s page".</span></div>'; }</script>
+      <div class="tiles" id="facts"><div class="tile"><div class="label">Size, est.</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">Year length</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">From the Sun</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">Orbit tilt</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">Closest its orbit gets to Earth's</div><div class="value">…</div><div class="note">loading</div></div></div>
 
       <!-- ===================== ORBIT DIAGRAM ===================== -->
       <section class="panel orbitcard" aria-labelledby="orbitTitle">
@@ -107,8 +108,8 @@
             </div>
           </div>
           <aside class="orbitside" aria-label="Readings for the date shown">
-            <div class="tiles readouts" id="readouts"></div>
-            <p class="note" id="approachNote"></p>
+            <div class="tiles readouts" id="readouts"><div class="tile"><div class="label">From Earth</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">From the Sun</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">Speed around the Sun</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">Height above Earth's orbit plane</div><div class="value">…</div><div class="note">loading</div></div></div>
+            <p class="note" id="approachNote">Loading the close approaches worked out by NASA/JPL, and the next one after the date shown…</p>
 
             <div class="legend" aria-label="Legend">
               <span><i class="lg sun"></i>Sun</span>
@@ -145,8 +146,8 @@
         <div class="section-head sub"><h2>The list</h2><span class="aside">tap a row to show it in the diagram</span></div>
         <div class="panel tablecard">
           <table class="neo" id="caTable">
-            <thead><tr><th>Date (UTC)</th><th class="num">Distance</th><th class="num">Speed</th><th></th></tr></thead>
-            <tbody></tbody>
+            <thead><tr><th>Date (UTC)</th><th class="num">Distance</th><th class="num">Speed</th><th><span class="sr">Passed or predicted</span></th></tr></thead>
+            <tbody><tr><td data-label="Date (UTC)">…</td><td data-label="Distance" class="num"><span>…<span class="s">loading</span></span></td><td data-label="Speed" class="num"><span>…</span></td><td data-label=""><span class="tag">…</span></td></tr><tr><td data-label="Date (UTC)">…</td><td data-label="Distance" class="num"><span>…<span class="s">loading</span></span></td><td data-label="Speed" class="num"><span>…</span></td><td data-label=""><span class="tag">…</span></td></tr><tr><td data-label="Date (UTC)">…</td><td data-label="Distance" class="num"><span>…<span class="s">loading</span></span></td><td data-label="Speed" class="num"><span>…</span></td><td data-label=""><span class="tag">…</span></td></tr><tr><td data-label="Date (UTC)">…</td><td data-label="Distance" class="num"><span>…<span class="s">loading</span></span></td><td data-label="Speed" class="num"><span>…</span></td><td data-label=""><span class="tag">…</span></td></tr><tr><td data-label="Date (UTC)">…</td><td data-label="Distance" class="num"><span>…<span class="s">loading</span></span></td><td data-label="Speed" class="num"><span>…</span></td><td data-label=""><span class="tag">…</span></td></tr><tr><td data-label="Date (UTC)">…</td><td data-label="Distance" class="num"><span>…<span class="s">loading</span></span></td><td data-label="Speed" class="num"><span>…</span></td><td data-label=""><span class="tag">…</span></td></tr><tr><td data-label="Date (UTC)">…</td><td data-label="Distance" class="num"><span>…<span class="s">loading</span></span></td><td data-label="Speed" class="num"><span>…</span></td><td data-label=""><span class="tag">…</span></td></tr><tr><td data-label="Date (UTC)">…</td><td data-label="Distance" class="num"><span>…<span class="s">loading</span></span></td><td data-label="Speed" class="num"><span>…</span></td><td data-label=""><span class="tag">…</span></td></tr><tr><td data-label="Date (UTC)">…</td><td data-label="Distance" class="num"><span>…<span class="s">loading</span></span></td><td data-label="Speed" class="num"><span>…</span></td><td data-label=""><span class="tag">…</span></td></tr><tr><td data-label="Date (UTC)">…</td><td data-label="Distance" class="num"><span>…<span class="s">loading</span></span></td><td data-label="Speed" class="num"><span>…</span></td><td data-label=""><span class="tag">…</span></td></tr><tr><td data-label="Date (UTC)">…</td><td data-label="Distance" class="num"><span>…<span class="s">loading</span></span></td><td data-label="Speed" class="num"><span>…</span></td><td data-label=""><span class="tag">…</span></td></tr><tr><td data-label="Date (UTC)">…</td><td data-label="Distance" class="num"><span>…<span class="s">loading</span></span></td><td data-label="Speed" class="num"><span>…</span></td><td data-label=""><span class="tag">…</span></td></tr></tbody>
           </table>
         </div>
         <div class="more" id="caMore" hidden><button class="btn outline" id="caMoreBtn">Show all</button></div>
@@ -155,12 +156,12 @@
       <!-- ===================== IMPACT RISK ===================== -->
       <section class="section" aria-labelledby="riskTitle">
         <div class="section-head"><div><div class="kicker">ESA and NASA</div><h2 id="riskTitle">Impact risk</h2></div><span class="aside">each from its own calculation</span></div>
-        <div class="panel riskcard" id="riskCard"></div>
+        <div class="panel riskcard" id="riskCard"><div class="tiles two"><div class="tile"><div class="label">ESA NEOCC</div><div class="value">…</div><div class="note">loading</div></div><div class="tile"><div class="label">NASA/JPL Sentry</div><div class="value">…</div><div class="note">loading</div></div></div><p class="note">Checking both impact-risk lists…</p></div>
       </section>
 
       <section class="section" aria-labelledby="aboutTitle">
         <div class="section-head"><div><div class="kicker">The numbers</div><h2 id="aboutTitle">About this orbit</h2></div></div>
-        <dl class="terms" id="about"></dl>
+        <dl class="terms" id="about"><div><dt>Orbit type</dt><dd>…</dd></div><div><dt>Observed</dt><dd>…</dd></div><div><dt>Orbit worked out</dt><dd>…</dd></div><div><dt>Brightness (H)</dt><dd>…</dd></div><div><dt>Orbit size and shape</dt><dd>…</dd></div><div><dt>NASA id</dt><dd>…</dd></div></dl>
       </section>
 
       <section class="section" aria-labelledby="reachTitle">

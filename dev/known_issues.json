@@ -2,25 +2,11 @@
   "_about": "Findings of dev/check_pages.py that are known, handed to the chat that owns the page, and listed in docs/ROADMAP.md. The page check still prints them (marked 'known') but does not fail on them. Each entry: page (as the page check names it), the check, the owning chat, the date and why it waits. Remove an entry in the same change that fixes it; an entry older than 14 days is reported as overdue.",
   "issues": [
     {
-      "page": "sky-finder/",
-      "check": "layout-shift",
-      "owner": "Asteroid Tracker",
-      "since": "2026-11-18",
-      "why": "the place panel opens after the stored place is read; it should be decided before the first paint"
-    },
-    {
       "page": "asteroid-tracker/object.html",
-      "check": "layout-shift",
-      "owner": "Asteroid Tracker",
-      "since": "2026-11-18",
-      "why": "the asteroid's facts and orbit are drawn after the data arrives; placeholders of their size are needed in the page"
-    },
-    {
-      "page": "asteroid-tracker/tracker.html#search",
-      "check": "layout-shift",
-      "owner": "Asteroid Tracker",
-      "since": "2026-11-18",
-      "why": "the search view is drawn by script after the page opens; its box and first lines need placeholders in the page"
+      "check": "tap",
+      "owner": "General/Files/Repo",
+      "since": "2026-11-19",
+      "why": "the tag links under the title (a.tag.link) and the section-head links (a.aside) are 22 to 24 px tall on phones; shared components, fixed in shared/theme.css (handoff of Nov 19, 2026)"
     }
   ]
 }
