@@ -61,9 +61,6 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
 Plan confirmed Nov 11, 2026 (see PROJECT-NOTES.md): three missions, updated automatically by a GitHub Actions job.
 
 **Data and analysis**
-- [ ] After the first scheduled run of the "Mars data" job succeeds: delete the one-off probe (`mars-data/probe/`),
-  the branch workflows (`mars-probe.yml`, `mars-chunks.yml`, `mars-meda.yml`, `mars-mex.yml`, on the `mars-probe`
-  branch) and the `mars-probe` branch itself.
 - [ ] Optional: ask ESA (data.licences@esa.int) to confirm the spelling of the Mars Express MaRS credit line
   ("M. Plätzold, K. Pieter" on ESA's terms page; the archive names Martin Pätzold).
 - [ ] Mars Express MaRS profiles (ESA): waiting for ESA's archive (down for maintenance since at least Nov 12, 2026; no
