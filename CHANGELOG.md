@@ -120,6 +120,8 @@
   there; Orbit data keeps its own schedule, at least five hours apart.
 - First run (Nov 19, 2026, 19:29 UTC): the active list was read from the copy, then CelesTrak's 404 for TESS (not
   carried by CelesTrak) stopped the script's lookups and `tle.json` was kept; handed to the Image Explorer chat.
+- After the spacecraft script's fix (Nov 19, 2026), the next run read the active list from the shared copy, noted TESS
+  as not found at CelesTrak and wrote `tle.json` (41 KB).
 - Roadmap: the Orbit data job and the satellite catalogue's address (both done Nov 18, 2026) removed from Orbit Watch's
   list.
 
