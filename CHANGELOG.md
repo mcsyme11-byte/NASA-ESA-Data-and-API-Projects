@@ -1,5 +1,10 @@
 # Change log
 
+## November 19, 2026 — An asteroid's page: no jump at computer widths
+
+- The placeholder first line under an asteroid's name (`asteroid-tracker/object.html`) is shortened to the length of
+  the longest real one, so it no longer wraps onto a second line at 1280 px with a wider fallback font and then
+  shrinks when the asteroid is drawn (a 23 px jump). The entry is removed from `dev/known_issues.json`.
 ## November 18, 2026 — Space Weather: a failed picture is hidden while it waits
 
 - A Sun or aurora picture that fails is hidden from the first failure, with "trying again in a moment" in its frame;

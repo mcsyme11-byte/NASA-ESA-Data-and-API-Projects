@@ -1,12 +1,4 @@
 {
   "_about": "Findings of dev/check_pages.py that are known, handed to the chat that owns the page, and listed in docs/ROADMAP.md. The page check still prints them (marked 'known') but does not fail on them. Each entry: page (as the page check names it), the check, the owning chat, the date and why it waits. Remove an entry in the same change that fixes it; an entry older than 14 days is reported as overdue.",
-  "issues": [
-    {
-      "page": "asteroid-tracker/object.html?id=2138175",
-      "check": "layout-shift",
-      "owner": "Asteroid Tracker",
-      "since": "2026-11-19",
-      "why": "at 1280 px the page content above the pills is 23 px taller as a placeholder than when drawn (div#content 468 to 445 px), so everything below moves up"
-    }
-  ]
+  "issues": []
 }

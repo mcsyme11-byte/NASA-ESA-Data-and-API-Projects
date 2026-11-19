@@ -29,8 +29,6 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
 
 - [ ] Ideas from the review of Nov 18, 2026, each needing a mock-up the developer approves: a "Lost in space" 404 page
   (GitHub Pages shows `404.html` for a missing address); preview cards (Open Graph) for shared links.
-- [ ] Asteroid Tracker (handed off Nov 19, 2026; `dev/known_issues.json`): an asteroid's page at 1280 px
-  (`object.html?id=2138175`) jumps 23 px as it loads: the placeholder above the pills is taller than the drawn content.
 
 ## 1. Asteroid Tracker (version 1 live Nov 8, 2026)
 
