@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-19T19:01:53Z",
+ "updated": "2026-11-19T19:06:44Z",
  "series": [
   {
    "key": "hot-jupiter",
@@ -22,7 +22,7 @@
   {
    "key": "cheops",
    "kind": "transit",
-   "planet": "WASP-76 b",
+   "planet": "WASP-189 b",
    "mission": "CHEOPS"
   },
   {
