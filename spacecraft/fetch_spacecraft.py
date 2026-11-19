@@ -15,7 +15,8 @@
 #                   the mission's entry in past.json is unchanged ("sig"). For past craft still drifting around the
 #                   Sun ("rest": "drift"), "now" holds their positions around today, renewed on every run, when
 #                   Horizons still follows them.
-#   links.json      the catalogue's links that did not answer (HTTP 404 or 410), which the page leaves out.
+#   links.json      the catalogue's links that are gone (HTTP 404 or 410), which the page leaves out, and those that
+#                   could not be checked this time (refused, timed out, or a site turning the robot away), kept on the page.
 # A craft that cannot be found is left out of the files and named in the log; the page shows only what was found.
 # Run by hand:  python3 spacecraft/fetch_spacecraft.py   (standard library only)
 import datetime as dt
@@ -259,14 +260,17 @@ def tles(wanted):
 
 # ---------------------------------------------------------------- links
 def check_links(cat):
-    bad = []
-    seen = set()
+    """Return (broken, not_checked). A link is broken only when its page answers GET with 404 or 410. An answer that
+    says nothing about the page (403, 429, a server error, a timeout) leaves it not checked. Decided Nov 19, 2026:
+    when one site answers 404 for at least five links in a run and for at least a third of its links, it is taken to
+    be turning the robot away (seen on esa.int, whose mission pages load in a browser), and those links are not
+    checked either; a single moved page on a site that answers normally is still found."""
+    codes = {}
     for c in cat:
         for l in c.get('links', []):
             u = l['url']
-            if u in seen:
+            if u in codes:
                 continue
-            seen.add(u)
             code = None
             for method in ('HEAD', 'GET'):
                 try:
@@ -283,11 +287,24 @@ def check_links(cat):
                 except Exception as e:
                     code = str(e)[:60]
                     break
-            if code in (404, 410):
-                bad.append(u)
+            codes[u] = code
             print('  %s %s' % (code, u))
             time.sleep(0.5)
-    return bad
+    by_site = {}
+    for u, code in codes.items():
+        by_site.setdefault(urllib.parse.urlsplit(u).netloc, []).append(code)
+    refusing = {h for h, cs in by_site.items()
+                if sum(c in (404, 410) for c in cs) >= 5 and sum(c in (404, 410) for c in cs) * 3 >= len(cs)}
+    for h in sorted(refusing):
+        print('  %s answered 404 for %d of its %d links: taken as turning the robot away; those links not checked'
+              % (h, sum(c in (404, 410) for c in by_site[h]), len(by_site[h])))
+    broken, unchecked = [], []
+    for u, code in codes.items():
+        if code in (404, 410) and urllib.parse.urlsplit(u).netloc not in refusing:
+            broken.append(u)
+        elif not (isinstance(code, int) and 200 <= code < 400):
+            unchecked.append(u)
+    return broken, unchecked
 
 
 def links_due(now):
@@ -385,7 +402,8 @@ def main():
     # often starts the morning run hours late, after midday, and the check was then skipped every day.
     if links_due(now):
         print('Links:')
-        write('links.json', {'updated': stamp, 'broken': check_links(cat + past)})
+        broken, unchecked = check_links(cat + past)
+        write('links.json', {'updated': stamp, 'broken': broken, 'not_checked': unchecked})
     return 0 if ok else 1
 
 

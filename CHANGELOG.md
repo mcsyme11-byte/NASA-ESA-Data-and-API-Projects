@@ -1,5 +1,14 @@
 # Change log
 
+## November 19, 2026 — Spacecraft link check: refused is not broken
+
+- The spacecraft run of Nov 19, 2026 (17:53 UTC) marked 20 of the catalogue's 24 links on www.esa.int as broken:
+  esa.int answered GitHub's robot with 404 for its mission pages, which load in a browser (the Cheops page confirmed
+  in ESA's own index), so the map hid those links. `spacecraft/fetch_spacecraft.py` now writes `not_checked` beside
+  `broken`: answers that say nothing about the page (403, 429, server errors, timeouts) and every 404 from a site that
+  answers 404 for at least five links and a third of its links in one run. A single moved page is still found.
+- `spacecraft/data/links.json` corrected by hand for that run: the 20 esa.int links moved to `not_checked`.
+
 ## November 19, 2026 — Space Weather: DONKI's incomplete years marked
 
 - "Since 2010" keeps its start (decided Nov 19, 2026). The M-class bars before 2014 are paler under a light band

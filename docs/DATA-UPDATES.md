@@ -126,7 +126,9 @@ nothing, because `dev/datajob.py` commits only when a file changed.
   `grace_hours`; a source on a longer cycle not updated within its `max_age_days`; a schedule in
   `dev/data_jobs.json` that differs from its workflow.
 - **To review:** log notes not listed in `known_notes`; the spacecraft catalogue's links that no longer answer
-  (`spacecraft/data/links.json`); review tasks that are due.
+  (`spacecraft/data/links.json`: only links answered 404 or 410 count, and not when one site answers 404 for five or
+  more links and a third of its links in one run, which is a site turning the robot away; decided Nov 19, 2026);
+  review tasks that are due.
 
 The report is kept in one GitHub issue labelled `data-health`. It is opened when there is something to report,
 edited every day, given a comment when its list of items changes, and closed with a comment when the list is empty.
