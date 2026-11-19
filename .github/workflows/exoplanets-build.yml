@@ -3,8 +3,9 @@
 # Runs only by hand (Actions › Exoplanets data, built by hand › Run workflow). Builds the Exoplanets pages' data:
 #   planets   exoplanets/data/planets.json and summary.json, from the NASA Exoplanet Archive (fetch_planets.py)
 #   series    exoplanets/data/series/, the real measurements on the methods pages: Kepler and TESS light curves from
-#             MAST, a radial-velocity curve and a microlensing light curve from the NASA Exoplanet Archive
-#             (tools/build_series.py)
+#             MAST, a CHEOPS light curve from DACE (University of Geneva), a radial-velocity curve and a microlensing
+#             light curve from the NASA Exoplanet Archive (tools/build_series.py); "only" builds one of them by its
+#             key (for example cheops) and keeps the others as they are
 #   pictures  exoplanets/art/, pictures shown on the pages, with their credit lines (tools/get_pictures.py)
 # The archives send no CORS headers, so the pages read these files and never call them.
 # Not a scheduled data job: the weekly refresh of planets.json and summary.json is the data job "Exoplanets data"
@@ -20,6 +21,10 @@ on:
         type: choice
         options: [all, planets, series, pictures]
         default: all
+      only:
+        description: Measurements only - one key (hot-jupiter, kepler-10b, toi-700d, cheops, rv-51peg, microlensing), or empty for all
+        type: string
+        default: ''
 
 permissions:
   contents: write
@@ -43,13 +48,15 @@ jobs:
         if: inputs.part == 'all' || inputs.part == 'planets'
         continue-on-error: true
         run: python3 exoplanets/fetch_planets.py
-      - name: Light curves and other measurements (MAST, NASA Exoplanet Archive)
+      - name: Light curves and other measurements (MAST, DACE, NASA Exoplanet Archive)
         id: series
         if: inputs.part == 'all' || inputs.part == 'series'
         continue-on-error: true
         run: |
-          pip install --quiet numpy astropy astroquery
-          python3 exoplanets/tools/build_series.py
+          pip install --quiet numpy astropy astroquery dace-query
+          python3 exoplanets/tools/build_series.py ${ONLY:+--only "$ONLY"}
+        env:
+          ONLY: ${{ inputs.only }}
       - name: Pictures (ESA/Webb)
         id: pictures
         if: inputs.part == 'all' || inputs.part == 'pictures'

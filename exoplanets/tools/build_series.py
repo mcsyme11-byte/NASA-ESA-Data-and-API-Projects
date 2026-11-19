@@ -16,12 +16,15 @@
 #   Light curves   MAST (Mikulski Archive for Space Telescopes, STScI, run for NASA), through astroquery:
 #                  TESS 2-minute light curves from the SPOC pipeline (PDCSAP flux); Kepler long-cadence light curves
 #                  (PDCSAP flux)
+#   CHEOPS         ESA's CHEOPS light curves (the CHEOPS Data Reduction Pipeline, default aperture), public data from
+#                  DACE, the Data & Analysis Center for Exoplanets of the University of Geneva, through the dace-query
+#                  package in public mode (no account or key); approved Nov 19, 2026
 #   Ephemerides    NASA Exoplanet Archive TAP service, table pscomppars (period, mid-transit time, duration, depth)
 #   Velocities and microlensing curves   NASA Exoplanet Archive time series, listed by its bulk-download scripts
 #                  https://exoplanetarchive.ipac.caltech.edu/bulk_data_download/ (wget_RADIAL.bat, wget_MICROLENSING.bat)
 # Each target is built on its own: one that fails keeps its previous file and the others go on.
 #
-# Run by hand:  pip install numpy astropy astroquery
+# Run by hand:  pip install numpy astropy astroquery dace-query
 #               python3 exoplanets/tools/build_series.py            (about 10 to 20 minutes; downloads about 300 MB)
 #               python3 exoplanets/tools/build_series.py --only KEY  one target
 import argparse
@@ -47,6 +50,9 @@ TRANSITS = [
                                      ('WASP-18 b', 'WASP-18', 'TESS')], 'files': 6},
     {'key': 'kepler-10b', 'group': [('Kepler-10 b', 'Kepler-10', 'Kepler')], 'files': 8},
     {'key': 'toi-700d', 'group': [('TOI-700 d', 'TOI-700', 'TESS')], 'files': 30},
+    # ESA's CHEOPS: a planet it studied in detail (WASP-189 b, Lendl et al. 2020); "files" counts its visits
+    {'key': 'cheops', 'group': [('WASP-189 b', 'WASP-189', 'CHEOPS'), ('KELT-11 b', 'KELT-11', 'CHEOPS'),
+                                ('WASP-76 b', 'WASP-76', 'CHEOPS')], 'files': 12},
 ]
 # 51 Peg b: the first planet found around a star like the Sun (Mayor & Queloz 1995). HIP 113357 names its files.
 RV = {'key': 'rv-51peg', 'planet': '51 Peg b', 'uid': 'UID_0113357'}
@@ -84,11 +90,104 @@ def save(key, obj):
     print('  wrote series/%s.json' % key)
 
 
-# ---------------------------------------------------------------- transits (MAST)
-def transit(target):
+# ---------------------------------------------------------------- transits (MAST and DACE)
+SOURCES = {
+    'TESS': 'NASA TESS light curves (SPOC 2-minute PDCSAP flux), from MAST at STScI; ephemeris from the NASA '
+            'Exoplanet Archive',
+    'Kepler': 'NASA Kepler light curves (long-cadence PDCSAP flux), from MAST at STScI; ephemeris from the NASA '
+              'Exoplanet Archive',
+    'CHEOPS': 'ESA CHEOPS light curves (CHEOPS Data Reduction Pipeline, default aperture), from DACE at the '
+              'University of Geneva; ephemeris from the NASA Exoplanet Archive',
+}
+
+
+def mast_curves(star, mission, nfiles):
+    """Kepler or TESS light curves from MAST: a list of (file name, times in BJD, flux), good points only."""
     import numpy as np
     from astropy.io import fits
     from astroquery.mast import Observations
+    if mission == 'TESS':
+        obs = Observations.query_criteria(objectname=star, radius='0.005 deg', obs_collection='TESS',
+                                          dataproduct_type='timeseries', provenance_name='SPOC', t_exptime=120)
+        sub = ['LC']
+    else:
+        obs = Observations.query_criteria(objectname=star, radius='0.005 deg', obs_collection='Kepler',
+                                          dataproduct_type='timeseries')
+        sub = ['LLC']
+    if len(obs) == 0:
+        raise ValueError('no %s light curves at MAST' % mission)
+    prods = Observations.filter_products(Observations.get_product_list(obs), productSubGroupDescription=sub,
+                                         extension='fits')
+    if len(prods) == 0:
+        raise ValueError('no %s light-curve files at MAST' % mission)
+    prods.sort('obs_id')
+    prods = prods[:nfiles]
+    tmp = tempfile.mkdtemp(prefix='lc-')
+    man = Observations.download_products(prods, download_dir=tmp, cache=False)
+    out = []
+    for path in man['Local Path']:
+        if not path or not os.path.exists(path):
+            continue
+        with fits.open(path) as h:
+            hd = h[1].header
+            ref = hd.get('BJDREFI', 0) + hd.get('BJDREFF', 0)
+            d = h[1].data
+            t = np.array(d['TIME'], float) + ref
+            f = np.array(d['PDCSAP_FLUX'], float)
+            q = np.array(d['QUALITY' if 'QUALITY' in h[1].columns.names else 'SAP_QUALITY'], int)
+        ok = np.isfinite(t) & np.isfinite(f) & (q == 0)
+        out.append((os.path.basename(path), t[ok], f[ok]))
+    return out
+
+
+def cheops_curves(star, nvisits):
+    """CHEOPS light curves from DACE (public data, no key): a list of (visit, times in BJD, flux), one per visit,
+    good points only. DACE's column names are found by what they contain and printed, so a change shows in the log."""
+    import numpy as np
+    from dace_query.cheops import Cheops
+    raw = Cheops.get_lightcurve(star, aperture='default', output_format='numpy')
+    if not raw:
+        raise ValueError('no CHEOPS light curves at DACE for %s' % star)
+    cols = {k: np.asarray(v) for k, v in raw.items()}
+    print('  DACE columns: %s' % ', '.join(sorted(cols)))
+
+    def find(*want, avoid=()):
+        for k in sorted(cols):
+            low = k.lower()
+            if all(w in low for w in want) and not any(a in low for a in avoid):
+                return k
+        return None
+    kt = find('bjd') or find('time', avoid=('exp',))
+    kf = find('flux', avoid=('err', 'bad', 'bg', 'background', 'contam', 'smear'))
+    if not (kt and kf):
+        raise ValueError('time or flux column not found among DACE columns')
+    t = cols[kt].astype(float)
+    f = cols[kf].astype(float)
+    if np.nanmedian(t) < 2.4e6:                   # a reduced BJD (days since 2,400,000) made whole
+        t = t + 2400000.0
+    ok = np.isfinite(t) & np.isfinite(f) & (f > 0)
+    for want in (('status',), ('event',)):         # the pipeline's flags: 0 is a good point
+        k = find(*want)
+        if k is not None:
+            ok &= cols[k].astype(float) == 0
+    kv = find('file_key') or find('visit') or find('filekey')
+    visits = cols[kv].astype(str) if kv else None
+    if visits is None:                             # no visit column: a gap of more than a day starts a new visit
+        order = np.argsort(t)
+        cut = np.concatenate([[0], np.cumsum(np.diff(t[order]) > 1)])
+        visits = np.empty(t.size, dtype=object)
+        visits[order] = cut.astype(str)
+    out = []
+    for v in sorted(set(visits[ok]))[:nvisits]:
+        m = ok & (visits == v)
+        o = np.argsort(t[m])
+        out.append((str(v), t[m][o], f[m][o]))
+    print('  %d CHEOPS visits, %d good points' % (len(out), sum(c[1].size for c in out)))
+    return out
+
+
+def transit(target):
+    import numpy as np
 
     last = None
     for planet, star, mission in target['group']:
@@ -97,46 +196,22 @@ def transit(target):
             P, T0, dur = e['pl_orbper'], e['pl_tranmid'], e['pl_trandur']
             if not (P and T0 and dur):
                 raise ValueError('no period, mid-transit time or duration in the archive')
-            if mission == 'TESS':
-                obs = Observations.query_criteria(objectname=star, radius='0.005 deg', obs_collection='TESS',
-                                                  dataproduct_type='timeseries', provenance_name='SPOC', t_exptime=120)
-                sub = ['LC']
-            else:
-                obs = Observations.query_criteria(objectname=star, radius='0.005 deg', obs_collection='Kepler',
-                                                  dataproduct_type='timeseries')
-                sub = ['LLC']
-            if len(obs) == 0:
-                raise ValueError('no %s light curves at MAST' % mission)
-            prods = Observations.filter_products(Observations.get_product_list(obs), productSubGroupDescription=sub,
-                                                 extension='fits')
-            if len(prods) == 0:
-                raise ValueError('no %s light-curve files at MAST' % mission)
-            prods.sort('obs_id')
-            prods = prods[:target['files']]
-            tmp = tempfile.mkdtemp(prefix='lc-')
-            man = Observations.download_products(prods, download_dir=tmp, cache=False)
+            curves = cheops_curves(star, target['files']) if mission == 'CHEOPS' else \
+                mast_curves(star, mission, target['files'])
             win = 1.5 * dur / 24 + 1.5 / 24          # days either side of mid-transit
             half_in = 0.6 * dur / 24                 # treated as "in transit" for the straight-line fit
+            # the share of a window that must be measured: CHEOPS's light is cut by the Earth for part of each
+            # 99-minute orbit, so less of it is covered than by Kepler or TESS
+            cover = 0.4 if mission == 'CHEOPS' else 0.6
             dts, fs, files, epochs = [], [], [], set()
-            for path in man['Local Path']:
-                if not path or not os.path.exists(path):
-                    continue
-                with fits.open(path) as h:
-                    hd = h[1].header
-                    ref = hd.get('BJDREFI', 0) + hd.get('BJDREFF', 0)
-                    d = h[1].data
-                    t = np.array(d['TIME'], float) + ref
-                    f = np.array(d['PDCSAP_FLUX'], float)
-                    q = np.array(d['QUALITY' if 'QUALITY' in h[1].columns.names else 'SAP_QUALITY'], int)
-                ok = np.isfinite(t) & np.isfinite(f) & (q == 0)
-                t, f = t[ok], f[ok]
+            for name, t, f in curves:
                 if t.size == 0:
                     continue
-                files.append(os.path.basename(path))
+                files.append(name)
                 # how many points make a whole transit depends on how often the telescope measures (TESS: every 2
-                # minutes; Kepler's long cadence: every 29.4 minutes)
+                # minutes; Kepler's long cadence: every 29.4 minutes; CHEOPS: under a minute)
                 cad = float(np.median(np.diff(t))) if t.size > 1 else 0.02
-                need = max(8, int(0.6 * 2 * win / cad))
+                need = max(8, int(cover * 2 * win / cad))
                 side, inside = max(3, need // 4), max(1, int(0.5 * 2 * half_in / cad))
                 n0, n1 = math.ceil((t.min() - T0) / P - 0.5), math.floor((t.max() - T0) / P + 0.5)
                 for n in range(n0, n1 + 1):
@@ -178,8 +253,7 @@ def transit(target):
                    'radius_earth': e['pl_rade'], 'star_radius_sun': e['st_rad'],
                    'depth_measured': round(depth, 7) if depth is not None else None, 'scatter': round(float(sd), 7),
                    'transits': len(epochs), 'points_total': int(x.size), 'files': len(files),
-                   'source': 'NASA %s light curves (%s PDCSAP flux), from MAST at STScI; ephemeris from the NASA '
-                             'Exoplanet Archive' % (mission, 'SPOC 2-minute' if mission == 'TESS' else 'long-cadence'),
+                   'source': SOURCES[mission],
                    'points': pts, 'bins': bins}
             save(target['key'], obj)
             return {'key': target['key'], 'kind': 'transit', 'planet': planet, 'mission': mission}
