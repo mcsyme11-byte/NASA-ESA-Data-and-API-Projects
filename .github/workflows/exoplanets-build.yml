@@ -5,6 +5,7 @@
 #   series    exoplanets/data/series/, the real measurements on the methods pages: Kepler and TESS light curves from
 #             MAST, a radial-velocity curve and a microlensing light curve from the NASA Exoplanet Archive
 #             (tools/build_series.py)
+#   pictures  exoplanets/art/, pictures shown on the pages, with their credit lines (tools/get_pictures.py)
 # The archives send no CORS headers, so the pages read these files and never call them.
 # Not a scheduled data job: the weekly refresh of planets.json and summary.json is the data job "Exoplanets data"
 # (exoplanets-data.yml, since Nov 18, 2026). This workflow stays for the measurements, rebuilt when a target is added.
@@ -17,7 +18,7 @@ on:
       part:
         description: What to build
         type: choice
-        options: [all, planets, series]
+        options: [all, planets, series, pictures]
         default: all
 
 permissions:
@@ -39,24 +40,29 @@ jobs:
       - uses: actions/checkout@v6
       - name: Confirmed planets (NASA Exoplanet Archive)
         id: planets
-        if: inputs.part != 'series'
+        if: inputs.part == 'all' || inputs.part == 'planets'
         continue-on-error: true
         run: python3 exoplanets/fetch_planets.py
       - name: Light curves and other measurements (MAST, NASA Exoplanet Archive)
         id: series
-        if: inputs.part != 'planets'
+        if: inputs.part == 'all' || inputs.part == 'series'
         continue-on-error: true
         run: |
           pip install --quiet numpy astropy astroquery
           python3 exoplanets/tools/build_series.py
+      - name: Pictures (ESA/Webb)
+        id: pictures
+        if: inputs.part == 'all' || inputs.part == 'pictures'
+        continue-on-error: true
+        run: python3 exoplanets/tools/get_pictures.py
       - name: Commit
         if: always()
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add exoplanets/data
+          git add exoplanets/data exoplanets/art 2>/dev/null || git add exoplanets/data
           if git diff --cached --quiet; then echo 'nothing changed'; exit 0; fi
-          git commit -q -m "Exoplanets data: built by hand (planets: ${{ steps.planets.outcome }}, measurements: ${{ steps.series.outcome }})"
+          git commit -q -m "Exoplanets data: built by hand (planets: ${{ steps.planets.outcome }}, measurements: ${{ steps.series.outcome }}, pictures: ${{ steps.pictures.outcome }})"
           for i in 1 2 3; do
             git pull --rebase --autostash --quiet && git push --quiet && exit 0
             sleep 10
