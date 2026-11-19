@@ -31,3 +31,11 @@ needs the same change. Section 2 then follows directly: both tools read the same
 
 When any of these is done, the Data updates chat changes `spacecraft-data.yml` to match (a hand-off back, or a note in
 `docs/ROADMAP.md` section 4).
+
+## 4. Changed in `spacecraft/fetch_spacecraft.py` on Nov 19, 2026 (for information)
+
+At the developer's request, `check_links()` now returns `(broken, not_checked)` and `links.json` gains `not_checked`:
+answers that say nothing about a page (403, 429, server errors, timeouts), and every 404 from a site that answers 404
+for at least five links and a third of its links in one run (www.esa.int answered GitHub's robot that way for 20 of
+its 24 mission pages on Nov 19, 2026). Only `broken` hides a link on the map. Keep this when changing the script for
+sections 1 to 3.
