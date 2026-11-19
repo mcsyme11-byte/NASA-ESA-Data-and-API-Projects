@@ -26,7 +26,7 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
   - Preview cards for shared links (an Open Graph picture and text per page), in the NEDAP look.
 - [ ] Reload buttons (shared component, Nov 18, 2026; Space Weather has them): each project chat adds them to its own
   pages with live or updated data, following `docs/DESIGN.md` ("Reload buttons") and the handoff of Nov 18, 2026.
-  Done Nov 19, 2026: Image Explorer (the explorer) and the spacecraft map.
+  Done Nov 19, 2026: Image Explorer (the explorer), the spacecraft map and Mars Data (home and charts pages).
 
 - [ ] Ideas from the review of Nov 18, 2026, each needing a mock-up the developer approves: a "Lost in space" 404 page
   (GitHub Pages shows `404.html` for a missing address); preview cards (Open Graph) for shared links.
@@ -79,6 +79,8 @@ Plan confirmed Nov 11, 2026 (see PROJECT-NOTES.md): three missions, updated auto
 - Reducing the job to weekly is listed under Data updates (section 4).
 
 **Page**
+- [ ] Developer testing of the reload buttons (added Nov 19, 2026) on the Mars Data home page and the charts page, on a
+  phone and a computer: the icon spins, then "Updated hh:mm"; the charts keep the period and sol on view.
 - [ ] Developer review of the Nov 18 additions (the dust storm section, humidity at two sites, the rovers' climbs, the
   home page's Explore cards), at the developer's own pace.
 

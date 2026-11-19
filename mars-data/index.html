@@ -12,8 +12,8 @@
   <link rel="manifest" href="../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111902">
-  <script type="module" src="../shared/footer.js?v=2026111902"></script>
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111903">
+  <script type="module" src="../shared/footer.js?v=2026111903"></script>
 </head>
 <body>
   <header class="topbar">
@@ -36,7 +36,9 @@
       <div class="kicker">Project 3</div>
       <h1>Mars Data</h1>
       <p class="lede">The weather on Mars, measured second by second by NASA's rovers since 2012, cleaned, organised by season and time of day, and turned into charts anyone can read.</p>
-      <div class="meta badges"><span class="badge nasa">NASA</span><span class="badge">Curiosity · REMS</span><span class="badge">Perseverance · MEDA</span></div>
+      <div class="meta badges"><span class="badge nasa">NASA</span><span class="badge">Curiosity · REMS</span><span class="badge">Perseverance · MEDA</span>
+        <span class="small" id="homeUpd">Data up to sol –,––– · NASA's archive checked ––––‑––‑––</span>
+        <button class="reload" type="button" id="reloadAll">Reload the figures on this page</button></div>
     </header>
 
     <nav class="tabs bar" aria-label="Mars Data">
@@ -163,9 +165,14 @@
   (async () => {
     const fmt = v => v.toLocaleString("en-CA");
     const month = d => new Date(d + "T12:00:00Z").toLocaleDateString("en-CA", { month: "short", year: "numeric", timeZone: "UTC" });
-    try {
-      const [rems, meda] = await Promise.all([fetch("data/summary.json").then(r => r.json()), fetch("data/meda.json").then(r => r.json()).catch(() => null)]);
+    // Fills the figures from the published data; a reload by hand asks for fresh copies (not the browser's saved ones).
+    async function fill(again = false) {
+      const u = f => again ? `${f}?t=${Date.now()}` : f;
+      const get = f => fetch(u(f), { cache: "no-cache" }).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); });
+      const [rems, meda] = await Promise.all([get("data/summary.json"), get("data/meda.json").catch(() => null)]);
       const m = rems.meta;
+      const nb = d => String(d).replace(/-/g, "\u2011");   // dates keep to one line (non-breaking hyphens)
+      document.getElementById("homeUpd").textContent = `Data up to sol ${fmt(m.last_sol)} · ${m.checked ? `NASA's archive checked ${nb(m.checked)}` : `updated ${nb(m.built)}`}`;
       document.getElementById("tCur").innerHTML = `${fmt(m.sols)}<small>sols</small>`;
       document.getElementById("tCurN").textContent = `${month(m.first_date)} to ${month(m.last_date)}`;
       document.getElementById("dCur").textContent = `Sols ${m.first_sol}–${fmt(m.last_sol)}, ${month(m.first_date)} – ${month(m.last_date)}`;
@@ -194,7 +201,11 @@
       document.getElementById("tWarmN").textContent = `sol ${warm.sol}, Ls ${n0(warm.ls)}°`;
       document.getElementById("tClimb").innerHTML = `${n0(z.rover_z_m)}<small>m</small>`;
       document.getElementById("tClimbN").textContent = `above the landing site by sol ${fmt(z.sol)}`;
-    } catch (e) { /* the tiles keep their placeholders */ }
+      return meda != null;
+    }
+    try { await fill(); }
+    catch (e) { document.getElementById("homeUpd").textContent = "The figures could not be loaded; try the reload button."; }   /* the tiles keep their placeholders */
+    import("../shared/reload.js?v=2026111903").then(({ reloadPage }) => reloadPage(document.getElementById("reloadAll"), () => fill(true))).catch(() => { document.getElementById("reloadAll").hidden = true; });
   })();
   </script>
 </body>

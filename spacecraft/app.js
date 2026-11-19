@@ -8,7 +8,7 @@
 import { SpaceMap, craftPos, relAt, parentAt, R_EARTH, R_MOON, R_MARS, AU_KM, jdFromMs, msFromJd } from './spacemap.js';
 import { satrecOf } from '../shared/sats.js';
 import { shareButton, linkWith, takeShared } from '../asteroid-tracker/share.js';
-import { reloadPage } from '../shared/reload.js?v=2026111902';
+import { reloadPage } from '../shared/reload.js?v=2026111903';
 
 const $ = (s) => document.querySelector(s), $$ = (s) => [...document.querySelectorAll(s)];
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);

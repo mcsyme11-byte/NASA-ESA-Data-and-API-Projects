@@ -14,9 +14,9 @@
   <link rel="manifest" href="../../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../../shared/theme.css?v=2026111902">
-  <script type="module" src="../../shared/footer.js?v=2026111902"></script>
-  <link rel="stylesheet" href="../mars.css?v=2026111902">
+  <link rel="stylesheet" href="../../shared/theme.css?v=2026111903">
+  <script type="module" src="../../shared/footer.js?v=2026111903"></script>
+  <link rel="stylesheet" href="../mars.css?v=2026111903">
 </head>
 <body>
   <header class="topbar">
@@ -39,6 +39,9 @@
       <div class="kicker"><a href="../">Project 3 · Mars Data</a></div>
       <h1>Charts</h1>
       <p class="lede">The weather on Mars, measured second by second by NASA's Curiosity rover since 2012 and Perseverance since 2021: cleaned, organised by season and time of day, and charted.</p>
+      <p class="meta badges"><span class="badge nasa">NASA</span><span class="badge">Curiosity · Gale Crater</span><span class="badge">Perseverance · Jezero Crater</span>
+        <span class="small" id="status">Data up to sol –,––– (––––‑––‑––) · –,––– sols with data · cleaning rules –.– · NASA's archive checked ––––‑––‑––</span>
+        <button class="reload" type="button" id="reloadAll">Reload all the Mars data on this page</button></p>
     </header>
 
     <nav class="tabs bar" aria-label="Mars Data">
@@ -48,12 +51,6 @@
     </nav>
 
     <div id="pageNotice"></div>
-
-    <div class="statusline">
-      <span class="badge">Curiosity · Gale Crater</span>
-      <span class="badge">Perseverance · Jezero Crater</span>
-      <p class="note" id="status"></p>
-    </div>
 
     <nav class="secnav" id="secnav" aria-label="Sections of this page">
       <div class="secrow" data-hscroll><a href="#shows">What it shows</a><a href="#year">The year</a><a href="#craters">Two craters</a><a href="#sol">One sol</a><a href="#mission">The whole mission</a><a href="#dust">Dust storm</a><a href="#above">Above the surface</a><a href="../method/">How it's made</a></div>
@@ -370,11 +367,14 @@
       // Everything that needs the data is hidden; the page head, the notice and the credits stay.
       [...main.children].forEach(x => { if (!x.matches(".backlink, .pagehead, #pageNotice, .srcline, footer, script")) x.hidden = true; });
       notice.innerHTML = `<div class="notice warn"><span>The Mars data could not be loaded. Check the connection and reload the page.</span></div>`;
+      document.getElementById("reloadAll").hidden = true;
+      document.getElementById("status").textContent = "";
       return;
     }
     main.removeAttribute("aria-busy");
     const C = Object.fromEntries(M.cols.map((c, i) => [c, i]));
-    const rows = M.rows.map(r => Object.fromEntries(M.cols.map((c, i) => [c, r[i]])));
+    const toRows = D => D.rows.map(r => Object.fromEntries(D.cols.map((c, i) => [c, r[i]])));
+    const rows = toRows(M);
     const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
     // Six series colours from the theme, plus two more so each of the eight Mars Years has its own colour.
     const S = ["--s1", "--s2", "--s3", "--s4", "--s5", "--s6"].map(css).concat(["#6FB7B0", "#E8E3D6"]);
@@ -455,9 +455,11 @@
 
     // ---- status ----
     const meta = M.meta;
-    document.getElementById("status").textContent = `Data up to sol ${fmt(meta.last_sol)} (${meta.last_date}) · ${fmt(meta.sols)} sols with data · cleaning rules ${meta.rules} · ${meta.checked ? `NASA's archive checked ${meta.checked}` : `updated ${meta.built}`}`;
+    const nb = d => String(d).replace(/-/g, "\u2011");   // dates keep to one line (non-breaking hyphens)
+    const showStatus = () => { document.getElementById("status").textContent = `Data up to sol ${fmt(meta.last_sol)} (${nb(meta.last_date)}) · ${fmt(meta.sols)} sols with data · cleaning rules ${meta.rules} · ${meta.checked ? `NASA's archive checked ${nb(meta.checked)}` : `updated ${nb(meta.built)}`}`; };
+    showStatus();
     const fullP = rows.filter(r => r.pressure_full), fullT = rows.filter(r => r.air_temp_full);
-    const cold = fullT.reduce((a, r) => r.air_temp_min < a.air_temp_min ? r : a), warm = fullT.reduce((a, r) => r.air_temp_max > a.air_temp_max ? r : a);
+    let cold = fullT.reduce((a, r) => r.air_temp_min < a.air_temp_min ? r : a), warm = fullT.reduce((a, r) => r.air_temp_max > a.air_temp_max ? r : a);
     const years = [...new Set(rows.map(r => r.mars_year))];
 
 
@@ -601,16 +603,20 @@
 
     // ---- two craters (Gale and Jezero) ----
     let MD = null;
-    fetch("../data/meda.json").then(r => r.ok ? r.json() : null).then(j => { MD = j; drawTwo(); drawClimb(); goToHash(); }).catch(() => {});
+    const fresh = u => u + (u.includes("?") ? "&" : "?") + "t=" + Date.now();   // a reload by hand skips the browser's saved copy
+    const loadMD = (again = false) => fetch(again ? fresh("../data/meda.json") : "../data/meda.json", { cache: "no-cache" }).then(r => r.ok ? r.json() : null).then(j => { if (!j) return false; MD = j; drawTwo(); drawClimb(); goToHash(); return true; }).catch(() => false);
+    loadMD();
 
     // ---- humidity at night at two sites (Perseverance's per-sol file, which has the hour of each maximum) ----
     let MS = null;
-    fetch("../data/meda/sols.csv").then(r => r.ok ? r.text() : null).then(t => {
-      if (!t) return;
+    const loadMS = (again = false) => fetch(again ? fresh("../data/meda/sols.csv") : "../data/meda/sols.csv", { cache: "no-cache" }).then(r => r.ok ? r.text() : null).then(t => {
+      if (!t) throw new Error("no file");
       const [head, ...lines] = t.trim().split("\n"), cols = head.split(",");
       MS = lines.map(l => Object.fromEntries(l.split(",").map((v, i) => [cols[i], v === "" ? null : (isNaN(v) ? v : +v)])));
-      drawTwoHum(); goToHash();
-    }).catch(() => { document.getElementById("twoHumFrame").innerHTML = '<div class="empty">Perseverance\'s humidity could not be loaded. Reload the page to try again.</div>'; });
+      if (!document.getElementById("cTwoHum")) document.getElementById("twoHumFrame").innerHTML = '<svg id="cTwoHum" class="chart" role="img" aria-label="Highest relative humidity of the night at Gale Crater and Jezero Crater against the season"></svg>';
+      drawTwoHum(); goToHash(); return true;
+    }).catch(() => { if (!MS) document.getElementById("twoHumFrame").innerHTML = '<div class="empty">Perseverance\'s humidity could not be loaded. Use the reload button at the top of the page to try again.</div>'; return false; });
+    loadMS();
     function drawTwoHum() {
       const svg = document.getElementById("cTwoHum");
       if (!MS) return;
@@ -792,6 +798,33 @@
       seasonal("cUV", "uvFrame", "uv_abc_max", "UV (W/m²)", "W/m²", 1, "Corrected UV appears here after the UV files are processed.");
     }
     drawAll();
+
+    // ---- reload button: fetches every Mars file again and redraws, without reloading the page ----
+    async function reloadAll() {
+      userMoved = true;                                    // a reload never jumps the page to a section
+      const r = await fetch(fresh("../data/summary.json"), { cache: "no-cache" });
+      if (!r.ok) return false;
+      const N = await r.json();
+      M = N;
+      rows.splice(0, rows.length, ...toRows(N));
+      for (const k of Object.keys(meta)) delete meta[k];
+      Object.assign(meta, N.meta);
+      fullP.splice(0, fullP.length, ...rows.filter(r => r.pressure_full));
+      fullT.splice(0, fullT.length, ...rows.filter(r => r.air_temp_full));
+      cold = fullT.reduce((a, r) => r.air_temp_min < a.air_temp_min ? r : a); warm = fullT.reduce((a, r) => r.air_temp_max > a.air_temp_max ? r : a);
+      years.splice(0, years.length, ...new Set(rows.map(r => r.mars_year)));
+      bySol.clear(); rows.forEach(r => bySol.set(r.sol, r));
+      withData.splice(0, withData.length, ...rows.map(r => r.sol));
+      yearFiles.clear();
+      solIn.min = meta.first_sol; solIn.max = meta.last_sol;
+      showStatus();
+      const [md, ms] = await Promise.all([loadMD(true), loadMS(true)]);
+      drawAll();
+      if (curSol != null) await loadSol(curSol);
+      if (MEX_LIVE) await loadMex();
+      return md && ms;
+    }
+    import("../../shared/reload.js?v=2026111903").then(({ reloadPage }) => reloadPage(document.getElementById("reloadAll"), reloadAll)).catch(() => { document.getElementById("reloadAll").hidden = true; });
     loadSol(fullT.at(-1).sol);
     let lastW = innerWidth, timer;
     // Section menu: the section in view is marked.

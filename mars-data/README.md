@@ -10,6 +10,8 @@ organised by season, time of day and the rover's height, summarised, and charted
 
 - **`index.html`, the project's home page:** what the project is and why it exists, the data used and from which
   agency, what can be done with it and how, and a card linking to each part.
+- **Reload buttons:** the home page and the charts page fetch the published files again without reloading the page
+  (`shared/reload.js`; added Nov 19, 2026).
 - **Links to Planetary Maps:** the "Two craters" chart and the home page's Gale and Jezero figures open
   `../planet-maps/#mars-gale` and `#mars-jezero` (the crater's card on the Mars map).
 - **`charts/index.html`, the charts,** in the project's look (`docs/DESIGN.md`), drawn as hand-made SVG from

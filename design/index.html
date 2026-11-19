@@ -14,8 +14,8 @@
   <link rel="manifest" href="../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111902">
-  <script type="module" src="../shared/footer.js?v=2026111902"></script>
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111903">
+  <script type="module" src="../shared/footer.js?v=2026111903"></script>
 </head>
 <body>
   <header class="topbar">
@@ -364,7 +364,7 @@
         <span class="reloader"><button class="reload" type="button" tabindex="-1" aria-label="Updated" data-demo-icon></button><span class="rnote ok">Updated 13:05</span></span> ·
         <span class="reloader"><button class="reload" type="button" tabindex="-1" aria-label="Failed" data-demo-icon></button><span class="rnote fail">Couldn’t reload, try again</span></span></p>
       <script type="module">
-        import { reloadPage, reloadPart } from '../shared/reload.js?v=2026111902';
+        import { reloadPage, reloadPart } from '../shared/reload.js?v=2026111903';
         const demo = () => new Promise((ok) => setTimeout(() => ok(true), 1000));
         for (const b of document.querySelectorAll('[data-demo-part]')) reloadPart(b, demo);
         reloadPage(document.getElementById('demoReloadAll'), demo);

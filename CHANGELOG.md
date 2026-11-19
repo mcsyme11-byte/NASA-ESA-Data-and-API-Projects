@@ -1,5 +1,17 @@
 # Change log
 
+## November 19, 2026 — Mars Data: reload buttons
+
+- The Mars Data home page and the charts page have a reload button at the end of the page head's line (the shared
+  `shared/reload.js`, as on Space Weather). It fetches the published Mars files again, fresh copies rather than the
+  browser's saved ones, and redraws the figures or every chart in place: the Mars Year, period, rover and sol on view
+  stay as they were. The charts page's status line (data up to, sols with data, cleaning rules, NASA's archive
+  checked) moved from under the charts' heading into the page head beside the button; the home page gained a short
+  one. Both start with placeholders of their final length, so nothing moves when the figures arrive.
+- The "Two craters" chart and the home page's crater figures keep their links to the Planetary Maps cards for Gale
+  and Jezero Crater (`planet-maps/#mars-gale`, `#mars-jezero`; added Nov 18, 2026).
+- `mars-data/mars.css`: the unused `.statusline` rules removed; version tag raised to `2026111903`.
+
 ## November 19, 2026 — Image Explorer and spacecraft map: reload buttons; CelesTrak's CSV
 
 - Reload buttons (`shared/reload.js`): the explorer's page head has one that moves "Latest" on to the newest full UTC
