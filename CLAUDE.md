@@ -93,8 +93,11 @@ inside its own folder.
   Privacy, Terms, Credits, licence, source code) and the credit line. A page keeps only the footer's copyright and
   credit lines in its own HTML (copy them from any page); it never adds links, a logo or other content to the footer.
   **A new page is listed by adding one line to its section in `SECTIONS`** (a page not live yet carries
-  `{ soon: true }`, which keeps it out; remove it when the page is published), in the same change as the page, with
-  its name in the Back-button list (`NAMES`) of the same file. Every page's menu is Home, Asteroids, Mars, Images,
+  `{ soon: true }`, which keeps it out; remove it when the page is published, and give it `added: 'YYYY-MM-DD'`, the
+  day it is published, so the menu marks it as new), in the same change as the page, with
+  its name in the Back-button list (`NAMES`) of the same file. **Since Nov 19, 2026** a new page, or a page whose
+  title or description changes, gets its preview card for shared links by running `python3 dev/build_social.py`
+  (`dev/check_docs.py` refuses a page without it); the site search finds new pages by itself. Every page's menu is Home, Asteroids, Mars, Images,
   Space Watch (copy it from any page). **Since Nov 18, 2026** every page of a project with more than one page carries
   the project's tab bar (`nav.tabs.bar`) straight after the page head (Overview first, then every page; `docs/DESIGN.md`,
   "Project tab bar"): a new page is added to the bar on every page of its project in the same change, and a new project folder to

@@ -1,36 +1,21 @@
 # Roadmap
 
-What's next, as of November 8, 2026. Every pending to-do lives here; items are done at the developer's own pace.
+What's next, as of November 19, 2026. Every pending to-do lives here; items are done at the developer's own pace.
 Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
 
 ## 0. Repository (set up Nov 8, 2026)
 
-- [ ] The developer pastes the description and instructions of `docs/CLAUDE-PROJECT-SETUP.md` (updated Nov 18, 2026)
-  into the Claude project's settings; the project's description there still names only three projects.
-- [ ] Before any trademark filing: a trademark search on "NEDAP" (a company called Nedap N.V. exists) and advice from
-  a trademark lawyer on the name and the patch (`brand/patch/README.md`).
-- [ ] **Ideas for the look and feel, for the General chat (proposed Nov 18, 2026; each needs a mock-up the developer
-  approves):**
-  - A site search (opened with `/` or Ctrl+K): every page, project and tool, and later an asteroid or mission by
-    name, as a panel over the page.
-  - The "On this page" bar of Space Weather (shared `.tabs`, staying under the top bar) as a shared option for every
-    long page (the Asteroid Tracker's overview, Mars Data, Planetary Maps' place list).
-  - Smooth changes between pages (the browser's View Transitions between documents), the top bar staying in place.
-  - A "Copy link to this section" button beside each section heading, for sharing one part of a page.
-  - Keyboard shortcuts in the tools (arrows for the previous and next period, numbers for tabs), listed in a small
-    panel opened with `?`.
-  - Loading shapes matched to what is loading (a chart's outline, a table's rows, a tile's number) instead of one
-    shimmer for everything.
-  - A small dot in the menu for tools published since the visitor's last visit (kept in the browser only; Privacy
-    page first).
-  - Preview cards for shared links (an Open Graph picture and text per page), in the NEDAP look.
 - [ ] Reload buttons (shared component, Nov 18, 2026): still to check, by the Image Explorer chat, on its pages other
   than the explorer with live or updated data, following `docs/DESIGN.md` ("Reload buttons") and the handoff of Nov
   18, 2026. Done Nov 19, 2026: Space Weather, Orbit Watch, Planetary Maps, Exoplanets, Mars Data (home and charts),
   the Image Explorer's explorer, the spacecraft map, the Asteroid Tracker and Sky Finder.
-
-- [ ] Ideas from the review of Nov 18, 2026, each needing a mock-up the developer approves: a "Lost in space" 404 page
-  (GitHub Pages shows `404.html` for a missing address); preview cards (Open Graph) for shared links.
+- [ ] The site tools of Nov 19, 2026 that each project adopts on its own pages (handoff
+  `docs/handoffs/2026-11-19 - all chats - site tools.md`): "On this page" bars under the project tab bar on long pages
+  (the Asteroid Tracker's overview, Mars Data, Planetary Maps' place list), loading shapes (`.skel`) where the shape
+  of what loads is known, and `data-key="prev"` / `data-key="next"` on the previous and next period buttons.
+- [ ] Developer testing of the site tools of Nov 19, 2026 (the test list of that day): the search, the shortcuts,
+  "Copy link to this section", the menu's dots, the Lost in space page, the Space Watch figures, and a shared link's
+  preview card.
 
 ## 1. Asteroid Tracker (version 1 live Nov 8, 2026)
 
@@ -38,17 +23,8 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
   on Nov 14, 2026): calibration on the Moon or a planet and the Calibrate button's dot turning green; the markers
   lining up with the real Moon, planets and bright stars; an asteroid's diamond and path; switching target with the
   row of names in the camera view; the ISS or Tiangong passes.
-- [ ] Spacecraft map: Tianwen-1 (Horizons id -9901491 holds only its cruise, to Feb 10, 2021), Tianwen-2 and
-  Chang'e 7 are not in Horizons now, and CelesTrak does not return TESS; they appear by themselves if either service
-  lists them later. All four are known notes in `dev/data_jobs.json` (Chang'e 7 since Nov 15, 2026), so the health
-  check leaves them out.
-- [ ] Spacecraft map, more past missions as they end or as Horizons adds routes (for example Swift and other
-  Earth-orbit craft have no route in Horizons; Chandrayaan-1's route there begins only in 2016).
-- [ ] When the `data-health` issue reports the "risk-lists" source failing (ESA calls its automated access
-  experimental, so a change of format stops the step and the previous files are kept), fix `fetch_risk.py`.
-- [ ] Optional: if ESA's credit form or terms for the NEOCC figures are in doubt, ask the NEOCC by email
-  (`neocc@esa.int`) and record the answer in `docs/DATA-SOURCES.md`.
-- [ ] Hera: once ESA confirms the arrival at Didymos, update its line in `MISSIONS` (`asteroid-tracker/reach.js`).
+- [ ] ESA NEOCC's answer on the credit line and on downloading the risk list twice a day: email to `neocc@esa.int`
+  drafted Nov 19, 2026, sent by the developer; record the answer in `docs/DATA-SOURCES.md`.
 
 ## 2. Image Explorer (version 1 live Nov 9, 2026; home page Nov 12)
 
@@ -63,11 +39,9 @@ Plan confirmed Nov 11, 2026 (see PROJECT-NOTES.md): three missions, updated auto
 **Data and analysis**
 - [ ] Developer: delete the `mars-probe` branch on GitHub (Branches page, the bin icon beside it). It held the
   one-off workflows used to process the whole record; the update job has run on its own since Nov 16, 2026.
-- [ ] Optional: ask ESA (data.licences@esa.int) to confirm the spelling of the Mars Express MaRS credit line
-  ("M. Plätzold, K. Pieter" on ESA's terms page; the archive names Martin Pätzold).
-- [ ] Mars Express MaRS profiles (ESA): waiting for ESA's archive (down for maintenance since at least Nov 12, 2026; no
-  return date published as of Nov 15); then run `run_mex.py`. NASA's PDS Geosciences Node holds a copy (checked Nov
-  15, 2026, not used; see DATA-SOURCES.md).
+- [ ] ESA's answer on the Mars Express MaRS credit line ("M. Plätzold, K. Pieter" on ESA's terms page; the archive names
+  Martin Pätzold): email to data.licences@esa.int drafted Nov 19, 2026, sent by the developer; record the answer in
+  `docs/DATA-SOURCES.md`.
 - [ ] When the first real Mars Express profiles are read: check them against `CLEANING-MEX.md` and the report, confirm
   from the AIX label what the height column is measured from (geopotential height; reference surface to be stated
   in the chart's notes), then set `MEX_LIVE = true` in `mars-data/charts/index.html`, open the home page's "Above the
@@ -132,23 +106,18 @@ day. Every piece: sources confirmed against the agency's current documentation a
 first; a mock-up approved before building; only the shared components; credits, and the Privacy page for any service
 a visitor's browser contacts, in the same change; data jobs handed to the Data updates chat.
 
-**Section, menu and shared parts (general chat)**
-- [ ] The section page's live figures (objects tracked, flares, storm level, planets), added once the tools publish
-  them.
 
 **Shared map and globe:** done Nov 17, 2026 (`shared/globe.js`, `shared/flatmap.js`; how to use them in
 `docs/PROJECT-NOTES.md`, "Shared map and globe"). Planetary Maps and Orbit Watch can build on them.
 
 **5a. Orbit Watch (`orbit-watch/`)**: live since Nov 17, 2026 (home page, What's in orbit, Close calls and
 collisions, Cleaning up; see `orbit-watch/README.md`).
-- [ ] Data updates chat: build the Orbit data job from `docs/handoffs/2026-11-17 - orbit watch - data jobs.md`
-  (`fetch_orbits.py` twice a day, one CelesTrak download shared with the spacecraft job, `orbit-watch/data/` in
-  `paths-ignore`, a quarterly review task for `facts.json`). Until then the pages show "not copied yet".
 - [ ] Developer testing, on a phone and a computer, once the first data has arrived: the globe (turning, zoom, tapping
   a dot, search, speeds, the kind switches), a close approach's "Watch" replay, the calculator and the model.
-- [ ] Confirm on the job's first run that `https://celestrak.org/pub/satcat.csv` is the satellite catalogue's address.
-- [ ] Ask CelesTrak whether elements for every catalogued object can be had in one file; until then the globe shows
-  the working satellites and the three debris clouds published as groups, and the heights chart counts everything.
+- [ ] CelesTrak's answer: one file of elements for every catalogued object, the twice-a-day schedule, and the credit
+  line. Email drafted Nov 19, 2026 (CelesTrak publishes no email address: the developer sends it through T.S. Kelso's
+  public contact, for example Bluesky @tskelso.bsky.social). Until then the globe shows the working satellites and the
+  three debris clouds published as groups, and the heights chart counts everything.
 - [ ] Spacecraft map (its owner): its Earth-orbit fleet switch to link to Orbit Watch. (CelesTrak's CSV, for
   six-digit catalogue numbers, is read since Nov 19, 2026.)
 - [ ] Possible later: "Can I see it tonight?" for any object (Sky Finder predicts passes of the space stations only).
@@ -162,24 +131,17 @@ collisions, Cleaning up; see `orbit-watch/README.md`).
 - [ ] The data job runs since Nov 18, 2026 (`space-weather-data.yml`; first run by hand wrote `latest.json` with 31
   flares and 145 solar wind points, and `archive.json` with 200 months from April 2010). Check on the live site: the
   "Since 2010" button appears, and the page falls back to the saved copy when NASA cannot be reached.
-- [ ] Later, if wanted: a short animation of the last day's SOHO pictures (SOHO offers movies, not checked yet); the
-  section page's live figures (flares, storm level) once the section page shows live figures.
+- [ ] Later, if wanted: a short animation of the last day's SOHO pictures (SOHO offers movies, not checked yet).
 
 **5c. Exoplanets (`exoplanets/`)**: live Nov 17, 2026 (`exoplanets/README.md`)
 - [ ] Developer testing of Exoplanets (built and published Nov 17, 2026): the overview (counts, the light-curve
   buttons, "Make a transit", the two catalogue charts and their tooltips, the nearest planets), How they are found
   (the 51 Pegasi wobble, the microlensing "Around the planet" view, the tables), and Every planet (search, the method
   filter, "Habitable zone", "About Earth's size", sorting, "Show more", a planet's page and the browser's Back).
-- [ ] Data updates chat: the weekly Exoplanets job (handoff `2026-11-17 - data updates - Exoplanets data.md`); until it
-  runs, `planets.json` is refreshed by running "Exoplanets data, built by hand".
-- [ ] ESA Gaia Data Release 4 (due Dec 2, 2026): check its exoplanet candidate catalogue (address, format, terms), add
-  the candidates apart from the confirmed planets, credited "ESA/Gaia/DPAC", and send the Data updates chat a
-  hand-off.
 - [ ] Developer testing of the additions of Nov 18, 2026: the Webb picture of HR 8799 and its table (How they are
   found), and "Where it is in the sky" on a planet's page (the star map, the best month, the heights).
 - [ ] Developer testing of the additions of Nov 19, 2026: the CHEOPS light curve of WASP-189 b on the overview, and the
   "Reload the planet list" button on the three pages.
-- [ ] ESA PLATO (launch planned January 2027): its card's note to be updated once it flies.
 
 **5d. Planetary Maps (`planet-maps/`)**: live Nov 17, 2026 (`planet-maps/README.md`)
 - [ ] Developer testing on a phone and a computer: the Globe, North and South views (added Nov 17, 2026), both tabs, the three Mars maps, the close-ups (Apollo 11's
@@ -187,5 +149,28 @@ collisions, Cleaning up; see `orbit-watch/README.md`).
   card's links to Mars Data.
 - [ ] Links to it: Image Explorer's globe ("Moon and Mars maps", Image Explorer chat); Mars Data's "Two craters"
   chart (Mars Data chat); the spacecraft map's Moon and Mars orbiters.
-- [ ] Artemis landing regions on the South view, once NASA publishes a current list (DATA-SOURCES.md, Planetary Maps).
+
+## 6. Waiting on outside sources (kept Nov 19, 2026)
+
+Work that waits for an agency or service to publish, return or change something. Each item names where to look; any
+chat that sees one become available tells the owning chat (named in bold), which does the work and removes the
+item. The Mars Express archive and Gaia are checked first, as the soonest likely.
+
+- [ ] **Spacecraft map:** Tianwen-1 (Horizons id -9901491 holds only its cruise, to Feb 10, 2021), Tianwen-2 and
+  Chang'e 7 are not in Horizons now, and CelesTrak does not return TESS; they appear by themselves if either service
+  lists them later. All four are known notes in `dev/data_jobs.json` (Chang'e 7 since Nov 15, 2026), so the health
+  check leaves them out.
+- [ ] **Spacecraft map:** more past missions as they end or as Horizons adds routes (for example Swift and other
+  Earth-orbit craft have no route in Horizons; Chandrayaan-1's route there begins only in 2016).
+- [ ] **Asteroid Tracker:** When the `data-health` issue reports the "risk-lists" source failing (ESA calls its automated access
+  experimental, so a change of format stops the step and the previous files are kept), fix `fetch_risk.py`.
+- [ ] **Asteroid Tracker:** Hera: once ESA confirms the arrival at Didymos, update its line in `MISSIONS` (`asteroid-tracker/reach.js`).
+- [ ] **Mars Data:** Mars Express MaRS profiles (ESA): waiting for ESA's archive (down for maintenance since at least Nov 12, 2026; no
+  return date published as of Nov 15); then run `run_mex.py`. NASA's PDS Geosciences Node holds a copy (checked Nov
+  15, 2026, not used; see DATA-SOURCES.md).
+- [ ] **Exoplanets:** ESA Gaia Data Release 4 (due Dec 2, 2026): check its exoplanet candidate catalogue (address, format, terms), add
+  the candidates apart from the confirmed planets, credited "ESA/Gaia/DPAC", and send the Data updates chat a
+  hand-off.
+- [ ] **Exoplanets:** ESA PLATO (launch planned January 2027): its card's note to be updated once it flies.
+- [ ] **Planetary Maps:** Artemis landing regions on the South view, once NASA publishes a current list (DATA-SOURCES.md, Planetary Maps).
   A scheduled task checks NASA's position on the 1st of each month (from Dec 1, 2026) and reports; it changes nothing.

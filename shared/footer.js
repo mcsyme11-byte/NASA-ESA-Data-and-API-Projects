@@ -15,6 +15,10 @@
 // It also loads shared/motion.js (reading progress, back to top, gliding tabs, rising sections), sets up the "‹ Back" button on pages that have one (see wireBack below), the soft edge fade on rows that
 // scroll sideways (wireScrollRows), and the live data status (addLiveStatus, since Nov 14, 2026): a light and one line
 // saying whether the site's data is up to date, updating now, late or failed, linked to the data-collection page.
+// Since Nov 19, 2026 it also adds the site tools (siteTools below): the search button in the top bar and "Search the
+// site" in the footer (shared/search.js), the keyboard shortcuts (shared/keys.js lists them with `?`), "Copy link to this
+// section" after each section heading, the menu's dots for new tools, and the highlight of the section being read in an
+// "On this page" bar (`nav.tabs[data-spy]`).
 // Links are worked out from this file's own address, so they are right at any folder depth.
 
 const REPO = 'https://github.com/mcsyme11-byte/NASA-ESA-Data-and-API-Projects';
@@ -27,16 +31,18 @@ const pageFooter = () => [...document.querySelectorAll('footer.footer')].pop() |
 const SECTIONS = [
   ['Asteroid Tracker', [['Overview', 'asteroid-tracker/'], ['This week', 'asteroid-tracker/tracker.html'],
     ['Impact risk', 'asteroid-tracker/tracker.html#risk'], ['Visible from here', 'asteroid-tracker/tracker.html#visible'],
-    ['Within reach', 'asteroid-tracker/mining.html'], ['Solar system map', 'asteroid-tracker/map.html']]],
+    ['Within reach', 'asteroid-tracker/mining.html', { added: '2026-11-17' }], ['Solar system map', 'asteroid-tracker/map.html']]],
   ['Image Explorer', [['Overview', 'image-explorer/'], ['Earth map', 'image-explorer/explore.html#earth'],
     ['Globe', 'image-explorer/explore.html#globe'], ['Picture library', 'image-explorer/explore.html#library']]],
   ['Mars Data', [['Overview', 'mars-data/'], ['Charts', 'mars-data/charts/'], ['How the data is made', 'mars-data/method/']]],
-  ['Space Watch', [['Overview', 'space-watch/'], ['Orbit Watch', 'orbit-watch/'],
-    ['Space Weather', 'space-weather/'], ['Exoplanets', 'exoplanets/'],
-    ['Planetary Maps', 'planet-maps/']]],
+  ['Space Watch', [['Overview', 'space-watch/', { added: '2026-11-17' }], ['Orbit Watch', 'orbit-watch/', { added: '2026-11-17' }],
+    ['Space Weather', 'space-weather/', { added: '2026-11-17' }], ['Exoplanets', 'exoplanets/', { added: '2026-11-17' }],
+    ['Planetary Maps', 'planet-maps/', { added: '2026-11-17' }]]],
   ['More', [['Sky Finder', 'sky-finder/'], ['Spacecraft map', 'spacecraft/'], ['How the data is collected', 'data-collection/'],
     ['About', 'about/'], ['Contact', 'contact/']]],
 ];
+// `added` (YYYY-MM-DD): the day a page was published; the menu marks its part of the site with a small dot for visitors
+// who were last here before that day (newDots below). Give each new page its date when it is published.
 const LEGAL = [['Legal', 'legal/'], ['Privacy', 'privacy/'], ['Terms', 'terms/'], ['Credits', 'credits/'],
   ['MIT licence', REPO + '/blob/main/LICENSE.md', { external: true }], ['Source code', REPO, { external: true }]];
 // the site's version, from this file's version tag (?v=YYYYMMDDNN, raised with every change of the shared files), linked
@@ -261,6 +267,123 @@ document.addEventListener('error', (e) => {
 // pictures that had already failed before this script ran
 const failedEarly = () => { for (const img of document.images) if (img.complete && img.currentSrc && !img.naturalWidth && !img.onerror && !img.hasAttribute('data-keep')) img.classList.add('img-failed'); };
 
-function start() { buildFooter(); wireBack(); wireScrollRows(); addLiveStatus(); addMotion(); failedEarly(); }
+
+// ============================================================== site tools (Nov 19, 2026)
+const VER = new URL(import.meta.url).search;
+const shared = (f) => new URL(f + VER, import.meta.url).href;
+const ICON_SEARCH = '<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
+const ICON_LINK = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6.5 9.5l3-3M7 4.5l1.2-1.2a2.8 2.8 0 014 4L11 8.5M9 11.5l-1.2 1.2a2.8 2.8 0 01-4-4L5 7.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
+export const openSearch = async (q = '') => (await import(shared('search.js'))).openSearch(q);
+const openKeys = async () => (await import(shared('keys.js'))).openKeys();
+
+// typing in a box, or a control that uses the keys itself, keeps them
+function typing(e) {
+  const t = e.target;
+  return e.defaultPrevented || e.altKey || (t && t.closest && t.closest('input, textarea, select, [contenteditable=""], [contenteditable="true"], dialog, [role="slider"], [role="application"], .mapframe, .frame'));
+}
+function shortcuts() {
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openSearch(); return; }
+    if (e.ctrlKey || e.metaKey || typing(e)) return;
+    if (e.key === '/') { e.preventDefault(); openSearch(); return; }
+    if (e.key === '?') { e.preventDefault(); openKeys(); return; }
+    // 1 to 9: the project's tabs (the project tab bar)
+    if (/^[1-9]$/.test(e.key)) {
+      const tabs = [...document.querySelectorAll('nav.tabs.bar:not(.sub):not([data-spy]) a[href]')];
+      const a = tabs[+e.key - 1];
+      if (a) { e.preventDefault(); a.click(); }
+      return;
+    }
+    // ← and →: the previous and next period, on tools that mark their buttons with data-key="prev" / "next"
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+      const b = [...document.querySelectorAll(`[data-key="${e.key === 'ArrowLeft' ? 'prev' : 'next'}"]`)]
+        .find((x) => !x.disabled && x.offsetParent !== null);
+      if (b) { e.preventDefault(); b.click(); }
+    }
+  });
+}
+
+// the search button in the top bar (from 761 px) and "Search the site" in the footer (every width)
+function searchButtons() {
+  const wrap = document.querySelector('.topbar .wrap');
+  if (wrap && !wrap.querySelector('.navsearch') && !document.body.hasAttribute('data-nosearch')) {
+    const b = Object.assign(document.createElement('button'), { type: 'button', className: 'navsearch' });
+    b.innerHTML = ICON_SEARCH + '<span class="t">Search</span><kbd>/</kbd>';
+    b.setAttribute('aria-label', 'Search the site');
+    b.addEventListener('click', () => openSearch());
+    wrap.append(b);
+  }
+  const brandBlock = document.querySelector('footer.footer .fbrand');
+  if (brandBlock && !brandBlock.querySelector('.fsearch')) {
+    const f = Object.assign(document.createElement('button'), { type: 'button', className: 'fsearch' });
+    f.innerHTML = ICON_SEARCH + 'Search the site';
+    f.addEventListener('click', () => openSearch());
+    brandBlock.querySelector('.ftag').after(f);
+  }
+}
+
+// "Copy link to this section" after each section heading with an id; left out of pages whose address (#…) chooses a
+// view, where a link to a section would open another view
+const NOLINKS = [/\/asteroid-tracker\/(index\.html|tracker\.html)?$/, /\/image-explorer\/explore\.html$/, /\/planet-maps\//,
+  /\/sky-finder\//, /\/design\//];
+function sectionLinks() {
+  if (NOLINKS.some((rx) => rx.test(location.pathname))) return;
+  for (const h of document.querySelectorAll('main .section-head h2[id]')) {
+    if (h.querySelector('.hlink')) continue;
+    const b = Object.assign(document.createElement('button'), { type: 'button', className: 'hlink' });
+    b.innerHTML = ICON_LINK;
+    b.setAttribute('aria-label', 'Copy link to this section');
+    b.title = 'Copy link to this section';
+    b.addEventListener('click', async () => {
+      const url = location.origin + location.pathname + location.search + '#' + h.id;
+      let ok = true;
+      try { await navigator.clipboard.writeText(url); } catch { ok = false; }
+      try { (await import(shared('motion.js'))).toast(ok ? 'Link to “' + h.textContent.trim() + '” copied' : 'Couldn’t copy the link', { bad: !ok }); } catch { /* no notice */ }
+    });
+    h.append(' ', b);
+  }
+}
+
+// a dot in the menu beside each part of the site with a page published since the visitor's last visit (the date of the
+// last visit is kept in this browser only, never sent; Privacy page); nothing on a first visit
+function newDots() {
+  let prev;
+  try {
+    prev = sessionStorage.getItem('nedap-prev');
+    if (prev === null) { prev = localStorage.getItem('nedap-last') || ''; sessionStorage.setItem('nedap-prev', prev); }
+    localStorage.setItem('nedap-last', new Date().toISOString().slice(0, 10));
+  } catch { return; }
+  if (!prev) return;
+  const folderOf = (href) => new URL(href, root).pathname.slice(root.pathname.length).split('/')[0];
+  const fresh = new Set();
+  for (const [, items] of SECTIONS) {
+    const newer = items.some(([, , o]) => o && o.added && o.added > prev && !o.soon);
+    if (newer) fresh.add(folderOf(items[0][1]));
+  }
+  for (const a of document.querySelectorAll('.topbar .nav a')) {
+    if (!fresh.has(folderOf(a.getAttribute('href'))) || a.querySelector('.newdot')) continue;
+    a.insertAdjacentHTML('beforeend', '<span class="newdot" aria-hidden="true"></span><span class="sr"> (new since your last visit)</span>');
+  }
+}
+
+// "On this page" bars (nav.tabs[data-spy] with links to #sections): the section being read is marked
+function spy() {
+  for (const bar of document.querySelectorAll('nav.tabs[data-spy]')) {
+    const links = new Map([...bar.querySelectorAll('a[href^="#"]')].map((a) => [a.getAttribute('href').slice(1), a]));
+    const seen = new Map();
+    const io = new IntersectionObserver((es) => {
+      for (const x of es) seen.set(x.target.id, x.isIntersecting ? x.intersectionRatio : 0);
+      const best = [...seen].filter(([, r]) => r > 0).sort((a, b) => b[1] - a[1])[0];
+      for (const [id, a] of links) if (best && id === best[0]) a.setAttribute('aria-current', 'location'); else if (best) a.removeAttribute('aria-current');
+    }, { rootMargin: '-120px 0px -45% 0px', threshold: [0, .1, .3, .6] });
+    for (const id of links.keys()) { const t = document.getElementById(id); if (t) io.observe(t); }
+  }
+}
+
+function siteTools() {
+  try { searchButtons(); shortcuts(); sectionLinks(); newDots(); spy(); } catch { /* the page works without them */ }
+}
+
+function start() { buildFooter(); wireBack(); wireScrollRows(); addLiveStatus(); addMotion(); failedEarly(); siteTools(); }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
 else start();

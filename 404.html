@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<!-- NASA and ESA Data Projects · "Lost in space": the page GitHub Pages shows for an address with no page · © 2026 Malcolm Syme · mcsyme11@gmail.com -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <!-- this page is shown at any address, so every link starts from the site's top folder (the repository's name on
+       GitHub Pages, the server's top folder elsewhere) -->
+  <script>(function () { var p = location.pathname, n = '/NASA-ESA-Data-and-API-Projects/', i = p.indexOf(n);
+    document.write('<base href="' + (i >= 0 ? p.slice(0, i) + n : '/') + '">'); })();</script>
+  <title>Lost in space · NASA and ESA Data Projects</title>
+  <meta name="description" content="There is no page at this address.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#141B26">
+  <link rel="icon" href="shared/icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="shared/icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="shared/icons/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="apple-mobile-web-app-title" content="NEDAP">
+  <meta name="application-name" content="NEDAP">
+  <link rel="stylesheet" href="shared/theme.css?v=2026111904">
+  <script type="module" src="shared/footer.js?v=2026111904"></script>
+</head>
+<body>
+  <svg class="starfield" id="stars" aria-hidden="true"></svg>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="./" aria-label="NASA and ESA Data Projects, home">
+        <svg class="emblem" width="26" height="26" viewBox="0 0 64 64" aria-hidden="true"><use href="shared/emblem.svg#e"/></svg><span class="bname">NASA and ESA Data Projects</span></a>
+      <nav class="nav" aria-label="Projects">
+        <a href="./">Home</a>
+        <a href="asteroid-tracker/">Asteroids</a>
+        <a href="mars-data/">Mars</a>
+        <a href="image-explorer/">Images</a>
+        <a href="space-watch/">Space Watch</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <a class="backlink" id="back" href="./">Home</a>
+    <header class="pagehead">
+      <div class="kicker">Error 404</div>
+      <h1>Lost in space</h1>
+      <p class="lede">Nothing is in orbit at this address. The page may have moved, or the link may have a small mistake in it.</p>
+      <p class="actions"><a class="btn" href="./">Go to the home page</a><button class="btn outline" type="button" id="find">Search the site</button></p>
+    </header>
+
+    <section class="section" aria-labelledby="hWhere">
+      <div class="section-head"><div><div class="kicker">Back on course</div><h2 id="hWhere">Where to go from here</h2></div></div>
+      <div class="cards three">
+        <a class="card" href="asteroid-tracker/">
+          <div class="kicker">Project 1</div>
+          <h3>Asteroid Tracker</h3>
+          <p>Near-Earth asteroids by size and distance, impact risk and the solar system map.</p>
+          <div class="foot"><span class="badges"><span class="badge nasa">NASA</span><span class="badge esa">ESA</span></span><span class="go">Open</span></div>
+        </a>
+        <a class="card" href="image-explorer/">
+          <div class="kicker">Project 2</div>
+          <h3>Image Explorer</h3>
+          <p>The Earth and space by date, place and mission.</p>
+          <div class="foot"><span class="badges"><span class="badge nasa">NASA</span><span class="badge esa">ESA</span></span><span class="go">Open</span></div>
+        </a>
+        <a class="card" href="mars-data/">
+          <div class="kicker">Project 3</div>
+          <h3>Mars Data</h3>
+          <p>The weather measured on Mars by Curiosity and Perseverance.</p>
+          <div class="foot"><span class="badge nasa">NASA</span><span class="go">Open</span></div>
+        </a>
+        <a class="card" href="space-watch/">
+          <div class="kicker">Tools</div>
+          <h3>Orbit &amp; Space Watch</h3>
+          <p>Satellites and space junk, the Sun, planets around other stars, and maps of the Moon and Mars.</p>
+          <div class="foot"><span class="badges"><span class="badge nasa">NASA</span><span class="badge esa">ESA</span></span><span class="go">Open</span></div>
+        </a>
+        <a class="card" href="spacecraft/">
+          <div class="kicker">Map</div>
+          <h3>The spacecraft map</h3>
+          <p>Where the active spacecraft of NASA, ESA and others are right now.</p>
+          <div class="foot"><span class="badge nasa">NASA/JPL</span><span class="go">Open</span></div>
+        </a>
+        <a class="card" href="sky-finder/">
+          <div class="kicker">Phone app</div>
+          <h3>Sky Finder</h3>
+          <p>Find the space stations and tonight's passing asteroids in your own sky.</p>
+          <div class="foot"><span class="badge">Phone</span><span class="go">Open</span></div>
+        </a>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="ftop"><p class="copy">© 2026 <strong>Malcolm Syme</strong> · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></p></div>
+      <p class="fnote">Data courtesy of NASA and ESA. An independent project, not endorsed by NASA or ESA.</p>
+    </footer>
+  </main>
+
+  <script type="module">
+    // "Search the site" opens the site search (shared/search.js, through shared/footer.js), with the words of the
+    // missing address already typed in
+    import { openSearch } from './shared/footer.js?v=2026111904';
+    const words = decodeURIComponent(location.pathname.split('/').filter(Boolean).pop() || '').replace(/\.html?$/, '').replace(/[-_]+/g, ' ');
+    document.getElementById('find').addEventListener('click', () => openSearch(/NASA ESA Data and API Projects/i.test(words) ? '' : words));
+  </script>
+  <script type="module" src="shared/starfield.js"></script>
+</body>
+</html>

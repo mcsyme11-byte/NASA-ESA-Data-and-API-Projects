@@ -8,15 +8,27 @@
   <title>Charts · Mars Data · NASA and ESA Data Projects</title>
   <meta name="theme-color" content="#141B26">
   <meta name="description" content="The weather on Mars measured by NASA's Curiosity rover since 2012, with Perseverance at Jezero Crater: pressure, temperature, humidity and ultraviolet by season and time of day.">
+  <!-- preview card for shared links (dev/build_social.py) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="NASA and ESA Data Projects">
+  <meta property="og:title" content="Charts · Mars Data">
+  <meta property="og:description" content="The weather on Mars measured by NASA's Curiosity rover since 2012, with Perseverance at Jezero Crater: pressure, temperature, humidity and ultraviolet by season and time of day.">
+  <meta property="og:url" content="https://mcsyme11-byte.github.io/NASA-ESA-Data-and-API-Projects/mars-data/charts/">
+  <meta property="og:image" content="https://mcsyme11-byte.github.io/NASA-ESA-Data-and-API-Projects/shared/og/mars-data.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Mars Data: The weather measured on Mars by Curiosity and Perseverance">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- /preview card -->
   <link rel="icon" href="../../shared/icons/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="icon" href="../../shared/icons/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="../../shared/icons/apple-touch-icon.png">
   <link rel="manifest" href="../../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../../shared/theme.css?v=2026111903">
-  <script type="module" src="../../shared/footer.js?v=2026111903"></script>
-  <link rel="stylesheet" href="../mars.css?v=2026111903">
+  <link rel="stylesheet" href="../../shared/theme.css?v=2026111904">
+  <script type="module" src="../../shared/footer.js?v=2026111904"></script>
+  <link rel="stylesheet" href="../mars.css?v=2026111904">
 </head>
 <body>
   <header class="topbar">
@@ -824,7 +836,7 @@
       if (MEX_LIVE) await loadMex();
       return md && ms;
     }
-    import("../../shared/reload.js?v=2026111903").then(({ reloadPage }) => reloadPage(document.getElementById("reloadAll"), reloadAll)).catch(() => { document.getElementById("reloadAll").hidden = true; });
+    import("../../shared/reload.js?v=2026111904").then(({ reloadPage }) => reloadPage(document.getElementById("reloadAll"), reloadAll)).catch(() => { document.getElementById("reloadAll").hidden = true; });
     loadSol(fullT.at(-1).sol);
     let lastW = innerWidth, timer;
     // Section menu: the section in view is marked.

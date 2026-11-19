@@ -1,5 +1,23 @@
 # Change log
 
+## November 19, 2026 — Site search, shortcuts, preview cards, Lost in space and the Space Watch figures
+
+- **Site search** (`shared/search.js`): a search button in the top bar, "Search the site" in the footer, and the keys
+  `/` and Ctrl+K open a panel that searches every page, its sections, the footer's views and the spacecraft map's
+  craft. Its list, `shared/search.json`, is built by `dev/build_search.py`, which GitHub now runs with the Project Record.
+- **Keyboard shortcuts** (`shared/keys.js`): `?` lists them; `1`–`9` open a project's tabs; ← → step through periods on
+  tools that mark their buttons (`data-key`).
+- **Copy link to this section** after each section heading; **a dot in the menu** for tools added since the visitor's
+  last visit (the date is kept in the browser only; Privacy page updated); **changes between pages** with the top bar
+  in place; **loading shapes** (`.skel`); an **"On this page" bar under a project tab bar** (`.tabs.bar.sub`, with
+  `data-spy` marking the section being read).
+- **Preview cards for shared links:** Open Graph and Twitter tags in every page (`dev/build_social.py`, checked by
+  `dev/check_docs.py`) and a picture for each part of the site in `shared/og/`. Mars Data's two pages got descriptions.
+- **Lost in space** (`404.html`): the page shown for an address with no page.
+- **Space Watch:** a strip of live figures from the tools' saved data (objects tracked, flares in the last 7 days,
+  the latest Kp, confirmed planets; `space-watch/figures.js`).
+- The roadmap gathers the work waiting on outside sources in a new section 6. Version tag 2026111904.
+
 ## November 19, 2026 — Reload buttons in the Asteroid Tracker and Sky Finder; the shared map card
 
 - **Reload buttons** (`shared/reload.js`, `docs/DESIGN.md` "Reload buttons") read a page's data again without

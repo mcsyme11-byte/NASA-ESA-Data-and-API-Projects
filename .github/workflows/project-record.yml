@@ -7,6 +7,7 @@
 # other data refreshes, in the data/ folders, and the data jobs' status files in shared/data/status/) or only the record itself; none of those files are in the record. A push
 # that also changes anything else rebuilds it as usual.
 # If several pushes arrive close together, only the newest one is built. Its own commit doesn't start another run.
+# The same run rebuilds the site search's list (shared/search.json, dev/build_search.py) and commits it with the record.
 # Run it by hand: GitHub › Actions › Project Record › Run workflow.
 
 name: Project Record
@@ -72,11 +73,16 @@ jobs:
           sh docs/record/build.sh
           pdffonts "docs/NASA and ESA Data Projects - Project Record.pdf" | grep -q Gelasio || { echo "STOP: the PDF isn't set in Gelasio"; exit 1; }
 
+      # the site search's list of pages (shared/search.json, since Nov 19, 2026), rebuilt here so pages never add
+      # themselves; it goes into the same commit as the record
+      - name: The site search's list
+        run: python3 dev/build_search.py
+
       - name: Commit it
         run: |
           git config user.name "Project Record (automatic)"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "docs/NASA and ESA Data Projects - Project Record.pdf"
+          git add "docs/NASA and ESA Data Projects - Project Record.pdf" shared/search.json
           if git diff --cached --quiet; then echo "The record is already up to date."; exit 0; fi
           git commit -q -m "Project Record rebuilt (automatic)"
           if git push -q origin HEAD:main; then echo "Pushed."; exit 0; fi

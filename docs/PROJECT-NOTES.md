@@ -4,6 +4,18 @@ How NASA and ESA Data Projects is built, the decisions made so far, and how to r
 
 ## Decisions
 
+- **Decided Nov 19, 2026 (the name NEDAP):** a trademark search (CIPO and WIPO's Global Brand Database) found NEDAP
+  registered in Canada by Nedap N.V. (TMA1226461, registered Mar 22, 2024, classes 7, 9, 11, 35, 37, 42 and 45). The
+  name stays as the short name of this free, non-commercial education site; no trademark is filed for it (a filing
+  for software or online services would meet that registration). Any future filing would be for the patch design or
+  another word, with a trademark agent's advice.
+- **Decided Nov 19, 2026 (site tools):** approved and built the same day: the site search (`shared/search.js`, its list
+  rebuilt by GitHub with the Project Record), keyboard shortcuts with a `?` panel, "Copy link to this section", a dot
+  in the menu for tools added since the last visit (date kept in the browser only), changes between pages with the
+  top bar in place, loading shapes, the "On this page" bar under a project tab bar, preview cards for shared links
+  (`dev/build_social.py`, pictures in `shared/og/`), the "Lost in space" page (`404.html`) and the Space Watch page's
+  live figures. Components in `docs/DESIGN.md`; each project adopts the per-page parts (handoff of the same day).
+- **Decided Nov 19, 2026 (Exoplanets, CHEOPS):** the CHEOPS light curve is read through DACE (University of Geneva).
 - **Decided Nov 18, 2026 (the checks procedure):** a repo-wide check that day still left `CLAUDE.md`'s project table,
   the About page, the home page's description, the app description (`site.webmanifest`) and
   `docs/CLAUDE-PROJECT-SETUP.md` naming three projects, because the check covered only the README and the Project

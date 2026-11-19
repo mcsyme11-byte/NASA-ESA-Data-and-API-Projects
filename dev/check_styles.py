@@ -35,7 +35,8 @@ SHARED = ['readbar', 'totop', 'glide', 'glides', 'reveal', 'btn', 'chip', 'chips
           'nav', 'brand', 'more', 'viewhead', 'actions', 'field', 'sr', 'hscroll', 'callout', 'stage', 'medal',
           'need', 'chart', 'chartcard', 'display-link', 'summary', 'updated', 'facts', 'light', 'livestatus',
           'levels', 'board', 'board-head', 'jobs', 'job', 'job-when', 'job-side', 'job-state', 'srcstate', 'ticks',
-          'reload', 'reloader', 'rnote', 'phtitle', 'nowrap', 'img-failed', 'egg-turn', 'egg-comet']
+          'reload', 'reloader', 'rnote', 'phtitle', 'nowrap', 'img-failed', 'egg-turn', 'egg-comet',
+          'navsearch', 'fsearch', 'dlg', 'shead2', 'sbody', 'sfoot', 'hits', 'keylist', 'grouph', 'hlink', 'newdot', 'skel', 'hit', 'keyhint']
 
 # 5. the project tab bars: folder -> the bar's label; pages that are not one of the project's views (an asteroid's own
 # page) carry the bar but need no link to themselves

@@ -942,3 +942,98 @@ img.medal.egg-turn { animation: egg-turn 1.2s var(--ease); }
   background: var(--ink); box-shadow: 0 0 10px var(--brass-bright); }
 @keyframes egg-comet { to { left: calc(100vw + 160px); top: 48vh; opacity: .2; } }
 @media (prefers-reduced-motion: reduce) { .egg-comet { display: none; } img.medal.egg-turn { animation: none; } }
+
+/* ============================================================== site tools (Nov 19, 2026): search, shortcuts, links to
+   sections, "new" marks, page changes, loading shapes and the "On this page" bar under a project tab bar */
+
+/* smooth changes between pages: the browser fades one page into the next and keeps the top bar in place (View
+   Transitions between documents; browsers without them simply change page) */
+@view-transition { navigation: auto; }
+.topbar { view-transition-name: topbar; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .22s; }
+@media (prefers-reduced-motion: reduce) { @view-transition { navigation: none; } }
+
+/* the search button in the top bar (added by shared/footer.js from 761 px; on phones the footer has "Search the site") */
+.navsearch { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 10px 0 12px; margin-left: var(--sp2);
+  background: none; border: 1px solid var(--line2); border-radius: 999px; color: var(--ink2); font: inherit; font-size: 13px; cursor: pointer; }
+.navsearch:hover { color: var(--ink); border-color: var(--brass-dim); }
+.navsearch svg { width: 15px; height: 15px; flex: none; }
+.navsearch kbd { margin-left: 2px; }
+@media (max-width: 1080px) { .navsearch .t, .navsearch kbd { display: none; } .navsearch { padding: 0 11px; } }
+@media (max-width: 760px) { .navsearch { display: none; } }
+.fsearch { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; margin-top: var(--sp3); padding: 0 14px;
+  background: none; border: 1px solid var(--line2); border-radius: 999px; color: var(--ink2); font: inherit; font-size: 14px; cursor: pointer; }
+.fsearch:hover { color: var(--ink); border-color: var(--brass-dim); }
+.fsearch svg { width: 15px; height: 15px; }
+
+/* a key on the keyboard */
+kbd { display: inline-block; min-width: 1.7em; padding: 1px 6px; border: 1px solid var(--line2); border-bottom-width: 2px; border-radius: 5px;
+  background: var(--bg2); color: var(--ink2); font: 12px/1.5 var(--mono); text-align: center; }
+
+/* a panel over the page (the site search and the list of shortcuts): <dialog class="dlg"> */
+dialog.dlg { width: min(640px, calc(100vw - 24px)); max-height: min(78vh, 720px); margin: 10vh auto auto; padding: 0;
+  background: var(--card); color: var(--ink); border: 1px solid var(--line2); border-radius: var(--r-sm); box-shadow: 0 24px 60px rgba(0, 0, 0, .55); }
+dialog.dlg[open] { display: flex; flex-direction: column; }
+dialog.dlg::backdrop { background: rgba(8, 11, 17, .72); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
+.dlg .shead2 { display: flex; align-items: center; gap: var(--sp3); padding: var(--sp3) var(--sp4); border-bottom: 1px solid var(--line); }
+.dlg .shead2 h2 { font-size: 20px; flex: 1; }
+.dlg .shead2 input { flex: 1; min-width: 0; min-height: 44px; border: 0; background: none; color: var(--ink); font: inherit; font-size: 18px; outline: none; }
+.dlg .shead2 svg { width: 18px; height: 18px; color: var(--brass); flex: none; }
+.dlg .close { min-width: 40px; min-height: 40px; background: none; border: 1px solid transparent; border-radius: 50%; color: var(--ink2); font-size: 22px; line-height: 1; cursor: pointer; }
+.dlg .close:hover { color: var(--ink); border-color: var(--line2); }
+.dlg .sbody { overflow-y: auto; padding: var(--sp2) 0; overscroll-behavior: contain; }
+.dlg .sfoot { padding: var(--sp2) var(--sp4); border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px var(--sp4); }
+.hits { list-style: none; margin: 0; padding: 0; }
+.hits a { display: block; padding: 10px var(--sp4); color: var(--ink); border-left: 2px solid transparent; text-decoration: none; }
+.dlg .shead2 input, .dlg .shead2 input:focus { border: 0; box-shadow: none; padding: 0; }
+.hits a:hover, .hits a[aria-selected="true"] { background: var(--card2); border-left-color: var(--brass); }
+.hits .ht { display: block; font-size: 16.5px; }
+.hits .hs { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 13.5px; color: var(--muted); font-style: italic; overflow-wrap: anywhere; }
+@media (hover: none) { .dlg .keyhint { display: none; } }
+.hits .hk { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--brass); font-style: normal; margin-right: 8px; }
+.hits mark { background: none; color: var(--brass-bright); }
+.dlg .none { padding: var(--sp5) var(--sp4); color: var(--muted); font-style: italic; }
+.keylist { margin: 0; padding: var(--sp2) var(--sp4) var(--sp4); display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 10px var(--sp4); align-items: baseline; }
+.keylist dt { white-space: nowrap; }
+.keylist dd { margin: 0; color: var(--ink2); }
+.keylist .grouph { grid-column: 1 / -1; margin-top: var(--sp2); font-size: 11.5px; letter-spacing: .22em; text-transform: uppercase; color: var(--brass); }
+
+/* "Copy link to this section": a small link mark after each section heading (added by shared/footer.js) */
+.hlink { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; margin: -10px -12px -10px 0;
+  vertical-align: middle; background: none; border: 0; color: var(--faint); cursor: pointer; opacity: .55; }
+.hlink svg { width: 16px; height: 16px; }
+.hlink:hover, .hlink:focus-visible { color: var(--brass); opacity: 1; }
+:is(h2, h3):hover > .hlink { opacity: 1; }
+@media print { .hlink { display: none; } }
+
+/* a small dot in the menu beside a part of the site with a tool added since the visitor's last visit */
+.nav a .newdot { width: 6px; height: 6px; margin-left: 6px; border-radius: 50%; background: var(--brass-bright);
+  box-shadow: 0 0 8px var(--brass); flex: none; }
+
+/* loading shapes matched to what is loading (in place of .loading's three lines): a chart, rows of a table, a number.
+   <div class="skel chart" aria-hidden="true"></div>, with the words for screen readers beside it */
+.skel { display: block; background: linear-gradient(100deg, var(--card) 30%, color-mix(in srgb, var(--brass) 22%, var(--card2)) 50%, var(--card) 70%) 0 0 / 220% 100%;
+  animation: shimmer 1.6s linear infinite; border-radius: 4px; }
+.skel.num { width: 4.2em; height: 1em; font-size: clamp(22px, 16cqi, 36px); margin: var(--sp2) 0 var(--sp1); }
+.skel.line { width: 70%; height: 12px; }
+.skel.rows { width: 100%; height: 200px;
+  -webkit-mask: repeating-linear-gradient(#000 0 14px, transparent 14px 40px); mask: repeating-linear-gradient(#000 0 14px, transparent 14px 40px); }
+.skel.chart { width: 100%; height: 240px;
+  -webkit-mask: linear-gradient(#000 0 0) 0 0 / 2px 100% no-repeat, linear-gradient(#000 0 0) 0 100% / 100% 2px no-repeat,
+    linear-gradient(#000 0 0) 8% 100% / 7% 45% no-repeat, linear-gradient(#000 0 0) 24% 100% / 7% 70% no-repeat,
+    linear-gradient(#000 0 0) 40% 100% / 7% 55% no-repeat, linear-gradient(#000 0 0) 56% 100% / 7% 85% no-repeat,
+    linear-gradient(#000 0 0) 72% 100% / 7% 60% no-repeat, linear-gradient(#000 0 0) 88% 100% / 7% 75% no-repeat;
+  mask: linear-gradient(#000 0 0) 0 0 / 2px 100% no-repeat, linear-gradient(#000 0 0) 0 100% / 100% 2px no-repeat,
+    linear-gradient(#000 0 0) 8% 100% / 7% 45% no-repeat, linear-gradient(#000 0 0) 24% 100% / 7% 70% no-repeat,
+    linear-gradient(#000 0 0) 40% 100% / 7% 55% no-repeat, linear-gradient(#000 0 0) 56% 100% / 7% 85% no-repeat,
+    linear-gradient(#000 0 0) 72% 100% / 7% 60% no-repeat, linear-gradient(#000 0 0) 88% 100% / 7% 75% no-repeat; }
+@media (max-width: 760px) { .skel.chart { height: 180px; } .skel.rows { height: 160px; } }
+
+/* "On this page" under a project tab bar: <nav class="tabs bar sub" data-spy aria-label="On this page"> with links to
+   the page's sections; it stays under the project's bar, and shared/footer.js marks the section being read */
+.tabs.bar.sub { top: 109px; z-index: 39; border-bottom-color: var(--line); }
+.tabs.bar.sub a { min-height: 40px; font-size: 11px; color: var(--muted); }
+@media (max-width: 760px) { .tabs.bar.sub { top: 105px; } }
+html:has(.tabs.bar.sub) [id] { scroll-margin-top: 164px; }
+/* buttons under a page head's lede (the Lost in space page, Nov 19, 2026) */
+.pagehead .actions { margin-top: var(--sp5); }

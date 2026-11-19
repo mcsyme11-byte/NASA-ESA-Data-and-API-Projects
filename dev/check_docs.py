@@ -42,7 +42,7 @@ def sections():
     body = js[js.index('const SECTIONS = ['):]
     body = body[body.index('['):body.index('\n];') + 2]
     body = re.sub(r'//[^\n]*', '', body).replace("'", '"')
-    body = re.sub(r'\{\s*soon:\s*true\s*\}', '{"soon": true}', body)
+    body = re.sub(r'([{,]\s*)(\w+)\s*:', r'\1"\2":', body)          # { soon: true, added: "…" } as JSON
     body = re.sub(r',\s*([\]}])', r'\1', body)
     return [(name, [(i[0], i[1], bool(len(i) > 2 and i[2].get('soon'))) for i in items]) for name, items in json.loads(body)]
 
@@ -165,7 +165,12 @@ def main():
         if l.startswith('  ') and not l.lstrip().startswith(('- ', '* ')) and n > 1 and road[n - 2].strip() == '':
             problems.append(f'docs/ROADMAP.md:{n}: an indented line on its own (left behind when the item above it was removed?)')
 
-    # 9. links between documents
+    # 9. every page has its preview card for shared links (dev/build_social.py, Nov 19, 2026)
+    card = subprocess.run([sys.executable, os.path.join(ROOT, 'dev', 'build_social.py'), '--check'], cwd=ROOT, capture_output=True, text=True)
+    if card.returncode:
+        problems.append(card.stdout.strip())
+
+    # 10. links between documents
     for f in subprocess.run(['git', 'ls-files', '-z', '*.md'], cwd=ROOT, capture_output=True, text=True).stdout.split('\0'):
         if not f or 'handoffs/' in f:
             continue

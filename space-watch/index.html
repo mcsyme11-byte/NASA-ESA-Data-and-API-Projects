@@ -6,6 +6,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Orbit &amp; Space Watch · NASA and ESA Data Projects</title>
   <meta name="description" content="Four tools built on NASA and ESA data: satellites and space junk, space weather, planets around other stars, and maps of the Moon and Mars.">
+  <!-- preview card for shared links (dev/build_social.py) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="NASA and ESA Data Projects">
+  <meta property="og:title" content="Orbit &amp; Space Watch">
+  <meta property="og:description" content="Four tools built on NASA and ESA data: satellites and space junk, space weather, planets around other stars, and maps of the Moon and Mars.">
+  <meta property="og:url" content="https://mcsyme11-byte.github.io/NASA-ESA-Data-and-API-Projects/space-watch/">
+  <meta property="og:image" content="https://mcsyme11-byte.github.io/NASA-ESA-Data-and-API-Projects/shared/og/space-watch.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Orbit &amp; Space Watch: Satellites and space junk, the Sun, planets around other stars, and maps of the Moon and Mars">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- /preview card -->
   <meta name="theme-color" content="#141B26">
   <link rel="icon" href="../shared/icons/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="icon" href="../shared/icons/favicon.svg" type="image/svg+xml">
@@ -13,8 +25,8 @@
   <link rel="manifest" href="../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111903">
-  <script type="module" src="../shared/footer.js?v=2026111903"></script>
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111904">
+  <script type="module" src="../shared/footer.js?v=2026111904"></script>
 </head>
 <body>
   <header class="topbar">
@@ -38,6 +50,14 @@
       <h1>Orbit &amp; Space Watch</h1>
       <p class="lede">What is around the Earth, what the Sun is doing, the planets of other stars, and maps of the Moon and Mars, each from the agencies' own data.</p>
     </header>
+
+    <!-- the tools' latest figures, from their saved data (space-watch/figures.js); the strip is hidden if none can be read -->
+    <div class="stats" id="figures" aria-live="polite">
+      <div class="stat"><div class="label">Tracked in orbit</div><div class="value" id="fObjects">–</div><div class="note" id="fObjectsN">objects in the satellite catalogue</div></div>
+      <div class="stat"><div class="label">Solar flares</div><div class="value" id="fFlares">–</div><div class="note" id="fFlaresN">in the last 7 days</div></div>
+      <div class="stat"><div class="label">Geomagnetic activity</div><div class="value" id="fKp">–</div><div class="note" id="fKpN">the latest measured Kp</div></div>
+      <div class="stat"><div class="label">Planets of other stars</div><div class="value" id="fPlanets">–</div><div class="note" id="fPlanetsN">confirmed so far</div></div>
+    </div>
 
     <section class="section" aria-labelledby="hTools">
       <div class="section-head"><div><div class="kicker">The tools</div><h2 id="hTools">Four ways to look</h2></div><p class="aside">All four are live, each with its own pages.</p></div>
@@ -111,5 +131,6 @@
       <p class="fnote">Data courtesy of NASA and ESA. An independent project, not endorsed by NASA or ESA.</p>
     </footer>
   </main>
+  <script type="module" src="figures.js?v=2026111904"></script>
 </body>
 </html>

@@ -44,7 +44,8 @@ All three pass with no problems (GitHub runs them after every push; run them by 
 ```
 python3 dev/check_wording.py    # professional wording, no personal details, no keys
 python3 dev/check_styles.py     # shared components only, no page styles, one version tag, project tab bars
-python3 dev/check_docs.py       # every place below names every live project; roadmap shape; links between documents
+python3 dev/check_docs.py       # every place below names every live project; roadmap shape; links between documents;
+                                # every page's preview card tags (dev/build_social.py --check)
 ```
 
 ## Step 2. Every place that describes the whole site

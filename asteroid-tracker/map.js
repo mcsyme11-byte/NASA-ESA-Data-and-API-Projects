@@ -7,7 +7,7 @@ import { SolarMap, wrap180, Asteroids, CLASSES, COL, spacecraftAt, classOf, COME
 import { planetPosition, jdFromMs, msFromJd, dist, LD_AU, AU_KM } from './orbit.js';
 import { fmt, sizeText, sizePicture, diameterM, LD_KM } from './format.js';
 import { loadMapData, loadExtras } from './mapdata.js';
-import { reloadPage } from '../shared/reload.js?v=2026111903';
+import { reloadPage } from '../shared/reload.js?v=2026111904';
 import { searchNames, neowsId, decodeName } from './search.js';
 import { placeKeeper, scrollBack } from './back.js';
 import { riskDesignations, forgetLists } from './esa.js';
