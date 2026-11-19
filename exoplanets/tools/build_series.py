@@ -157,8 +157,11 @@ def cheops_curves(star, nvisits):
             if all(w in low for w in want) and not any(a in low for a in avoid):
                 return k
         return None
-    kt = find('bjd') or find('time', avoid=('exp',))
-    kf = find('flux', avoid=('err', 'bad', 'bg', 'background', 'contam', 'smear'))
+    # DACE's names (checked Nov 19, 2026): obj_date_bjd_vect, photom_flux_vect (the pipeline's corrected flux; not
+    # photom_flux_raw_vect), photom_event_vect (every flag together; 0 is a good point), file_key (the visit)
+    kt = ('obj_date_bjd_vect' if 'obj_date_bjd_vect' in cols else None) or find('bjd') or find('time', avoid=('exp',))
+    kf = ('photom_flux_vect' if 'photom_flux_vect' in cols else None) or \
+        find('flux', avoid=('err', 'raw', 'bad', 'bg', 'background', 'contam', 'conta', 'smear'))
     if not (kt and kf):
         raise ValueError('time or flux column not found among DACE columns')
     t = cols[kt].astype(float)
@@ -166,10 +169,10 @@ def cheops_curves(star, nvisits):
     if np.nanmedian(t) < 2.4e6:                   # a reduced BJD (days since 2,400,000) made whole
         t = t + 2400000.0
     ok = np.isfinite(t) & np.isfinite(f) & (f > 0)
-    for want in (('status',), ('event',)):         # the pipeline's flags: 0 is a good point
-        k = find(*want)
-        if k is not None:
-            ok &= cols[k].astype(float) == 0
+    kflag = 'photom_event_vect' if 'photom_event_vect' in cols else find('status')
+    if kflag is not None:                          # the pipeline's flags: 0 is a good point
+        ok &= cols[kflag].astype(float) == 0
+    print('  using %s, %s, flags %s' % (kt, kf, kflag))
     kv = find('file_key') or find('visit') or find('filekey')
     visits = cols[kv].astype(str) if kv else None
     if visits is None:                             # no visit column: a gap of more than a day starts a new visit
@@ -178,7 +181,7 @@ def cheops_curves(star, nvisits):
         visits = np.empty(t.size, dtype=object)
         visits[order] = cut.astype(str)
     out = []
-    for v in sorted(set(visits[ok]))[:nvisits]:
+    for v in sorted(set(visits[ok])):
         m = ok & (visits == v)
         o = np.argsort(t[m])
         out.append((str(v), t[m][o], f[m][o]))
@@ -205,9 +208,9 @@ def transit(target):
             cover = 0.4 if mission == 'CHEOPS' else 0.6
             dts, fs, files, epochs, cads = [], [], [], set(), []
             for name, t, f in curves:
-                if t.size == 0:
+                if t.size == 0 or len(files) >= target['files']:
                     continue
-                files.append(name)
+                before = len(epochs)
                 # how many points make a whole transit depends on how often the telescope measures (TESS: every 2
                 # minutes; Kepler's long cadence: every 29.4 minutes; CHEOPS: under a minute)
                 cad = float(np.median(np.diff(t))) if t.size > 1 else 0.02
@@ -228,6 +231,8 @@ def transit(target):
                     dts.append(x * 24)
                     fs.append(y / np.polyval(c, x))
                     epochs.add(n)
+                if mission != 'CHEOPS' or len(epochs) > before:
+                    files.append(name)           # CHEOPS: only the visits that caught a transit are counted
             if len(epochs) < 2:
                 raise ValueError('fewer than two whole transits in the light curves')
             x, y = np.concatenate(dts), np.concatenate(fs)
