@@ -30,7 +30,7 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
 - [ ] Layout shift handed to the Asteroid Tracker chat (Nov 18, 2026; `dev/known_issues.json`): Sky Finder's place
   panel opens after the stored place is read (decide it before the first paint), and an asteroid's page draws its
   facts and orbit late (placeholders of their size in the page). Also handed off the same day: the tracker's Search view (Asteroid
-  Tracker), Close calls at 390 px (Orbit Watch) and Every planet at tablet widths (Exoplanets).
+  Tracker) and Close calls at 390 px (Orbit Watch).
 - [ ] Ideas from the review of Nov 18, 2026, each needing a mock-up the developer approves: a "Lost in space" 404 page
   (GitHub Pages shows `404.html` for a missing address); preview cards (Open Graph) for shared links.
 

@@ -28,13 +28,6 @@
       "owner": "Orbit Watch",
       "since": "2026-11-18",
       "why": "at 390 px the list of passes replaces a short placeholder; the placeholder should hold the list's first rows' height"
-    },
-    {
-      "page": "exoplanets/explorer.html",
-      "check": "layout-shift",
-      "owner": "Exoplanets",
-      "since": "2026-11-18",
-      "why": "at tablet widths the planet table and its count push the page as they arrive"
     }
   ]
 }

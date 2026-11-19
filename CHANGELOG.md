@@ -1,5 +1,11 @@
 # Change log
 
+## November 18, 2026 — Exoplanets: Every planet no longer moves as it loads
+
+- `exoplanets/explorer.html`: the method buttons, the planet count ("… planets") and the "Planet list as of …" line
+  are written into the page, so nothing is pushed down when the list arrives (the layout shift at 768 and 1024 px
+  listed in `dev/known_issues.json` on Nov 18, 2026, now removed from it and from the roadmap).
+
 ## November 18, 2026 — The footer follows a switch of view
 
 - The footer's mark of the current page now moves when a view is switched inside a page (Image Explorer's Earth map,

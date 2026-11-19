@@ -133,7 +133,7 @@ $('#list').addEventListener('click', (e) => {
 addEventListener('popstate', () => fromUrl(false));
 let qt;
 $('#q').addEventListener('input', () => { clearTimeout(qt); qt = setTimeout(() => { st.q = $('#q').value; st.shown = PAGE; render(); }, 120); });
-$('#method').innerHTML = [{ id: 'all', label: 'All' }, ...GROUPS].map((g, i) => `<button type="button" aria-pressed="${i === 0}" data-m="${g.id}">${g.id === 'other' ? 'Timing and other' : g.label}</button>`).join('');
+// the method buttons are written in explorer.html (one per group in data.js GROUPS), so nothing moves as the page loads
 $('#method').addEventListener('click', (e) => {
   const b = e.target.closest('button'); if (!b) return;
   $('#method').querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', x === b));

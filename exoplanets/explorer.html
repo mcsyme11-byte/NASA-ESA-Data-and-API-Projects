@@ -81,12 +81,12 @@
           <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 15l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
           <span class="sr">Find a planet or star</span><input type="search" id="q" placeholder="Planet or star" autocomplete="off" spellcheck="false">
         </label>
-        <div class="seg" role="group" aria-label="Found by" id="method"></div>
+        <div class="seg" role="group" aria-label="Found by" id="method"><button type="button" aria-pressed="true" data-m="all">All</button><button type="button" aria-pressed="false" data-m="transit">Transit</button><button type="button" aria-pressed="false" data-m="rv">Radial velocity</button><button type="button" aria-pressed="false" data-m="micro">Microlensing</button><button type="button" aria-pressed="false" data-m="imaging">Direct imaging</button><button type="button" aria-pressed="false" data-m="astrometry">Astrometry</button><button type="button" aria-pressed="false" data-m="other">Timing and other</button></div>
         <div class="chips"><button class="chip" type="button" id="hz" aria-pressed="false">Habitable zone</button><button class="chip" type="button" id="small" aria-pressed="false">About Earth's size</button></div>
         <label>Sort <select id="sort">
           <option value="dist">Nearest first</option><option value="year">Newest first</option><option value="name">By name</option>
           <option value="radius">Largest first</option><option value="period">Shortest year first</option></select></label>
-        <span class="count" id="count" aria-live="polite"></span>
+        <span class="count" id="count" aria-live="polite">… planets</span>
       </div>
       <div class="panel">
         <div class="pb flush listframe">
@@ -102,7 +102,7 @@
         </details>
       </div>
       <div class="more"><button class="btn outline" id="more" type="button" hidden>Show more</button></div>
-      <p class="caption after" id="updated"></p>
+      <p class="caption after" id="updated">Planet list as of …, from the NASA Exoplanet Archive. Choose a planet for its system and its habitable-zone sums.</p>
     </section>
 
     <p class="srcline">Planet data: NASA Exoplanet Archive, Planetary Systems Composite Parameters table; the archive is operated by the California Institute of Technology under contract with NASA under the Exoplanet Exploration Program. Habitable zone: NASA Exoplanet Exploration Program (Mamajek &amp; Stapelfeldt 2023) and Kopparapu et al. (2013, 2014). Data courtesy of NASA.</p>
