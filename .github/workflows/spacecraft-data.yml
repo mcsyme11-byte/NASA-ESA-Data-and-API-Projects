@@ -11,6 +11,13 @@
 # about a day and a half; the browser works out every position in between.
 # Also runs after a change to the fetch script, the catalogue or the past missions (spacecraft/past.json, since
 # Nov 15, 2026), so an edit is on the map straight away.
+# CelesTrak (since Nov 19, 2026): the first step downloads the element groups once with Orbit Watch's script
+# (orbit-watch/fetch_orbits.py --only gp --keep), and the spacecraft script reads the active satellites from that copy
+# (--from), asking CelesTrak only by name or number for craft not in it; both read CSV (six-digit catalogue numbers).
+# Orbit Watch's files written by that step are not saved here: Orbit data (orbit-data.yml) saves them on its own
+# schedule. CelesTrak asks for the active list at most once in two hours, so the two jobs' times stay at least five
+# hours apart (Spacecraft data 05:23 and 17:53, Orbit data 11:13 and 23:13 UTC). If the download fails, the spacecraft
+# script reads CelesTrak's smaller groups instead, and stops at CelesTrak's first failure, keeping the previous tle.json.
 # Run by hand: Actions › Spacecraft data › Run workflow.
 # Follows the data-job standard in docs/DATA-UPDATES.md: the last step (dev/datajob.py) checks the files before they are
 # saved, records the state in shared/data/status/spacecraft-data.json, with every "not found" line of the log as a
@@ -51,10 +58,18 @@ jobs:
       # If one source cannot be read, the run is marked with a warning but what was read is still saved (the
       # previous file is kept for the other). "-u" writes the log line by line, so a run that is stopped still shows
       # how far it got.
+      # one download of CelesTrak's element groups, kept in $RUNNER_TEMP/celestrak for the next step; Orbit Watch's
+      # files it writes are put back, since Orbit data saves them
+      - name: Download CelesTrak's element groups once (Orbit Watch's script)
+        continue-on-error: true
+        run: |
+          python3 -u orbit-watch/fetch_orbits.py --only gp --keep "$RUNNER_TEMP/celestrak" || true
+          git checkout -- orbit-watch/data 2>/dev/null || true
+          ls -l "$RUNNER_TEMP/celestrak" 2>/dev/null || echo "No CelesTrak copy kept: the spacecraft script reads the smaller groups."
       - name: Fetch spacecraft positions and orbital elements
         id: fetch
         continue-on-error: true
-        run: python3 -u spacecraft/fetch_spacecraft.py | tee "$RUNNER_TEMP/spacecraft.log"
+        run: python3 -u spacecraft/fetch_spacecraft.py --from "$RUNNER_TEMP/celestrak" | tee "$RUNNER_TEMP/spacecraft.log"
       - name: Check, record and commit
         if: always()
         run: >-
