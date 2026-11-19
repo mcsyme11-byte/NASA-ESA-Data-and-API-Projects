@@ -1,7 +1,7 @@
 {
  "job": "spacecraft-data",
  "workflow": ".github/workflows/spacecraft-data.yml",
- "last_data_change": "2026-11-19T19:34:06Z",
+ "last_data_change": "2026-11-19T19:54:45Z",
  "sources": {
   "checks": {
    "state": "ok",
@@ -18,6 +18,6 @@
   "Tianwen-2 not found in Horizons (Tianwen-2, Tianwen 2)",
   "Tianwen-1 not found in Horizons (Tianwen-1, Tianwen 1)",
   "Chang'e 7 not found in Horizons (Chang'e 7, Chang'e-7, Change 7, CE-7)",
-  "not found: CelesTrak stopped answering (HTTP 404); no further CelesTrak request this run, tle.json kept as it was"
+  "tess not found at CelesTrak"
  ]
 }
