@@ -1,5 +1,12 @@
 # Change log
 
+## November 19, 2026 — Planetary Maps: loading shapes
+
+- **Planetary Maps** adopts the site tools of Nov 19, 2026 that apply to it: loading shapes (`.skel.num` and
+  `.skel.line`) for the figures until the rovers' routes arrive, and `.skel.rows` for the place card until the places
+  arrive. No "On this page" bar (one page, no project tab bar) and no period buttons; its preview-card tags were
+  already built (`dev/build_social.py`: nothing to update).
+
 ## November 19, 2026 — Status pages: loading shapes
 
 - The control room and "How the data is collected" show the row shape (`.skel.rows`, with the words for screen

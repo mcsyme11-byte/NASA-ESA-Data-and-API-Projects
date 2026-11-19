@@ -11,8 +11,9 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
   the Image Explorer's explorer, the spacecraft map, the Asteroid Tracker and Sky Finder.
 - [ ] The site tools of Nov 19, 2026 that each project adopts on its own pages (handoff
   `docs/handoffs/2026-11-19 - all chats - site tools.md`): "On this page" bars under the project tab bar on long pages
-  (the Asteroid Tracker's overview, Mars Data, Planetary Maps' place list), loading shapes (`.skel`) where the shape
-  of what loads is known, and `data-key="prev"` / `data-key="next"` on the previous and next period buttons. Done on
+  (the Asteroid Tracker's overview, Mars Data), loading shapes (`.skel`) where the shape of what loads is known, and
+  `data-key="prev"` / `data-key="next"` on the previous and next period buttons. Planetary Maps done Nov 19, 2026
+  (loading shapes; it is one page with no tab bar and no period buttons, and its preview tags were already built). Done on
   the control room and "How the data is collected" (Nov 19, 2026: loading shapes; they have no period buttons or
   project tab bar).
 - [ ] Developer testing of the site tools of Nov 19, 2026 (the test list of that day): the search, the shortcuts,

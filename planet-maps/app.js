@@ -224,7 +224,9 @@
   /* ---------- figures, the place card, notes ---------- */
   function rover(key, label) {
     const r = ROUTES && ROUTES.rovers && ROUTES.rovers[key];
-    if (!r) return [label, '–', routesState === 'loading' ? 'loading…' : 'the daily copy is not available yet'];
+    if (!r) return routesState === 'loading'
+      ? [label, '<span class="skel num" aria-hidden="true"></span>', '<span class="skel line" aria-hidden="true"></span><span class="sr">loading</span>']
+      : [label, '–', 'the daily copy is not available yet'];
     return [label, `${(r.driven_m / 1000).toFixed(1)} <small>km</small>`, `${esc(r.site)} · to sol ${nf(r.sol)}`];
   }
   function stats() {
@@ -237,7 +239,10 @@
   const closeAt = ([lon, lat]) => B().close.filter(([, , , b]) => lon >= b[0] && lon <= b[2] && lat >= b[1] && lat <= b[3]).pop();
   function card() {
     const list = PLACES[S.body];
-    if (!list.length) { $('pmCard').innerHTML = `<div class="pb"><p class="loading">Loading the places…</p></div>`; return; }
+    if (!list.length) {
+      $('pmCard').innerHTML = `<div class="pb"><div class="skel rows" aria-hidden="true"></div><span class="sr">Loading the places…</span></div>`;
+      return;
+    }
     const p = list.find(x => x.id === S.sel) || list.find(x => x.id === B().home) || list[0];
     const r = p.rover && ROUTES && ROUTES.rovers && ROUTES.rovers[p.rover];
     const at = r ? [r.lon, r.lat] : [p.lon, p.lat];
