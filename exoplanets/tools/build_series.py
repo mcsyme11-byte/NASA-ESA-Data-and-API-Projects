@@ -203,7 +203,7 @@ def transit(target):
             # the share of a window that must be measured: CHEOPS's light is cut by the Earth for part of each
             # 99-minute orbit, so less of it is covered than by Kepler or TESS
             cover = 0.4 if mission == 'CHEOPS' else 0.6
-            dts, fs, files, epochs = [], [], [], set()
+            dts, fs, files, epochs, cads = [], [], [], set(), []
             for name, t, f in curves:
                 if t.size == 0:
                     continue
@@ -211,6 +211,7 @@ def transit(target):
                 # how many points make a whole transit depends on how often the telescope measures (TESS: every 2
                 # minutes; Kepler's long cadence: every 29.4 minutes; CHEOPS: under a minute)
                 cad = float(np.median(np.diff(t))) if t.size > 1 else 0.02
+                cads.append(cad)
                 need = max(8, int(cover * 2 * win / cad))
                 side, inside = max(3, need // 4), max(1, int(0.5 * 2 * half_in / cad))
                 n0, n1 = math.ceil((t.min() - T0) / P - 0.5), math.floor((t.max() - T0) / P + 0.5)
@@ -253,6 +254,7 @@ def transit(target):
                    'radius_earth': e['pl_rade'], 'star_radius_sun': e['st_rad'],
                    'depth_measured': round(depth, 7) if depth is not None else None, 'scatter': round(float(sd), 7),
                    'transits': len(epochs), 'points_total': int(x.size), 'files': len(files),
+                   'cadence_min': round(float(np.median(cads)) * 1440, 2),
                    'source': SOURCES[mission],
                    'points': pts, 'bins': bins}
             save(target['key'], obj)
