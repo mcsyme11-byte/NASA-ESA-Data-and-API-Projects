@@ -65,6 +65,11 @@ How NASA and ESA Data Projects is built, the decisions made so far, and how to r
   types, spin and albedo from the Small-Body Database, both copied monthly into data files (`fetch_reach.py`); the
   verdict follows four written rules (`reach.js`) and always says mining is not realistic today. Mission facts come
   from NASA and ESA only; Hayabusa2's from NASA's reports rather than JAXA's site. No price or "worth" figures.
+- **Decided Nov 19, 2026 (Space Weather, DONKI's early years):** the "Since 2010" view keeps its start in April
+  2010. DONKI lists X-class flares fully from 2010, M-class flares only from 2014 (about 20 a year in 2011 to 2013)
+  and C-class flares only from 2021 (first full run of the data job, Nov 18, 2026). On the chart the M-class bars
+  before 2014 are paler under a light band labelled "incomplete", and a line under the chart names the years and
+  classes DONKI covers fully (`FULL_FROM` in `space-weather/charts.js`).
 - **Decided Nov 17, 2026 (Space Weather):** the page (`space-weather/`) reads everything live in the visitor's
   browser: NASA's DONKI at its new address (`ccmc.gsfc.nasa.gov/DONKI-API/get/`, no key) and NASA CCMC's iSWA (IMAP
   solar wind, GOES X-rays, GFZ Kp, NOAA's Kp forecast), through `shared/nasa.js` (`nasaOpenGet`), and the SDO, SOHO

@@ -179,6 +179,10 @@ export function kpBars(box, kp) {
 }
 
 // ---- 4. since 2010: monthly counts from the archive (data/archive.json) ----
+// DONKI lists flares unevenly in its early years (decided Nov 19, 2026: the view still starts in 2010, and says so):
+// X-class flares fully from 2010, M-class from 2014, C-class from 2021 (the chart shows M and X). Months before a
+// class's first full year draw that class paler, under a light band labelled "incomplete".
+export const FULL_FROM = { X: 2010, M: 2014, C: 2021 };
 export function monthly(box, months) {
   const H = 300;
   const { svg, W, grid } = frame(box, H, 'Strong flares and geomagnetic storms each month since 2010');
@@ -186,15 +190,21 @@ export function monthly(box, months) {
   const L = 34, Rr = W - 10, T = 22, B = 250, n = months.length, bw = (Rr - L) / n;
   const maxF = Math.max(5, ...months.map((m) => (m.M || 0) + (m.X || 0))), Y = (v) => B - v / maxF * (B - T);
   for (const v of [0, Math.round(maxF / 2), maxF]) { el('line', { x1: L, x2: Rr, y1: Y(v), y2: Y(v) }, grid); text(svg, { x: L - 6, y: Y(v) + 4, 'text-anchor': 'end' }, String(v)); }
+  // the years where DONKI's list of M-class flares is incomplete: a light band behind them, labelled
+  const firstFull = months.findIndex((m) => Number(m.m.slice(0, 4)) >= FULL_FROM.M);
+  if (firstFull > 0) {
+    el('rect', { x: L, y: T, width: firstFull * bw, height: B - T, fill: C.ink, 'fill-opacity': '.045' }, svg);
+    text(svg, { x: L + 4, y: T + 12, 'font-style': 'italic' }, firstFull * bw > 150 ? `M-class incomplete before ${FULL_FROM.M}` : 'incomplete');
+  }
   months.forEach((m, i) => {
-    const x = L + i * bw, mm = m.M || 0, xx = m.X || 0;
+    const x = L + i * bw, mm = m.M || 0, xx = m.X || 0, early = Number(m.m.slice(0, 4)) < FULL_FROM.M;
     const g = el('g', {}, svg);
-    if (mm) el('rect', { x, y: Y(mm), width: Math.max(bw - 0.6, 0.8), height: B - Y(mm), fill: C.brass }, g);
+    if (mm) el('rect', { x, y: Y(mm), width: Math.max(bw - 0.6, 0.8), height: B - Y(mm), fill: C.brass, ...(early ? { 'fill-opacity': '.35' } : {}) }, g);
     if (xx) el('rect', { x, y: Y(mm + xx), width: Math.max(bw - 0.6, 0.8), height: Y(mm) - Y(mm + xx), fill: C.bright }, g);
     if (m.storms) el('circle', { cx: x + bw / 2, cy: B + 12, r: Math.min(2 + m.storms, 7), fill: (m.maxKp || 0) >= 7 ? C.copper : C.amber }, g);
     el('rect', { x, y: T, width: bw, height: B - T + 22, fill: 'transparent' }, g);
-    hoverTip(g, `<b>${esc(m.m)}</b><br>${mm} M-class, ${xx} X-class flares<br>${m.cmes || 0} CMEs measured<br>${m.storms || 0} storms${m.maxKp ? ', highest Kp ' + fmtKp(m.maxKp) : ''}`);
+    hoverTip(g, `<b>${esc(m.m)}</b><br>${mm} M-class${early ? ' (DONKI\'s list incomplete before ' + FULL_FROM.M + ')' : ''}, ${xx} X-class flares<br>${m.cmes || 0} CMEs measured<br>${m.storms || 0} storms${m.maxKp ? ', highest Kp ' + fmtKp(m.maxKp) : ''}`);
   });
   for (let i = 0; i < n; i++) if (months[i].m.endsWith('-01') && Number(months[i].m.slice(0, 4)) % 2 === 0) text(svg, { x: L + i * bw, y: 288, 'text-anchor': 'middle' }, months[i].m.slice(0, 4));
-  text(svg, { x: L, y: 12, class: 'axt' }, 'M and X flares each month · storms below');
+  text(svg, { x: L, y: 12, class: 'axt' }, W < 500 ? 'M and X flares · storms below' : 'M and X flares each month · storms below');
 }

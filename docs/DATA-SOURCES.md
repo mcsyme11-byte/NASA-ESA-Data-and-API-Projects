@@ -1014,6 +1014,9 @@ scheduled runs hours late); a data job keeps only a fallback copy and the monthl
   (storms: `startTime`, `allKpIndex[].kpIndex`), `SEP` (particle events), `WSAEnlilSimulations`
   (`isEarthGB`, `isEarthMinorImpact`, `estimatedShockArrivalTime`, `kp_18`, `kp_90`, `kp_135`, `kp_180`). Also
   available, not used: `CME`, `IPS`, `MPC`, `RBE`, `HSS`, `notifications`.
+- **Coverage (first full run, Nov 18, 2026):** flares are listed fully for X-class from 2010, M-class from 2014
+  (about 20 a year in 2011 to 2013) and C-class from 2021 (fewer than 25 a year before); the page marks the
+  incomplete years (decided Nov 19, 2026).
 - **Limits:** a request may cover at most **60 days** (counting both ends); a longer range returns the text "API Error:
   Date range cannot exceed 60 days" instead of JSON. No rate limit is published; answers took 0.1 to 0.5 s.
 - **Terms:** NASA research data. DONKI describes itself as preliminary "Experimental Research Information" and names

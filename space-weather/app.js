@@ -176,11 +176,13 @@ const pressed = (seg) => seg.querySelector('[aria-pressed="true"]');
 function renderMonth() {
   const box = $('#timeline'), key = $('#timelineKey');
   hideTip();
+  $('#timelineNote').hidden = true;
   if (S.days === 'all') {
     $('#kMonth').textContent = 'Since 2010';
     $('#hMonth').textContent = 'Strong flares and storms, month by month';
     monthly(box, S.archive && S.archive.months);
-    key.innerHTML = '<span><i class="s1"></i>M- and X-class flares (X paler, on top)</span><span><i class="s6"></i>Months with storms (bigger: more storms; copper: Kp 7 or more)</span>';
+    key.innerHTML = '<span><i class="s1"></i>M-class flares (paler before 2014: incomplete)</span><span><i class="s1"></i>X-class flares (brighter, on top)</span><span><i class="s6"></i>Months with storms (bigger: more storms; copper: Kp 7 or more)</span>';
+    $('#timelineNote').hidden = false;
     $('#eventList').innerHTML = '<p class="caption">The list shows the 7, 30 or 60 days chosen above.</p>';
     return;
   }

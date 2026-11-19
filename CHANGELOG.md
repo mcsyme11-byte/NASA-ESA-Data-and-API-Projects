@@ -1,5 +1,12 @@
 # Change log
 
+## November 19, 2026 — Space Weather: DONKI's incomplete years marked
+
+- "Since 2010" keeps its start (decided Nov 19, 2026). The M-class bars before 2014 are paler under a light band
+  labelled "incomplete", the tooltip says so, and a line under the chart names the years and classes DONKI covers
+  fully (X-class from 2010, M-class from 2014, C-class from 2021). The chart's title is shorter on narrow screens so
+  it is not cut off. Recorded in `docs/PROJECT-NOTES.md` and `docs/DATA-SOURCES.md`.
+
 ## November 19, 2026 — The site's version in the footer
 
 - Items in shared lists (`.list`) wrap long addresses, so a list of web links no longer runs off the page (found by

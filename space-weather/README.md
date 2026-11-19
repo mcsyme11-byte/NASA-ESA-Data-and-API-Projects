@@ -12,7 +12,7 @@ seeing the aurora from the visitor's place, and who feels space weather. Publish
 |---|---|---|
 | Right now | Solar wind speed, density and Bz (NASA IMAP), Kp (GFZ), the strongest flare in 24 hours (NOAA GOES X-rays) | Every 5 minutes while the page is open |
 | The Sun today | SDO pictures in five wavelengths (NASA); the SOHO LASCO C2 and C3 coronagraphs (ESA and NASA) | The newest picture, fetched again every 15 minutes |
-| The last 7, 30 or 60 days | Flares, CMEs, model runs and storms (NASA DONKI); "Since 2010" from `data/archive.json` | Every 10 minutes |
+| The last 7, 30 or 60 days | Flares, CMEs, model runs and storms (NASA DONKI); "Since 2010" from `data/archive.json`, with the years DONKI lists incompletely marked (M-class before 2014) | Every 10 minutes |
 | Heading for Earth | NASA's WSA–ENLIL model runs that expect a CME at Earth; NOAA's Kp forecast; particle events | Every 10 minutes |
 | Solar wind | Speed and Bz over 24 hours, 10-minute means (NASA IMAP) | Every 5 minutes |
 | Around Earth | Kp for the last 7 days (GFZ) and NOAA's forecast for the next days | Every 15 minutes |
