@@ -1,5 +1,20 @@
 # Change log
 
+## November 19, 2026 — Mars Data: the site tools
+
+- "On this page" bars (`nav.tabs.bar.sub[data-spy]`) under the project tab bar on the overview (Explore, The record so
+  far, Why it exists, Four words, Sources; the sections gained ids, and the heading "Four words first" moved to
+  `#hWords` so `#words` names its section) and on the charts, where the shared bar replaces the page's own section
+  menu and its code; the `.secnav` rules left `mars-data/mars.css`.
+- "One sol": the previous and next sol buttons carry `data-key="prev"` / `data-key="next"`, so ← and → step the sol.
+- Loading shapes: each chart on the charts page shows `.skel.chart` until its data is in (the Perseverance charts
+  until their own files arrive; "One sol" until its hours arrive), with a message in its place if a file cannot be
+  read; the overview's eight figures show `.skel.num`, and a dash if the data cannot be read.
+- The reload buttons are made as the pages open, so the button shows its icon while the data loads; the status lines'
+  placeholders keep each figure on one line.
+- Titles and descriptions unchanged: no new preview tags. Version tag raised to `2026111907`. With Mars Data, every project has taken up the site
+  tools of Nov 19, 2026; the item left `docs/ROADMAP.md`.
+
 ## November 19, 2026 — Orbit Watch adopts the site tools
 
 - What's in orbit: the "« 1 h" and "1 h »" buttons carry `data-key="prev"` / `data-key="next"`, so ← and → step the

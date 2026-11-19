@@ -9,7 +9,7 @@
 import { backLink } from './back.js';
 import { nasaGet } from '../shared/nasa.js';
 import { neoCopy, forgetCopy } from './neows.js';
-import { reloadPage } from '../shared/reload.js?v=2026111906';
+import { reloadPage } from '../shared/reload.js?v=2026111907';
 import { fmt, sizeText, dateText, sizePicture, LD_KM } from './format.js';
 import { hoverTip, tipApi, hideTip } from './charts.js';
 import { asteroidElements, asteroidPosition, planetPosition, jdFromMs, msFromJd, dist, LD_AU, AU_KM, wrap180 } from './orbit.js';

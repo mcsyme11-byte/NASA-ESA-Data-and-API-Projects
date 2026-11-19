@@ -193,7 +193,7 @@ How NASA and ESA Data Projects is built, the decisions made so far, and how to r
   into the charts page behind a switch (`MEX_LIVE`), turned on only after the first real profiles are read and checked.
   NASA's PDS Geosciences copy of the profiles was checked and is not used; ESA's archive stays the source.
 - **Decided Nov 12, 2026 (Mars Data):** the project folder opens on a home page (mission, data, how to use it, a card
-  for each part); the charts are at `mars-data/charts/` with a section menu, and the cleaning rules are explained
+  for each part); the charts are at `mars-data/charts/` with an "On this page" bar (the shared one since Nov 19, 2026), and the cleaning rules are explained
   with examples at `mars-data/method/`. Approved by the developer.
 - **Decided Nov 12, 2026 (Mars Data):** the developer approved the "Two craters" chart: daily average pressure at
   Gale (Curiosity, solid lines) and Jezero (Perseverance, dashed), one colour per Mars Year, for the years both rovers

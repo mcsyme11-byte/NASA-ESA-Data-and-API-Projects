@@ -6,7 +6,7 @@
 import { fmt, sig, esc, dateText, GROUPS, groupOf, METHOD_NAMES, PC_LY, R_EARTH_KM, R_SUN_KM,
   loadSummary, loadPlanets, loadSeriesIndex, loadSeries, planetUrl, sizeCell, forgetPlanets, copiedText, COPY_FAILED } from './data.js';
 import { lightCurve, massPeriod, perYear, toyTransit, emptyChart, mark } from './charts.js';
-import { reloadPage } from '../shared/reload.js?v=2026111906';
+import { reloadPage } from '../shared/reload.js?v=2026111907';
 
 const $ = (s) => document.querySelector(s);
 const NS = 'http://www.w3.org/2000/svg';

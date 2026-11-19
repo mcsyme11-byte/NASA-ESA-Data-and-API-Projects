@@ -5,23 +5,6 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
 
 ## 0. Repository (set up Nov 8, 2026)
 
-- [ ] The site tools of Nov 19, 2026 that each project adopts on its own pages (handoff
-  `docs/handoffs/2026-11-19 - all chats - site tools.md`): "On this page" bars under the project tab bar on long pages
-  (Mars Data), loading shapes (`.skel`) where the shape of what loads is known, and
-  `data-key="prev"` / `data-key="next"` on the previous and next period buttons. Planetary Maps done Nov 19, 2026
-  (loading shapes; it is one page with no tab bar and no period buttons, and its preview tags were already built). Done on
-  the control room and "How the data is collected" (Nov 19, 2026: loading shapes; they have no period buttons or
-  project tab bar). Exoplanets done Nov 19, 2026 ("On this page" bars on the overview and How they are found, the
-  latter in place of its row of method chips; loading shapes for the stat figures, the planet tables and the star map;
-  no period buttons; preview tags already built).
-  Image Explorer done Nov 19, 2026 (the explorer's day buttons) and the spacecraft map (its list's loading shape).
-  Asteroid Tracker done Nov 19, 2026 ("On this page" bar on the overview; ← and → on the tracker's week and year, an
-  asteroid's day steps and the map's 30-day steps; loading shapes for the figures and the tables). Sky Finder: no
-  period buttons or tab bar, and its lists open with placeholder rows already.
-  Space Weather done Nov 19, 2026 (loading shapes on its charts, event list and reading tiles; its "On this page"
-  bar marked by the shared `data-spy`; no period buttons).
-  Orbit Watch done Nov 19, 2026 (`data-key` on the hour buttons of What's in orbit; loading shapes for the heights
-  chart, the regions table and the breakups table; no new page or title, and no long overview).
 - [ ] Developer testing of the site tools of Nov 19, 2026 (the test list of that day): the search, the shortcuts,
   "Copy link to this section", the menu's dots, the Lost in space page, the Space Watch figures, and a shared link's
   preview card.
@@ -62,7 +45,8 @@ Plan confirmed Nov 11, 2026 (see PROJECT-NOTES.md): three missions, updated auto
 
 **Page**
 - [ ] Developer testing of the reload buttons (added Nov 19, 2026) on the Mars Data home page and the charts page, on a
-  phone and a computer: the icon spins, then "Updated hh:mm"; the charts keep the period and sol on view.
+  phone and a computer: the icon spins, then "Updated hh:mm"; the charts keep the period and sol on view. With them,
+  the "On this page" bars, ← and → on "One sol", and the loading shapes (Nov 19, 2026).
 - [ ] Developer review of the Nov 18 additions (the dust storm section, humidity at two sites, the rovers' climbs, the
   home page's Explore cards), at the developer's own pace.
 

@@ -25,8 +25,8 @@
   <link rel="manifest" href="../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111906">
-  <script type="module" src="../shared/footer.js?v=2026111906"></script>
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111907">
+  <script type="module" src="../shared/footer.js?v=2026111907"></script>
 </head>
 <body>
   <header class="topbar">
@@ -50,7 +50,7 @@
       <h1>Mars Data</h1>
       <p class="lede">The weather on Mars, measured second by second by NASA's rovers since 2012, cleaned, organised by season and time of day, and turned into charts anyone can read.</p>
       <div class="meta badges"><span class="badge nasa">NASA</span><span class="badge">Curiosity · REMS</span><span class="badge">Perseverance · MEDA</span>
-        <span class="small" id="homeUpd">Data up to sol –,––– · NASA's archive checked ––––‑––‑––</span>
+        <span class="small" id="homeUpd">Data up to sol –⁠,⁠–⁠–⁠– · NASA's archive checked –⁠–⁠–⁠–⁠‑⁠–⁠–⁠‑⁠–⁠–</span>
         <button class="reload" type="button" id="reloadAll">Reload the figures on this page</button></div>
     </header>
 
@@ -59,15 +59,19 @@
       <a href="charts/">Charts</a>
       <a href="method/">How the data is made</a>
     </nav>
+    <nav class="tabs bar sub" data-spy aria-label="On this page">
+      <a href="#explore">Explore</a><a href="#record">The record so far</a><a href="#why">Why it exists</a><a href="#words">Four words</a><a href="#sources">Sources</a>
+    </nav>
 
+    <span class="sr" data-loading>Loading the figures…</span>
     <div class="stats" id="tiles">
-      <div class="stat"><div class="label">Curiosity</div><div class="value" id="tCur">–</div><div class="note"><a href="../planet-maps/#mars-gale">Gale Crater</a>, <span id="tCurN">since August 2012</span></div></div>
-      <div class="stat"><div class="label">Perseverance</div><div class="value" id="tPer">–</div><div class="note"><a href="../planet-maps/#mars-jezero">Jezero Crater</a>, <span id="tPerN">since February 2021</span></div></div>
-      <div class="stat"><div class="label">Mars Years</div><div class="value" id="tYears">–</div><div class="note">one Mars Year is 687 Earth days</div></div>
-      <div class="stat"><div class="label">Updated</div><div class="value" id="tUpd">–</div><div class="note">when this page's data was last updated</div></div>
+      <div class="stat"><div class="label">Curiosity</div><div class="value skel num" id="tCur" aria-hidden="true"></div><div class="note"><a href="../planet-maps/#mars-gale">Gale Crater</a>, <span id="tCurN">since August 2012</span></div></div>
+      <div class="stat"><div class="label">Perseverance</div><div class="value skel num" id="tPer" aria-hidden="true"></div><div class="note"><a href="../planet-maps/#mars-jezero">Jezero Crater</a>, <span id="tPerN">since February 2021</span></div></div>
+      <div class="stat"><div class="label">Mars Years</div><div class="value skel num" id="tYears" aria-hidden="true"></div><div class="note">one Mars Year is 687 Earth days</div></div>
+      <div class="stat"><div class="label">Updated</div><div class="value skel num" id="tUpd" aria-hidden="true"></div><div class="note">when this page's data was last updated</div></div>
     </div>
 
-    <section class="section" aria-labelledby="hOpen">
+    <section class="section" id="explore" aria-labelledby="hOpen">
       <div class="section-head">
         <div><div class="kicker">Explore</div><h2 id="hOpen">Open a part of the study</h2></div>
         <a class="btn" href="charts/">See the charts</a>
@@ -118,17 +122,18 @@
       </div>
     </section>
 
-    <section class="section" aria-labelledby="hRec">
+    <section class="section" id="record" aria-labelledby="hRec">
       <div class="section-head"><div><div class="kicker">Gale Crater</div><h2 id="hRec">The record so far</h2></div><span class="aside">from Curiosity's daily readings</span></div>
+      <span class="sr" data-loading>Loading the figures…</span>
       <div class="stats">
-        <div class="stat"><div class="label">Pressure</div><div class="value" id="tP">–</div><div class="note" id="tPN">daily average</div></div>
-        <div class="stat"><div class="label">Coldest night</div><div class="value" id="tCold">–</div><div class="note" id="tColdN">air temperature</div></div>
-        <div class="stat"><div class="label">Warmest afternoon</div><div class="value" id="tWarm">–</div><div class="note" id="tWarmN">air temperature</div></div>
-        <div class="stat"><div class="label">Climbed</div><div class="value" id="tClimb">–</div><div class="note" id="tClimbN">up Mount Sharp</div></div>
+        <div class="stat"><div class="label">Pressure</div><div class="value skel num" id="tP" aria-hidden="true"></div><div class="note" id="tPN">daily average</div></div>
+        <div class="stat"><div class="label">Coldest night</div><div class="value skel num" id="tCold" aria-hidden="true"></div><div class="note" id="tColdN">air temperature</div></div>
+        <div class="stat"><div class="label">Warmest afternoon</div><div class="value skel num" id="tWarm" aria-hidden="true"></div><div class="note" id="tWarmN">air temperature</div></div>
+        <div class="stat"><div class="label">Climbed</div><div class="value skel num" id="tClimb" aria-hidden="true"></div><div class="note" id="tClimbN">up Mount Sharp</div></div>
       </div>
     </section>
 
-    <section class="section split" aria-labelledby="hWhy">
+    <section class="section split" id="why" aria-labelledby="hWhy">
       <div class="prose">
         <div class="kicker">About</div>
         <h2 id="hWhy">Why this exists</h2>
@@ -143,8 +148,8 @@
       </div>
     </section>
 
-    <section class="section" aria-labelledby="words">
-      <div class="section-head"><div><div class="kicker">Used on every chart</div><h2 id="words">Four words first</h2></div></div>
+    <section class="section" id="words" aria-labelledby="hWords">
+      <div class="section-head"><div><div class="kicker">Used on every chart</div><h2 id="hWords">Four words first</h2></div></div>
       <dl class="terms">
         <dt>Sol</dt><dd>A Mars day: 24 h 39 min. Each rover counts sols from its landing, so Curiosity's sol 1 was August 7, 2012.</dd>
         <dt>Ls (season)</dt><dd>Where Mars is on its orbit, 0–360°. Ls 0° starts northern spring; Ls 90° northern summer; Ls 180° autumn; Ls 270° winter (summer in the south).</dd>
@@ -153,7 +158,7 @@
       </dl>
     </section>
 
-    <section class="section" aria-labelledby="hData">
+    <section class="section" id="sources" aria-labelledby="hData">
       <div class="section-head">
         <div><div class="kicker">Sources</div><h2 id="hData">Where the data comes from</h2></div>
         <span class="aside">NASA's Planetary Data System and ESA's Planetary Science Archive, free and public · <a href="https://github.com/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/blob/main/docs/DATA-SOURCES.md" target="_blank" rel="noopener">full details ↗</a></span>
@@ -179,6 +184,12 @@
     const fmt = v => v.toLocaleString("en-CA");
     const month = d => new Date(d + "T12:00:00Z").toLocaleDateString("en-CA", { month: "short", year: "numeric", timeZone: "UTC" });
     // Fills the figures from the published data; a reload by hand asks for fresh copies (not the browser's saved ones).
+    // a figure takes the place of its loading shape
+    const put = (id, html) => { const e = document.getElementById(id); e.classList.remove("skel", "num"); e.removeAttribute("aria-hidden"); e.innerHTML = html; };
+    const settle = () => {   // figures that did not arrive show a dash; the loading words go
+      document.querySelectorAll(".stat .value.skel").forEach(e => put(e.id, "–"));
+      document.querySelectorAll(".sr[data-loading]").forEach(e => e.remove());
+    };
     async function fill(again = false) {
       const u = f => again ? `${f}?t=${Date.now()}` : f;
       const get = f => fetch(u(f), { cache: "no-cache" }).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); });
@@ -186,18 +197,18 @@
       const m = rems.meta;
       const nb = d => String(d).replace(/-/g, "\u2011");   // dates keep to one line (non-breaking hyphens)
       document.getElementById("homeUpd").textContent = `Data up to sol ${fmt(m.last_sol)} · ${m.checked ? `NASA's archive checked ${nb(m.checked)}` : `updated ${nb(m.built)}`}`;
-      document.getElementById("tCur").innerHTML = `${fmt(m.sols)}<small>sols</small>`;
+      put("tCur", `${fmt(m.sols)}<small>sols</small>`);
       document.getElementById("tCurN").textContent = `${month(m.first_date)} to ${month(m.last_date)}`;
       document.getElementById("dCur").textContent = `Sols ${m.first_sol}–${fmt(m.last_sol)}, ${month(m.first_date)} – ${month(m.last_date)}`;
       const yrs = new Set(rems.rows.map(r => r[rems.cols.indexOf("mars_year")]));
       if (meda) {
         const d = meda.meta;
-        document.getElementById("tPer").innerHTML = `${fmt(d.sols)}<small>sols</small>`;
+        put("tPer", `${fmt(d.sols)}<small>sols</small>`);
         document.getElementById("tPerN").textContent = `${month(d.first_date)} to ${month(d.last_date)}`;
         document.getElementById("dPer").textContent = `Sols ${d.first_sol}–${fmt(d.last_sol)}, ${month(d.first_date)} – ${month(d.last_date)}`;
       }
-      document.getElementById("tYears").innerHTML = `${yrs.size}<small>${Math.min(...yrs)}–${Math.max(...yrs)}</small>`;
-      document.getElementById("tUpd").textContent = m.checked || m.built;
+      put("tYears", `${yrs.size}<small>${Math.min(...yrs)}–${Math.max(...yrs)}</small>`);
+      put("tUpd", m.checked || m.built);
       const K = 273.15;
       const R = rems.rows.map(r => Object.fromEntries(rems.cols.map((c, i) => [c, r[i]])));
       const pick = (a, f, better) => a.reduce((x, r) => better(f(r), f(x)) ? r : x);
@@ -206,19 +217,19 @@
       const cold = pick(fT, r => r.air_temp_min, (a, b) => a < b), warm = pick(fT, r => r.air_temp_max, (a, b) => a > b);
       const z = R.filter(r => r.rover_z_m != null).at(-1);
       const n0 = v => Math.round(v).toLocaleString("en-CA");
-      document.getElementById("tP").innerHTML = `${n0(lo.pressure_mean)}–${n0(hi.pressure_mean)}<small>Pa</small>`;
+      put("tP", `${n0(lo.pressure_mean)}–${n0(hi.pressure_mean)}<small>Pa</small>`);
       document.getElementById("tPN").textContent = `thinnest at Ls ${n0(lo.ls)}°, thickest at Ls ${n0(hi.ls)}°`;
-      document.getElementById("tCold").innerHTML = `${n0(cold.air_temp_min - K)}<small>°C</small>`;
+      put("tCold", `${n0(cold.air_temp_min - K)}<small>°C</small>`);
       document.getElementById("tColdN").textContent = `sol ${cold.sol}, Ls ${n0(cold.ls)}°`;
-      document.getElementById("tWarm").innerHTML = `${n0(warm.air_temp_max - K)}<small>°C</small>`;
+      put("tWarm", `${n0(warm.air_temp_max - K)}<small>°C</small>`);
       document.getElementById("tWarmN").textContent = `sol ${warm.sol}, Ls ${n0(warm.ls)}°`;
-      document.getElementById("tClimb").innerHTML = `${n0(z.rover_z_m)}<small>m</small>`;
+      put("tClimb", `${n0(z.rover_z_m)}<small>m</small>`);
       document.getElementById("tClimbN").textContent = `above the landing site by sol ${fmt(z.sol)}`;
       return meda != null;
     }
-    try { await fill(); }
-    catch (e) { document.getElementById("homeUpd").textContent = "The figures could not be loaded; try the reload button."; }   /* the tiles keep their placeholders */
-    import("../shared/reload.js?v=2026111906").then(({ reloadPage }) => reloadPage(document.getElementById("reloadAll"), () => fill(true))).catch(() => { document.getElementById("reloadAll").hidden = true; });
+    import("../shared/reload.js?v=2026111907").then(({ reloadPage }) => reloadPage(document.getElementById("reloadAll"), () => fill(true))).catch(() => { document.getElementById("reloadAll").hidden = true; });
+    try { await fill(); settle(); }
+    catch (e) { settle(); document.getElementById("homeUpd").textContent = "The figures could not be loaded; try the reload button."; }   /* the tiles keep their placeholders */
   })();
   </script>
 </body>

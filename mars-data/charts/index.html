@@ -26,9 +26,9 @@
   <link rel="manifest" href="../../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../../shared/theme.css?v=2026111906">
-  <script type="module" src="../../shared/footer.js?v=2026111906"></script>
-  <link rel="stylesheet" href="../mars.css?v=2026111906">
+  <link rel="stylesheet" href="../../shared/theme.css?v=2026111907">
+  <script type="module" src="../../shared/footer.js?v=2026111907"></script>
+  <link rel="stylesheet" href="../mars.css?v=2026111907">
 </head>
 <body>
   <header class="topbar">
@@ -52,7 +52,7 @@
       <h1>Charts</h1>
       <p class="lede">The weather on Mars, measured second by second by NASA's Curiosity rover since 2012 and Perseverance since 2021: cleaned, organised by season and time of day, and charted.</p>
       <p class="meta badges"><span class="badge nasa">NASA</span><span class="badge">Curiosity · Gale Crater</span><span class="badge">Perseverance · Jezero Crater</span>
-        <span class="small" id="status">Data up to sol –,––– (––––‑––‑––) · –,––– sols with data · cleaning rules –.– · NASA's archive checked ––––‑––‑––</span>
+        <span class="small" id="status">Data up to sol –⁠,⁠–⁠–⁠– (⁠–⁠–⁠–⁠–⁠‑⁠–⁠–⁠‑⁠–⁠–⁠) · –⁠,⁠–⁠–⁠– sols with data · cleaning rules –⁠.⁠– · NASA's archive checked –⁠–⁠–⁠–⁠‑⁠–⁠–⁠‑⁠–⁠–</span>
         <button class="reload" type="button" id="reloadAll">Reload all the Mars data on this page</button></p>
     </header>
 
@@ -62,11 +62,11 @@
       <a href="../method/">How the data is made</a>
     </nav>
 
-    <div id="pageNotice"></div>
-
-    <nav class="secnav" id="secnav" aria-label="Sections of this page">
-      <div class="secrow" data-hscroll><a href="#shows">What it shows</a><a href="#year">The year</a><a href="#craters">Two craters</a><a href="#sol">One sol</a><a href="#mission">The whole mission</a><a href="#dust">Dust storm</a><a href="#above">Above the surface</a><a href="../method/">How it's made</a></div>
+    <nav class="tabs bar sub" data-spy aria-label="On this page">
+      <a href="#shows">What it shows</a><a href="#year">The year</a><a href="#craters">Two craters</a><a href="#sol">One sol</a><a href="#mission">The whole mission</a><a href="#dust">Dust storm</a><a href="#above">Above the surface</a>
     </nav>
+
+    <div id="pageNotice"></div>
     <p class="caption words">New to sol, Ls and Mars Year? <a href="../#words">The four words used on every chart</a> are on the Mars Data home page.</p>
 
     <!-- ===================== WHAT THE RECORD SHOWS ===================== -->
@@ -94,7 +94,7 @@
           <span class="note" id="corrNote"></span>
         </div>
         <div class="legend" id="pLegend"></div>
-        <div class="chartbox"><svg id="cPressure" class="chart" role="img" aria-label="Daily average air pressure at Gale Crater against the season, one line per Mars Year"></svg></div>
+        <div class="chartbox"><div class="skel chart" aria-hidden="true"></div><span class="sr">Loading the chart…</span><svg id="cPressure" class="chart" hidden role="img" aria-label="Daily average air pressure at Gale Crater against the season, one line per Mars Year"></svg></div>
         </div>
         <figcaption class="pf caption">Full sols only (good data in at least 22 of 24 hours). Source: NASA Planetary Data System, Curiosity REMS (cleaned).</figcaption>
         <details class="howto"><summary>How to read this</summary>
@@ -107,7 +107,7 @@
       <figure class="panel chartcard">
         <div class="ph"><h3>How much the pressure swings in a day</h3></div>
         <div class="pb">
-  <div class="chartbox"><svg id="cRange" class="chart" role="img" aria-label="Daily pressure range against the season"></svg></div>
+  <div class="chartbox"><div class="skel chart" aria-hidden="true"></div><span class="sr">Loading the chart…</span><svg id="cRange" class="chart" hidden role="img" aria-label="Daily pressure range against the season"></svg></div>
         </div>
         <figcaption class="pf caption">Highest minus lowest one-minute pressure of each full sol. Source: NASA PDS, Curiosity REMS (cleaned).</figcaption>
         <details class="howto"><summary>How to read this</summary>
@@ -118,7 +118,7 @@
       <figure class="panel chartcard">
         <div class="ph"><h3>Humidity at night</h3><span class="pill warn">Preliminary</span></div>
         <div class="pb">
-  <div class="chartbox" id="humFrame"><svg id="cHum" class="chart" role="img" aria-label="Highest relative humidity of each sol against the season"></svg></div>
+  <div class="chartbox" id="humFrame"><div class="skel chart" aria-hidden="true"></div><span class="sr">Loading the chart…</span><svg id="cHum" class="chart" hidden role="img" aria-label="Highest relative humidity of each sol against the season"></svg></div>
         </div>
         <figcaption class="pf caption">The day's highest relative humidity, reached at night (the few sols whose highest value came in daylight are left out). NASA marks REMS humidity "preliminary". Source: NASA PDS, Curiosity REMS (cleaned).</figcaption>
         <details class="howto"><summary>How to read this</summary>
@@ -129,7 +129,7 @@
       <figure class="panel chartcard">
         <div class="ph"><h3>Midday ultraviolet</h3></div>
         <div class="pb">
-  <div class="chartbox" id="uvFrame"><svg id="cUV" class="chart" role="img" aria-label="Midday peak ultraviolet against the season"></svg></div>
+  <div class="chartbox" id="uvFrame"><div class="skel chart" aria-hidden="true"></div><span class="sr">Loading the chart…</span><svg id="cUV" class="chart" hidden role="img" aria-label="Midday peak ultraviolet against the season"></svg></div>
         </div>
         <figcaption class="pf caption">Peak UV (220–370 nm) each sol between 10:30 and 13:30, corrected for dust on the sensor; NASA's corrected UV covers sols 1–3423. Source: NASA PDS, Curiosity REMS corrected UV.</figcaption>
         <details class="howto"><summary>How to read this</summary>
@@ -140,7 +140,7 @@
       <figure class="panel chartcard">
         <div class="ph"><h3>Season and time of day</h3></div>
         <div class="pb">
-  <div class="chartbox"><svg id="cHeat" class="chart" role="img" aria-label="Average air temperature by season and local hour"></svg></div>
+  <div class="chartbox"><div class="skel chart" aria-hidden="true"></div><span class="sr">Loading the chart…</span><svg id="cHeat" class="chart" hidden role="img" aria-label="Average air temperature by season and local hour"></svg></div>
         </div>
         <figcaption class="pf caption">Average air temperature in 10° steps of Ls and each local hour. Source: NASA PDS, Curiosity REMS (cleaned).</figcaption>
         <details class="howto"><summary>How to read this</summary>
@@ -156,7 +156,7 @@
         <div class="ph"><h3>Air pressure at two sites</h3><span class="aside">daily average, the Mars Years both rovers measured</span></div>
         <div class="pb">
   <div class="legend" id="twoLegend"></div>
-        <div class="chartbox"><svg id="cTwo" class="chart" role="img" aria-label="Daily average air pressure at Gale Crater and Jezero Crater against the season"></svg></div>
+        <div class="chartbox"><div class="skel chart" aria-hidden="true"></div><span class="sr">Loading the chart…</span><svg id="cTwo" class="chart" hidden role="img" aria-label="Daily average air pressure at Gale Crater and Jezero Crater against the season"></svg></div>
         </div>
         <div class="pf callout">
           <div class="t"><p class="caption" id="twoNote">Full sols only. Sources: NASA Planetary Data System, Curiosity REMS and Perseverance MEDA (cleaned).</p></div>
@@ -173,7 +173,7 @@
         <div class="ph"><h3>Humidity at night at two sites</h3><span class="pill warn">Preliminary</span></div>
         <div class="pb">
           <div class="legend" id="twoHumLegend"></div>
-          <div class="chartbox" id="twoHumFrame"><svg id="cTwoHum" class="chart" role="img" aria-label="Highest relative humidity of the night at Gale Crater and Jezero Crater against the season"></svg></div>
+          <div class="chartbox" id="twoHumFrame"><div class="skel chart" aria-hidden="true"></div><span class="sr">Loading the chart…</span><svg id="cTwoHum" class="chart" hidden role="img" aria-label="Highest relative humidity of the night at Gale Crater and Jezero Crater against the season"></svg></div>
         </div>
         <figcaption class="pf caption" id="twoHumNote">Each sol's highest relative humidity, reached at night; middle value of each 10° of season. NASA marks REMS humidity "preliminary". Sources: NASA Planetary Data System, Curiosity REMS and Perseverance MEDA (cleaned).</figcaption>
         <details class="howto"><summary>How to read this</summary>
@@ -192,8 +192,8 @@
   <div class="tools">
           <label>Sol <input type="number" id="solIn" inputmode="numeric" min="1" step="1" aria-describedby="solNote"></label>
           <span class="solnav">
-            <button class="chip" id="solPrev" aria-label="Previous sol with data">‹ Prev</button>
-            <button class="chip" id="solNext" aria-label="Next sol with data">Next ›</button>
+            <button class="chip" id="solPrev" data-key="prev" aria-label="Previous sol with data">‹ Prev</button>
+            <button class="chip" id="solNext" data-key="next" aria-label="Next sol with data">Next ›</button>
             <button class="chip" id="solCold">Coldest night</button>
             <button class="chip" id="solWarm">Warmest afternoon</button>
             <button class="chip" id="solLast">Latest</button>
@@ -205,7 +205,7 @@
           <span><i class="s4"></i>Ground temperature (lower confidence)</span>
           <span><i class="s2"></i>Pressure</span>
         </div>
-        <div class="chartbox"><svg id="cSol" class="chart" role="img" aria-label="Air and ground temperature and pressure through one sol"></svg></div>
+        <div class="chartbox"><div class="skel chart" aria-hidden="true"></div><span class="sr">Loading the chart…</span><svg id="cSol" class="chart" hidden role="img" aria-label="Air and ground temperature and pressure through one sol"></svg></div>
         </div>
         <figcaption class="pf caption">Hourly averages. Ground temperature is shown as lower confidence (the sensor's power supply is often flagged). Source: NASA PDS, Curiosity REMS (cleaned).</figcaption>
         <details class="howto"><summary>How to read this</summary>
@@ -221,7 +221,7 @@
       <figure class="panel chartcard wide">
         <div class="ph"><h3>Daily highs and lows</h3><span class="aside">air temperature</span></div>
         <div class="pb">
-  <div class="chartbox"><svg id="cHiLo" class="chart" role="img" aria-label="Daily highest and lowest air temperature for every sol"></svg></div>
+  <div class="chartbox"><div class="skel chart" aria-hidden="true"></div><span class="sr">Loading the chart…</span><svg id="cHiLo" class="chart" hidden role="img" aria-label="Daily highest and lowest air temperature for every sol"></svg></div>
         </div>
         <figcaption class="pf caption">Gaps are sols with no data released (for example sols 200–221). Source: NASA PDS, Curiosity REMS (cleaned).</figcaption>
         <details class="howto"><summary>How to read this</summary>
@@ -233,7 +233,7 @@
         <div class="ph"><h3>The rovers' climbs</h3></div>
         <div class="pb">
           <div class="legend" id="climbLegend"></div>
-  <div class="chartbox"><svg id="cClimb" class="chart" role="img" aria-label="Each rover's height above its landing site, sol by sol since landing"></svg></div>
+  <div class="chartbox"><div class="skel chart" aria-hidden="true"></div><span class="sr">Loading the chart…</span><svg id="cClimb" class="chart" hidden role="img" aria-label="Each rover's height above its landing site, sol by sol since landing"></svg></div>
         </div>
         <figcaption class="pf caption">Height above each rover's landing site. Sources: NASA PDS, Curiosity REMS and Perseverance MEDA ancillary data.</figcaption>
         <details class="howto"><summary>How to read this</summary>
@@ -269,7 +269,7 @@
         <div class="ph"><h3>Sunlight at midday</h3><span class="aside">ultraviolet, 220–370 nm</span></div>
         <div class="pb">
           <div class="legend" id="dustLegend"></div>
-          <div class="chartbox"><svg id="cDustUV" class="chart" role="img" aria-label="Midday ultraviolet in Mars Year 34 against the same season in other years"></svg></div>
+          <div class="chartbox"><div class="skel chart" aria-hidden="true"></div><span class="sr">Loading the chart…</span><svg id="cDustUV" class="chart" hidden role="img" aria-label="Midday ultraviolet in Mars Year 34 against the same season in other years"></svg></div>
         </div>
         <figcaption class="pf caption">At the height of the storm the midday ultraviolet fell below 1 W/m², under a twentieth of the usual 22 at that season, and was nearly back to normal by mid-September (Ls 250°). Source: NASA PDS, Curiosity REMS corrected UV.</figcaption>
         <details class="howto"><summary>How to read this</summary>
@@ -281,7 +281,7 @@
       <figure class="panel chartcard">
         <div class="ph"><h3>Daily highs and lows</h3><span class="aside">air temperature</span></div>
         <div class="pb">
-          <div class="chartbox"><svg id="cDustT" class="chart" role="img" aria-label="Daily highest and lowest air temperature in Mars Year 34 against the same season in other years"></svg></div>
+          <div class="chartbox"><div class="skel chart" aria-hidden="true"></div><span class="sr">Loading the chart…</span><svg id="cDustT" class="chart" hidden role="img" aria-label="Daily highest and lowest air temperature in Mars Year 34 against the same season in other years"></svg></div>
         </div>
         <figcaption class="pf caption">In the thickest dust (Ls 195–210°) the afternoons were about 25 °C colder than usual and the nights about 8 °C warmer: the day's swing roughly halved, from about 68 °C to about 35 °C. Source: NASA PDS, Curiosity REMS (cleaned).</figcaption>
         <details class="howto"><summary>How to read this</summary>
@@ -292,7 +292,7 @@
       <figure class="panel chartcard">
         <div class="ph"><h3>How much the pressure swings in a day</h3></div>
         <div class="pb">
-          <div class="chartbox"><svg id="cDustP" class="chart" role="img" aria-label="Daily pressure range in Mars Year 34 against the same season in other years"></svg></div>
+          <div class="chartbox"><div class="skel chart" aria-hidden="true"></div><span class="sr">Loading the chart…</span><svg id="cDustP" class="chart" hidden role="img" aria-label="Daily pressure range in Mars Year 34 against the same season in other years"></svg></div>
         </div>
         <figcaption class="pf caption">The daily swing grew to about 125–130 Pa, half again as large as the usual 80–95 Pa at that season, while the daily average stayed on its usual line. Source: NASA PDS, Curiosity REMS (cleaned).</figcaption>
         <details class="howto"><summary>How to read this</summary>
@@ -368,6 +368,9 @@
   (async () => {
     const notice = document.getElementById("pageNotice");
     const main = document.querySelector("main");
+    // the reload button is made at once (its icon, not its words, while the data loads); it works once the charts are drawn
+    let reloadNow = null;
+    import("../../shared/reload.js?v=2026111907").then(({ reloadPage }) => reloadPage(document.getElementById("reloadAll"), () => reloadNow ? reloadNow() : Promise.resolve(false))).catch(() => { document.getElementById("reloadAll").hidden = true; });
     main.setAttribute("aria-busy", "true");          // not the class "loading": that is the shared placeholder (it drew lines above the page head)
     let M;
     try {
@@ -398,6 +401,18 @@
     const goToHash = () => {
       const t = location.hash && document.getElementById(location.hash.slice(1));
       if (t && !userMoved) requestAnimationFrame(() => t.scrollIntoView());
+    };
+    // Loading shapes: a chart shows its placeholder until its data is in; ready() puts the chart in its place, failed() a message.
+    const ready = id => {
+      const svg = document.getElementById(id); if (!svg) return;
+      svg.parentElement.querySelectorAll(":scope > .skel, :scope > .sr, :scope > .empty").forEach(x => x.remove());
+      svg.removeAttribute("hidden");   // an svg has no .hidden property: the attribute itself
+    };
+    const failed = (id, msg) => {
+      const svg = document.getElementById(id); if (!svg || !svg.hasAttribute("hidden")) return;
+      const box = svg.parentElement;
+      box.querySelectorAll(":scope > .skel, :scope > .sr, :scope > .empty").forEach(x => x.remove());
+      svg.insertAdjacentHTML("beforebegin", `<div class="empty">${msg}</div>`);
     };
     const K = 273.15, R_CO2 = 188.92, G_MARS = 3.711;
     const fmt = (v, d = 0) => v == null ? "–" : v.toLocaleString("en-CA", { minimumFractionDigits: d, maximumFractionDigits: d });
@@ -557,7 +572,9 @@
     }
     function drawSol() {
       const svg = document.getElementById("cSol"); svg.innerHTML = "";
-      if (!hrs || !hrs.length) { svg.setAttribute("viewBox", "0 0 900 120"); el("text", { x: 450, y: 64, "text-anchor": "middle" }, svg).textContent = hrs ? "No hourly data for this sol." : "Loading…"; return; }
+      if (!hrs) return;
+      ready("cSol");
+      if (!hrs.length) { svg.setAttribute("viewBox", "0 0 900 120"); el("text", { x: 450, y: 64, "text-anchor": "middle" }, svg).textContent = hrs ? "No hourly data for this sol." : "Loading…"; return; }
       const ci = n => hcols.indexOf(n);
       const H_ = hrs.map(h => [h[0], h[ci("pressure")], h[ci("air_temp")], h[ci("ground_temp")], ci("humidity") > 0 ? h[ci("humidity")] : null]);
       const W = svg.parentElement.clientWidth || 900, H = W < 560 ? 380 : 420, top = W < 560 ? 240 : 270;
@@ -616,7 +633,8 @@
     // ---- two craters (Gale and Jezero) ----
     let MD = null;
     const fresh = u => u + (u.includes("?") ? "&" : "?") + "t=" + Date.now();   // a reload by hand skips the browser's saved copy
-    const loadMD = (again = false) => fetch(again ? fresh("../data/meda.json") : "../data/meda.json", { cache: "no-cache" }).then(r => r.ok ? r.json() : null).then(j => { if (!j) return false; MD = j; drawTwo(); drawClimb(); goToHash(); return true; }).catch(() => false);
+    const loadMD = (again = false) => fetch(again ? fresh("../data/meda.json") : "../data/meda.json", { cache: "no-cache" }).then(r => r.ok ? r.json() : null).then(j => { if (!j) throw new Error("no file"); MD = j; drawTwo(); drawClimb(); goToHash(); return true; })
+      .catch(() => { if (!MD) failed("cTwo", "Perseverance's pressure could not be loaded. Use the reload button at the top of the page to try again."); return false; });
     loadMD();
 
     // ---- humidity at night at two sites (Perseverance's per-sol file, which has the hour of each maximum) ----
@@ -625,13 +643,13 @@
       if (!t) throw new Error("no file");
       const [head, ...lines] = t.trim().split("\n"), cols = head.split(",");
       MS = lines.map(l => Object.fromEntries(l.split(",").map((v, i) => [cols[i], v === "" ? null : (isNaN(v) ? v : +v)])));
-      if (!document.getElementById("cTwoHum")) document.getElementById("twoHumFrame").innerHTML = '<svg id="cTwoHum" class="chart" role="img" aria-label="Highest relative humidity of the night at Gale Crater and Jezero Crater against the season"></svg>';
       drawTwoHum(); goToHash(); return true;
-    }).catch(() => { if (!MS) document.getElementById("twoHumFrame").innerHTML = '<div class="empty">Perseverance\'s humidity could not be loaded. Use the reload button at the top of the page to try again.</div>'; return false; });
+    }).catch(() => { if (!MS) failed("cTwoHum", "Perseverance's humidity could not be loaded. Use the reload button at the top of the page to try again."); return false; });
     loadMS();
     function drawTwoHum() {
       const svg = document.getElementById("cTwoHum");
       if (!MS) return;
+      ready("cTwoHum");
       const jez = MS.filter(r => r.humidity_max != null && atNight(r.humidity_max_hour));
       const ys = [...new Set(jez.map(r => r.mars_year))].sort();
       const gale = rows.filter(r => r.humidity_max != null && atNight(r.humidity_max_hour) && ys.includes(r.mars_year));
@@ -705,6 +723,7 @@
     function drawTwo() {
       const svg = document.getElementById("cTwo");
       if (!MD) return;
+      ready("cTwo");
       const mc = Object.fromEntries(MD.cols.map((c, i) => [c, i]));
       const jez = MD.rows.filter(r => r[mc.pressure_full] && r[mc.pressure_mean] != null).map(r => ({ sol: r[mc.sol], ls: r[mc.ls], y: r[mc.mars_year], p: r[mc.pressure_mean], d: r[mc.utc_date] }));
       const ys = [...new Set(jez.map(r => r.y))].sort();
@@ -804,6 +823,7 @@
     loadMex();
 
     function drawAll() {
+      ["cPressure", "cRange", "cHum", "cUV", "cHeat", "cHiLo", "cClimb", "cDustUV", "cDustT", "cDustP"].forEach(ready);
       drawTwo(); drawTwoHum(); drawDustAll(); drawMex();
       drawPressure(); drawRange(); drawHeat(); drawHiLo(); drawClimb(); drawSol();
       seasonal("cHum", "humFrame", "humidity_max", "Relative humidity (%)", "%", 0, "Humidity appears here after the sols are re-processed with cleaning rules 1.1.", r => atNight(r.humidity_max_hour));
@@ -836,24 +856,9 @@
       if (MEX_LIVE) await loadMex();
       return md && ms;
     }
-    import("../../shared/reload.js?v=2026111906").then(({ reloadPage }) => reloadPage(document.getElementById("reloadAll"), reloadAll)).catch(() => { document.getElementById("reloadAll").hidden = true; });
+    reloadNow = reloadAll;
     loadSol(fullT.at(-1).sol);
     let lastW = innerWidth, timer;
-    // Section menu: the section in view is marked.
-    const navLinks = [...document.querySelectorAll('#secnav a[href^="#"]')];
-    const secs = navLinks.map(a => document.getElementById(a.hash.slice(1)));
-    const markSection = () => {
-      let cur = null; for (const s of secs) if (s.getBoundingClientRect().top < 160) cur = s;
-      navLinks.forEach(a => {
-        const on = !!cur && a.hash === "#" + cur.id;
-        if (on && a.getAttribute("aria-current") !== "true") {
-          const row = a.parentElement; // keep the marked section in view in the menu on a narrow screen
-          if (row.scrollWidth > row.clientWidth) row.scrollTo({ left: Math.max(0, a.offsetLeft - row.offsetLeft - 24), behavior: "smooth" });
-        }
-        a.setAttribute("aria-current", on ? "true" : "false");
-      });
-    };
-    addEventListener("scroll", markSection, { passive: true }); markSection();
     // The charts are drawn after the page opens, so a link to a section (charts/#sol) is followed again once they are in place.
     goToHash();
     addEventListener("resize", () => { if (innerWidth === lastW) return; lastW = innerWidth; clearTimeout(timer); timer = setTimeout(drawAll, 150); });
