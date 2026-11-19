@@ -61,6 +61,8 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
 Plan confirmed Nov 11, 2026 (see PROJECT-NOTES.md): three missions, updated automatically by a GitHub Actions job.
 
 **Data and analysis**
+- [ ] Developer: delete the `mars-probe` branch on GitHub (Branches page, the bin icon beside it). It held the
+  one-off workflows used to process the whole record; the update job has run on its own since Nov 16, 2026.
 - [ ] Optional: ask ESA (data.licences@esa.int) to confirm the spelling of the Mars Express MaRS credit line
   ("M. Plätzold, K. Pieter" on ESA's terms page; the archive names Martin Pätzold).
 - [ ] Mars Express MaRS profiles (ESA): waiting for ESA's archive (down for maintenance since at least Nov 12, 2026; no

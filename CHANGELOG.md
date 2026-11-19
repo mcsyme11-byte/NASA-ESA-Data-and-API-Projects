@@ -1,11 +1,12 @@
 # Change log
 
 
-## November 19, 2026 — Mars Data: test branch removed
+## November 19, 2026 — Mars Data: test branch ready to delete
 
-- After the "Mars data" job's first successful scheduled run (Nov 16, 2026), the `mars-probe` branch was deleted with
-  its one-off workflows (`mars-probe.yml`, `mars-chunks.yml`, `mars-meda.yml`, `mars-mex.yml`), used to process the
-  whole record in chunks. `mars-data/probe/` was never on main.
+- The "Mars data" job's first scheduled run succeeded (Nov 16, 2026), so the `mars-probe` branch and its one-off
+  workflows (`mars-probe.yml`, `mars-chunks.yml`, `mars-meda.yml`, `mars-mex.yml`), used to process the whole record in
+  chunks, are no longer needed. Branches cannot be deleted from the working environment; the branch is deleted by the
+  developer on GitHub (Branches page). `mars-data/probe/` was never on main.
 ## November 19, 2026 — An asteroid's page: no jump at computer widths
 
 - The placeholder first line under an asteroid's name (`asteroid-tracker/object.html`) is shortened to the length of
