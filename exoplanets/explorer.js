@@ -6,7 +6,7 @@
 
 import { fmt, sig, esc, dateText, GROUPS, groupOf, METHOD_NAMES, PC_LY, NASA_HZ, TEFF_RANGE, zones,
   loadPlanets, planetUrl, archiveUrl, sizeCell, forgetPlanets, copiedText, COPY_FAILED } from './data.js';
-import { reloadPage } from '../shared/reload.js?v=2026111902';
+import { reloadPage } from '../shared/reload.js?v=2026111903';
 import { system, hideTip, skyChart, sepDeg } from './charts.js';
 
 const $ = (s) => document.querySelector(s);
