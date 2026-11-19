@@ -8,8 +8,9 @@
 #                     Earth  craft near the Lagrange points L1 and L2: every 6 hours, 60 days back and 120 ahead
 #                     Moon, Mars  orbiters and rovers: every 5 minutes (rovers 30), half a day back and 1.5 days ahead
 #                   ecliptic J2000 frame (Horizons REF_PLANE=ECLIPTIC, ICRF), whole kilometres.
-#   tle.json        the latest orbital elements (two-line element sets) of the craft in Earth orbit, from CelesTrak
-#                   (celestrak.org), for the SGP4 model run in the browser.
+#   tle.json        the latest orbital elements of the craft in Earth orbit, from CelesTrak (celestrak.org), as OMM
+#                   fields ("omm"; two-line sets too for five-digit catalogue numbers), for the SGP4 model run in
+#                   the browser.
 #   routes.json     past missions (past.json, added Nov 14, 2026): each one's whole route from launch to its end (or
 #                   landing), 600 equal steps from Horizons, relative to its "parent"; worked out once and kept while
 #                   the mission's entry in past.json is unchanged ("sig"). For past craft still drifting around the
@@ -18,9 +19,13 @@
 #   links.json      the catalogue's links that are gone (HTTP 404 or 410), which the page leaves out, and those that
 #                   could not be checked this time (refused, timed out, or a site turning the robot away), kept on the page.
 # A craft that cannot be found is left out of the files and named in the log; the page shows only what was found.
-# Run by hand:  python3 spacecraft/fetch_spacecraft.py   (standard library only)
+# Run by hand:  python3 spacecraft/fetch_spacecraft.py [--from DIR]   (standard library only; --from: see CelesTrak below)
+import argparse
+import csv
 import datetime as dt
+import io
 import json
+import math
 import os
 import re
 import sys
@@ -209,50 +214,149 @@ def samples_for(c, now):
 
 
 # ---------------------------------------------------------------- CelesTrak
-def tles(wanted):
-    """{catalogue key: {name, line1, line2, norad, epoch}} for each craft, by its exact CelesTrak name."""
-    found, pool = {}, {}
-    for g in GROUPS:
-        if all(k in found for k in wanted):
-            break
+# Decided Nov 19, 2026 (hand-off from the Data updates chat, Nov 18, 2026):
+#  - CSV (OMM) instead of two-line sets: CelesTrak ran out of five-digit catalogue numbers on Jul 11, 2026, and objects
+#    catalogued since then are missing from two-line downloads. The page builds its SGP4 record from the OMM fields
+#    (satellite.js json2satrec, shared/sats.js); two-line sets are still written for five-digit numbers, for copies of
+#    shared/sats.js saved in a browser before the change.
+#  - One request each, no retry: the first answer other than HTTP 200, or a timeout, stops every further CelesTrak
+#    request in the run (CelesTrak's usage policy, May 22, 2026), and tle.json keeps its previous copy.
+#  - --from DIR reads DIR/active.csv, the active list Orbit Watch's job has just downloaded
+#    (orbit-watch/fetch_orbits.py --keep DIR), so CelesTrak is asked for the active list once (at most once in two hours).
+OMM_TEXT = ('OBJECT_NAME', 'OBJECT_ID', 'EPOCH', 'CLASSIFICATION_TYPE')
+OMM_NUM = ('MEAN_MOTION', 'ECCENTRICITY', 'INCLINATION', 'RA_OF_ASC_NODE', 'ARG_OF_PERICENTER', 'MEAN_ANOMALY',
+           'EPHEMERIS_TYPE', 'NORAD_CAT_ID', 'ELEMENT_SET_NO', 'REV_AT_EPOCH', 'BSTAR', 'MEAN_MOTION_DOT', 'MEAN_MOTION_DDOT')
+
+
+class CelesTrakDown(Exception):
+    pass
+
+
+def celestrak(params):
+    """One request; anything but HTTP 200 (or no answer) raises CelesTrakDown."""
+    full = CELESTRAK + '?' + urllib.parse.urlencode(params)
+    try:
+        with urllib.request.urlopen(urllib.request.Request(full, headers=UA), timeout=60) as r:
+            if r.status != 200:
+                raise CelesTrakDown('HTTP %d' % r.status)
+            return r.read().decode('utf-8-sig', 'replace')
+    except urllib.error.HTTPError as e:
+        raise CelesTrakDown('HTTP %d' % e.code) from None
+    except (urllib.error.URLError, TimeoutError, OSError) as e:
+        raise CelesTrakDown(str(e)) from None
+
+
+def omm_rows(text):
+    """The OMM rows of a CelesTrak CSV answer, with numbers as numbers ("No GP data found" gives none)."""
+    out = []
+    for r in csv.DictReader(io.StringIO(text.lstrip('\ufeff'))):
         try:
-            text = fetch(CELESTRAK, {'GROUP': g, 'FORMAT': 'tle'}, as_json=False)
-        except Exception as e:
-            print('  CelesTrak group %s: %s' % (g, e))
+            o = {k: (r.get(k) or '').strip() for k in OMM_TEXT}
+            for k in OMM_NUM:
+                v = float(r[k])
+                o[k] = int(v) if k in ('EPHEMERIS_TYPE', 'NORAD_CAT_ID', 'ELEMENT_SET_NO', 'REV_AT_EPOCH') else v
+        except (KeyError, TypeError, ValueError):
             continue
-        lines = [l.rstrip() for l in text.splitlines() if l.strip()]
-        for i in range(0, len(lines) - 2, 3):
-            if lines[i + 1].startswith('1 ') and lines[i + 2].startswith('2 '):
-                pool.setdefault(lines[i].strip().upper(), (lines[i].strip(), lines[i + 1], lines[i + 2]))
+        if o['OBJECT_NAME'] and o['EPOCH'] and o['MEAN_MOTION'] > 0:
+            out.append(o)
+    return out
+
+
+def epoch_of(o):
+    s = o['EPOCH'].rstrip('Z')
+    if '.' in s:
+        head, frac = s.split('.', 1)
+        s = head + '.' + (frac + '000000')[:6]
+    return dt.datetime.fromisoformat(s)
+
+
+def _exp(v):
+    """A TLE number with an assumed leading decimal point and a power of ten: 0.00017748 -> ' 17748-3'."""
+    if v == 0:
+        return ' 00000+0'
+    sign, v = ('-' if v < 0 else ' '), abs(v)
+    e = math.floor(math.log10(v)) + 1
+    m = round(v / 10 ** e * 1e5)
+    if m >= 100000:
+        m, e = m // 10, e + 1
+    return '%s%05d%s%d' % (sign, m, '-' if e < 0 else '+', abs(e))
+
+
+def _check(line):
+    return line + str(sum(int(c) if c.isdigit() else c == '-' for c in line) % 10)
+
+
+def two_line(o):
+    """The two-line set of an OMM row with a catalogue number below 100,000; None for six-digit numbers."""
+    n = o['NORAD_CAT_ID']
+    if n >= 100000:
+        return None
+    ep = epoch_of(o)
+    day = (ep - dt.datetime(ep.year, 1, 1)).total_seconds() / 86400 + 1
+    intl = re.sub(r'^\d\d(\d\d)-(\d{3})(\w*)$', r'\1\2\3', o['OBJECT_ID'])[:8]
+    nd = '%.8f' % o['MEAN_MOTION_DOT']
+    nd = ('-' if nd.startswith('-') else ' ') + nd.lstrip('-')[1:]
+    l1 = '1 %05d%s %-8s %02d%012.8f %s %s %s %d %4d' % (n, o['CLASSIFICATION_TYPE'] or 'U', intl, ep.year % 100, day, nd,
+                                                       _exp(o['MEAN_MOTION_DDOT']), _exp(o['BSTAR']), o['EPHEMERIS_TYPE'], o['ELEMENT_SET_NO'] % 10000)
+    l2 = '2 %05d %8.4f %8.4f %s %8.4f %8.4f %11.8f%5d' % (n, o['INCLINATION'], o['RA_OF_ASC_NODE'], ('%.7f' % o['ECCENTRICITY'])[2:],
+                                                          o['ARG_OF_PERICENTER'], o['MEAN_ANOMALY'], o['MEAN_MOTION'], o['REV_AT_EPOCH'] % 100000)
+    return _check(l1), _check(l2)
+
+
+def tles(wanted, src=None):
+    """{catalogue key: {name, norad, epoch, omm, line1, line2}} for each craft, by its exact CelesTrak name or its
+    catalogue number ("#43435"). None when CelesTrak stopped answering: tle.json then keeps its previous copy."""
+    by_name, by_id, found = {}, {}, {}
+
+    def add(rows):
+        for o in rows:
+            by_name.setdefault(o['OBJECT_NAME'].upper(), o)
+            by_id.setdefault(o['NORAD_CAT_ID'], o)
         for key, names in wanted.items():
             if key not in found:
                 for n in names:
-                    if n.upper() in pool:
-                        found[key] = pool[n.upper()]
+                    o = by_id.get(int(n[1:])) if n.startswith('#') else by_name.get(n.upper())
+                    if o:
+                        found[key] = o
                         break
-        time.sleep(2)
-    for key, names in wanted.items():       # not in any group: ask by name, or by catalogue number ("#43435")
-        if key in found:
-            continue
-        for n in names:
-            try:
-                q = {'CATNR': n[1:]} if n.startswith('#') else {'NAME': n}
-                text = fetch(CELESTRAK, {**q, 'FORMAT': 'tle'}, as_json=False)
-            except Exception as e:
-                print('  CelesTrak name %r: %s' % (n, e))
-                continue
-            lines = [l.rstrip() for l in text.splitlines() if l.strip()]
-            sets = [(lines[i].strip(), lines[i + 1], lines[i + 2]) for i in range(0, len(lines) - 2, 3) if lines[i + 1].startswith('1 ')]
-            exact = [s for s in sets if s[0].upper() == n.upper() or n.startswith('#')]
-            if exact or len(sets) == 1:
-                found[key] = (exact or sets)[0]
+
+    groups = GROUPS
+    if src:
+        path = os.path.join(src, 'active.csv')
+        if os.path.exists(path):
+            with open(path, encoding='utf-8-sig') as fh:
+                add(omm_rows(fh.read()))
+            print('  active list read from %s' % path)
+            groups = []                                    # the smaller groups are parts of the active list
+        else:
+            print('  %s not found: asking CelesTrak for the smaller groups' % path)
+            groups = [g for g in GROUPS if g != 'active']  # the active list is never asked for twice in one run
+    try:
+        for g in groups:
+            if all(k in found for k in wanted):
                 break
+            add(omm_rows(celestrak({'GROUP': g, 'FORMAT': 'csv'})))
             time.sleep(2)
+        for key, names in wanted.items():                  # not in any group: ask by name or by catalogue number
+            for n in names:
+                if key in found:
+                    break
+                q = {'CATNR': n[1:]} if n.startswith('#') else {'NAME': n}
+                rows = omm_rows(celestrak({**q, 'FORMAT': 'csv'}))
+                exact = [o for o in rows if n.startswith('#') or o['OBJECT_NAME'].upper() == n.upper()]
+                if exact or len(rows) == 1:
+                    found[key] = (exact or rows)[0]
+                time.sleep(2)
+    except CelesTrakDown as e:
+        print('  not found: CelesTrak stopped answering (%s); no further CelesTrak request this run, tle.json kept as it was' % e)
+        return None
     out = {}
-    for key, (name, l1, l2) in found.items():
-        yy, day = int(l1[18:20]), float(l1[20:32])
-        epoch = dt.datetime(2000 + yy if yy < 57 else 1900 + yy, 1, 1) + dt.timedelta(days=day - 1)
-        out[key] = {'name': name, 'line1': l1, 'line2': l2, 'norad': int(l1[2:7]), 'epoch': epoch.strftime('%Y-%m-%d %H:%M')}
+    for key, o in found.items():
+        rec = {'name': o['OBJECT_NAME'], 'norad': o['NORAD_CAT_ID'], 'epoch': epoch_of(o).strftime('%Y-%m-%d %H:%M'), 'omm': o}
+        tl = two_line(o)
+        if tl:
+            rec['line1'], rec['line2'] = tl
+        out[key] = rec
     for key in wanted:
         print('  %-28s %s' % (key, ('%s (%d), elements of %s' % (out[key]['name'], out[key]['norad'], out[key]['epoch'])) if key in out else 'not found at CelesTrak'))
     return out
@@ -319,6 +423,9 @@ def links_due(now):
 
 
 def main():
+    ap = argparse.ArgumentParser(description='Spacecraft map data')
+    ap.add_argument('--from', dest='src', help="read CelesTrak's active list from DIR/active.csv (saved by orbit-watch/fetch_orbits.py --keep DIR)")
+    args = ap.parse_args()
     os.makedirs(DATA, exist_ok=True)
     with open(os.path.join(HERE, 'catalogue.json')) as fh:
         cat = json.load(fh)['craft']
@@ -345,7 +452,7 @@ def main():
     print('CelesTrak:')
     wanted = {c['key']: c['src']['tle'] for c in cat if 'tle' in c['src']}
     try:
-        t = tles(wanted)
+        t = tles(wanted, args.src)
         if t:
             write('tle.json', {'source': 'CelesTrak (celestrak.org), general perturbations orbital elements', 'updated': stamp,
                                'sats': [{'key': k, **v} for k, v in sorted(t.items())]})

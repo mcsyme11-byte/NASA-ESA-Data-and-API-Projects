@@ -8,6 +8,7 @@
 import { SpaceMap, craftPos, relAt, parentAt, R_EARTH, R_MOON, R_MARS, AU_KM, jdFromMs, msFromJd } from './spacemap.js';
 import { satrecOf } from '../shared/sats.js';
 import { shareButton, linkWith, takeShared } from '../asteroid-tracker/share.js';
+import { reloadPage } from '../shared/reload.js?v=2026111902';
 
 const $ = (s) => document.querySelector(s), $$ = (s) => [...document.querySelectorAll(s)];
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
@@ -41,15 +42,17 @@ const earth = (j) => map.earthAt(j);
 
 // ---------------------------------------------------------------- loading
 const shared = takeShared(['craft', 'v']);
-async function load() {
+// again: the reload button (added Nov 19, 2026): the files read afresh, the view and the chosen craft kept
+async function load(again) {
   $('#scState').hidden = true;
   const [cat, pos, tle, links, past, routes] = await Promise.allSettled([getJson('catalogue.json'), getJson('data/positions.json'), getJson('data/tle.json'),
     getJson('data/links.json'), getJson('past.json'), getJson('data/routes.json')]);
   if (cat.status !== 'fulfilled' || (pos.status !== 'fulfilled' && tle.status !== 'fulfilled')) {
+    if (again) return false;                   // a failed reload keeps the map as it was; the button says so
     state('The spacecraft positions could not be loaded. Check the connection and <button class="linkbtn" type="button" data-retry>try again</button>.');
     $('#scList').innerHTML = '<div class="state small">Nothing to list yet.</div>';
     $('#scCount').textContent = 'Positions could not be loaded';
-    return;
+    return false;
   }
   const P = pos.status === 'fulfilled' ? pos.value : { craft: {} }, T = tle.status === 'fulfilled' ? tle.value : { sats: [] };
   if (links.status === 'fulfilled') broken = new Set(links.value.broken || []);
@@ -89,11 +92,18 @@ async function load() {
   if (tle.status !== 'fulfilled') note('The satellites in Earth orbit could not be loaded just now; the rest of the map works.');
   else if (pos.status !== 'fulfilled') note('The deep-space positions could not be loaded just now; the satellites in Earth orbit work.');
   chips(); applyFilter();
+  if (again) {
+    if (map.sel && !map.byKey(map.sel)) unselect();
+    map.request();
+    return tle.status === 'fulfilled' && pos.status === 'fulfilled';
+  }
   if (shared && shared.v && VIEWS[shared.v]) setViewName(shared.v, true);
   if (shared && shared.craft && map.byKey(shared.craft)) select(shared.craft, true);
   tick();
+  return true;
 }
-function state(html) { const s = $('#scState'); s.innerHTML = html; s.hidden = false; const b = s.querySelector('[data-retry]'); if (b) b.addEventListener('click', load); }
+reloadPage($('#scReload'), () => load(true));
+function state(html) { const s = $('#scState'); s.innerHTML = html; s.hidden = false; const b = s.querySelector('[data-retry]'); if (b) b.addEventListener('click', () => load()); }
 function note(text) { state(`<span>${esc(text)}</span>`); setTimeout(() => { $('#scState').hidden = true; }, 8000); }
 
 // ---------------------------------------------------------------- views and angle

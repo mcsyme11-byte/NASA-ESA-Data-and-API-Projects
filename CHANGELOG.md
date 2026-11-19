@@ -1,5 +1,18 @@
 # Change log
 
+## November 19, 2026 — Image Explorer and spacecraft map: reload buttons; CelesTrak's CSV
+
+- Reload buttons (`shared/reload.js`): the explorer's page head has one that moves "Latest" on to the newest full UTC
+  day, reads the shown layers' days again and, once the globe is open, its events, earthquakes and astronaut photos;
+  the page head shows the newest day of Earth pictures. The spacecraft map's reloads its positions and orbital
+  elements, keeping the view and the chosen craft; a failed reload leaves the map as it was.
+- Spacecraft map data: CelesTrak's elements are read as CSV (OMM), so craft with six-digit catalogue numbers (since
+  Jul 11, 2026) can be found; `tle.json` gains the OMM fields (two-line sets kept for five-digit numbers) and
+  `shared/sats.js` reads them. The first CelesTrak failure stops the run's CelesTrak requests and keeps the previous
+  file; `--from DIR` reads the active list Orbit Watch's job saved, so it is downloaded once.
+- The globe's "Moon and Mars maps" links (since Nov 17, 2026) checked against Planetary Maps: each opens its view or
+  place.
+
 ## November 19, 2026 — Spacecraft link check: refused is not broken
 
 - The spacecraft run of Nov 19, 2026 (17:53 UTC) marked 20 of the catalogue's 24 links on www.esa.int as broken:

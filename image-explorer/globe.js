@@ -120,10 +120,10 @@ async function loadSky() {
 /* ---------- natural events NASA is following, with a report in the last 30 days (EONET) ----------
  * Many events stay "open" for months after the last report (7,236 open on Nov 9, 2026, 35 reported in 30 days). */
 const CAT = { wildfires: '#C9784A', volcanoes: '#D1A956', severeStorms: '#8AA9C9', seaLakeIce: '#B79AC8', snow: '#B79AC8' };
-async function loadEvents() {
+async function loadEvents(fresh) {
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
-      const j = await (await fetch('https://eonet.gsfc.nasa.gov/api/v3/events?status=open&days=30')).json();
+      const j = await (await fetch('https://eonet.gsfc.nasa.gov/api/v3/events?status=open&days=30', fresh ? { cache: 'no-cache' } : undefined)).json();
       events = j.events.map(e => {
         const g = e.geometry[e.geometry.length - 1];
         let [lon, lat] = g.coordinates;
@@ -149,9 +149,9 @@ async function loadSpots() {
   } catch { spots = []; }
   status();
 }
-async function loadQuakes() {
+async function loadQuakes(fresh) {
   try {
-    const j = await (await fetch('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson')).json();
+    const j = await (await fetch('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson', fresh ? { cache: 'no-cache' } : undefined)).json();
     quakes = j.features.map(f => { const [lon, lat, depth] = f.geometry.coordinates, p = f.properties;
       return { kind: 'spot', sub: 'quake', name: p.place || p.title, lat, lon, depth, mag: p.mag, time: p.time, url: p.url,
         catTitle: `Earthquake · magnitude ${p.mag}`, local: vec(lat, lon, 1.004) }; }).filter(q => isFinite(q.lat) && isFinite(q.lon));
@@ -161,15 +161,22 @@ async function loadQuakes() {
 
 /* ---------- astronaut photos of Earth (cataloged ones, with the position of the photo's centre) ---------- */
 const EOL = 'https://eol.jsc.nasa.gov/';
-async function loadPhotos() {
+async function loadPhotos(fresh) {
   try {
-    const j = await (await fetch('data/astronaut.json')).json();
+    const j = await (await fetch('data/astronaut.json', fresh ? { cache: 'no-cache' } : undefined)).json();
     photos = (j.photos || []).map(([id, date, time, lat, lon, place, feat, cloud, small, large, pos = 'centre']) => ({
       id, kind: 'photo', name: place || 'Astronaut photo', date, time, lat, lon, feat, cloud, small, large, pos, local: vec(lat, lon, 1.004) }));
   } catch { photos = []; }
   document.querySelector('[data-show="photos"]').hidden = !photos.length;
   status();
 }
+
+/* the explorer's reload button (app.js): the live parts again, fresh from their servers; true when events and
+   earthquakes were both read (the photos file can be empty) */
+window.reloadGlobe = async () => {
+  await Promise.all([loadEvents(true), loadQuakes(true), loadPhotos(true)]);
+  return events !== null && quakes !== null;
+};
 
 function status() {
   const ev = events === null ? 'events unavailable right now' : `${events.length} events on Earth in the last 30 days`;

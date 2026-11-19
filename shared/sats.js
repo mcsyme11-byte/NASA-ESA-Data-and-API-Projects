@@ -1,6 +1,6 @@
 // NASA and ESA Data Projects · Earth satellites from their orbital elements · © 2026 Malcolm Syme · mcsyme11@gmail.com
 //
-// Positions of satellites in Earth orbit from CelesTrak's published orbital elements (two-line element sets, TLEs),
+// Positions of satellites in Earth orbit from CelesTrak's published orbital elements (OMM fields, or two-line sets),
 // copied daily into spacecraft/data/tle.json by the spacecraft data job. The SGP4 model is satellite.js (MIT,
 // shared/vendor/). Used by Sky Finder (the space stations' passes over the visitor) and the Spacecraft map.
 //
@@ -17,8 +17,13 @@ import { sunVector, refraction, jdFromMs } from './sky.js';
 const RAD = Math.PI / 180, DEG = 180 / Math.PI, R_EARTH = 6371;
 export const SAT_MIN_ALT = 10, SAT_DARK_SUN = -6;
 
+// The SGP4 record of one entry of tle.json: from its OMM fields ("omm", since Nov 19, 2026: CelesTrak's six-digit
+// catalogue numbers have no two-line set), or from its two-line set (older copies of the file).
 export function satrecOf(t) {
-  try { const r = sat.twoline2satrec(t.line1, t.line2); return r && !r.error ? r : null; } catch { return null; }
+  try {
+    const r = t.omm ? sat.json2satrec(t.omm) : sat.twoline2satrec(t.line1, t.line2);
+    return r && !r.error ? r : null;
+  } catch { return null; }
 }
 
 // Where a satellite is at time ms: the Earth-centred vector (km, TEME ≈ equator of date), and as seen from a place.

@@ -26,6 +26,7 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
   - Preview cards for shared links (an Open Graph picture and text per page), in the NEDAP look.
 - [ ] Reload buttons (shared component, Nov 18, 2026; Space Weather has them): each project chat adds them to its own
   pages with live or updated data, following `docs/DESIGN.md` ("Reload buttons") and the handoff of Nov 18, 2026.
+  Done Nov 19, 2026: Image Explorer (the explorer) and the spacecraft map.
 
 - [ ] Ideas from the review of Nov 18, 2026, each needing a mock-up the developer approves: a "Lost in space" 404 page
   (GitHub Pages shows `404.html` for a missing address); preview cards (Open Graph) for shared links.
@@ -86,10 +87,10 @@ Plan confirmed Nov 11, 2026 (see PROJECT-NOTES.md): three missions, updated auto
 The standard and the jobs are in [DATA-UPDATES.md](DATA-UPDATES.md); the daily Data health check reports problems in
 one GitHub issue labelled `data-health`.
 
-- [ ] Spacecraft data: stop at the first CelesTrak timeout, share one download of the active list with Orbit data,
-  and read CelesTrak's CSV (six-digit catalogue numbers); changes to `spacecraft/fetch_spacecraft.py` and
-  `shared/sats.js` handed to the Image Explorer chat (`docs/handoffs/2026-11-18 - data updates - spacecraft
-  CelesTrak.md`). Then `spacecraft-data.yml` runs `orbit-watch/fetch_orbits.py --keep` first and passes the folder.
+- [ ] Spacecraft data: `spacecraft-data.yml` to run `orbit-watch/fetch_orbits.py --keep DIR` first and then
+  `spacecraft/fetch_spacecraft.py --from DIR`, so CelesTrak's active list is downloaded once. The script's side is
+  done (Nov 19, 2026: CSV, stop at the first CelesTrak failure, `--from`; `docs/handoffs/2026-11-19 - image explorer -
+  spacecraft CelesTrak done.md`).
 - [ ] Confirm the first run started by the Exoplanets data timers (11:43 UTC Tuesdays and Wednesdays, first Nov 24,
   2026). Every other timer is confirmed (Nov 18 and 19, 2026): Spacecraft data 05:23, Astronaut photos 19:11, Rover
   routes 20:59, Data health 22:07, Orbit data 23:13 and Space weather data 00:37 UTC each started its job within
@@ -147,8 +148,8 @@ collisions, Cleaning up; see `orbit-watch/README.md`).
 - [ ] Confirm on the job's first run that `https://celestrak.org/pub/satcat.csv` is the satellite catalogue's address.
 - [ ] Ask CelesTrak whether elements for every catalogued object can be had in one file; until then the globe shows
   the working satellites and the three debris clouds published as groups, and the heights chart counts everything.
-- [ ] Spacecraft map (its owner): read CelesTrak's CSV instead of two-line elements, so craft catalogued since
-  Jul 11, 2026 (six-digit numbers) are found (handoff, section 3); its Earth-orbit fleet switch to link to Orbit Watch.
+- [ ] Spacecraft map (its owner): its Earth-orbit fleet switch to link to Orbit Watch. (CelesTrak's CSV, for
+  six-digit catalogue numbers, is read since Nov 19, 2026.)
 - [ ] Possible later: "Can I see it tonight?" for any object (Sky Finder predicts passes of the space stations only).
 
 **5b. Space Weather (`space-weather/`)**: live since Nov 17, 2026

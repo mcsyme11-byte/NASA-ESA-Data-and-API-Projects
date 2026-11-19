@@ -785,16 +785,26 @@ archives to the Picture library. Checked with requests from GitHub's servers and
 
 ### CelesTrak orbital elements, checked Nov 12, 2026
 
-- `https://celestrak.org/NORAD/elements/gp.php?GROUP=<group>&FORMAT=tle` (no key), the groups `stations`, `science`,
+- `https://celestrak.org/NORAD/elements/gp.php?GROUP=<group>&FORMAT=csv` (`FORMAT=tle` until Nov 19, 2026; no key), the groups `stations`, `science`,
   `weather`, `resource`, `noaa`, `goes`, `military`, `geodetic`, `active`, read in turn until every craft is found by
-  its exact CelesTrak name (`src.tle`, several spellings allowed); otherwise `?NAME=<name>&FORMAT=tle`.
+  its exact CelesTrak name (`src.tle`, several spellings allowed); otherwise `?NAME=<name>&FORMAT=csv`.
 - A name can also be a catalogue number (`#43435` asks `?CATNR=43435`): CelesTrak does not list TESS by name.
   First run (Nov 12, 2026): all found except TESS, SPHEREx and WSF-M1. SPHEREx (catalogue number 63182) and WSF-M1
   (59481, listed by CelesTrak as "WSF-M") were added by number the same day; TESS (43435) is not returned by CelesTrak
   at all and stays off the map.
 - Usage policy (celestrak.org/usage-policy.php): data are updated about every 2 hours, and the same request repeated
   within that time is refused (HTTP 403). The job asks twice a day. Credit: "CelesTrak".
-- Written to `spacecraft/data/tle.json`: name, the two lines, NORAD catalogue number and the elements' epoch.
+- Written to `spacecraft/data/tle.json`: name, NORAD catalogue number, the elements' epoch, the OMM fields (`omm`) and,
+  for five-digit catalogue numbers, the two lines.
+- **Changed Nov 19, 2026** (hand-off from the Data updates chat, Nov 18): the groups and names are read as CSV (OMM,
+  `FORMAT=csv`), because CelesTrak ran out of five-digit catalogue numbers on Jul 11, 2026 and craft catalogued since
+  then have no two-line set; the page builds its SGP4 record with satellite.js `json2satrec` (`shared/sats.js`). The
+  two lines are still written for five-digit numbers (rebuilt from the OMM fields, identical to CelesTrak's own sets
+  for all 65 craft on Nov 19, 2026), for copies of `shared/sats.js` saved in browsers before the change. Each request
+  is made once, with a 60-second limit; the first answer other than HTTP 200, or no answer, stops every further
+  CelesTrak request in the run and `tle.json` keeps its previous copy (CelesTrak's usage policy, May 22, 2026).
+  `--from DIR` reads `DIR/active.csv` (saved by `orbit-watch/fetch_orbits.py --keep DIR`) instead of asking for the
+  groups, so the active list is downloaded once per run of both scripts.
   Positions are worked out in the browser with SGP4 (satellite.js 7.2.0); low-orbit positions drift by kilometres a
   day as the elements age.
 

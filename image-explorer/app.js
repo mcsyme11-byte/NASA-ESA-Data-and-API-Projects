@@ -28,7 +28,7 @@ const OVERS = [
 /* ---------- dates ---------- */
 const DAY = 864e5;
 const iso = t => new Date(t).toISOString().slice(0, 10);
-const LATEST = iso(Date.now() - DAY);                     // the last full UTC day
+let LATEST = iso(Date.now() - DAY);                       // the last full UTC day (moved on by the reload button)
 const nice = s => new Date(s + 'T12:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
 let date = LATEST;
 /* each layer's days, read from GIBS (decided Nov 10, 2026): the layer's time domain lists the runs of days it has, for
@@ -36,12 +36,13 @@ let date = LATEST;
    its nearest earlier day when it has no picture for that day. While the domain is loading, or if it cannot be read,
    the fixed lag below is used (the combined MUR layers arrive a day after the others). */
 const DOMAINS = new Map();                                 /* "projection layer" → [[from, to], …], null while loading, false if unreadable */
+const LOADS = new Map();                                   /* "projection layer" → the promise of its domain (true when read) */
 const domKey = S => `${V().gibs} ${S.layer}`;
 function loadDomain(S) {
   const k = domKey(S);
-  if (DOMAINS.has(k)) return;
+  if (DOMAINS.has(k)) return LOADS.get(k);
   DOMAINS.set(k, null);
-  fetch(`${GIBS}${V().gibs}/best/1.0.0/${S.layer}/default/${S.set}/all/--${LATEST}.xml`)
+  const p = fetch(`${GIBS}${V().gibs}/best/1.0.0/${S.layer}/default/${S.set}/all/--${LATEST}.xml`)
     .then(r => r.ok ? r.text() : Promise.reject(new Error(r.status)))
     .then(t => {
       const d = (t.match(/<Domain>([^<]*)<\/Domain>/) || [])[1] || '';
@@ -49,8 +50,11 @@ function loadDomain(S) {
         .map(r => [r[0].slice(0, 10), (/^\d{4}-/.test(r[1] || '') ? r[1] : r[0]).slice(0, 10)]);
       DOMAINS.set(k, runs.length ? runs : false);
       refreshSources(); update();
+      return true;
     })
-    .catch(() => DOMAINS.set(k, false));
+    .catch(() => { DOMAINS.set(k, false); return false; });
+  LOADS.set(k, p);                                         /* the reload button waits for it */
+  return p;
 }
 function dayFor(S) {
   const want = date > LATEST ? LATEST : date, runs = DOMAINS.get(domKey(S));
@@ -351,6 +355,26 @@ $('dPrev').addEventListener('click', () => setDate(iso(Date.parse(date) - DAY)))
 $('dNext').addEventListener('click', () => setDate(iso(Date.parse(date) + DAY)));
 $('dLatest').addEventListener('click', () => setDate(LATEST));
 $('sDay').addEventListener('input', e => setDate(iso(Date.parse(LATEST) - (60 - +e.target.value) * DAY)));
+
+/* reload button (shared/reload.js, added Nov 19, 2026): moves "Latest" on to the newest full UTC day, reads the days
+   of the layers shown again, and, once the globe has been opened, its events, earthquakes and astronaut photos. The
+   picture library is a search: searching again is its reload. */
+const showNewest = () => { $('xNewest').textContent = `Newest Earth pictures: ${nice(LATEST)} (UTC)`; };
+showNewest();
+async function reloadAll() {
+  const latest = date === LATEST;
+  LATEST = iso(Date.now() - DAY); $('dPick').max = LATEST;
+  if (latest) date = LATEST;
+  DOMAINS.clear(); LOADS.clear();
+  buildSources(); showLayers(); update();
+  const shown = [spec(BASES.find(L => L.id === base)), ...OVERS.filter(L => on.has(L.id)).map(spec).filter(Boolean)];
+  const parts = [Promise.all(shown.map(loadDomain)).then(r => r.every(Boolean))];
+  if (window.reloadGlobe) parts.push(window.reloadGlobe());
+  const ok = (await Promise.all(parts)).every(Boolean);
+  showNewest();
+  return ok;
+}
+import('../shared/reload.js?v=2026111902').then(m => m.reloadPage($('reloadAll'), reloadAll));
 
 /* play: one step per tick; waits for the map to finish drawing before the next day */
 let timer = null;

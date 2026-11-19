@@ -11,7 +11,7 @@ home page. Created by Malcolm Syme (mcsyme11@gmail.com), © 2026.
 | `catalogue.json` | Every craft on the map, written by hand: name, agencies, kind, launch, description, timeline, links, and where its position comes from (`src`). Facts checked Nov 12, 2026. |
 | `past.json` | Past missions (since Nov 14, 2026), written by hand: the same facts plus when and how each ended (`ended`, `end_word`, `end`), its route in Horizons (`route`) and where it rests now (`rest`: a planet or the Moon, a landing site on Mars, `"drift"` for craft still circling the Sun, or none). |
 | `fetch_spacecraft.py` | The data job (workflow `spacecraft-data.yml`, twice a day): Horizons positions, CelesTrak orbital elements, past missions' routes, the link check. |
-| `data/positions.json`, `data/tle.json`, `data/routes.json`, `data/links.json` | What the job writes. `routes.json`: each past mission's whole route (600 equal steps, worked out once and kept while its entry is unchanged) and, for drifting craft, their positions around today. |
+| `data/positions.json`, `data/tle.json`, `data/routes.json`, `data/links.json` | What the job writes. `tle.json` (since Nov 19, 2026): CelesTrak's OMM fields for each craft in Earth orbit, with its two-line set when the catalogue number has five digits. `routes.json`: each past mission's whole route (600 equal steps, worked out once and kept while its entry is unchanged) and, for drifting craft, their positions around today. |
 | `spacemap.js` | The map: a subclass of the asteroid map's `SolarMap`, with the craft, their icons, groups and paths. |
 | `app.js`, `index.html`, `spacecraft.css` | The page: views, filters, list, card, time, share links. |
 | `preview.js` | The home page's preview. |
