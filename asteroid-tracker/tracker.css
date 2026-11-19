@@ -370,3 +370,7 @@ dl.mini dd { margin: 0; }
 
 /* links in the asteroid tables on phones (the name, "JPL's page"): a 40 px tap area without moving the text (Nov 18, 2026) */
 @media (max-width: 760px) { .neo td a:not(.btn):not(.chip) { display: inline-block; padding: 10px 0; margin: -10px 0; } }
+
+/* an asteroid's page: the line that decodes its name is two lines long at most widths once filled in; two lines are
+   kept for it from the start, so the page does not jump when it fills in, whatever the fonts (Nov 19, 2026) */
+@media (min-width: 761px) { .pagehead #decode { min-height: calc(2 * 1lh); } }
