@@ -61,16 +61,24 @@
       <a href="methods.html">How they are found</a>
       <a href="explorer.html">Every planet</a>
     </nav>
+    <nav class="tabs bar sub" data-spy aria-label="On this page">
+      <a href="#ways">Six ways</a>
+      <a href="#transit">The transit method</a>
+      <a href="#maths">Which formula when</a>
+      <a href="#kinds">What each finds</a>
+      <a href="#nearest">Nearest Earth-sized</a>
+      <a href="#sources">Sources</a>
+    </nav>
 
     <div id="notice"></div>
     <div class="stats" id="stats">
-      <div class="stat"><div class="label">Confirmed planets</div><div class="value">…</div><div class="note">in NASA's archive, loading</div></div>
-      <div class="stat"><div class="label">Found by transit</div><div class="value">…</div><div class="note">loading: the star dims as a planet crosses it</div></div>
-      <div class="stat"><div class="label">In the habitable zone</div><div class="value">…</div><div class="note">by NASA's rule; loading how many are about Earth's size</div></div>
-      <div class="stat"><div class="label">Nearest</div><div class="value">…</div><div class="note">loading its name and distance</div></div>
+      <div class="stat"><div class="label">Confirmed planets</div><div class="value"><span class="skel num" aria-hidden="true"></span><span class="sr">loading</span></div><div class="note">in NASA's archive, loading</div></div>
+      <div class="stat"><div class="label">Found by transit</div><div class="value"><span class="skel num" aria-hidden="true"></span><span class="sr">loading</span></div><div class="note">loading: the star dims as a planet crosses it</div></div>
+      <div class="stat"><div class="label">In the habitable zone</div><div class="value"><span class="skel num" aria-hidden="true"></span><span class="sr">loading</span></div><div class="note">by NASA's rule; loading how many are about Earth's size</div></div>
+      <div class="stat"><div class="label">Nearest</div><div class="value"><span class="skel num" aria-hidden="true"></span><span class="sr">loading</span></div><div class="note">loading its name and distance</div></div>
     </div>
 
-    <section class="section" aria-labelledby="hWays">
+    <section class="section" id="ways" aria-labelledby="hWays">
       <div class="section-head">
         <div><div class="kicker">Learn</div><h2 id="hWays">Six ways to find a planet you can't see</h2></div>
         <p class="aside">A planet like Earth is about ten billion times fainter than its star in visible light. Almost every method watches the star instead.</p>
@@ -179,7 +187,7 @@
       </div>
     </section>
 
-    <section class="section" aria-labelledby="hWho">
+    <section class="section" id="kinds" aria-labelledby="hWho">
       <div class="section-head">
         <div><div class="kicker">The whole catalogue</div><h2 id="hWho">Each method finds a different kind of planet</h2></div>
       </div>
@@ -203,7 +211,7 @@
       </div>
     </section>
 
-    <section class="section" aria-labelledby="hExp">
+    <section class="section" id="nearest" aria-labelledby="hExp">
       <div class="section-head">
         <div><div class="kicker">Explore</div><h2 id="hExp">The nearest planets about Earth's size in the habitable zone</h2></div>
         <a class="btn" href="explorer.html">Every planet</a>
@@ -212,14 +220,14 @@
         <div class="pb flush">
           <table class="table stack planetlist" id="near">
             <thead><tr><th>Planet</th><th class="r">Distance</th><th class="r">Size (Earth = 1)</th><th class="r">Starlight (Earth = 1)</th><th>Found by</th></tr></thead>
-            <tbody><tr><td colspan="5"><div class="state loading">Loading the planets…</div></td></tr></tbody>
+            <tbody><tr><td colspan="5"><div class="skel rows" aria-hidden="true"></div><span class="sr">Loading the planets…</span></td></tr></tbody>
           </table>
         </div>
         <p class="pf caption">In the habitable zone by NASA's rule. About Earth's size: a measured radius of 0.5 to 1.6 Earths, or, for a planet with no measured radius, a mass of 0.1 to 3 Earths. Size: the radius when a transit measured it, otherwise the mass; a mass from radial velocity is a minimum (≥). Choose a planet to see its system.</p>
       </div>
     </section>
 
-    <section class="section" aria-labelledby="hSrc">
+    <section class="section" id="sources" aria-labelledby="hSrc">
       <div class="section-head"><div><div class="kicker">Where the data comes from</div><h2 id="hSrc">Sources</h2></div></div>
       <div class="sources">
         <div class="s"><div class="n">Confirmed planets <span class="badge nasa">NASA</span></div><p class="d">Every confirmed planet and its star, one row each (the Planetary Systems Composite Parameters table), copied from the archive into this site.</p><p class="u">exoplanetarchive.ipac.caltech.edu</p></div>

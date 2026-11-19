@@ -15,7 +15,9 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
   `data-key="prev"` / `data-key="next"` on the previous and next period buttons. Planetary Maps done Nov 19, 2026
   (loading shapes; it is one page with no tab bar and no period buttons, and its preview tags were already built). Done on
   the control room and "How the data is collected" (Nov 19, 2026: loading shapes; they have no period buttons or
-  project tab bar).
+  project tab bar). Exoplanets done Nov 19, 2026 ("On this page" bars on the overview and How they are found, the
+  latter in place of its row of method chips; loading shapes for the stat figures, the planet tables and the star map;
+  no period buttons; preview tags already built).
 - [ ] Developer testing of the site tools of Nov 19, 2026 (the test list of that day): the search, the shortcuts,
   "Copy link to this section", the menu's dots, the Lost in space page, the Space Watch figures, and a shared link's
   preview card.

@@ -1,5 +1,13 @@
 # Change log
 
+## November 19, 2026 — Exoplanets: the site tools of Nov 19
+
+- "On this page" bars (`nav.tabs.bar.sub[data-spy]`) under the project tab bar on the overview (six sections, now with
+  ids) and on How they are found, where it replaces the row of method chips; the link to the transit method, on the
+  overview, stays in the page's opening text.
+- Loading shapes (`.skel`) in place of "Loading…": the overview's four figures, the planet tables on all three pages and
+  the star map's text. No period buttons on these pages; preview tags were already current (`dev/build_social.py`).
+
 ## November 19, 2026 — Planetary Maps: loading shapes
 
 - **Planetary Maps** adopts the site tools of Nov 19, 2026 that apply to it: loading shapes (`.skel.num` and
