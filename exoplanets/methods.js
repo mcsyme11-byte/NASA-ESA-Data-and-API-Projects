@@ -4,7 +4,8 @@
 // The radial-velocity curve of 51 Pegasi and the microlensing event OGLE-2005-BLG-390 (data/series/), and the
 // planets each method has found (data/planets.json).
 
-import { fmt, sig, esc, PC_LY, M_JUP_EARTH, METHOD_NAMES, TIMING_CODES, loadPlanets, loadSeriesIndex, loadSeries, planetUrl } from './data.js';
+import { fmt, sig, esc, PC_LY, M_JUP_EARTH, METHOD_NAMES, TIMING_CODES, loadPlanets, loadSeriesIndex, loadSeries, planetUrl, forgetPlanets, copiedText, COPY_FAILED } from './data.js';
+import { reloadPage } from '../shared/reload.js?v=2026111902';
 import { rvCurve, microCurve, microModel, emptyChart } from './charts.js';
 
 const $ = (s) => document.querySelector(s);
@@ -110,12 +111,25 @@ function lists(d) {
 
 async function main() {
   let d = null;
-  try { d = await loadPlanets(); lists(d); } catch (e) {
+  try { d = await loadPlanets(); lists(d); $('#copied').textContent = copiedText(d.updated); } catch (e) {
     for (const id of ['#imTable', '#asTable', '#tiTable']) $(`${id} tbody`).innerHTML = '<tr><td colspan="3"><div class="empty">The planet list could not be loaded.</div></td></tr>';
+    $('#copied').textContent = COPY_FAILED;
     failed('The planet list', e);
   }
   measurements(d);
 }
+// the reload button: the weekly planet list again (the measurements are built by hand and do not change between
+// builds); what is shown stays when the file cannot be read
+reloadPage($('#reloadAll'), async () => {
+  forgetPlanets();
+  try {
+    const d = await loadPlanets();
+    lists(d);
+    $('#copied').textContent = copiedText(d.updated);
+    if (failedParts.length === 1 && failedParts[0] === 'The planet list') { failedParts.length = 0; $('#notice').innerHTML = ''; }
+    return true;
+  } catch (e) { return false; }
+});
 let rt;
 addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { if (st.rv) rvCurve($('#rvChart'), st.rv); drawMl(); }, 150); });
 main();

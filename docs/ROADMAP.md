@@ -174,12 +174,10 @@ collisions, Cleaning up; see `orbit-watch/README.md`).
 - [ ] ESA Gaia Data Release 4 (due Dec 2, 2026): check its exoplanet candidate catalogue (address, format, terms), add
   the candidates apart from the confirmed planets, credited "ESA/Gaia/DPAC", and send the Data updates chat a
   hand-off.
-- [ ] ESA CHEOPS (approved Nov 17, 2026): the archive's terms are checked (CC BY-NC 3.0 IGO), but its light curves
-  can be downloaded by a script only through DACE (University of Geneva, `dace_query`), not the mission archive that
-  was approved. Waiting for the developer's decision on DACE; then one CHEOPS light curve (for example WASP-189 b)
-  beside the TESS and Kepler ones.
 - [ ] Developer testing of the additions of Nov 18, 2026: the Webb picture of HR 8799 and its table (How they are
   found), and "Where it is in the sky" on a planet's page (the star map, the best month, the heights).
+- [ ] Developer testing of the additions of Nov 19, 2026: the CHEOPS light curve of WASP-189 b on the overview, and the
+  "Reload the planet list" button on the three pages.
 - [ ] ESA PLATO (launch planned January 2027): its card's note to be updated once it flies.
 
 **5d. Planetary Maps (`planet-maps/`)**: live Nov 17, 2026 (`planet-maps/README.md`)

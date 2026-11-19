@@ -4,8 +4,9 @@
 // the whole catalogue and the nearest planets about Earth's size in the habitable zone (data/planets.json).
 
 import { fmt, sig, esc, dateText, GROUPS, groupOf, METHOD_NAMES, PC_LY, R_EARTH_KM, R_SUN_KM,
-  loadSummary, loadPlanets, loadSeriesIndex, loadSeries, planetUrl, sizeCell } from './data.js';
+  loadSummary, loadPlanets, loadSeriesIndex, loadSeries, planetUrl, sizeCell, forgetPlanets, copiedText, COPY_FAILED } from './data.js';
 import { lightCurve, massPeriod, perYear, toyTransit, emptyChart, mark } from './charts.js';
+import { reloadPage } from '../shared/reload.js?v=2026111902';
 
 const $ = (s) => document.querySelector(s);
 const NS = 'http://www.w3.org/2000/svg';
@@ -23,13 +24,16 @@ function failed(what, e) {
 }
 
 // ---- the counts ----
-async function counts() {
+// again: a reload by hand, which keeps what is shown when the file cannot be read
+async function counts(again) {
   let s;
   try { s = await loadSummary(); } catch (e) {
+    if (again) return false;
+    $('#updated').textContent = COPY_FAILED;
     stats(['Confirmed planets', 'Found by transit', 'In the habitable zone', 'Nearest'].map((label) => ({ label, value: '—', note: 'not loaded' })));
     document.querySelectorAll('[data-count]').forEach((n) => { n.textContent = '—'; });
     failed('The planet counts', e);
-    return;
+    return false;
   }
   st.summary = s;
   const by = (codes) => codes.reduce((a, c) => a + (s.by_method[c] || 0), 0);
@@ -44,19 +48,38 @@ async function counts() {
   document.querySelectorAll('[data-count]').forEach((el) => { el.textContent = fmt(n[el.dataset.count]); });
   const other = s.total - Object.values(n).reduce((a, b) => a + b, 0);
   if (other > 0) $('#otherCount').textContent = `${fmt(other)} more were found in other ways: by the light a planet reflects or blocks as it goes round (brightness changes along the orbit), or by the motion of the disc of gas around a young star.`;
-  $('#updated').textContent = `Planet list as of ${dateText(s.updated)}, from the NASA Exoplanet Archive.`;
+  $('#updated').textContent = copiedText(s.updated);
   perYear($('#py'), s.years);
   st.years = s.years;
+  return true;
 }
 
 // ---- the light curves ----
+// The buttons are written in index.html, so nothing moves as the page loads; one whose light curve has not been built
+// is taken away. Each telescope's own wording: who runs it, how its stretches of observation are named, where the
+// files come from.
 const PICK_LABEL = { 'hot-jupiter': 'A hot Jupiter' };
+const SCOPES = {
+  TESS: { agency: 'NASA', runs: ['sector (27-day stretch) of observations', 'sectors (27-day stretches) of observations'], from: 'from MAST at STScI', every: 2 },
+  Kepler: { agency: 'NASA', runs: ['quarter (3-month stretch) of observations', 'quarters (3-month stretches) of observations'], from: 'from MAST at STScI', every: 30 },
+  CHEOPS: { agency: 'ESA', runs: ['visit that caught a transit (a few hours to a day of watching the star)', 'visits that caught a transit (each a few hours to a day of watching the star)'], from: 'processed by the CHEOPS pipeline and served by DACE at the University of Geneva', every: 1 },
+};
+const scope = (s) => SCOPES[s.mission] || SCOPES.TESS;
+const everyText = (s) => {
+  const m = s.cadence_min || scope(s).every;
+  return m < 1.5 ? (m < 0.75 ? `${fmt(Math.round(m * 60))} seconds` : 'minute') : `${fmt(Math.round(m))} minutes`;
+};
 async function curves() {
   let idx;
   try { idx = await loadSeriesIndex(); } catch (e) { emptyChart($('#lc'), 'The light curves could not be loaded.'); failed('The light curves', e); return; }
   st.series = idx.series.filter((x) => x.kind === 'transit');
   if (!st.series.length) { emptyChart($('#lc'), 'No light curves yet.'); return; }
-  $('#lcPick').innerHTML = st.series.map((x, i) => `<button type="button" aria-pressed="${i === 0}" data-k="${x.key}">${esc(PICK_LABEL[x.key] || x.planet)}</button>`).join('');
+  const built = new Map(st.series.map((x) => [x.key, x]));
+  $('#lcPick').querySelectorAll('button[data-k]').forEach((b) => {
+    const x = built.get(b.dataset.k);
+    if (!x) { b.remove(); return; }
+    b.textContent = PICK_LABEL[x.key] || (x.mission === 'CHEOPS' ? `${x.planet} (ESA's CHEOPS)` : x.planet);
+  });
   $('#lcPick').addEventListener('click', (e) => {
     const b = e.target.closest('button[data-k]'); if (!b) return;
     $('#lcPick').querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', x === b));
@@ -73,12 +96,13 @@ async function showCurve(key) {
   st.pick = s;
   lightCurve($('#lc'), s);
   $('#lcTitle').textContent = `${s.star}: its brightness around ${s.planet}'s transits`;
-  $('#lcEvery').textContent = `single measurements, every ${s.mission === 'TESS' ? '2' : '30'} minutes`;
+  const sc = scope(s), every = everyText(s);
+  $('#lcEvery').textContent = `single measurements, every ${every}`;
   $('#lcAside').textContent = `${fmt(s.transits)} transits, ${fmt(s.points_total)} measurements`;
   const ratio = s.star_radius_sun ? Math.sqrt(s.depth_measured) * s.star_radius_sun * R_SUN_KM / R_EARTH_KM : null;
-  $('#lcCap').innerHTML = `NASA ${s.mission}, ${s.mission === 'TESS' ? 'one measurement every 2 minutes' : 'one measurement every 30 minutes'}, ` +
-    `${fmt(s.files)} ${s.mission === 'TESS' ? 'sectors (27-day stretches)' : 'quarters (3-month stretches)'} of observations, from MAST at STScI. ` +
-    `The dip measured here is ${sig(s.depth_measured * 100, 2)}%; the archive gives ${sig(s.depth_archive_pct, 3)}%.` +
+  $('#lcCap').innerHTML = `${sc.agency} ${s.mission}, one measurement every ${every}, ` +
+    `${fmt(s.files)} ${sc.runs[s.files === 1 ? 0 : 1]}, ${sc.from}. ` +
+    `The dip measured here is ${sig(s.depth_measured * 100, 2)}%${s.depth_archive_pct ? `; the archive gives ${sig(s.depth_archive_pct, 3)}%` : ''}.` +
     (ratio ? ` With the star's radius, ${sig(s.star_radius_sun, 3)} Suns, that makes the planet about ${sig(ratio, 2)} times Earth's width (the archive: ${sig(s.radius_earth, 3)}).` : '') +
     ` ${fmt(s.points.length)} of the measurements are drawn as dots; the line averages all of them.`;
 }
@@ -113,13 +137,14 @@ function keys() {
   [...$('#mpKey').querySelectorAll('svg')].forEach((s, i) => mark(s, GROUPS[i].shape, 0, 0, 4.5, { fill: GROUPS[i].col }));
   $('#pyKey').innerHTML = GROUPS.map((g) => `<span><i class="${g.sw}"></i>${g.label}</span>`).join('');
 }
-async function catalogue() {
+async function catalogue(again) {
   let d;
   try { d = await loadPlanets(); } catch (e) {
+    if (again) return false;
     emptyChart($('#mp'), 'The planet list could not be loaded.');
     $('#near tbody').innerHTML = '<tr><td colspan="5"><div class="empty">The planet list could not be loaded.</div></td></tr>';
     failed('The planet list', e);
-    return;
+    return false;
   }
   st.planets = d.list;
   massPeriod($('#mp'), d.list);
@@ -133,11 +158,19 @@ async function catalogue() {
       <td data-l="Starlight (Earth = 1)" class="r">${sig(p.light, 2)}</td>
       <td data-l="Found by">${esc(METHOD_NAMES[p.method])}, ${p.year}</td></tr>`).join('')
     : '<tr><td colspan="5"><div class="empty">No planets match.</div></td></tr>';
-  $('#near tbody').addEventListener('click', (e) => {
-    const tr = e.target.closest('tr[data-p]');
-    if (tr && !e.target.closest('a')) location.href = planetUrl(tr.dataset.p);
-  });
+  return true;
 }
+$('#near tbody').addEventListener('click', (e) => {
+  const tr = e.target.closest('tr[data-p]');
+  if (tr && !e.target.closest('a')) location.href = planetUrl(tr.dataset.p);
+});
+// the reload button: the weekly copies again (the light curves are built by hand and do not change between builds)
+reloadPage($('#reloadAll'), async () => {
+  forgetPlanets();
+  const ok = (await Promise.all([counts(true), catalogue(true)])).every(Boolean);
+  if (ok) { failedParts.length = 0; $('#notice').innerHTML = ''; }
+  return ok;
+});
 
 // ---- redraw at the new width ----
 let rt;

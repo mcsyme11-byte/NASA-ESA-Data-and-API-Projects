@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Exoplanets · Planets around other stars · NASA and ESA Data Projects</title>
-  <meta name="description" content="How astronomers find planets around other stars, shown with real measurements from NASA's Kepler and TESS telescopes, and every confirmed planet from the NASA Exoplanet Archive.">
+  <meta name="description" content="How astronomers find planets around other stars, shown with real measurements from NASA's Kepler and TESS telescopes and ESA's CHEOPS, and every confirmed planet from the NASA Exoplanet Archive.">
   <meta name="theme-color" content="#141B26">
   <link rel="icon" href="../shared/icons/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="icon" href="../shared/icons/favicon.svg" type="image/svg+xml">
@@ -38,8 +38,10 @@
     <header class="pagehead">
       <div class="kicker"><a href="../space-watch/">Orbit &amp; Space Watch</a></div>
       <h1>Planets around other stars</h1>
-      <p class="lede">How astronomers find planets they can't see, shown with real measurements from NASA's Kepler and TESS telescopes, and every confirmed planet so far: how big it is, how it orbits, and whether it gets the right amount of starlight for liquid water.</p>
-      <div class="meta badges"><span class="badge nasa">NASA</span><span class="badge esa">ESA</span><span class="badge">Exoplanet Archive</span><span class="badge">Kepler · TESS</span><span class="badge">Gaia</span></div>
+      <p class="lede">How astronomers find planets they can't see, shown with real measurements from NASA's Kepler and TESS telescopes and ESA's CHEOPS, and every confirmed planet so far: how big it is, how it orbits, and whether it gets the right amount of starlight for liquid water.</p>
+      <p class="meta badges"><span class="badge nasa">NASA</span><span class="badge esa">ESA</span><span class="badge">Exoplanet Archive</span><span class="badge">Kepler · TESS · CHEOPS</span><span class="badge">Gaia</span>
+        <span class="small" id="updated">Planet list: reading the latest weekly copy of NASA's planet archive…</span>
+        <button class="reload" type="button" id="reloadAll">Reload the planet list</button></p>
     </header>
 
     <nav class="tabs bar" aria-label="Exoplanets">
@@ -50,12 +52,11 @@
 
     <div id="notice"></div>
     <div class="stats" id="stats">
-      <div class="stat"><div class="label">Confirmed planets</div><div class="value">…</div><div class="note">loading</div></div>
-      <div class="stat"><div class="label">Found by transit</div><div class="value">…</div><div class="note">loading</div></div>
-      <div class="stat"><div class="label">In the habitable zone</div><div class="value">…</div><div class="note">loading</div></div>
-      <div class="stat"><div class="label">Nearest</div><div class="value">…</div><div class="note">loading</div></div>
+      <div class="stat"><div class="label">Confirmed planets</div><div class="value">…</div><div class="note">in NASA's archive, loading</div></div>
+      <div class="stat"><div class="label">Found by transit</div><div class="value">…</div><div class="note">loading: the star dims as a planet crosses it</div></div>
+      <div class="stat"><div class="label">In the habitable zone</div><div class="value">…</div><div class="note">by NASA's rule; loading how many are about Earth's size</div></div>
+      <div class="stat"><div class="label">Nearest</div><div class="value">…</div><div class="note">loading its name and distance</div></div>
     </div>
-    <p class="updated" id="updated"></p>
 
     <section class="section" aria-labelledby="hWays">
       <div class="section-head">
@@ -100,7 +101,7 @@
     <section class="section" id="transit" aria-labelledby="hTransit">
       <div class="section-head">
         <div><div class="kicker">Method 1</div><h2 id="hTransit">The transit method, step by step</h2></div>
-        <div class="seg" role="group" aria-label="Light curve" id="lcPick"></div>
+        <div class="seg" role="group" aria-label="Light curve" id="lcPick"><button type="button" aria-pressed="true" data-k="hot-jupiter">A hot Jupiter</button><button type="button" aria-pressed="false" data-k="kepler-10b">Kepler-10 b</button><button type="button" aria-pressed="false" data-k="toi-700d">TOI-700 d</button><button type="button" aria-pressed="false" data-k="cheops">WASP-189 b (ESA's CHEOPS)</button></div>
       </div>
       <div class="panels">
         <figure class="panel wide">
@@ -216,7 +217,7 @@
       </div>
     </section>
 
-    <p class="srcline">Planet data: NASA Exoplanet Archive, which is operated by the California Institute of Technology under contract with NASA under the Exoplanet Exploration Program. Light curves: NASA's TESS and Kepler missions, obtained from the Mikulski Archive for Space Telescopes (MAST) at the Space Telescope Science Institute. Habitable zone: NASA Exoplanet Exploration Program (Mamajek &amp; Stapelfeldt 2023) and Kopparapu et al. (2013, 2014). Data courtesy of NASA.</p>
+    <p class="srcline">Planet data: NASA Exoplanet Archive, which is operated by the California Institute of Technology under contract with NASA under the Exoplanet Exploration Program. Light curves: NASA's TESS and Kepler missions, obtained from the Mikulski Archive for Space Telescopes (MAST) at the Space Telescope Science Institute; ESA's CHEOPS mission (CHEOPS is an ESA mission in partnership with Switzerland), public data processed by the CHEOPS Data Reduction Pipeline (Hoyer et al. 2020), from DACE, the Data &amp; Analysis Center for Exoplanets at the University of Geneva, a platform of the Swiss National Centre of Competence in Research PlanetS, under ESA's terms (CC BY-NC 3.0 IGO). Habitable zone: NASA Exoplanet Exploration Program (Mamajek &amp; Stapelfeldt 2023) and Kopparapu et al. (2013, 2014). Data courtesy of NASA and ESA.</p>
     <footer class="footer">
       <div class="ftop"><p class="copy">© 2026 <strong>Malcolm Syme</strong> · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></p></div>
       <p class="fnote">Data courtesy of NASA and ESA. An independent project, not endorsed by NASA or ESA.</p>

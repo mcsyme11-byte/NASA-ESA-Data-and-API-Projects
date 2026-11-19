@@ -1146,6 +1146,38 @@ are refused), so the pages read copies kept in `exoplanets/data/` and never call
 - **Star map:** the planet's page reads Sky Finder's bright stars (`sky-finder/data/stars.json`, Hipparcos through
   d3-celestial, below in the Sky Finder section); nothing new is copied and no service is contacted.
 
+### ESA CHEOPS light curves, from DACE (University of Geneva), checked Nov 19, 2026
+
+- **Decided Nov 19, 2026:** DACE is approved for CHEOPS. CHEOPS (approved Nov 17, 2026) is an ESA mission in
+  partnership with Switzerland; its public light curves are kept in the mission archive
+  (cheops.unige.ch/archive_browser), which offers no interface for a script, and are also served by DACE, which the
+  CHEOPS consortium lists as a home of its public data (cheops.space.unibe.ch, "Using CHEOPS public data").
+- **DACE:** the Data & Analysis Center for Exoplanets (dace.unige.ch), a facility of the University of Geneva and a
+  platform of the Swiss National Centre of Competence in Research (NCCR) PlanetS. Read with the `dace-query` Python
+  package (PyPI; `Cheops.get_lightcurve(target, aperture='default')`) in public mode: no account, key or `.dacerc` file.
+- **What is copied:** `exoplanets/tools/build_series.py`, run by the hand-run workflow "Exoplanets data, built by hand"
+  (part `series`, only `cheops`), writes `exoplanets/data/series/cheops.json`. Columns used (checked Nov 19, 2026):
+  `obj_date_bjd_vect` (time, BJD), `photom_flux_vect` (the CHEOPS Data Reduction Pipeline's corrected flux, default
+  aperture), `photom_event_vect` (every flag together; only points with 0 are kept), `file_key` (the visit). The visits
+  are searched for whole transits of WASP-189 b (ephemeris from the NASA Exoplanet Archive), which are folded like the
+  Kepler and TESS ones; fallbacks KELT-11 b and WASP-76 b. First build: WASP-189 b, 16 visits searched, 2 whole
+  transits, a measurement every 34 seconds, dip 0.56%.
+- **Updates:** none needed. The observations are fixed; the file is rebuilt only by hand, so no data job and no
+  hand-off to the Data updates chat. Visitors' browsers read the copy on the site and never contact DACE.
+- **Terms:** CHEOPS data are distributed under ESA's terms for the ESA Space Science Archives, CC BY-NC 3.0 IGO
+  (cosmos.esa.int/web/esdc/terms-and-conditions): non-commercial use with credit, and no suggestion that ESA endorses
+  the use. DACE asks that its use be acknowledged (its standard acknowledgement: "This publication makes use of The Data
+  & Analysis Center for Exoplanets (DACE), which is a facility based at the University of Geneva (CH) dedicated to
+  extrasolar planets data visualisation, exchange and analysis. DACE is a platform of the Swiss National Centre of
+  Competence in Research (NCCR) PlanetS"). ESA's CHEOPS publication guidelines
+  (cosmos.esa.int/web/cheops-guest-observers-programme/publication-guidelines) ask for the mission's acknowledgement,
+  which opens "CHEOPS is an ESA mission in partnership with Switzerland", and citations of Benz et al. (2021, the
+  mission) and Hoyer et al. (2020, the data pipeline).
+- **Credit shown** under the light curve and in the page's source line: "ESA's CHEOPS mission (CHEOPS is an ESA
+  mission in partnership with Switzerland), public data processed by the CHEOPS Data Reduction Pipeline (Hoyer et al.
+  2020), from DACE, the Data & Analysis Center for Exoplanets at the University of Geneva, a platform of the Swiss
+  National Centre of Competence in Research PlanetS, under ESA's terms (CC BY-NC 3.0 IGO)".
+
 ### The habitable zone
 
 - **Rule 1, NASA's (decided Nov 17, 2026, the main rule):** the conservative habitable zone of the NASA Exoplanet
@@ -1169,10 +1201,6 @@ are refused), so the pages read copies kept in `exoplanets/data/` and never call
   from the Gaia Archive (TAP at `https://gea.esac.esa.int/tap-server/tap`; no CORS headers, so a copy is needed).
   Licence CC BY-NC 3.0 IGO (cosmos.esa.int/web/gaia-users/license); credit "ESA/Gaia/DPAC". Candidates are to be shown
   apart from the confirmed planets. The format of the release is to be checked after it is published.
-- **ESA CHEOPS** (approved Nov 17, 2026, counted as an ESA source): its public light curves are kept in the CHEOPS
-  mission archive, run for ESA by the CHEOPS Science Operations Centre at the University of Geneva. Address, format,
-  terms and the exact credit line are to be checked against the mission's documentation before a CHEOPS light curve is
-  added.
 - **ESA PLATO**: launch planned for January 2027 (ESA); no data yet.
 
 ## Using NASA material

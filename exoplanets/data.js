@@ -71,9 +71,12 @@ export function zones(teff, logL) {
 
 // ---- loading ----
 const cache = {};
+const fresh = new Set();     // files to fetch past the browser's saved copy (a reload by hand)
 async function getJson(path) {
   if (!cache[path]) {
-    cache[path] = fetch(new URL(path, import.meta.url)).then((r) => {
+    const opts = fresh.has(path) ? { cache: 'no-cache' } : undefined;
+    fresh.delete(path);
+    cache[path] = fetch(new URL(path, import.meta.url), opts).then((r) => {
       if (!r.ok) throw new Error(`HTTP ${r.status}`);
       return r.json();
     });
@@ -81,6 +84,13 @@ async function getJson(path) {
   }
   return cache[path];
 }
+/** The reload buttons (docs/DESIGN.md, "Reload buttons"): the next load of the weekly copies fetches them again. */
+export function forgetPlanets() {
+  for (const p of ['data/planets.json', 'data/summary.json']) { delete cache[p]; fresh.add(p); }
+}
+/** The page head's line about the weekly copy. */
+export const copiedText = (iso) => `Planet list as of ${dateText(iso)}, copied weekly from NASA's archive`;
+export const COPY_FAILED = 'The planet list could not be loaded';
 export const loadSummary = () => getJson('data/summary.json');
 export const loadSeriesIndex = () => getJson('data/series/index.json');
 export const loadSeries = (key) => getJson(`data/series/${key}.json`);

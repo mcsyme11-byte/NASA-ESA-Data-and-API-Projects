@@ -8,7 +8,7 @@ approved that day.
 
 | Page | What it shows |
 |---|---|
-| `index.html` (Overview) | The counts; the six methods; the transit method step by step with real light curves (HD 209458 b and TOI-700 d from TESS, Kepler-10 b from Kepler), "From the dip to the planet" worked from the TOI-700 d curve, and "Make a transit"; "Which formula to use when", the rules with a real example each; mass against year length and planets confirmed each year, by method; the nearest planets about Earth's size in the habitable zone |
+| `index.html` (Overview) | The counts; the six methods; the transit method step by step with real light curves (HD 209458 b and TOI-700 d from TESS, Kepler-10 b from Kepler, WASP-189 b from ESA's CHEOPS), "From the dip to the planet" worked from the TOI-700 d curve, and "Make a transit"; "Which formula to use when", the rules with a real example each; mass against year length and planets confirmed each year, by method; the nearest planets about Earth's size in the habitable zone |
 | `methods.html` (How they are found) | Radial velocity (51 Pegasi's 256 published velocities, the fitted wobble and the minimum mass worked from it), microlensing (the event OGLE-2005-BLG-390 and its planet's blip), direct imaging (Webb's picture of HR 8799's four planets with how far apart each looks, separation on the sky, contrast; the imaged planets widest on the sky), astrometry (the star's loop, ESA's Gaia; the planets found by astrometry), timing (pulsars, transit and eclipse timing) |
 | `explorer.html` (Every planet) | Every confirmed planet with search, method filter, "Habitable zone" and "About Earth's size", and sorting; `explorer.html?p=<name>` opens one planet: its system to scale with the habitable zone, the sums behind its verdict, its star, and where it is in the sky (a star map of the 60° around it, the best month to look, how high it rises from four latitudes, and whether the eye, binoculars or a telescope is needed) |
 
@@ -22,7 +22,7 @@ shapes in the keys, the planet list's selectable rows and the worked sums).
 |---|---|---|
 | `data/planets.json` | `fetch_planets.py` (standard library only) | NASA Exoplanet Archive, `pscomppars` |
 | `data/summary.json` | `fetch_planets.py` | the same: counts, discoveries by year, habitable-zone counts |
-| `data/series/*.json` | `tools/build_series.py` (NumPy, Astropy, astroquery) | MAST (TESS and Kepler light curves); the archive's time series (51 Pegasi, OGLE-2005-BLG-390) |
+| `data/series/*.json` | `tools/build_series.py` (NumPy, Astropy, astroquery, dace-query) | MAST (TESS and Kepler light curves); DACE, University of Geneva (CHEOPS light curves, public mode, no key); the archive's time series (51 Pegasi, OGLE-2005-BLG-390) |
 | `art/hr8799-webb.jpg` | `tools/get_pictures.py` (standard library only) | ESA/Webb, picture `weic2504a` (1280 × 1280) |
 | `../sky-finder/data/stars.json` (read, not copied) | Sky Finder | the bright stars of the Hipparcos catalogue, from d3-celestial |
 
@@ -56,6 +56,6 @@ to 3 Earths. Radii the archive estimates from a mass are marked as estimates and
 
 Planet data: NASA Exoplanet Archive, operated by the California Institute of Technology under contract with NASA under
 the Exoplanet Exploration Program. Light curves: NASA's TESS and Kepler missions, obtained from the Mikulski Archive for
-Space Telescopes (MAST) at the Space Telescope Science Institute. Picture of HR 8799: NASA, ESA, CSA, STScI, W. Balmer (JHU), L. Pueyo (STScI), M. Perrin (STScI), CC BY 4.0, from ESA/Webb. Bright stars: the Hipparcos catalogue, from d3-celestial (BSD 3-Clause, © 2015 Olaf Frohn). Gaia (planned): ESA/Gaia/DPAC, CC BY-NC 3.0 IGO.
+Space Telescopes (MAST) at the Space Telescope Science Institute; ESA's CHEOPS mission (CHEOPS is an ESA mission in partnership with Switzerland), public data processed by the CHEOPS Data Reduction Pipeline (Hoyer et al. 2020), from DACE, the Data & Analysis Center for Exoplanets at the University of Geneva (NCCR PlanetS), CC BY-NC 3.0 IGO. Picture of HR 8799: NASA, ESA, CSA, STScI, W. Balmer (JHU), L. Pueyo (STScI), M. Perrin (STScI), CC BY 4.0, from ESA/Webb. Bright stars: the Hipparcos catalogue, from d3-celestial (BSD 3-Clause, © 2015 Olaf Frohn). Gaia (planned): ESA/Gaia/DPAC, CC BY-NC 3.0 IGO.
 
 © 2026 Malcolm Syme · mcsyme11@gmail.com

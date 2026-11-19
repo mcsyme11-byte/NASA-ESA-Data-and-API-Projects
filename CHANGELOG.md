@@ -13,6 +13,18 @@
 - The globe's "Moon and Mars maps" links (since Nov 17, 2026) checked against Planetary Maps: each opens its view or
   place.
 
+## November 19, 2026 — Exoplanets: a CHEOPS light curve; reload buttons
+
+- The overview's transit method gains ESA's CHEOPS: two whole transits of WASP-189 b (16 visits searched, a measurement
+  every 34 seconds, a dip of 0.56%), public data from DACE at the University of Geneva, approved Nov 19, 2026. Built by
+  `exoplanets/tools/build_series.py` (dace-query, public mode, no key) through the hand-run workflow, which gains an
+  `only` input; the page reads the copy and never contacts DACE. Its captions name each telescope's agency, how often it
+  measured and where its files come from. The light-curve buttons are written into the page, so nothing moves as it
+  loads.
+- Reload buttons (docs/DESIGN.md) on the overview, How they are found and Every planet: "Reload the planet list"
+  fetches the weekly copy again without reloading the page; the date of the copy sits beside it in the page head.
+- Sources: `docs/DATA-SOURCES.md` (ESA CHEOPS light curves, from DACE), `CREDITS.md`, the Credits and Terms pages.
+
 ## November 19, 2026 — Spacecraft link check: refused is not broken
 
 - The spacecraft run of Nov 19, 2026 (17:53 UTC) marked 20 of the catalogue's 24 links on www.esa.int as broken:

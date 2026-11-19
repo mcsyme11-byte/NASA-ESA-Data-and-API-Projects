@@ -5,7 +5,8 @@
 // (explorer.html?p=<name>): its system to scale with the habitable zone, and the sums behind its verdict.
 
 import { fmt, sig, esc, dateText, GROUPS, groupOf, METHOD_NAMES, PC_LY, NASA_HZ, TEFF_RANGE, zones,
-  loadPlanets, planetUrl, archiveUrl, sizeCell } from './data.js';
+  loadPlanets, planetUrl, archiveUrl, sizeCell, forgetPlanets, copiedText, COPY_FAILED } from './data.js';
+import { reloadPage } from '../shared/reload.js?v=2026111902';
 import { system, hideTip, skyChart, sepDeg } from './charts.js';
 
 const $ = (s) => document.querySelector(s);
@@ -200,9 +201,23 @@ $('#more').addEventListener('click', () => { st.shown += PAGE; render(); });
 let rt;
 addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { if (st.pick) { system($('#sys'), st.pick.host, st.d.byHost.get(st.pick.host), st.pick); if (st.stars) skyChart($('#sky'), st.pick, st.stars); } }, 150); });
 
-(async () => {
-  try { st.d = await loadPlanets(); } catch (e) { failed(e); return; }
-  $('#updated').textContent = `Planet list as of ${dateText(st.d.updated)}, from the NASA Exoplanet Archive. Choose a planet for its system and its habitable-zone sums.`;
-  fromUrl(true);
+// the planet list; again: a reload by hand, which keeps what is shown when the file cannot be read, and keeps the
+// planet that is open (redrawn from the new copy)
+async function load(again) {
+  let d;
+  try { d = await loadPlanets(); } catch (e) {
+    if (again) return false;
+    $('#copied').textContent = COPY_FAILED;
+    failed(e);
+    return false;
+  }
+  st.d = d;
+  $('#copied').textContent = copiedText(d.updated);
+  $('#updated').textContent = `Planet list as of ${dateText(d.updated)}, from the NASA Exoplanet Archive. Choose a planet for its system and its habitable-zone sums.`;
+  if (again) $('#notice').innerHTML = '';
+  fromUrl(!again);
   render();
-})();
+  return true;
+}
+reloadPage($('#reloadAll'), () => { forgetPlanets(); return load(true); });
+load(false);
