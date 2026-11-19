@@ -37,6 +37,9 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
   `figure:has(> img.img-failed)`, so a figure whose picture sits in a link keeps its frame; and the page check does not
   flag a visible picture that failed to load.
 
+- [ ] Space Weather (handed off Nov 18, 2026; `dev/known_issues.json`): a failed SDO, SOHO or aurora picture stays on
+  show, broken, for the 20 seconds before its second try; hide it from the first failure.
+
 ## 1. Asteroid Tracker (version 1 live Nov 8, 2026)
 
 - [ ] **Developer testing, Sky Finder outdoors at night** (everything else in the Nov 12–13, 2026 additions passed
