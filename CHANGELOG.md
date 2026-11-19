@@ -14,7 +14,9 @@
   are hidden instead of showing their description; Sky Finder's bottom bar is solid behind its button; rows no longer
   scroll on arrival when their chosen first item is in view; CelesTrak's "[+]" codes are gone from satellite names;
   Space Watch's "Each opens here as it goes live" now says all four are live.
-- **Image Explorer:** a view named in the address (#globe, #library) is chosen before the page is first drawn.
+- **Image Explorer:** a view named in the address (#globe, #library) is chosen before the page is first drawn; the
+  globe's "Astronaut photos" button is in the page from the start (it appeared late and pushed the globe down).
+- **Page check:** a layout shift names the elements that moved.
 - **Speed:** Orbit Watch's globe draws only while it is on the screen and moves its 35,000 dots up to ten times a
   second (it kept a phone's processor busy all the time); Image Explorer's globe and three.js (about 2 MB) load only
   when the Globe tab is opened; nothing jumps as the tracker, Within reach, Planetary Maps, Mars charts, the spacecraft
