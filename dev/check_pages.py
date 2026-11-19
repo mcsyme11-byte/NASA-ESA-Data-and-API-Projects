@@ -17,6 +17,7 @@
 #   plainlink  a link inside running text that is not underlined (told apart by colour alone)
 #   scrolled   a sideways row scrolled on arrival although its chosen first item was in view
 #   aria       aria-selected outside tabs, options and rows; aria-expanded on a table row; an empty table heading
+#   staleview  the footer still marks the old view after a switch of view inside the page
 #   layout-shift  the page jumps as it loads (more than CLS_MAX)     weight  more loaded on arrival than the budget
 # Requests to other sites are blocked, so every page is also seen in its "NASA out of reach" state; with
 # FAILDATA=404 the site's own data files fail too. Screenshots of every page land in the output folder.
@@ -238,6 +239,20 @@ async def run(outdir, widths, only):
                     res = await pg.evaluate(JS)
                 except Exception as e:
                     res = {'evalerror': str(e)[:200]}
+                # (Nov 18, 2026) after a switch of view inside the page, the footer marks the view now showing
+                try:
+                    stale = await pg.evaluate("""async () => { const bad = [];
+                      for (const b of document.querySelectorAll('.tabs.bar button[data-view]')) {
+                        if (b.offsetParent === null) continue; b.click(); await new Promise((r) => setTimeout(r, 120));
+                        const marks = [...document.querySelectorAll('.footer .fcol a[aria-current]')].filter((a) => a.dataset.view !== undefined);
+                        const want = location.hash || '';
+                        if (marks.some((a) => a.dataset.view && a.dataset.view !== want && !(a.dataset.view === '#earth' && !want)))
+                          bad.push('after "' + b.textContent.trim() + '" the footer still marks ' + marks.map((a) => a.textContent).join(', '));
+                      } return bad; }""")
+                    if stale:
+                        res['staleview'] = stale
+                except Exception:
+                    pass
                 res['errors'] = [e for e in errs if 'ERR_FAILED' not in e and 'Failed to load resource' not in e]
                 res['bad'] = list(dict.fromkeys(bad))
                 report[f'{w} {u or "/"}'] = res
@@ -253,7 +268,7 @@ async def run(outdir, widths, only):
     for k, r in report.items():
         issues = {x: r.get(x) for x in ('clip', 'svgclip', 'nofade', 'offscreen', 'overlap', 'tap', 'tiny', 'noname', 'noalt',
                                         'dupid', 'nolabel', 'errors', 'bad') if r.get(x)}
-        for x in ('headings', 'nolabelcell', 'plainlink', 'scrolled', 'aria'):
+        for x in ('headings', 'nolabelcell', 'plainlink', 'scrolled', 'aria', 'staleview'):
             if r.get(x):
                 issues[x] = r[x]
         if r.get('cls', 0) > CLS_MAX:

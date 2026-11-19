@@ -1,5 +1,11 @@
 # Change log
 
+## November 18, 2026 — The footer follows a switch of view
+
+- The footer's mark of the current page now moves when a view is switched inside a page (Image Explorer's Earth map,
+  Globe and Picture library; the tracker's views): it kept marking the view the page was opened at. The page check
+  switches views and compares the mark (`staleview`); rule 19 in `docs/CHECKS.md`. Version tag 2026111813.
+
 ## November 18, 2026 — Site-wide review: formatting, accessibility, speed, small surprises and the check before every push
 
 - **Review:** every page and view at seven widths (320 to 1440 px), read by eye from screenshots, with the page check,

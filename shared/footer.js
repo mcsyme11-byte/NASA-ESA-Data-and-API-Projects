@@ -43,6 +43,23 @@ const LEGAL = [['Legal', 'legal/'], ['Privacy', 'privacy/'], ['Terms', 'terms/']
 // the same page whether written as folder/ or folder/index.html
 const norm = (p) => p.replace(/index\.html$/, '');
 
+// the footer's links to views of the page that is open (#globe, #risk): the mark moves with the view. Pages change
+// the address with history.replaceState, which tells nobody, so it is wrapped here (Nov 18, 2026: the footer kept
+// marking "Picture library" after a switch to the Globe).
+const views = [];
+function markViews() {
+  for (const a of views) {
+    const on = a.dataset.view === location.hash || (a.dataset.view === '#earth' && !location.hash);
+    if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+  }
+}
+for (const k of ['replaceState', 'pushState']) {
+  const was = history[k];
+  history[k] = function (...args) { const r = was.apply(this, args); markViews(); return r; };
+}
+addEventListener('hashchange', markViews);
+addEventListener('popstate', markViews);
+
 function link(label, href, opt = {}) {
   const a = document.createElement('a');
   a.textContent = label;
@@ -56,6 +73,7 @@ function link(label, href, opt = {}) {
   a.href = u.href;
   const samePath = norm(u.pathname) === norm(location.pathname);
   // the page, or the view of it that is showing (#risk), is marked; the Earth map is the explorer's first view
+  if (samePath) { a.dataset.view = u.hash; views.push(a); }
   if (samePath && (u.hash === location.hash || (u.hash === '#earth' && !location.hash))) a.setAttribute('aria-current', 'page');
   // a view of the page already open: follow the address change, then reload if the page does not switch by itself
   if (samePath && u.hash) a.addEventListener('click', () => setTimeout(() => {

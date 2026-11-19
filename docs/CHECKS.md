@@ -187,3 +187,5 @@ enforces the ones marked (auto).
 **The checks themselves**
 18. The page check measures each page fresh (a change of `#view` alone does not reload a page) and with reduced
     motion (sections that rise into view are otherwise empty in the screenshots).
+19. Whatever marks the current page or view (the footer, a tab bar) follows a switch of view inside the page, not only
+    the address the page was opened at (auto: the page check switches views and compares the footer's mark).
