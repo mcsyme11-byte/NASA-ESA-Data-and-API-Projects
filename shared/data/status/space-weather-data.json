@@ -1,7 +1,7 @@
 {
  "job": "space-weather-data",
  "workflow": ".github/workflows/space-weather-data.yml",
- "last_data_change": "2026-11-19T00:37:33Z",
+ "last_data_change": "2026-11-19T07:51:28Z",
  "sources": {
   "archive": {
    "state": "ok",
