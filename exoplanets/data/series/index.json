@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-18T03:00:25Z",
+ "updated": "2026-11-19T19:01:53Z",
  "series": [
   {
    "key": "hot-jupiter",
@@ -18,6 +18,12 @@
    "kind": "transit",
    "planet": "TOI-700 d",
    "mission": "TESS"
+  },
+  {
+   "key": "cheops",
+   "kind": "transit",
+   "planet": "WASP-76 b",
+   "mission": "CHEOPS"
   },
   {
    "key": "rv-51peg",
