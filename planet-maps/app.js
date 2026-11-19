@@ -309,7 +309,7 @@
     if (on) { $('pmPos').hidden = true; $('pmTag').hidden = true; }
     if (!on) { if (globe) globe.run(false); return; }
     if (!globe) {
-      globeLoading = globeLoading || import('./globe.js?v=2026111815')
+      globeLoading = globeLoading || import('./globe.js?v=2026111901')
         .then(m => m.start({ frame: $('pmGlobe'), host: $('pmGlobeHost'), over: $('pmGlobeOver'), onPick: choose }))
         .then(g => { globe = g; if (S.view === 'globe') globeShow(); })
         .catch(() => problem('The globe needs WebGL, which this browser could not start. The map views still work.'));
@@ -493,6 +493,6 @@
   loadRoutes();
   loadNames('mars'); loadNames('moon');
   /* the Reload button (shared/reload.js, a module, loaded from this plain script): fetches the routes again */
-  import('../shared/reload.js?v=2026111815').then(m => m.reloadPage($('reloadAll'), () => loadRoutes(true)))
+  import('../shared/reload.js?v=2026111901').then(m => m.reloadPage($('reloadAll'), () => loadRoutes(true)))
     .catch(() => { $('reloadAll').hidden = true; });
 })();

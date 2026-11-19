@@ -1,5 +1,10 @@
 # Change log
 
+## November 19, 2026 — The site's version in the footer
+
+- The footer's legal links end with the site's version ("Version 2026.11.19.01", read from the version tag of
+  `shared/footer.js`), linked to the repository's history of changes on GitHub. Version tag 2026111901.
+
 
 ## November 19, 2026 — Mars Data: test branch ready to delete
 

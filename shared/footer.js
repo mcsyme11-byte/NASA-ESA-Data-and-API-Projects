@@ -39,6 +39,11 @@ const SECTIONS = [
 ];
 const LEGAL = [['Legal', 'legal/'], ['Privacy', 'privacy/'], ['Terms', 'terms/'], ['Credits', 'credits/'],
   ['MIT licence', REPO + '/blob/main/LICENSE.md', { external: true }], ['Source code', REPO, { external: true }]];
+// the site's version, from this file's version tag (?v=YYYYMMDDNN, raised with every change of the shared files), linked
+// to the repository's history of changes (Nov 19, 2026): "Version 2026.11.19.01"
+const TAG = new URL(import.meta.url).searchParams.get('v') || '';
+if (/^\d{10}$/.test(TAG)) LEGAL.push([`Version ${TAG.slice(0, 4)}.${TAG.slice(4, 6)}.${TAG.slice(6, 8)}.${TAG.slice(8)}`,
+  REPO + '/commits/main', { external: true }]);
 
 // the same page whether written as folder/ or folder/index.html
 const norm = (p) => p.replace(/index\.html$/, '');
