@@ -1,5 +1,11 @@
 # Change log
 
+## November 18, 2026 — Space Weather: chart labels on narrow phones
+
+- The timeline's row titles are shorter on narrow screens ("CMEs · speed (km/s)"), so none is cut off at 320 px; a
+  date label at either end of the timeline and the Kp chart is kept inside the chart; the 7-day view labels every
+  second day on narrow screens, so the dates no longer overlap. Found by the page check (`svgclip`).
+
 ## November 18, 2026 — Planetary Maps: Reload button
 
 - **Planetary Maps:** the page head says when the rovers' routes were copied and how far each rover had got, with the

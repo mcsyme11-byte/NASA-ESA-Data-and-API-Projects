@@ -59,16 +59,17 @@ export function timeline(box, ev, days, now = Date.now()) {
   const { svg, W, grid } = frame(box, H, label);
   const L = narrow ? 34 : 46, Rr = W - 10, X = (ms) => L + (ms - from) / (now - from) * (Rr - L);
   // day lines and labels
-  const stepDays = days <= 7 ? 1 : days <= 30 ? (narrow ? 10 : 7) : (narrow ? 20 : 14);
+  const stepDays = days <= 7 ? (narrow ? 2 : 1) : days <= 30 ? (narrow ? 10 : 7) : (narrow ? 20 : 14);
   const first = new Date(from); first.setUTCHours(0, 0, 0, 0);
   for (let d = first.getTime() + DAY, i = 0; d < now; d += DAY, i++) {
     if (i % stepDays) continue;
     el('line', { x1: X(d), x2: X(d), y1: 14, y2: H - 38 }, grid);
-    text(svg, { x: X(d), y: H - 20, 'text-anchor': 'middle' }, dayLabel(d));
+    // a label near either end is kept inside the chart
+    text(svg, { x: X(d), y: H - 20, 'text-anchor': X(d) > Rr - 26 ? 'end' : X(d) < L + 26 ? 'start' : 'middle' }, dayLabel(d));
   }
   // flares: log flux from 10⁻⁶ (C) to 10⁻³ (X10), top band
   const top = 22, fb = 150, fy = (fl) => fb - (Math.log10(Math.max(fl, 1e-6)) + 6) / 3 * (fb - top);
-  text(svg, { x: L, y: 12, class: 'axt' }, 'Solar flares · peak X-ray class');
+  text(svg, { x: L, y: 12, class: 'axt' }, narrow ? 'Flares · X-ray class' : 'Solar flares · peak X-ray class');
   for (const [lab, fl] of [['C', 1e-6], ['M', 1e-5], ['X', 1e-4], ['X10', 1e-3]]) {
     hline(svg, L, Rr, fy(fl), true); text(svg, { x: L - 6, y: fy(fl) + 4, 'text-anchor': 'end' }, lab);
   }
@@ -84,7 +85,7 @@ export function timeline(box, ev, days, now = Date.now()) {
   if (big) text(svg, { x: Math.min(X(big.t) + 7, Rr - 4), y: fy(big.flux) - 6, 'text-anchor': X(big.t) > Rr - 140 ? 'end' : 'start' }, `${big.cls}, the strongest`);
   // CMEs: speed 0–2000 km/s, middle band
   const ct = 190, cb = 300, maxV = Math.max(1200, ...c.map((x) => x.speed)), cy = (v) => cb - Math.min(v, maxV) / maxV * (cb - ct);
-  text(svg, { x: L, y: ct - 12, class: 'axt' }, 'Coronal mass ejections · speed (km/s)');
+  text(svg, { x: L, y: ct - 12, class: 'axt' }, narrow ? 'CMEs · speed (km/s)' : 'Coronal mass ejections · speed (km/s)');
   for (const v of [0, 500, 1000, 1500, 2000, 2500, 3000].filter((v) => v <= maxV)) { hline(svg, L, Rr, cy(v), true); text(svg, { x: L - 6, y: cy(v) + 4, 'text-anchor': 'end' }, String(v)); }
   for (const x of c) {
     const half = Number.isFinite(x.half) ? x.half : 20;
@@ -98,12 +99,12 @@ export function timeline(box, ev, days, now = Date.now()) {
   }
   // storms: Kp 5–9, bottom band
   const st = 340, sb = H - 38, sy = (kp) => sb - (Math.max(kp, 4) - 4) / 5 * (sb - st);
-  text(svg, { x: L, y: st - 6, class: 'axt' }, 'Geomagnetic storms · highest Kp');
+  text(svg, { x: L, y: st - 6, class: 'axt' }, narrow ? 'Storms · highest Kp' : 'Geomagnetic storms · highest Kp');
   for (const x of s) {
     const g = el('rect', { x: X(x.t) - 5, y: sy(x.kp), width: 10, height: sb - sy(x.kp), fill: x.kp >= 7 ? C.copper : C.amber }, svg);
     hoverTip(g, `<b>Storm, Kp ${fmtKp(x.kp)} (${gName(x.kp)})</b><br>From ${utc(x.t)}`);
   }
-  if (!s.length) text(svg, { x: (L + Rr) / 2, y: sb - 6, 'text-anchor': 'middle', 'font-style': 'italic' }, 'No geomagnetic storm in this period');
+  if (!s.length) text(svg, { x: (L + Rr) / 2, y: sb - 6, 'text-anchor': 'middle', 'font-style': 'italic' }, narrow ? 'No storm in this period' : 'No geomagnetic storm in this period');
   el('line', { x1: L, x2: Rr, y1: sb, y2: sb, stroke: C.line }, svg);
   return label;
 }
@@ -172,7 +173,7 @@ export function kpBars(box, kp) {
   const first = new Date(from); first.setUTCHours(0, 0, 0, 0);
   for (let d = first.getTime() + 86400e3, i = 0; d < to; d += 86400e3, i++) {
     if (narrow && i % 2) continue;
-    text(svg, { x: X(d), y: 226, 'text-anchor': 'middle' }, dayLabel(d));
+    text(svg, { x: X(d), y: 226, 'text-anchor': X(d) > Rr - 26 ? 'end' : X(d) < L + 26 ? 'start' : 'middle' }, dayLabel(d));
   }
   text(svg, { x: L, y: 10, class: 'axt' }, 'Kp · 3-hour blocks, UTC');
 }
