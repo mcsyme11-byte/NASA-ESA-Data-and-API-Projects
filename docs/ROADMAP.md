@@ -62,10 +62,11 @@ Plan confirmed Nov 11, 2026 (see PROJECT-NOTES.md): three missions, updated auto
 The standard and the jobs are in [DATA-UPDATES.md](DATA-UPDATES.md); the daily Data health check reports problems in
 one GitHub issue labelled `data-health`.
 
-- [ ] Spacecraft data: `spacecraft-data.yml` to run `orbit-watch/fetch_orbits.py --keep DIR` first and then
-  `spacecraft/fetch_spacecraft.py --from DIR`, so CelesTrak's active list is downloaded once. The script's side is
-  done (Nov 19, 2026: CSV, stop at the first CelesTrak failure, `--from`; `docs/handoffs/2026-11-19 - image explorer -
-  spacecraft CelesTrak done.md`).
+- [ ] Spacecraft data: since Nov 19, 2026 the job downloads CelesTrak's groups once (`fetch_orbits.py --only gp
+  --keep`) and runs `fetch_spacecraft.py --from`; the first run read the active list, then stopped at CelesTrak's 404
+  for TESS and kept the previous `tle.json`, which then never updates. Fix in the spacecraft script handed to the Image
+  Explorer chat (`docs/handoffs/2026-11-19 - data updates - spacecraft tle.json kept on every run.md`); confirm the
+  next run writes `tle.json`.
 - [ ] Confirm the first run started by the Exoplanets data timers (11:43 UTC Tuesdays and Wednesdays, first Nov 24,
   2026). Every other timer is confirmed (Nov 18 and 19, 2026): Spacecraft data 05:23, Astronaut photos 19:11, Rover
   routes 20:59, Data health 22:07, Orbit data 23:13 and Space weather data 00:37 UTC each started its job within

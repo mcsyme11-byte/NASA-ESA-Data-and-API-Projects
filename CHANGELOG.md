@@ -71,6 +71,16 @@
   fetches the weekly copy again without reloading the page; the date of the copy sits beside it in the page head.
 - Sources: `docs/DATA-SOURCES.md` (ESA CHEOPS light curves, from DACE), `CREDITS.md`, the Credits and Terms pages.
 
+## November 19, 2026 — Spacecraft data: one CelesTrak download, read as CSV
+
+- `spacecraft-data.yml` downloads CelesTrak's element groups once with `orbit-watch/fetch_orbits.py --only gp --keep`
+  and runs `spacecraft/fetch_spacecraft.py --from` on that copy. Orbit Watch's files from that step are not saved
+  there; Orbit data keeps its own schedule, at least five hours apart.
+- First run (Nov 19, 2026, 19:29 UTC): the active list was read from the copy, then CelesTrak's 404 for TESS (not
+  carried by CelesTrak) stopped the script's lookups and `tle.json` was kept; handed to the Image Explorer chat.
+- Roadmap: the Orbit data job and the satellite catalogue's address (both done Nov 18, 2026) removed from Orbit Watch's
+  list.
+
 ## November 19, 2026 — Spacecraft link check: refused is not broken
 
 - The spacecraft run of Nov 19, 2026 (17:53 UTC) marked 20 of the catalogue's 24 links on www.esa.int as broken:
