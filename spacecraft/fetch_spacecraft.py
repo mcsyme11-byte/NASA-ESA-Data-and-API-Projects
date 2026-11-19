@@ -303,10 +303,14 @@ def two_line(o):
     return _check(l1), _check(l2)
 
 
-def tles(wanted, src=None):
+def tles(wanted, src=None, old=None):
     """{catalogue key: {name, norad, epoch, omm, line1, line2}} for each craft, by its exact CelesTrak name or its
-    catalogue number ("#43435"). None when CelesTrak stopped answering: tle.json then keeps its previous copy."""
-    by_name, by_id, found = {}, {}, {}
+    catalogue number ("#43435"). `old`: the previous tle.json's entries by key. When CelesTrak stops answering, what
+    was read in this run is kept, and the previous entry is used for each craft not reached (changed Nov 19, 2026:
+    CelesTrak answers 404 for TESS, which it does not carry, and the whole file had been kept unchanged on every run).
+    Craft never found before (not in `old`) are asked for last, so such an answer comes after every other lookup."""
+    old = old or {}
+    by_name, by_id, found, asking = {}, {}, {}, None
 
     def add(rows):
         for o in rows:
@@ -337,7 +341,9 @@ def tles(wanted, src=None):
                 break
             add(omm_rows(celestrak({'GROUP': g, 'FORMAT': 'csv'})))
             time.sleep(2)
-        for key, names in wanted.items():                  # not in any group: ask by name or by catalogue number
+        # not in any group: ask by name or by catalogue number, craft found in earlier runs first
+        for key in sorted(wanted, key=lambda k: k not in old):
+            names, asking = wanted[key], key
             for n in names:
                 if key in found:
                     break
@@ -348,8 +354,13 @@ def tles(wanted, src=None):
                     found[key] = (exact or rows)[0]
                 time.sleep(2)
     except CelesTrakDown as e:
-        print('  not found: CelesTrak stopped answering (%s); no further CelesTrak request this run, tle.json kept as it was' % e)
-        return None
+        kept = [k for k in wanted if k not in found and k in old]
+        if str(e) == 'HTTP 404' and asking and asking not in old and all(k in found or k not in old for k in wanted):
+            # a craft CelesTrak has never carried (TESS), asked after every other: not a failure of the source
+            print('  %s: not carried by CelesTrak (HTTP 404); lookups end here' % asking)
+        else:
+            print('  not found: CelesTrak stopped answering (%s); no further CelesTrak request this run; %d craft read, %d kept '
+                  'from the previous file' % (e, len(found), len(kept)))
     out = {}
     for key, o in found.items():
         rec = {'name': o['OBJECT_NAME'], 'norad': o['NORAD_CAT_ID'], 'epoch': epoch_of(o).strftime('%Y-%m-%d %H:%M'), 'omm': o}
@@ -358,8 +369,17 @@ def tles(wanted, src=None):
             rec['line1'], rec['line2'] = tl
         out[key] = rec
     for key in wanted:
-        print('  %-28s %s' % (key, ('%s (%d), elements of %s' % (out[key]['name'], out[key]['norad'], out[key]['epoch'])) if key in out else 'not found at CelesTrak'))
-    return out
+        if key not in out and key in old:                  # not reached this run: the previous entry stays
+            out[key] = dict(old[key], kept=True)
+    for key in wanted:
+        if key not in out:
+            print('  %-28s not found at CelesTrak' % key)
+        else:
+            print('  %-28s %s (%d), elements of %s%s' % (key, out[key]['name'], out[key]['norad'], out[key]['epoch'],
+                                                         ' (previous run)' if out[key].get('kept') else ''))
+    for v in out.values():
+        v.pop('kept', None)
+    return out or None
 
 
 # ---------------------------------------------------------------- links
@@ -452,7 +472,12 @@ def main():
     print('CelesTrak:')
     wanted = {c['key']: c['src']['tle'] for c in cat if 'tle' in c['src']}
     try:
-        t = tles(wanted, args.src)
+        try:
+            with open(os.path.join(DATA, 'tle.json')) as fh:
+                old = {s['key']: {k: v for k, v in s.items() if k != 'key'} for s in json.load(fh).get('sats', [])}
+        except (OSError, ValueError, KeyError):
+            old = {}
+        t = tles(wanted, args.src, old)
         if t:
             write('tle.json', {'source': 'CelesTrak (celestrak.org), general perturbations orbital elements', 'updated': stamp,
                                'sats': [{'key': k, **v} for k, v in sorted(t.items())]})

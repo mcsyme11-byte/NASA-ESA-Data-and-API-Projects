@@ -5,10 +5,6 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
 
 ## 0. Repository (set up Nov 8, 2026)
 
-- [ ] Reload buttons (shared component, Nov 18, 2026): still to check, by the Image Explorer chat, on its pages other
-  than the explorer with live or updated data, following `docs/DESIGN.md` ("Reload buttons") and the handoff of Nov
-  18, 2026. Done Nov 19, 2026: Space Weather, Orbit Watch, Planetary Maps, Exoplanets, Mars Data (home and charts),
-  the Image Explorer's explorer, the spacecraft map, the Asteroid Tracker and Sky Finder.
 - [ ] The site tools of Nov 19, 2026 that each project adopts on its own pages (handoff
   `docs/handoffs/2026-11-19 - all chats - site tools.md`): "On this page" bars under the project tab bar on long pages
   (the Asteroid Tracker's overview, Mars Data), loading shapes (`.skel`) where the shape of what loads is known, and
@@ -18,6 +14,7 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
   project tab bar). Exoplanets done Nov 19, 2026 ("On this page" bars on the overview and How they are found, the
   latter in place of its row of method chips; loading shapes for the stat figures, the planet tables and the star map;
   no period buttons; preview tags already built).
+  Image Explorer done Nov 19, 2026 (the explorer's day buttons) and the spacecraft map (its list's loading shape).
 - [ ] Developer testing of the site tools of Nov 19, 2026 (the test list of that day): the search, the shortcuts,
   "Copy link to this section", the menu's dots, the Lost in space page, the Space Watch figures, and a shared link's
   preview card.

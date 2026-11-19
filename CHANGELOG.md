@@ -1,5 +1,15 @@
 # Change log
 
+## November 19, 2026 — Spacecraft map: orbital elements updated again; site tools on the Image Explorer
+
+- `spacecraft/fetch_spacecraft.py`: CelesTrak's 404 for TESS (an object it does not carry) had stopped the run's
+  CelesTrak requests and kept `tle.json` unchanged on every run. Now what was read in the run is kept, the previous
+  entry is used only for craft not reached, and craft never found before are asked for last (hand-off from the Data
+  updates chat, Nov 19, 2026). Tested with the run's own case: every craft written, TESS listed as not found.
+- The explorer's day buttons carry `data-key="prev"` and `data-key="next"` (← and → change the day); the spacecraft
+  list loads with the rows loading shape (`.skel.rows`). The Image Explorer's overview shows no live data, so it has
+  no reload button.
+
 ## November 19, 2026 — Exoplanets: the site tools of Nov 19
 
 - "On this page" bars (`nav.tabs.bar.sub[data-spy]`) under the project tab bar on the overview (six sections, now with
