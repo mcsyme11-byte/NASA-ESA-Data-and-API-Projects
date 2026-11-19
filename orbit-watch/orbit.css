@@ -14,54 +14,19 @@
 .ow-k.u { background: #8b8577; }           /* unknown */
 .ow-k.sel { background: #E2C88E; }         /* the selected object: brass-bright */
 
-/* ---------- the tracker: the same layout as the Asteroid Tracker's solar system map (asteroid-tracker/tracker.css,
-   "the solar system map"): the globe in a map card with overlays, rows of controls under it, and the Selected card and
-   the legend beside it. The rules are repeated here because a page links only its own project style sheet. ---------- */
-.mapcard { padding: var(--sp4); }
-.maplayout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: var(--sp5); align-items: start; }
-.mapmain, .mapside { min-width: 0; }
-.mapframe { scroll-margin-top: 72px; position: relative; background: #05080D; border: 1px solid var(--line); border-radius: var(--r-sm);
-  overflow: hidden; height: min(74vh, 760px); min-height: 380px; touch-action: none; }
-.mapframe:fullscreen { height: 100vh; border-radius: 0; }
-.mapframe.pseudo-full { position: fixed; inset: 0; z-index: 100; height: 100vh; height: 100dvh; border-radius: 0; }
-body.noscroll { overflow: hidden; }
-.mapframe:focus-visible { outline: none; box-shadow: inset 0 0 0 2px var(--brass); }
+/* ---------- the tracker: the globe sits in the shared map card (shared/theme.css, "map card"; frame .mapframe.space).
+   Here: only the inside of the globe and the parts of the card that are Orbit Watch's own. ---------- */
+#owFrame { touch-action: none; }
 #owGlobe, #owOver { position: absolute; inset: 0; width: 100%; height: 100%; }
 #owGlobe canvas { display: block; cursor: grab; }
 #owGlobe canvas:active { cursor: grabbing; }
 #owGlobe.over canvas { cursor: pointer; }
 #owOver { pointer-events: none; }
-.ovl { position: absolute; pointer-events: none; z-index: 2; }
-.ovl-date { left: 14px; top: 10px; display: flex; flex-direction: column; gap: 1px; }
-.ovl-date strong { font-weight: 400; font-size: 20px; color: var(--ink); paint-order: stroke; }
-.ovl-date .note { font-size: 12.5px; font-variant-numeric: lining-nums tabular-nums; }
 #owSub.live { color: var(--green); font-style: normal; letter-spacing: .04em; }
 #owSub.live::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--green); margin-right: 6px; vertical-align: 1px; }
-.mbtn { width: 38px; height: 38px; border-radius: var(--r-sm); border: 1px solid var(--line2); background: rgba(12, 17, 25, .9); color: var(--ink);
-  font: 18px var(--font); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 0; }
-.mbtn.wide { width: auto; padding: 0 var(--sp3); font-size: 12px; text-transform: uppercase; letter-spacing: .18em; }
-.mbtn:hover { border-color: var(--brass); color: var(--brass); }
-.mbtn[aria-pressed="true"] { border-color: var(--brass); color: var(--brass-bright); background: rgba(192, 160, 98, .16); }
-.ovl-zoom { right: 12px; bottom: 12px; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; pointer-events: auto; }
-.ovl-find { right: 12px; top: 12px; width: min(280px, 46%); pointer-events: auto; }
-.findbox input { width: 100%; min-height: 38px; font-size: 15px; background: rgba(12, 17, 25, .9); }
-.findlist { list-style: none; margin: 4px 0 0; padding: 4px 0; background: var(--bg2); border: 1px solid var(--brass-dim); border-radius: var(--r-sm); max-height: 300px; overflow: auto; }
-.findlist li { padding: var(--sp2) var(--sp3); font-size: 14.5px; cursor: pointer; display: flex; gap: var(--sp2); align-items: center; }
-.findlist li small { margin-left: auto; color: var(--muted); }
-.findlist li:hover, .findlist li[aria-selected="true"] { background: rgba(192, 160, 98, .1); color: var(--brass-bright); }
-.findlist li.none { color: var(--muted); font-style: italic; cursor: default; }
-.ovl-hint { left: 14px; bottom: 14px; max-width: calc(100% - 100px); font-size: 13px; font-style: italic; color: var(--muted);
-  background: rgba(12, 17, 25, .85); padding: 4px 12px; border-radius: var(--r-sm); transition: opacity .6s; }
-.ovl-hint.gone { opacity: 0; }
-.mapframe .loading { position: absolute; inset: 0; z-index: 3; display: flex; align-items: center; justify-content: center; flex-direction: column;
-  padding: var(--sp5); text-align: center; background: #05080D; }
 .tourbanner { position: absolute; z-index: 2; left: 50%; top: 14px; transform: translateX(-50%); max-width: calc(100% - 28px);
   background: rgba(12, 17, 25, .92); border: 1px solid var(--brass-dim); border-radius: var(--r-pill); padding: 6px 16px;
   font-size: 14px; color: var(--brass-bright); pointer-events: none; text-align: center; }
-/* the rows of controls under the globe */
-.mapbar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp3) var(--sp4); margin-top: var(--sp3); }
-.mapbar.famous { padding-top: var(--sp3); border-top: 1px solid var(--line); }
-.mapbar.famous > .barlbl { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
 .mapbar .chip .ow-k { margin-right: 2px; }
 .chip.play { min-width: 96px; justify-content: center; }
 .speed { display: flex; align-items: center; gap: var(--sp2); font-size: 11px; text-transform: uppercase; letter-spacing: .22em; color: var(--muted); }
@@ -69,20 +34,13 @@ body.noscroll { overflow: hidden; }
 .sharemsg { font-size: 13.5px; font-style: italic; color: var(--muted); align-self: center; }
 .sharemsg label { display: inline-flex; gap: var(--sp2); align-items: center; flex-wrap: wrap; font-style: normal; }
 .sharemsg .sharelink { width: min(340px, 72vw); min-height: 36px; font-size: 13px; }
-/* the panel beside the globe */
-.mapside { display: flex; flex-direction: column; gap: var(--sp4); }
-.selcard, .legendbox { padding: var(--sp4) var(--sp5); }
-.selcard h3 { font-size: 19px; margin: 6px 0 4px; overflow-wrap: anywhere; }
-.mapside .label { font-size: 11px; text-transform: uppercase; letter-spacing: .22em; color: var(--brass); }
+/* inside the Selected card and the legend */
 .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
 .selcard .story { font-size: 14.5px; color: var(--ink2); margin: var(--sp2) 0 0; }
 dl.mini { margin: var(--sp2) 0 0; display: grid; gap: 6px; }
 dl.mini div { display: grid; grid-template-columns: 110px 1fr; gap: var(--sp2); font-size: 14.5px; }
 dl.mini dt { color: var(--muted); font-size: 13px; font-style: italic; }
 dl.mini dd { margin: 0; font-variant-numeric: lining-nums tabular-nums; }
-.selcard .dlinks { margin-top: var(--sp3); display: flex; flex-wrap: wrap; gap: var(--sp2); }
-.selcard .btn { min-height: 40px; padding: 0 var(--sp4); font-size: 11.5px; }
-.legendbox .note { margin: var(--sp2) 0 0; }
 .classlist { list-style: none; margin: var(--sp2) 0; padding: 0; display: grid; gap: var(--sp2); font-size: 14.5px; }
 .classlist li { display: flex; gap: var(--sp3); align-items: flex-start; }
 .classlist .ow-k { margin-top: 6px; }
@@ -90,25 +48,10 @@ dl.mini dd { margin: 0; font-variant-numeric: lining-nums tabular-nums; }
 .classlist .ow-k.pin { background: #F2E6C9; border-radius: 1px; }
 .classlist b { font-weight: 400; color: var(--ink); }
 @media (max-width: 1100px) {
-  .maplayout { grid-template-columns: minmax(0, 1fr); }
   .mapside .classlist { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px var(--sp5); }
   .selcard dl.mini { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); column-gap: var(--sp5); }
 }
-@media (max-width: 760px) {
-  .mapcard { padding: 10px; }
-  .mapframe { height: 72vh; min-height: 340px; }
-  .ovl-find { left: 10px; right: 10px; top: 72px; width: auto; }
-  .mapframe .ovl-date strong { font-size: 15px; }
-  .ovl-hint { display: none; }
-  .mbtn { width: 40px; height: 40px; }
-  .findbox input { min-height: 40px; }
-  .mapbar { gap: var(--sp2); }
-  .mapbar .seg { width: 100%; }
-  .mapbar .seg > .chip { flex: 1 0 auto; justify-content: center; padding: 0 10px; font-size: 13.5px; }
-  .mapbar .speed { width: 100%; justify-content: space-between; }
-  .mapbar .speed select { flex: 1; min-width: 0; max-width: 64%; }
-  .tourbanner { top: auto; bottom: 64px; font-size: 13px; }
-}
+@media (max-width: 760px) { .tourbanner { top: auto; bottom: 64px; font-size: 13px; } }
 
 /* ---------- the height chart ---------- */
 .ow-chart { position: relative; }

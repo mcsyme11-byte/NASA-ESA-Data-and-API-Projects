@@ -1,5 +1,16 @@
 # Change log
 
+## November 19, 2026 — The map card becomes a shared component
+
+- The map card (a big interactive map with its overlays, rows of controls and the column beside it) is now in
+  `shared/theme.css` ("map card"), listed in `docs/DESIGN.md` and shown on the component page (section 11), after the
+  developer approved the mock-up on Nov 18, 2026. `.mapframe.space` gives a globe its near-black frame; the default
+  is navy (`--deep`).
+- Orbit Watch's globe (`orbit-watch/tracker.html`) uses it; its copy is removed from `orbit-watch/orbit.css`. No
+  change on screen, apart from the find box on phones sitting 4 px lower, as on the solar system map.
+- The Asteroid Tracker's copy in `asteroid-tracker/tracker.css` is handed to its chat to delete
+  (`docs/handoffs/2026-11-19 - asteroid tracker - shared map card.md`). Version tag 2026111814.
+
 ## November 19, 2026 — Asteroid Tracker and Sky Finder open without jumping
 
 - **Sky Finder:** whether the "Where are you?" panel is open is decided before the first paint, from the stored

@@ -53,6 +53,8 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
   experimental, so a change of format stops the step and the previous files are kept), fix `fetch_risk.py`.
 - [ ] Optional: if ESA's credit form or terms for the NEOCC figures are in doubt, ask the NEOCC by email
   (`neocc@esa.int`) and record the answer in `docs/DATA-SOURCES.md`.
+- [ ] Shared map card (Nov 19, 2026; handoff `docs/handoffs/2026-11-19 - asteroid tracker - shared map card.md`):
+  delete the map card's rules from `asteroid-tracker/tracker.css`, now in `shared/theme.css`.
 - [ ] Hera: once ESA confirms the arrival at Didymos, update its line in `MISSIONS` (`asteroid-tracker/reach.js`).
 
 ## 2. Image Explorer (version 1 live Nov 9, 2026; home page Nov 12)
@@ -156,9 +158,6 @@ collisions, Cleaning up; see `orbit-watch/README.md`).
 - [ ] Spacecraft map (its owner): read CelesTrak's CSV instead of two-line elements, so craft catalogued since
   Jul 11, 2026 (six-digit numbers) are found (handoff, section 3); its Earth-orbit fleet switch to link to Orbit Watch.
 - [ ] Possible later: "Can I see it tonight?" for any object (Sky Finder predicts passes of the space stations only).
-- [ ] General chat (suggestion, Nov 18, 2026): the map card (`.mapcard`, `.mapframe`, `.ovl-*`, `.mbtn`, `.mapbar`,
-  `.selcard`, `.legendbox`) is now in two project style sheets (the Asteroid Tracker's map and Orbit Watch's globe);
-  it could become a shared component, after a mock-up.
 
 **5b. Space Weather (`space-weather/`)**: live since Nov 17, 2026
 - [ ] Developer testing of the reload buttons (added Nov 18, 2026): the page head's button and each panel's, on a

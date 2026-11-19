@@ -373,6 +373,33 @@
       </script>
     </section>
 
+    <section class="section" aria-labelledby="h-map">
+      <div class="section-head"><div><div class="kicker">Section 11</div><h2 id="h-map">Map card</h2></div><p class="aside">Added Nov 18, 2026. Replaces the two copies in the Asteroid Tracker’s and Orbit Watch’s style sheets: one card for a big interactive map.</p></div>
+      <p class="caption">The map in <code>.mapframe</code> with its overlays (<code>.ovl-date</code>, <code>.ovl-find</code>, <code>.ovl-zoom</code> of <code>.mbtn</code>, <code>.ovl-scale</code>, <code>.ovl-hint</code>), rows of controls under it (<code>.mapbar</code>, <code>.mapbar.famous</code>) and the column beside it (<code>.selcard</code>, <code>.legendbox</code>). <code>.mapframe.space</code> is near-black, for a globe. The map itself and its dots stay in the project’s style sheet. One column below 1100 px.</p>
+      <section class="panel mapcard" aria-label="Map card example">
+        <div class="maplayout">
+          <div class="mapmain">
+            <div class="mapframe">
+              <div class="ovl ovl-date"><span class="eyebrow">Date (UTC)</span><strong>November 18, 2026</strong><span class="note">20:00 UTC</span></div>
+              <div class="ovl ovl-find findbox"><input type="search" placeholder="Find an object…" aria-label="Find an object"></div>
+              <div class="ovl ovl-hint">Drag to turn · scroll or pinch to zoom · tap a dot</div>
+              <div class="ovl ovl-scale"><span>1 au · 150 million km</span><i></i></div>
+              <div class="ovl ovl-zoom"><button class="mbtn" type="button" aria-label="Zoom in">+</button><button class="mbtn" type="button" aria-label="Zoom out">−</button></div>
+            </div>
+            <div class="mapbar">
+              <div class="seg" role="group" aria-label="View"><button type="button" aria-pressed="true">Top</button><button type="button">Tilted</button><button type="button">Side</button></div>
+              <button class="chip" type="button" aria-pressed="false">Share this view</button>
+            </div>
+            <div class="mapbar famous"><span class="barlbl">Famous</span><button class="chip" type="button" aria-pressed="false">An example</button><button class="chip" type="button" aria-pressed="false">Another</button></div>
+          </div>
+          <aside class="mapside">
+            <div class="panel selcard"><span class="label">Selected</span><h3>An object’s name</h3><p class="note">Its facts, then links and buttons in <code>.dlinks</code>.</p></div>
+            <div class="panel legendbox"><span class="label">Key</span><p class="note">What the dots and colours mean.</p></div>
+          </aside>
+        </div>
+      </section>
+    </section>
+
     <p class="srcline">Data credits sit here, just above the footer: one line per source.</p>
     <footer class="footer">
       <div class="ftop"><p class="copy">© 2026 <strong>Malcolm Syme</strong> · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></p></div>
