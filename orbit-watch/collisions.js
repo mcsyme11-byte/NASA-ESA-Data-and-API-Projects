@@ -12,6 +12,7 @@
 // 4. The biggest breakups so far (facts.json, from NASA's Orbital Debris Quarterly News).
 
 import { $, $$, esc, load, fmt, big, utc, day, KINDS } from './common.js';
+import { reloadPart } from '../shared/reload.js?v=2026111813';
 
 
 // ------------------------------------------------------------------ 1. close approaches
@@ -37,16 +38,21 @@ $$('#owOrder button').forEach((b) => b.addEventListener('click', () => {
   order = b.dataset.o; $$('#owOrder button').forEach((x) => x.setAttribute('aria-pressed', x === b));
   if (close) closeTable();
 }));
-(async () => {
+/** The close approaches; again: a reload by hand, which keeps the list shown if the file cannot be read. */
+async function loadClose(again) {
   const res = await load('data/close.json');
   if (!res.data) {
+    if (again && close) return false;
     $('#owClose').removeAttribute('aria-busy'); $('#owClose').innerHTML = `<p class="empty">${res.missing ? 'The close approaches have not been copied to the site yet: they arrive with the next run of the data job.' : 'The close approaches could not be loaded. Check the connection and reload the page.'}</p>`;
-    return;
+    return false;
   }
   close = res.data;
   $('#owCloseAside').textContent = `${fmt(close.screened)} passes within 5 km · copied ${utc(Date.parse(close.made))}`;
   closeTable();
-})();
+  return true;
+}
+loadClose(false);
+reloadPart($('#owCloseReload'), () => loadClose(true));
 
 // ------------------------------------------------------------------ 2. the calculator
 const sBig = $('#owBig'), sSmall = $('#owSmall'), sV = $('#owV');

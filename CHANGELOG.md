@@ -1,5 +1,13 @@
 # Change log
 
+## November 18, 2026 — Orbit Watch: reload buttons
+
+- What's in orbit (`orbit-watch/tracker.html`): a reload button at the end of the page head's line fetches the orbit
+  data and the satellite catalogue again without reloading the page. The globe is rebuilt only when the data job has
+  copied a newer file; the selected object, the second object of a replayed pass and Follow it are kept by catalogue
+  number. Close calls (`orbit-watch/collisions.html`): a reload button beside the list's title fetches the close
+  approaches again. Both use the shared component (`shared/reload.js`); a failed reload keeps what is shown.
+
 ## November 18, 2026 — Space Weather: checked on the live site; pictures try again
 
 - Checked on the live site in a browser: the live readings (IMAP solar wind, GFZ Kp, GOES X-rays), DONKI's events,

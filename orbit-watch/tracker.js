@@ -21,6 +21,7 @@ import { THREE, gmst, createGlobe, bodyTexture, closeUp, GIBS_BLUE_MARBLE } from
 import * as sat from '../shared/vendor/satellite.min.js';
 import { takeShared, linkWith, shareButton } from '../asteroid-tracker/share.js';
 import { $, $$, esc, load, fmt, utc, ago, day, KINDS, CLOUDS } from './common.js';
+import { reloadPage } from '../shared/reload.js?v=2026111813';
 
 const RE = 6371, MU = 398600.4418, R_EQ = 6378.137;
 const MON = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -81,19 +82,20 @@ $$('[data-step]').forEach((b) => b.addEventListener('click', () => setTime(simNo
 $('#owNow').addEventListener('click', () => { setSpeed(1); setPlaying(true); setTime(Date.now()); });
 
 // ------------------------------------------------------------------ the objects
-let D = null, n = 0, key = [], kind = [], pos = null, vel = null, tw = 0, busy = false;
+let D = null, n = 0, key = [], kind = [], pos = null, vel = null, tw = 0, busy = false, stale = false;
 const on = { w: true, m: true, fy: true, co: true, ir: true };
 const F = {};                                                  // field name → column of a row
 const byId = new Map();                                        // catalogue number → row index
 const worker = new Worker(new URL('propagate.js', import.meta.url), { type: 'module' });
 worker.onmessage = (e) => {
   const m = e.data;
-  if (m.ready != null) { ask(); return; }
+  if (m.ready != null) { stale = false; busy = false; ask(); return; }
+  if (stale) { busy = false; return; }                         // an answer for the list before a reload
   pos = m.pos; vel = m.vel; tw = m.t; busy = false; placeNow = true;
   if ($('#owLoading')) { $('#owLoading').remove(); }
   setTimeout(ask, 120);                                        // a few answers a second; the dots move on between them
 };
-function ask() { if (!D || busy) return; busy = true; worker.postMessage({ t: simNow() }); }
+function ask() { if (!D || busy || stale) return; busy = true; worker.postMessage({ t: simNow() }); }
 
 let pts = null, attr = null;
 function makePoints() {
@@ -454,14 +456,11 @@ requestAnimationFrame(loop);
 setTimeout(hintGone, 12000);
 
 // ------------------------------------------------------------------ data
-(async () => {
-  const res = await load('data/objects.json');
-  if (!res.data) {
-    $('#owLoading').innerHTML = `<span>${res.missing ? 'The orbit data has not been copied to the site yet: it arrives with the next run of the data job.' : 'The orbit data could not be loaded. Check the connection and reload the page.'}</span>`;
-    $('#owUpd').textContent = 'Orbit data: not available yet.';
-    return;
-  }
-  D = res.data; n = D.o.length;
+/** Puts a copy of the orbit data on the globe. On a reload the selected object, the second object of a replayed pass
+ *  and Follow it are kept by catalogue number. */
+function useObjects(data) {
+  const keep = D ? { sel: sel && D.o[sel.i][F.id], pair: pair && D.o[pair.i][F.id], following } : null;
+  D = data; n = D.o.length; key = []; kind = []; byId.clear(); hov = -1;
   D.f.forEach((name, k) => { F[name] = k; });
   const counts = { w: 0, m: 0, fy: 0, co: 0, ir: 0 };
   for (let i = 0; i < n; i++) {
@@ -474,8 +473,43 @@ setTimeout(hintGone, 12000);
   const made = Date.parse(D.made);
   $('#owUpd').textContent = `${fmt(n)} objects · orbits copied from CelesTrak ${utc(made)} (${ago(made)})`;
   buildLegend(counts); buildFamous();
+  if (pts) { scene.remove(pts); pts.geometry.dispose(); pts.material.dispose(); }
   makePoints();
+  if (keep) {
+    pos = vel = null; stale = true;
+    if (sel && sel.line) scene.remove(sel.line);
+    if (pair && pair.line) scene.remove(pair.line);
+    const pi = keep.pair != null ? byId.get(keep.pair) : null;
+    pair = pi != null ? { i: pi, rec: recOf(pi) } : null;
+    if (!pair) { passInfo = null; banner(''); }
+    const si = keep.sel != null ? byId.get(keep.sel) : null;
+    sel = null; select(si != null ? si : -1, { keepPair: true });
+    if (pair) orbitLine(pair, simNow(), 1);
+    following = !!sel && keep.following; syncFollow();
+  }
   worker.postMessage({ rows: D.o, f: D.f });
+}
+/** The orbit data; again: a reload by hand, which keeps the globe as it is when the file cannot be read or is the
+ *  same copy. */
+async function loadObjects(again) {
+  const res = await load('data/objects.json');
+  if (!res.data) {
+    if (again && D) return false;
+    $('#owLoading').innerHTML = `<span>${res.missing ? 'The orbit data has not been copied to the site yet: it arrives with the next run of the data job.' : 'The orbit data could not be loaded. Check the connection and reload the page.'}</span>`;
+    $('#owUpd').textContent = 'Orbit data: not available yet.';
+    return false;
+  }
+  if (again && D && res.data.made === D.made) {
+    const made = Date.parse(D.made);
+    $('#owUpd').textContent = `${fmt(n)} objects · orbits copied from CelesTrak ${utc(made)} (${ago(made)})`;
+    return true;
+  }
+  useObjects(res.data);
+  return true;
+}
+
+(async () => {
+  if (!(await loadObjects(false))) return;
 
   // a shared view
   if (shared) {
@@ -546,19 +580,23 @@ function drawHeights() {
 new ResizeObserver(drawHeights).observe($('#owHeights'));
 addEventListener('scroll', () => { htip.hidden = true; }, { passive: true });
 
-(async () => {
+/** The catalogue's heights and regions; again: a reload by hand, which keeps the chart shown if the file cannot be read. */
+async function loadHeights(again) {
   const res = await load('data/heights.json');
   if (!res.data) {
+    if (again && H) return false;
     for (const el of [$('#owHeights'), $('#owRegions')]) {
       el.innerHTML = `<p class="empty">${res.missing ? 'The satellite catalogue has not been copied to the site yet: it arrives with the next run of the data job.' : 'The satellite catalogue could not be loaded. Check the connection and reload the page.'}</p>`;
     }
     $('#owHLegend').hidden = true;
-    return;
+    return false;
   }
+  if (again && H && res.data.made === H.made) return true;
   H = res.data;
+  $('#owHLegend').hidden = false;
   const all = H.total.reduce((s, v) => s + v, 0);
   $('#owHAside').textContent = `${fmt(all)} objects in Earth orbit · catalogue copied ${utc(Date.parse(H.made))}`;
-  if (H.total[4]) $('#owHLegend').insertAdjacentHTML('beforeend', '<span><i class="ow-k u"></i>Unknown</span>');
+  if (H.total[4] && !$('#owHLegend .ow-k.u')) $('#owHLegend').insertAdjacentHTML('beforeend', '<span><i class="ow-k u"></i>Unknown</span>');
   drawHeights();
   const R = H.regions, rowsDef = [
     ['Low Earth orbit', 'under 2,000 km', R.low], ['Medium Earth orbit', '2,000 to 35,586 km: the navigation satellites', R.mid],
@@ -572,4 +610,9 @@ addEventListener('scroll', () => { htip.hidden = true; }, { passive: true });
   }
   t += `<tr><td><b>All of Earth orbit</b></td><td class="r" data-l="Working">${fmt(H.total[0])}</td><td class="r" data-l="Dead">${fmt(H.total[1])}</td><td class="r" data-l="Rocket bodies">${fmt(H.total[2])}</td><td class="r" data-l="Debris">${fmt(H.total[3] + H.total[4])}</td><td class="r" data-l="All">${fmt(all)}</td></tr></tbody></table>`;
   $('#owRegions').innerHTML = t;
-})();
+  return true;
+}
+loadHeights(false);
+
+// the Reload button: the orbits and the catalogue together; the globe is rebuilt only when the copy is newer
+reloadPage($('#owReload'), async () => (await Promise.all([loadObjects(true), loadHeights(true)])).every(Boolean));
