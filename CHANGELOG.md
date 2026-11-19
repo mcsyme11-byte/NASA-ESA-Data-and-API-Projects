@@ -1,5 +1,10 @@
 # Change log
 
+## November 19, 2026 — Tap areas for link pills and section-head links
+
+- Link pills (`a.tag.link`, `a.badge`) and section-head links (`a.aside`) have a 40 px tap area on phones (they were
+  22 to 24 px; found by the Asteroid Tracker chat). Space Weather's failed-picture finding handed to its chat.
+
 ## November 18, 2026 — Failed pictures inside links
 
 - A figure whose picture sits inside a link (Planetary Maps' ESA pictures) is now hidden with it when the picture

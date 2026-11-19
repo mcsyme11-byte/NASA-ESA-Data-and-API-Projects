@@ -852,7 +852,10 @@ body.noscroll { overflow: hidden; }
   input[type="range"] { min-height: 40px; }
   .display-link { padding-top: 8px; }
   /* small links inside kickers, callout titles and asides: a taller tap area without moving the text */
-  .kicker a, .callout :is(h3, h4) a, .aside a, .notice .t a { display: inline-block; padding: 12px 0; margin: -12px 0; }
+  .kicker a, .callout :is(h3, h4) a, .aside a, a.aside, .notice .t a { display: inline-block; padding: 12px 0; margin: -12px 0; }
+  /* link pills keep their size and get an invisible 40 px tap area (Nov 19, 2026) */
+  a.tag.link, a.badge { position: relative; }
+  a.tag.link::after, a.badge::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 40px; transform: translateY(-50%); }
   /* links in the notes under a figure (added Nov 18, 2026) */
   .stat .note a, .tile .note a { display: inline-block; padding: 12px 0; margin: -12px 0; }
   /* the job names on the status board and in the list of sources, and links in table cells (added Nov 17,

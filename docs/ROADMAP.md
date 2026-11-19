@@ -27,9 +27,6 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
 - [ ] Reload buttons (shared component, Nov 18, 2026; Space Weather has them): each project chat adds them to its own
   pages with live or updated data, following `docs/DESIGN.md` ("Reload buttons") and the handoff of Nov 18, 2026.
 
-- [ ] Tap size on phones (General/Files/Repo, handoff of Nov 19, 2026; `dev/known_issues.json`): tag links
-  (`a.tag.link`) and section-head links (`.section-head a.aside`) are 22 to 24 px tall; 40 px is needed, in
-  `shared/theme.css`.
 - [ ] Ideas from the review of Nov 18, 2026, each needing a mock-up the developer approves: a "Lost in space" 404 page
   (GitHub Pages shows `404.html` for a missing address); preview cards (Open Graph) for shared links.
 - [ ] Failed pictures inside a link (handed to the General chat by Planetary Maps, Nov 18, 2026;
