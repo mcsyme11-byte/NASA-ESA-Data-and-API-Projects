@@ -251,6 +251,9 @@
           <p class="pmgo"><button class="btn small" type="button" id="pmGo">${go}</button>${(p.links || []).map(([t, h]) => ` <a class="btn outline small" href="${esc(h)}">${esc(t)}</a>`).join('')}</p></div>
         <div><dl class="terms">${facts.map(([a, b]) => `<dt>${esc(a)}</dt><dd>${esc(b)}</dd>`).join('')}</dl>${picture(p.picture)}</div>
       </div></div>`;
+    /* a picture that cannot be loaded is hidden with its figure, never shown as its description (docs/CHECKS.md, rule 10) */
+    const img = $('pmCard').querySelector('.pmpic img');
+    if (img) { const hide = () => { img.closest('figure').hidden = true; }; img.addEventListener('error', hide); }
     $('pmGo').onclick = () => {
       if (S.view === 'globe') { if (globe) globe.go(at[1], at[0], true); $('pmGlobe').focus({ preventScroll: true }); return; }
       if (!inView(at[1])) { S.view = 'map'; setView(); drawBody(); setHash(); }

@@ -5,6 +5,8 @@
 - **Planetary Maps:** the page head says when the rovers' routes were copied and how far each rover had got, with the
   shared Reload button, which fetches the routes again (`shared/reload.js`). No panel buttons: the maps, places and
   names change rarely.
+- **Planetary Maps:** an ESA picture that cannot be loaded is hidden with its figure in the Gale and Jezero cards
+  (docs/CHECKS.md, rule 10), instead of showing its description in an empty frame.
 
 ## November 18, 2026 — Close calls no longer jumps as its list arrives
 
