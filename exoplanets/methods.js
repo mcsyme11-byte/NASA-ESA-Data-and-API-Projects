@@ -89,6 +89,12 @@ function lists(d) {
     || '<tr><td colspan="3"><div class="empty">No planets with an orbit and a distance.</div></td></tr>';
   const hr = d.byName.get('HR 8799 e');
   $('#imExample').innerHTML = hr && hr.a && hr.dist ? `<b>Example, HR 8799 e:</b> <span class="sum">${sig(hr.a, 3)} au ÷ ${sig(hr.dist, 3)} pc = ${sig(hr.a / hr.dist, 2)}″</span>, about the width of a coin seen from 10 km away.` : '';
+  // HR 8799's planets: the picture's worked example
+  const hrs = (d.byHost.get('HR 8799') || []).filter((p) => p.a && p.dist).sort((a, b) => a.a - b.a);
+  $('#hrTable tbody').innerHTML = hrs.map((p) => row([['Planet', link(p)], ['Orbit', `${sig(p.a, 3)} au`, 'r'],
+    ['Apart on the sky', `${sig(p.a / p.dist, 2)}″`, 'r'], ['Mass', p.mass ? `${sig(p.mass / M_JUP_EARTH, 2)} Jupiters` : '—', 'r']])).join('')
+    || '<tr><td colspan="4"><div class="empty">Not in the planet list.</div></td></tr>';
+  if (hrs.length) $('#hrCap').textContent = `From the NASA Exoplanet Archive: HR 8799 is ${sig(hrs[0].dist, 3)} parsecs (${fmt(hrs[0].dist * PC_LY)} light years) away. An arcsecond (″) is 1/3,600 of a degree.`;
   // astrometry
   $('#asTable tbody').innerHTML = by(['A']).sort((a, b) => a.year - b.year).map((p) => row([['Planet', link(p)],
     ['Mass', p.mass ? `${sig(p.mass / M_JUP_EARTH, 2)} Jupiters` : '—', 'r'], ['Found', `${p.year}<span class="s">${esc(p.facility)}</span>`]])).join('')

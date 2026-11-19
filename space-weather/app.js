@@ -7,8 +7,8 @@ import { readEvents, readWind, readXray, readKp, readSaved, readArchive } from '
 import { timeline, line24, kpBars, monthly, emptyBox, hideTip, utc, fmtKp, gName } from './charts.js';
 import { chance } from './aurora.js';
 import { currentPlace, locate, searchPlaces, setPlace, forgetPlace } from '../shared/place.js';
-import { toast } from '../shared/motion.js?v=2026111813';
-import { reloadPage, reloadPart, markUpdated } from '../shared/reload.js?v=2026111813';
+import { toast } from '../shared/motion.js?v=2026111814';
+import { reloadPage, reloadPart, markUpdated } from '../shared/reload.js?v=2026111814';
 
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);

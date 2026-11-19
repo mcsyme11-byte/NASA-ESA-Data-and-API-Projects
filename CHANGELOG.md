@@ -20,6 +20,17 @@
   id, and with NASA blocked it only showed the error state). The three entries are removed from
   `dev/known_issues.json`; layout shift is under 0.1 at every width. Checking the whole page found two shared links
   shorter than 40 px on phones (handed to the General/Files/Repo chat).
+
+## November 18, 2026 — Exoplanets: Webb's picture of HR 8799; where each planet is in the sky
+
+- How they are found (`exoplanets/methods.html`), Direct imaging: Webb's picture of HR 8799's four planets (ESA/Webb,
+  CC BY 4.0, credited in full), with "How to read this" and a table of how far apart each planet looks (θ = a ÷ d),
+  from the archive's orbits and distance. It replaces the link to the Image Explorer, which stays in the text.
+- Every planet (`explorer.html?p=<name>`): "Where it is in the sky", a star map of the 60° around the planet's star
+  (bright stars from Hipparcos, north up, east left), the best month to look, how high it rises from four latitudes,
+  and whether the eye, binoculars or a telescope is needed, with the rules for working it out.
+- Sources recorded in `docs/DATA-SOURCES.md`, `CREDITS.md` and the Credits page; version tags raised.
+
 ## November 18, 2026 — Orbit Watch: reload buttons
 
 - What's in orbit (`orbit-watch/tracker.html`): a reload button at the end of the page head's line fetches the orbit

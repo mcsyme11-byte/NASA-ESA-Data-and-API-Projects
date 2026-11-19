@@ -1122,6 +1122,17 @@ are refused), so the pages read copies kept in `exoplanets/data/` and never call
 - Acknowledgement: data "obtained from the Mikulski Archive for Space Telescopes (MAST) at the Space Telescope Science
   Institute"; funding for the TESS and Kepler missions is provided by NASA.
 
+### ESA/Webb picture of HR 8799, checked Nov 18, 2026
+
+- **Picture:** `weic2504a` (https://esawebb.org/images/weic2504a/), Webb's NIRCam picture of HR 8799's four planets,
+  released March 17, 2025. Copied once by `exoplanets/tools/get_pictures.py` (workflow "Exoplanets data, built by
+  hand", part `pictures`) from `https://cdn.esawebb.org/archives/images/screen/weic2504a.jpg` (fallback `large/`) to
+  `exoplanets/art/hr8799-webb.jpg` (1280 × 1280, about 42 KB); the script checks the JPEG header and a minimum size.
+- **Terms:** CC BY 4.0 (https://esawebb.org/copyright/). Credit, shown in full beside the picture: "NASA, ESA, CSA,
+  STScI, W. Balmer (JHU), L. Pueyo (STScI), M. Perrin (STScI)", with the licence and ESA/Webb linked.
+- **Star map:** the planet's page reads Sky Finder's bright stars (`sky-finder/data/stars.json`, Hipparcos through
+  d3-celestial, below in the Sky Finder section); nothing new is copied and no service is contacted.
+
 ### The habitable zone
 
 - **Rule 1, NASA's (decided Nov 17, 2026, the main rule):** the conservative habitable zone of the NASA Exoplanet

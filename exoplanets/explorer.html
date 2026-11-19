@@ -13,9 +13,9 @@
   <link rel="manifest" href="../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111813">
-  <script type="module" src="../shared/footer.js?v=2026111813"></script>
-  <link rel="stylesheet" href="exoplanets.css?v=2026111813">
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111814">
+  <script type="module" src="../shared/footer.js?v=2026111814"></script>
+  <link rel="stylesheet" href="exoplanets.css?v=2026111814">
   <script type="module" src="explorer.js"></script>
 </head>
 <body>
@@ -71,6 +71,19 @@
         <div class="prose" id="pSums"></div>
         <div class="facts" id="pFacts"></div>
       </div>
+      <div class="panels after">
+        <figure class="panel">
+          <div class="ph"><h3 id="skyTitle">Where it is in the sky</h3><span class="aside">60° across</span></div>
+          <div class="pb chartframe"><svg class="chart" id="sky" role="img" aria-label="The bright stars around the planet's star, as the sky looks from Earth"></svg>
+            <div class="legend"><span><svg class="mk" viewBox="-7 -7 14 14" aria-hidden="true"><circle r="5" fill="none" stroke="#E2C88E" stroke-width="2"/></svg>the planet's star</span><span><svg class="mk" viewBox="-7 -7 14 14" aria-hidden="true"><circle r="3.5" fill="#EDE6D3"/></svg>bright stars: the bigger the dot, the brighter</span></div>
+          </div>
+          <figcaption class="pf caption">The stars down to magnitude 4.5 within 30° of the planet's star (Hipparcos catalogue, through d3-celestial), with north up and east to the left, as the sky looks when you face it. The dashed lines are every 10° of declination.</figcaption>
+        </figure>
+        <div class="panel">
+          <div class="ph"><h3>When and where to look</h3></div>
+          <div class="pb prose" id="skyText"><p class="state loading">Loading the star map…</p></div>
+        </div>
+      </div>
     </section>
 
     <!-- ===================================================== the list -->
@@ -105,7 +118,7 @@
       <p class="caption after" id="updated">Planet list as of …, from the NASA Exoplanet Archive. Choose a planet for its system and its habitable-zone sums.</p>
     </section>
 
-    <p class="srcline">Planet data: NASA Exoplanet Archive, Planetary Systems Composite Parameters table; the archive is operated by the California Institute of Technology under contract with NASA under the Exoplanet Exploration Program. Habitable zone: NASA Exoplanet Exploration Program (Mamajek &amp; Stapelfeldt 2023) and Kopparapu et al. (2013, 2014). Data courtesy of NASA.</p>
+    <p class="srcline">Planet data: NASA Exoplanet Archive, Planetary Systems Composite Parameters table; the archive is operated by the California Institute of Technology under contract with NASA under the Exoplanet Exploration Program. Habitable zone: NASA Exoplanet Exploration Program (Mamajek &amp; Stapelfeldt 2023) and Kopparapu et al. (2013, 2014). Bright stars: the Hipparcos catalogue, from d3-celestial (BSD 3-Clause, © 2015 Olaf Frohn). Data courtesy of NASA.</p>
     <footer class="footer">
       <div class="ftop"><p class="copy">© 2026 <strong>Malcolm Syme</strong> · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></p></div>
       <p class="fnote">Data courtesy of NASA and ESA. An independent project, not endorsed by NASA or ESA.</p>

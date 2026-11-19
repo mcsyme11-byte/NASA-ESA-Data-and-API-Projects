@@ -6,7 +6,7 @@
 
 import { fmt, sig, esc, dateText, GROUPS, groupOf, METHOD_NAMES, PC_LY, NASA_HZ, TEFF_RANGE, zones,
   loadPlanets, planetUrl, archiveUrl, sizeCell } from './data.js';
-import { system, hideTip } from './charts.js';
+import { system, hideTip, skyChart, sepDeg } from './charts.js';
 
 const $ = (s) => document.querySelector(s);
 const PAGE = 50;
@@ -86,6 +86,7 @@ function show(p, scroll) {
     ['In the sky', p.ra !== null ? `right ascension ${raText(p.ra)}, declination ${decText(p.dec)}${p.vmag ? ` · magnitude ${sig(p.vmag, 3)}${p.vmag <= 6 ? ', visible to the eye from a dark site' : p.vmag <= 9 ? ', visible with binoculars' : ''}` : ''}` : 'not known'],
     ['System', `${p.npl} known planet${p.npl === 1 ? '' : 's'}`],
   ].map(([h, t]) => `<div class="f"><h4>${h}</h4><p>${t}</p></div>`).join('');
+  sky(p);
   render();
   if (scroll) $('#planet').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
@@ -111,6 +112,54 @@ function sums(p, z) {
   }
   out.push(`<p class="caption">${p.small === 1 ? 'It is about Earth’s size, so it could be rocky.' : p.radius && p.radius_kind === 'measured' && p.radius > 1.6 ? 'It is larger than 1.6 Earths across, so it is probably not rocky: more likely a world with a thick atmosphere of hydrogen and helium, or water.' : p.mass && p.mass_kind !== 'est' && p.mass > 10 ? 'It is heavier than 10 Earths, so it is probably a gas giant, not a rocky planet.' : 'Its size is not well enough known to say whether it is rocky.'} The zone tells only whether the starlight is right; not whether there is water.</p>`);
   return out.join('');
+}
+
+
+// ---- where to look ----
+let starsP = null;
+const loadStars = () => (starsP ||= fetch(new URL('../sky-finder/data/stars.json', import.meta.url)).then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); }));
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+/** About when a star is highest at midnight: when the Sun is 12 hours of right ascension away from it. The Sun's right
+ * ascension is 0 h at the March equinox (about Mar 20) and grows by about 2 h a month. */
+function bestMonth(raDeg) {
+  const days = (((raDeg / 15 + 12) % 24) / 24) * 365.25;
+  const t = new Date(Date.UTC(2027, 2, 20) + days * 864e5);
+  const part = t.getUTCDate() <= 10 ? 'early' : t.getUTCDate() <= 20 ? 'mid-' : 'late';
+  return `${part === 'mid-' ? 'mid-' : part + ' '}${MONTHS[t.getUTCMonth()]}`;
+}
+function eyeText(v) {
+  if (!v) return 'Its brightness is not in the archive.';
+  if (v <= 6) return `At magnitude ${sig(v, 3)} the star itself is visible to the eye from a dark site.`;
+  if (v <= 9) return `At magnitude ${sig(v, 3)} the star needs binoculars.`;
+  if (v <= 13) return `At magnitude ${sig(v, 3)} the star needs a small telescope.`;
+  return `At magnitude ${sig(v, 3)} the star needs a large telescope or a long camera exposure.`;
+}
+async function sky(p) {
+  if (p.ra === null || p.dec === null) {
+    $('#sky').innerHTML = ''; $('#skyText').innerHTML = '<p>The star\'s position is not in the archive.</p>';
+    return;
+  }
+  let stars;
+  try { stars = await loadStars(); } catch (e) {
+    $('#skyText').innerHTML = `<p class="empty">The star map could not be loaded (${esc(e.message)}).</p>`;
+    return;
+  }
+  if (st.pick !== p) return;
+  st.stars = stars;
+  skyChart($('#sky'), p, stars);
+  $('#skyTitle').textContent = `Where ${p.host} is in the sky`;
+  const near = stars.filter((x) => x[3]).map((x) => [x, sepDeg(x[0], x[1], p.ra, p.dec)]).sort((a, b) => a[1] - b[1])[0];
+  const lats = [[50, '50° north', 'southern Canada, central Europe'], [30, '30° north', 'Texas, Egypt'], [0, 'the equator', ''], [-35, '35° south', 'Sydney, Buenos Aires']];
+  const rows = lats.map(([lat, name, where]) => {
+    const top = 90 - Math.abs(lat - p.dec);
+    const always = (lat > 0 && p.dec > 90 - lat) || (lat < 0 && p.dec < -90 - lat);
+    const v = top <= 0 ? 'never rises' : `up to ${fmt(top)}° high${always ? ', and never sets' : ''}`;
+    return `<tr><td data-l="From">${name}${where ? `<span class="s">${where}</span>` : ''}</td><td data-l="The star">${v}</td></tr>`;
+  }).join('');
+  $('#skyText').innerHTML = `<p><b>Best seen</b> in ${bestMonth(p.ra)}, when it is highest at midnight. ${near ? `It is ${fmt(near[1])}° from ${esc(near[0][3])}, the nearest bright star with a name.` : ''}</p>
+    <p>${eyeText(p.vmag)} The planet itself cannot be seen with any telescope on Earth: only its star.</p>
+    <table class="table planetlist"><thead><tr><th>From</th><th>The star</th></tr></thead><tbody>${rows}</tbody></table>
+    <p class="caption"><b>The rules.</b> From latitude φ, a star at declination δ (here ${decText(p.dec)}) rises at most <span class="sum">90° − |φ − δ|</span> above the horizon; if that is below zero, it never rises. In the north it never sets when δ is above 90° − φ. It is highest at midnight about when the Sun's right ascension is 12 hours away from the star's (here ${raText(p.ra)}); the Sun's is 0 h around Mar 20 and grows by about 2 hours a month.</p>`;
 }
 
 // ---- controls ----
@@ -149,7 +198,7 @@ for (const id of ['hz', 'small']) {
 $('#sort').addEventListener('change', () => { st.sort = $('#sort').value; st.shown = PAGE; render(); });
 $('#more').addEventListener('click', () => { st.shown += PAGE; render(); });
 let rt;
-addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { if (st.pick) system($('#sys'), st.pick.host, st.d.byHost.get(st.pick.host), st.pick); }, 150); });
+addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { if (st.pick) { system($('#sys'), st.pick.host, st.d.byHost.get(st.pick.host), st.pick); if (st.stars) skyChart($('#sky'), st.pick, st.stars); } }, 150); });
 
 (async () => {
   try { st.d = await loadPlanets(); } catch (e) { failed(e); return; }

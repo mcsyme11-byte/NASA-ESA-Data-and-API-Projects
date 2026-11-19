@@ -16,6 +16,9 @@
 .legend .mk { width: 12px; height: 12px; margin-right: 6px; vertical-align: -1px; }
 .chartframe { min-height: 160px; }
 
+/* a picture filling its panel (the Webb picture of HR 8799) */
+.pic img { display: block; width: 100%; height: auto; border-radius: 4px; background: #000; }
+
 /* ============================================================== the planet list */
 /* seven columns: between the phone layout (rows as cards, below 760 px) and a wide screen, the list scrolls sideways */
 .listframe { overflow-x: auto; }

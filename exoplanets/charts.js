@@ -322,3 +322,73 @@ export function toyTransit(svg, depth) {
 }
 
 export { frameWidth, PC_LY };
+
+// ---- 8. where a star is in the sky: the bright stars within 30° of it (stereographic projection, north up, east
+// to the left, as the sky looks from Earth) ----
+const RAD = Math.PI / 180;
+export function sepDeg(ra1, de1, ra2, de2) {
+  const c = Math.sin(de1 * RAD) * Math.sin(de2 * RAD) + Math.cos(de1 * RAD) * Math.cos(de2 * RAD) * Math.cos((ra1 - ra2) * RAD);
+  return Math.acos(Math.max(-1, Math.min(1, c))) / RAD;
+}
+export function skyChart(svg, star, stars, field = 30) {
+  const W = Math.min(frameWidth(svg), 560), H = W, cx = W / 2, cy = H / 2, R = W / 2 - 6;
+  start(svg, W, H);
+  const d0 = star.dec * RAD, a0 = star.ra * RAD, scale = R / (2 * Math.tan(field * RAD / 2));
+  const proj = (ra, de) => {
+    const d = de * RAD, da = ra * RAD - a0;
+    const k = 2 / (1 + Math.sin(d0) * Math.sin(d) + Math.cos(d0) * Math.cos(d) * Math.cos(da));
+    const x = k * Math.cos(d) * Math.sin(da), y = k * (Math.cos(d0) * Math.sin(d) - Math.sin(d0) * Math.cos(d) * Math.cos(da));
+    return [cx - x * scale, cy - y * scale];
+  };
+  el('circle', { cx, cy, r: R, fill: '#0B1019', stroke: '#2A3446' }, svg);
+  // lines of declination every 10°, for a sense of north and south
+  const grid = el('g', { fill: 'none', stroke: '#2A3446', 'stroke-dasharray': '2 4' }, svg);
+  for (let dd = -80; dd <= 80; dd += 10) {
+    if (Math.abs(dd - star.dec) > field + 10) continue;
+    const pts = [];
+    for (let ra = 0; ra <= 360; ra += 2) {
+      if (sepDeg(ra, dd, star.ra, star.dec) > field) continue;
+      pts.push(proj(ra, dd));
+    }
+    if (pts.length > 1) el('polyline', { points: pts.map((p) => p.map((v) => v.toFixed(1)).join(',')).join(' ') }, grid);
+  }
+  const sg = el('g', { fill: INK }, svg);
+  const named = [];
+  for (const [ra, de, mag, name] of stars) {
+    if (sepDeg(ra, de, star.ra, star.dec) > field) continue;
+    const [x, y] = proj(ra, de);
+    el('circle', { cx: x.toFixed(1), cy: y.toFixed(1), r: Math.max(0.8, 4.4 - 0.8 * mag).toFixed(2), 'fill-opacity': mag < 3 ? 1 : 0.75 }, sg);
+    if (name) named.push([x, y, name]);
+  }
+  // labels never cover each other: the host's name first, then each star's name in the first free place around it
+  const boxes = [];
+  const free = (b) => !boxes.some((o) => b[0] < o[2] && o[0] < b[2] && b[1] < o[3] && o[1] < b[3]);
+  const put = (tries, text, attrs, size) => {
+    const w = text.length * size * 0.56;
+    for (const [x, y, anchor] of tries) {
+      const x0 = anchor === 'end' ? x - w : x;
+      const b = [x0, y - size, x0 + w, y + 3];
+      if (b[0] < 2 || b[2] > W - 2 || !free(b)) continue;
+      boxes.push(b);
+      label(svg, { x, y, 'text-anchor': anchor, ...attrs }, text);
+      return;
+    }
+  };
+  boxes.push([cx - 17, cy - 17, cx + 17, cy + 17]);
+  put([[cx + 19, cy + 22, 'start'], [cx + 19, cy - 14, 'start'], [cx - 19, cy + 22, 'end'], [cx - 19, cy - 14, 'end']],
+    star.host, { fill: BRIGHT }, 13);
+  for (const [x, y, name] of named) {
+    put([[x + 6, y - 5, 'start'], [x - 6, y - 5, 'end'], [x + 6, y + 14, 'start'], [x - 6, y + 14, 'end']],
+      name, { 'font-size': 11 }, 11);
+  }
+  // the star, ringed
+  el('circle', { cx, cy, r: 9, fill: 'none', stroke: BRIGHT, 'stroke-width': 2 }, svg);
+  el('line', { x1: cx, x2: cx, y1: cy - 16, y2: cy - 11, stroke: BRIGHT, 'stroke-width': 2 }, svg);
+  el('line', { x1: cx, x2: cx, y1: cy + 11, y2: cy + 16, stroke: BRIGHT, 'stroke-width': 2 }, svg);
+  label(svg, { x: cx, y: 22, 'text-anchor': 'middle' }, 'north');
+  label(svg, { x: 18, y: cy + 4 }, 'east');
+  // a 10° bar: about the width of a fist at arm's length
+  const bar = 10 * RAD * scale;
+  el('line', { x1: W - 20 - bar, x2: W - 20, y1: H - 22, y2: H - 22, stroke: MUTED, 'stroke-width': 2 }, svg);
+  label(svg, { x: W - 20 - bar / 2, y: H - 30, 'text-anchor': 'middle' }, '10°');
+}

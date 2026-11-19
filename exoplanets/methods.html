@@ -13,9 +13,9 @@
   <link rel="manifest" href="../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111813">
-  <script type="module" src="../shared/footer.js?v=2026111813"></script>
-  <link rel="stylesheet" href="exoplanets.css?v=2026111813">
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111814">
+  <script type="module" src="../shared/footer.js?v=2026111814"></script>
+  <link rel="stylesheet" href="exoplanets.css?v=2026111814">
   <script type="module" src="methods.js"></script>
 </head>
 <body>
@@ -121,14 +121,32 @@
     <section class="section" id="imaging" aria-labelledby="hIm">
       <div class="section-head">
         <div><div class="kicker">Method 4 · <span data-count="imaging">…</span> planets</div><h2 id="hIm">Direct imaging: a picture of the planet</h2></div>
-        <a class="btn outline" href="../image-explorer/explore.html#library">See pictures</a>
+        <p class="aside">A coronagraph blocks the star; the planets' own warm glow is photographed in infrared.</p>
       </div>
-      <div class="split">
+      <div class="panels">
+        <figure class="panel">
+          <div class="ph"><h3>HR 8799's four planets, photographed by Webb</h3><span class="aside">infrared, 4.1 to 4.6 microns</span></div>
+          <div class="pb pic"><img src="art/hr8799-webb.jpg" width="1280" height="1280" alt="Four fuzzy dots of light, labelled b, c, d and e, around a star symbol marking HR 8799, whose own light is blocked, on a black background."></div>
+          <figcaption class="pf caption">The James Webb Space Telescope's near-infrared camera (NIRCam), released March 17, 2025. Image: NASA, ESA, CSA, STScI, W. Balmer (JHU), L. Pueyo (STScI), M. Perrin (STScI), <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>, from <a href="https://esawebb.org/images/weic2504a/" target="_blank" rel="noopener">ESA/Webb</a>.</figcaption>
+          <details class="howto"><summary>How to read this</summary>
+            <p>The star symbol marks HR 8799, about 134 light years away; a mask inside the camera blocks its light, which would otherwise outshine everything else. Each fuzzy dot is a planet, glowing in infrared because it is still hot from its formation about 30 million years ago. Colours stand for three infrared wavelengths: blue for 4.1 microns, green for 4.3, red for 4.6. Carbon dioxide absorbs light at 4.3 microns, so a planet that looks less green has more of it in its air: Webb found all four rich in carbon dioxide, a sign they formed the way Jupiter and Saturn did.</p>
+          </details>
+        </figure>
+        <div class="panel">
+          <div class="ph"><h3>How far apart they look</h3><span class="aside">θ = a ÷ d</span></div>
+          <div class="pb flush">
+            <table class="table stack planetlist" id="hrTable"><thead><tr><th>Planet</th><th class="r">Orbit</th><th class="r">Apart on the sky</th><th class="r">Mass</th></tr></thead>
+              <tbody><tr><td colspan="4"><div class="state loading">Loading…</div></td></tr></tbody></table>
+          </div>
+          <p class="pf caption" id="hrCap">From the NASA Exoplanet Archive's orbits and distance.</p>
+        </div>
+      </div>
+      <div class="split after">
         <div class="prose">
           <p>A planet is a faint speck right beside a dazzling star. A <b>coronagraph</b> inside the telescope blocks the star's light, and the planet's own glow is photographed in infrared. It works best for young, hot giant planets far from their stars: they still glow from their formation, and they sit far enough out to be seen apart from the star.</p>
           <p><b>The rule: how far apart they look.</b> <span class="sum">θ = a ÷ d</span>, with θ in arcseconds, the orbit a in au and the distance d in parsecs. <span id="imExample"></span></p>
           <p><b>The rule: how faint.</b> In visible light, Earth is about 10<sup>−10</sup> as bright as the Sun (a ten-billionth), Jupiter about 10<sup>−9</sup>. Young giants glowing in infrared are only about 10<sup>−4</sup> to 10<sup>−6</sup> as bright as their stars, which is why they are found first. NASA's planned Habitable Worlds Observatory is being designed to reach 10<sup>−10</sup>, to photograph Earth-like planets.</p>
-          <p class="caption">Pictures of HR 8799's planets and others taken by Webb, Hubble and Keck are in NASA's picture library: open the Image Explorer's picture library and search for "HR 8799" or "exoplanet".</p>
+          <p class="caption">More pictures of planets taken by Webb and Hubble are in NASA's picture library: open the <a href="../image-explorer/explore.html#library">Image Explorer's picture library</a> and search for "exoplanet".</p>
         </div>
         <div class="panel">
           <div class="ph"><h3>Widest on the sky</h3><span class="aside">imaged planets</span></div>
@@ -185,7 +203,7 @@
       </div>
     </section>
 
-    <p class="srcline">Velocities of 51 Pegasi: Butler et al. (2006); light curve of OGLE-2005-BLG-390: the Danish telescope's measurements of the event; both from the NASA Exoplanet Archive's time series. Planet data: NASA Exoplanet Archive, which is operated by the California Institute of Technology under contract with NASA under the Exoplanet Exploration Program. Gaia: ESA/Gaia/DPAC. Data courtesy of NASA and ESA.</p>
+    <p class="srcline">Velocities of 51 Pegasi: Butler et al. (2006); light curve of OGLE-2005-BLG-390: the Danish telescope's measurements of the event; both from the NASA Exoplanet Archive's time series. Planet data: NASA Exoplanet Archive, which is operated by the California Institute of Technology under contract with NASA under the Exoplanet Exploration Program. Picture of HR 8799: NASA, ESA, CSA, STScI, W. Balmer (JHU), L. Pueyo (STScI), M. Perrin (STScI), CC BY 4.0, from ESA/Webb. Gaia: ESA/Gaia/DPAC. Data courtesy of NASA and ESA.</p>
     <footer class="footer">
       <div class="ftop"><p class="copy">© 2026 <strong>Malcolm Syme</strong> · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></p></div>
       <p class="fnote">Data courtesy of NASA and ESA. An independent project, not endorsed by NASA or ESA.</p>
