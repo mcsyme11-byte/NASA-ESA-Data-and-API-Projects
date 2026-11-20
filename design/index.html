@@ -26,8 +26,8 @@
   <link rel="manifest" href="../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111907">
-  <script type="module" src="../shared/footer.js?v=2026111907"></script>
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111908">
+  <script type="module" src="../shared/footer.js?v=2026111908"></script>
 </head>
 <body>
   <header class="topbar">
@@ -376,7 +376,7 @@
         <span class="reloader"><button class="reload" type="button" tabindex="-1" aria-label="Updated" data-demo-icon></button><span class="rnote ok">Updated 13:05</span></span> ·
         <span class="reloader"><button class="reload" type="button" tabindex="-1" aria-label="Failed" data-demo-icon></button><span class="rnote fail">Couldn’t reload, try again</span></span></p>
       <script type="module">
-        import { reloadPage, reloadPart } from '../shared/reload.js?v=2026111907';
+        import { reloadPage, reloadPart } from '../shared/reload.js?v=2026111908';
         const demo = () => new Promise((ok) => setTimeout(() => ok(true), 1000));
         for (const b of document.querySelectorAll('[data-demo-part]')) reloadPart(b, demo);
         reloadPage(document.getElementById('demoReloadAll'), demo);
@@ -386,23 +386,22 @@
     </section>
 
     <section class="section" aria-labelledby="h-map">
-      <div class="section-head"><div><div class="kicker">Section 11</div><h2 id="h-map">Map card</h2></div><p class="aside">Added Nov 18, 2026. Replaces the two copies in the Asteroid Tracker’s and Orbit Watch’s style sheets: one card for a big interactive map.</p></div>
-      <p class="caption">The map in <code>.mapframe</code> with its overlays (<code>.ovl-date</code>, <code>.ovl-find</code>, <code>.ovl-zoom</code> of <code>.mbtn</code>, <code>.ovl-scale</code>, <code>.ovl-hint</code>), rows of controls under it (<code>.mapbar</code>, <code>.mapbar.famous</code>) and the column beside it (<code>.selcard</code>, <code>.legendbox</code>). <code>.mapframe.space</code> is near-black, for a globe. The map itself and its dots stay in the project’s style sheet. One column below 1100 px.</p>
+      <div class="section-head"><div><div class="kicker">Section 11</div><h2 id="h-map">Map card</h2></div><p class="aside">Added Nov 18, 2026; version 2 of Nov 20, 2026, used by every map, globe and sky chart of the site.</p></div>
+      <p class="caption">The map fills <code>.mapframe</code> (as <code>.mapsurface</code>, a canvas or an SVG): as wide as the window allows and nearly as tall as the screen. <code>shared/mapframe.js</code> adds the same controls to every map: + − ⟲ (the starting view) and ⛶ (full screen) at the bottom right, the arrow pad beside them, the keys (+ − arrows 0 F Esc) and the hint at the bottom left. Overlays: <code>.ovl-date</code> or <code>.ovl-title</code> at the top left, <code>.ovl-find</code> at the top right. Under the frame: <code>.mapbar</code> rows of controls, a <code>.mapkey</code> and the <code>.caption</code>; beside it, <code>aside.mapside</code> with the selected object and the settings. One column below 1100 px. <code>.mapframe.space</code> is near-black, for a globe.</p>
       <section class="panel mapcard" aria-label="Map card example">
         <div class="maplayout">
           <div class="mapmain">
-            <div class="mapframe">
-              <div class="ovl ovl-date"><span class="eyebrow">Date (UTC)</span><strong>November 18, 2026</strong><span class="note">20:00 UTC</span></div>
+            <div class="mapframe space" id="demoMap">
+              <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="An example map: a sun and three orbits"><circle cx="200" cy="150" r="9" fill="#C0A062"/><circle cx="200" cy="150" r="50" fill="none" stroke="rgba(244,236,216,.25)"/><circle cx="200" cy="150" r="90" fill="none" stroke="rgba(244,236,216,.25)"/><circle cx="200" cy="150" r="130" fill="none" stroke="rgba(244,236,216,.25)"/><circle cx="250" cy="150" r="4" fill="#8FB3D9"/><circle cx="137" cy="86" r="4" fill="#D98F6E"/></svg>
+              <div class="ovl ovl-date"><span class="eyebrow">Date (UTC)</span><strong>November 20, 2026</strong><span class="note">20:00 UTC</span></div>
               <div class="ovl ovl-find findbox"><input type="search" placeholder="Find an object…" aria-label="Find an object"></div>
-              <div class="ovl ovl-hint">Drag to turn · scroll or pinch to zoom · tap a dot</div>
-              <div class="ovl ovl-scale"><span>1 au · 150 million km</span><i></i></div>
-              <div class="ovl ovl-zoom"><button class="mbtn" type="button" aria-label="Zoom in">+</button><button class="mbtn" type="button" aria-label="Zoom out">−</button></div>
             </div>
             <div class="mapbar">
-              <div class="seg" role="group" aria-label="View"><button type="button" aria-pressed="true">Top</button><button type="button">Tilted</button><button type="button">Side</button></div>
+              <div class="seg" role="group" aria-label="View"><button type="button" aria-pressed="true">Top</button><button type="button" aria-pressed="false">Tilted</button><button type="button" aria-pressed="false">Side</button></div>
               <button class="chip" type="button" aria-pressed="false">Share this view</button>
             </div>
             <div class="mapbar famous"><span class="barlbl">Famous</span><button class="chip" type="button" aria-pressed="false">An example</button><button class="chip" type="button" aria-pressed="false">Another</button></div>
+            <p class="caption">The caption says what the map shows and where its data comes from.</p>
           </div>
           <aside class="mapside">
             <div class="panel selcard"><span class="label">Selected</span><h3>An object’s name</h3><p class="note">Its facts, then links and buttons in <code>.dlinks</code>.</p></div>
@@ -410,6 +409,12 @@
           </aside>
         </div>
       </section>
+      <div class="section-head sub"><h2>Scroll box</h2></div>
+      <p class="caption">A list of more than about fifteen rows scrolls inside <code>.scrollbox</code> (added Nov 20, 2026) instead of running down the page: at most 640 px or 70 % of the screen, the heading row held at the top, a soft shade at the edges that have more. Put the class on the table's panel or <code>.pb</code>; a box that holds the keyboard gets <code>tabindex="0"</code> and an <code>aria-label</code>.</p>
+      <div class="panel scrollbox" tabindex="0" aria-label="Example list, scrolls">
+        <table class="table stack"><thead><tr><th>Name</th><th class="r">Size</th><th class="r">Distance</th></tr></thead>
+          <tbody><tr><td>Example 1</td><td class="r" data-l="Size">40 m</td><td class="r" data-l="Distance">2.1 LD</td></tr><tr><td>Example 2</td><td class="r" data-l="Size">12 m</td><td class="r" data-l="Distance">0.8 LD</td></tr><tr><td>Example 3</td><td class="r" data-l="Size">310 m</td><td class="r" data-l="Distance">14.6 LD</td></tr><tr><td>Example 4</td><td class="r" data-l="Size">7 m</td><td class="r" data-l="Distance">1.3 LD</td></tr><tr><td>Example 5</td><td class="r" data-l="Size">95 m</td><td class="r" data-l="Distance">6.0 LD</td></tr><tr><td>Example 6</td><td class="r" data-l="Size">22 m</td><td class="r" data-l="Distance">3.4 LD</td></tr><tr><td>Example 7</td><td class="r" data-l="Size">150 m</td><td class="r" data-l="Distance">9.9 LD</td></tr><tr><td>Example 8</td><td class="r" data-l="Size">18 m</td><td class="r" data-l="Distance">0.5 LD</td></tr><tr><td>Example 9</td><td class="r" data-l="Size">60 m</td><td class="r" data-l="Distance">4.2 LD</td></tr><tr><td>Example 10</td><td class="r" data-l="Size">33 m</td><td class="r" data-l="Distance">7.7 LD</td></tr><tr><td>Example 11</td><td class="r" data-l="Size">410 m</td><td class="r" data-l="Distance">18.0 LD</td></tr><tr><td>Example 12</td><td class="r" data-l="Size">9 m</td><td class="r" data-l="Distance">1.1 LD</td></tr><tr><td>Example 13</td><td class="r" data-l="Size">74 m</td><td class="r" data-l="Distance">5.6 LD</td></tr><tr><td>Example 14</td><td class="r" data-l="Size">28 m</td><td class="r" data-l="Distance">2.9 LD</td></tr></tbody></table>
+      </div>
     </section>
 
     <section class="section" aria-labelledby="h-tools">
@@ -427,7 +432,7 @@
       <p class="caption"><code>&lt;nav class="tabs bar sub" data-spy aria-label="On this page"&gt;</code> with links to the page's sections, placed after the project tab bar; it stays under it while the page scrolls, and the section being read is marked.</p>
     </section>
 
-    <p class="srcline">Data credits sit here, just above the footer: one line per source.</p>
+    <p class="srcline">Data credits sit here, just above the footer: one line per source. <code>shared/footer.js</code> folds them into "Credits", whose summary names the agencies; the GIBS acknowledgement stays open. A list of sources (<code>.sources</code>) of three or more folds under its heading the same way.</p>
     <footer class="footer">
       <div class="ftop"><p class="copy">© 2026 <strong>Malcolm Syme</strong> · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></p></div>
       <p class="fnote">Data courtesy of NASA and ESA. An independent project, not endorsed by NASA or ESA.</p>
@@ -435,8 +440,12 @@
   </main>
   <script type="module">
     // the example button opens the real site search
-    import { openSearch } from '../shared/footer.js?v=2026111907';
+    import { openSearch } from '../shared/footer.js?v=2026111908';
+    import { mapFrame, svgView } from '../shared/mapframe.js?v=2026111908';
     document.getElementById('demoSearch').addEventListener('click', () => openSearch());
+    // the example map gets the same controls as every map of the site
+    const demo = document.getElementById('demoMap');
+    mapFrame(demo, { ...svgView(demo.querySelector('svg')), hint: 'Drag to move · scroll or pinch to zoom' });
   </script>
 </body>
 </html>

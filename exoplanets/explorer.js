@@ -6,7 +6,10 @@
 
 import { fmt, sig, esc, dateText, GROUPS, groupOf, METHOD_NAMES, PC_LY, NASA_HZ, TEFF_RANGE, zones,
   loadPlanets, planetUrl, archiveUrl, sizeCell, forgetPlanets, copiedText, COPY_FAILED } from './data.js';
-import { reloadPage } from '../shared/reload.js?v=2026111907';
+import { reloadPage } from '../shared/reload.js?v=2026111908';
+import { mapFrame, svgView } from '../shared/mapframe.js?v=2026111908';
+// the star map's controls (shared/mapframe.js, the same on every map of the site, Nov 20, 2026)
+mapFrame(document.getElementById('skyFrame'), { ...svgView(document.getElementById('sky')), hint: 'Drag to move · scroll or the buttons to zoom' });
 import { system, hideTip, skyChart, sepDeg } from './charts.js';
 
 const $ = (s) => document.querySelector(s);

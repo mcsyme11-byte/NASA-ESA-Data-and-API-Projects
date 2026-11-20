@@ -6,15 +6,13 @@
  * the globe, the picture library and the picture viewer. See docs/DESIGN.md, "Page styles".
  */
 
-/* ---------- Earth map: date and play, the controls beside the map ---------- */
+/* ---------- Earth map: date and play, the controls beside the map (the card around them is the shared map card,
+   docs/DESIGN.md "Map card"; Nov 20, 2026) ---------- */
 .datebar .period input[type=date] { min-width: 170px; }
 .datebar select { min-height: 36px; font-size: 14.5px; }
-.slider { display: flex; align-items: center; gap: var(--sp3); margin: 0 0 var(--sp5); }
+.slider { display: flex; align-items: center; gap: var(--sp3); margin: var(--sp2) 0 0; }
 .slider input[type=range] { flex: 1; height: 32px; min-width: 0; }
 .slider .end { font-size: 13px; color: var(--muted); font-style: italic; white-space: nowrap; }
-.explore { display: grid; grid-template-columns: 290px minmax(0, 1fr); gap: var(--sp5); align-items: start; margin-top: var(--sp5); }
-.side { display: flex; flex-direction: column; gap: var(--sp4); min-width: 0; }
-.mapcol { min-width: 0; }
 .lyr { display: flex; flex-direction: column; gap: 6px; }
 .lyr button { display: flex; align-items: center; gap: var(--sp3); width: 100%; min-height: 40px; padding: 6px var(--sp3); text-align: left;
   background: transparent; border: 1px solid var(--line); border-radius: var(--r-sm); color: var(--ink2); font: 15px var(--font); cursor: pointer; }
@@ -38,23 +36,19 @@
 .suggest li .k { font-size: 12px; color: var(--muted); font-style: italic; white-space: nowrap; }
 .suggest li mark { background: none; color: var(--brass-bright); }
 
-.mapframe { position: relative; height: 560px; border-radius: var(--r); }
 #map { position: absolute; inset: 0; cursor: grab; touch-action: none; outline: none; }
 #map:active { cursor: grabbing; }
 #map:focus-visible { box-shadow: inset 0 0 0 2px var(--brass); }
-.ol-zoom { top: 10px; left: auto; right: 10px; }
 /* the map's buttons above its drawn names */
 .ol-overlaycontainer-stopevent { z-index: 3 !important; }
 .ol-control button { background: rgba(15, 21, 32, .97); color: var(--brass); border: 1px solid var(--brass-dim); border-radius: var(--r-btn);
   font-family: var(--font); width: 32px; height: 32px; margin: 2px; }
 .ol-control button:hover, .ol-control button:focus { background: var(--bg2); color: var(--brass-bright); outline: none; }
 .ol-control { background: none; padding: 0; }
-.ol-scale-line { left: 10px; bottom: 10px; background: rgba(15, 21, 32, .85); border-radius: var(--r-btn); padding: 3px 6px; }
-.ol-scale-line-inner { border-color: var(--brass-dim); color: var(--ink2); font: 11px var(--font); }
-.maptag { position: absolute; left: 10px; top: 10px; z-index: 2; background: rgba(15, 21, 32, .97); border: 1px solid var(--brass-dim);
+.maptag { position: absolute; left: 14px; top: 12px; max-width: calc(100% - 380px); z-index: 2; background: rgba(15, 21, 32, .97); border: 1px solid var(--brass-dim);
   border-radius: var(--r-btn); padding: 6px 10px; font-size: 13px; color: var(--ink2); pointer-events: none; }
 .maptag strong { font-weight: 400; color: var(--brass-bright); }
-.cursor { position: absolute; right: 10px; bottom: 10px; z-index: 2; background: rgba(15, 21, 32, .85); border-radius: var(--r-btn);
+.cursor { position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%); z-index: 2; background: rgba(15, 21, 32, .85); border-radius: var(--r-btn);
   padding: 3px 8px; font: 12px var(--mono); color: var(--ink2); pointer-events: none; }
 
 .pop { min-width: 230px; max-width: 280px; background: var(--bg2); border: 1px solid var(--brass-dim); border-radius: var(--r-card);
@@ -72,7 +66,8 @@
 .pop .btn { width: 100%; min-height: 36px; margin-top: 10px; font-size: 12px; letter-spacing: .16em; }
 .pop .x { position: absolute; top: 6px; right: 8px; background: none; border: 0; color: var(--muted); font-size: 18px; cursor: pointer; }
 
-.mapcol .legend { margin-top: var(--sp3); display: grid; gap: 10px; }
+.mapmain .legend { margin-top: var(--sp3); display: grid; gap: 10px; }
+.mapmain .legend:empty { display: none; }
 .legend .row { display: grid; grid-template-columns: 150px 1fr; gap: 12px; align-items: center; }
 .legend .row > span:first-child { font-size: 11px; text-transform: uppercase; letter-spacing: .2em; color: var(--muted); }
 .legend img { width: 100%; max-width: 420px; height: auto; display: block; background: var(--ink); border-radius: var(--r-btn); padding: 4px 8px; }
@@ -91,9 +86,6 @@
 .firekey i { width: 10px; height: 10px; border-radius: 50%; background: #E8763A; box-shadow: 0 0 0 2px rgba(232, 118, 58, .35); }
 
 /* globe */
-.gbar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp3) var(--sp5); margin-bottom: var(--sp4); }
-.gbar .gshow { flex: 1; min-width: 0; }
-.gfind { width: 300px; }
 .key { display: inline-block; width: 10px; height: 10px; margin-right: 8px; }
 .key.ev { border-radius: 50%; background: #C9784A; }
 .key.ga { border-radius: 50%; border: 1.5px solid var(--brass-bright); width: 11px; height: 11px; }
@@ -107,15 +99,11 @@
 .gphoto { display: block; margin: 0 0 12px; border: 1px solid var(--line); border-radius: var(--r-btn); overflow: hidden; background: var(--deep); }
 .gphoto img { display: block; width: 100%; height: auto; }
 .gphoto:hover { border-color: var(--brass); }
-.gwrap { display: grid; grid-template-columns: 1fr 330px; gap: 22px; align-items: start; }
-.globeframe { position: relative; height: 640px; background: #05080D; touch-action: none; }
 #globe, #gOver { position: absolute; inset: 0; width: 100%; height: 100%; }
 #globe canvas { display: block; cursor: grab; }
 #globe canvas:active { cursor: grabbing; }
 #gOver { pointer-events: none; }
-.gzoom { position: absolute; right: 10px; top: 10px; display: flex; flex-direction: column; gap: 6px; }
-.gzoom .chip { width: 38px; height: 38px; justify-content: center; padding: 0; border-radius: var(--r-sm); background: rgba(15, 21, 32, .9); border-color: var(--brass-dim); color: var(--brass); font-size: 17px; }
-.globeframe .maptag { right: 58px; left: 10px; width: fit-content; max-width: calc(100% - 68px); }
+.globeframe .maptag { right: auto; width: fit-content; max-width: calc(100% - 380px); }
 .gcard { min-height: 200px; }
 .gcard h3 { font-size: 22px; font-weight: 400; margin: 2px 0 12px; line-height: 1.25; }
 .gsub { display: flex; justify-content: space-between; align-items: baseline; gap: var(--sp2); margin: var(--sp4) 0 var(--sp2); }
@@ -127,14 +115,8 @@
 .gpics img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .gpics .nopic { min-height: 0; font-size: 11px; }
 @media (max-width: 1024px) {
-  .gwrap { grid-template-columns: 1fr; }
-  .globeframe { height: 560px; }
 }
 @media (max-width: 760px) {
-  .gfind { width: 100%; }
-  .gbar .gshow { flex-wrap: nowrap; flex: 1 1 100%; }
-  .gbar .chip { flex: none; }
-  .globeframe { height: 70vh; min-height: 380px; max-height: 560px; }
 }
 
 /* picture library */
@@ -206,24 +188,16 @@ dialog.viewer::backdrop { background: rgba(8, 11, 17, .82); }
 .bts .note { margin: 10px 0 14px; }
 
 @media (max-width: 1024px) {
-  .explore { grid-template-columns: 1fr; }
-  .explore > .mapcol { order: -1; }                 /* the map before its controls on tablets and phones */
-  .side { display: grid; grid-template-columns: 1fr 1fr; }
-  .side .place { grid-column: 1 / -1; }
   .vwrap { grid-template-columns: 1fr; }
   .vimg { position: static; }
   .vimg img, .vimg video { max-height: 60vh; }
 }
 @media (max-width: 760px) {
-  .side { grid-template-columns: 1fr; }
-  .mapframe { height: 420px; }
   .datebar .period { flex: 1; }
   .datebar .period input[type=date] { min-width: 0; width: 100%; }
   .datebar .grow { display: none; }
   .datebar select { flex: 1; min-height: 40px; }
   .datebar .play { flex: 1; width: auto; }
-  .ol-control button { width: 40px; height: 40px; }
-  .gzoom .chip { width: 40px; }
   .pop .btn { min-height: 40px; }
   .legend .row { grid-template-columns: 1fr; gap: 4px; }
   .gallery { grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -233,7 +207,7 @@ dialog.viewer::backdrop { background: rgba(8, 11, 17, .82); }
   .vtext { padding: 16px; }
   .vbar { padding-left: 16px; }
 }
-@media (max-width: 400px) { .gallery { grid-template-columns: 1fr; } .mapframe { height: 360px; } }
+@media (max-width: 400px) { .gallery { grid-template-columns: 1fr; } }
 #vDesc { white-space: pre-line; }
 
 
@@ -243,3 +217,7 @@ dialog.viewer::backdrop { background: rgba(8, 11, 17, .82); }
   .datebar .period .lbl { flex: none; }
   .datebar .period input[type=date] { flex: 1; }
 }
+
+/* phones: the find box takes the top of the map, so the tag sits under it at the map's full width (Nov 20, 2026; it was
+   squeezed to 22 px; kept last, after the globe's own rule) */
+@media (max-width: 760px) { .maptag, .globeframe .maptag { max-width: calc(100% - 20px); left: 10px; } .mapframe:has(.ovl-find) .maptag { top: 60px; } }

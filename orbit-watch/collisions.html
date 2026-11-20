@@ -25,9 +25,9 @@
   <link rel="manifest" href="../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111907">
-  <link rel="stylesheet" href="orbit.css?v=2026111907">
-  <script type="module" src="../shared/footer.js?v=2026111907"></script>
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111908">
+  <link rel="stylesheet" href="orbit.css?v=2026111908">
+  <script type="module" src="../shared/footer.js?v=2026111908"></script>
 </head>
 <body>
   <header class="topbar">
@@ -68,7 +68,7 @@
       </div>
       <div class="panel">
         <div class="ph"><h3 id="owCloseTitle">The 15 closest passes</h3><button class="reload small" type="button" id="owCloseReload">Reload the close approaches</button><span class="aside" id="owCloseAside">passes within 5 km · predictions, copied twice a day</span></div>
-        <div class="pb flush" id="owClose" aria-busy="true">
+        <div class="pb flush scrollbox" id="owClose" aria-busy="true">
           <!-- placeholder of the same size as the list (15 rows, as in fetch_orbits.py), so the page does not jump when it arrives -->
           <table class="table stack"><thead><tr><th>When</th><th>Object 1</th><th>Object 2</th><th class="r">Miss distance</th><th class="r">Speed between them</th><th class="r">Chance of hitting</th><th><span class="sr">Watch on the globe</span></th></tr></thead><tbody>
             <tr><td data-l="When">…</td><td data-l="Object 1">…<span class="sub">…</span></td><td data-l="Object 2">…<span class="sub">…</span></td><td class="r" data-l="Miss distance">…</td><td class="r" data-l="Speed">…</td><td class="r" data-l="Chance">…</td><td class="r"><span class="btn outline small" aria-hidden="true">…</span></td></tr>

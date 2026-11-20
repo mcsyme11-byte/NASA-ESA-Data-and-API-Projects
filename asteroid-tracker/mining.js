@@ -5,7 +5,7 @@
 // are in reach.js.
 
 import { fmt } from '../shared/nasa.js';
-import { reloadPage } from '../shared/reload.js?v=2026111907';
+import { reloadPage } from '../shared/reload.js?v=2026111908';
 import { loadReach, loadPhys, forgetReach, typeOf, sizeOf, sizeText, pageOf, nhatsPage, TYPE_FILTERS, MISSIONS } from './reach.js';
 
 const $ = (s) => document.querySelector(s);

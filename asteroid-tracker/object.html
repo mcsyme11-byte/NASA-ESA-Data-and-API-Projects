@@ -25,9 +25,9 @@
   <link rel="manifest" href="../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111907">
-  <script type="module" src="../shared/footer.js?v=2026111907"></script>
-  <link rel="stylesheet" href="tracker.css?v=2026111907">
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111908">
+  <script type="module" src="../shared/footer.js?v=2026111908"></script>
+  <link rel="stylesheet" href="tracker.css?v=2026111908">
   <script type="module" src="object.js"></script>
 </head>
 <body>
@@ -71,33 +71,29 @@
     <div id="notice"></div>
 
     <div id="content">
-      <script>/* before the first paint: no asteroid chosen, so no placeholders */ if (!/^\d{5,9}$/.test((new URLSearchParams(location.search).get('id') || '').trim())) { document.getElementById('content').hidden = true; document.getElementById('pills').textContent = ''; document.getElementById('decode').hidden = true; document.getElementById('objMeta').hidden = true; document.getElementById('name').textContent = 'No asteroid chosen'; document.getElementById('notice').innerHTML = '<div class="notice warn" role="alert"><span class="t">This page shows one asteroid. Open one from the <a href="./">Asteroid Tracker</a>: tap a row in the week\'s list, then "Open this asteroid\'s page".</span></div>'; }</script>
+      <script>/* before the first paint: no asteroid chosen, so no placeholders */ if (!/^\d{5,9}$/.test((new URLSearchParams(location.search).get('id') || '').trim())) { document.getElementById('content').hidden = true; document.body.dataset.empty = ''; document.getElementById('pills').textContent = ''; document.getElementById('decode').hidden = true; document.getElementById('objMeta').hidden = true; document.getElementById('name').textContent = 'No asteroid chosen'; document.getElementById('notice').innerHTML = '<div class="notice warn" role="alert"><span class="t">This page shows one asteroid. Open one from the <a href="./">Asteroid Tracker</a>: tap a row in the week\'s list, then "Open this asteroid\'s page".</span></div>'; }</script>
       <div class="tiles" id="facts"><div class="tile"><div class="label">Size, est.</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div><div class="tile"><div class="label">Year length</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div><div class="tile"><div class="label">From the Sun</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div><div class="tile"><div class="label">Orbit tilt</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div><div class="tile"><div class="label">Closest its orbit gets to Earth's</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div></div>
 
       <!-- ===================== ORBIT DIAGRAM ===================== -->
-      <section class="panel orbitcard" aria-labelledby="orbitTitle">
-        <div class="ph"><h2 id="orbitTitle">Its orbit around the Sun</h2><span class="aside">drawn to scale · drag to turn</span></div>
+      <section class="panel mapcard orbitcard" aria-labelledby="orbitTitle">
+        <div class="ph"><h2 id="orbitTitle">Its orbit around the Sun</h2><span class="aside">drawn to scale</span></div>
         <div class="pb">
 
-        <div class="orbitbar">
-          <div class="seg" role="group" aria-label="View">
-            <button class="chip" data-tilt="0" aria-pressed="true">Top</button>
-            <button class="chip" data-tilt="58" aria-pressed="false">Tilted</button>
-            <button class="chip" data-tilt="90" aria-pressed="false">Side</button>
-          </div>
-          <div class="seg" role="group" aria-label="Zoom">
-            <button class="chip" id="zoomOut" aria-label="Zoom out">−</button>
-            <button class="chip" id="zoomFit">Fit</button>
-            <button class="chip" id="zoomIn" aria-label="Zoom in">+</button>
-            <button class="chip" id="zoomEarth" aria-pressed="false">Near Earth</button>
-          </div>
-        </div>
-
-        <div class="orbitlayout">
-          <div class="orbitmain">
-            <div class="frame orbitframe">
-              <svg id="orbit" class="chart orbit" role="img" aria-label="Orbit diagram"></svg>
+        <div class="maplayout orbitlayout">
+          <div class="mapmain orbitmain">
+            <div class="mapframe orbitframe" id="orbitFrame">
+              <svg id="orbit" class="orbit" role="img" aria-label="Orbit diagram"></svg>
               <div class="ovl ovl-date" aria-live="polite"><span class="eyebrow">Date (UTC)</span><strong id="oDate">—</strong><span class="note" id="oAcc"></span></div>
+            </div>
+            <div class="mapbar orbitbar">
+              <div class="seg" role="group" aria-label="View">
+                <button class="chip" data-tilt="0" aria-pressed="true">Top</button>
+                <button class="chip" data-tilt="58" aria-pressed="false">Tilted</button>
+                <button class="chip" data-tilt="90" aria-pressed="false">Side</button>
+              </div>
+              <div class="seg" role="group" aria-label="Distance">
+                <button class="chip" id="zoomEarth" aria-pressed="false">Near Earth</button>
+              </div>
             </div>
             <div class="timebar">
               <div class="seg" role="group" aria-label="Step through time">
@@ -121,7 +117,7 @@
               <label class="speed">Go to <input type="date" id="goDate" min="1900-01-01" max="2050-12-31" aria-label="Go to date"></label>
             </div>
           </div>
-          <aside class="orbitside" aria-label="Readings for the date shown">
+          <aside class="mapside orbitside" aria-label="Readings for the date shown">
             <div class="tiles readouts" id="readouts"><div class="tile"><div class="label">From Earth</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div><div class="tile"><div class="label">From the Sun</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div><div class="tile"><div class="label">Speed around the Sun</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div><div class="tile"><div class="label">Height above Earth's orbit plane</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note">loading</div></div></div>
             <p class="note" id="approachNote">Loading the close approaches worked out by NASA/JPL, and the next one after the date shown…</p>
 
@@ -158,7 +154,7 @@
           </details>
         </figure>
         <div class="section-head sub"><h2>The list</h2><span class="aside">tap a row to show it in the diagram</span></div>
-        <div class="panel tablecard">
+        <div class="panel tablecard scrollbox" tabindex="0" aria-label="Close approaches, scrolls">
           <table class="neo" id="caTable">
             <thead><tr><th>Date (UTC)</th><th class="num">Distance</th><th class="num">Speed</th><th><span class="sr">Passed or predicted</span></th></tr></thead>
             <tbody><tr><td data-label="Date (UTC)">…</td><td data-label="Distance" class="num"><span>…<span class="s">loading</span></span></td><td data-label="Speed" class="num"><span>…</span></td><td data-label=""><span class="tag">…</span></td></tr><tr><td data-label="Date (UTC)">…</td><td data-label="Distance" class="num"><span>…<span class="s">loading</span></span></td><td data-label="Speed" class="num"><span>…</span></td><td data-label=""><span class="tag">…</span></td></tr><tr><td data-label="Date (UTC)">…</td><td data-label="Distance" class="num"><span>…<span class="s">loading</span></span></td><td data-label="Speed" class="num"><span>…</span></td><td data-label=""><span class="tag">…</span></td></tr><tr><td data-label="Date (UTC)">…</td><td data-label="Distance" class="num"><span>…<span class="s">loading</span></span></td><td data-label="Speed" class="num"><span>…</span></td><td data-label=""><span class="tag">…</span></td></tr><tr><td data-label="Date (UTC)">…</td><td data-label="Distance" class="num"><span>…<span class="s">loading</span></span></td><td data-label="Speed" class="num"><span>…</span></td><td data-label=""><span class="tag">…</span></td></tr><tr><td data-label="Date (UTC)">…</td><td data-label="Distance" class="num"><span>…<span class="s">loading</span></span></td><td data-label="Speed" class="num"><span>…</span></td><td data-label=""><span class="tag">…</span></td></tr><tr><td data-label="Date (UTC)">…</td><td data-label="Distance" class="num"><span>…<span class="s">loading</span></span></td><td data-label="Speed" class="num"><span>…</span></td><td data-label=""><span class="tag">…</span></td></tr><tr><td data-label="Date (UTC)">…</td><td data-label="Distance" class="num"><span>…<span class="s">loading</span></span></td><td data-label="Speed" class="num"><span>…</span></td><td data-label=""><span class="tag">…</span></td></tr><tr><td data-label="Date (UTC)">…</td><td data-label="Distance" class="num"><span>…<span class="s">loading</span></span></td><td data-label="Speed" class="num"><span>…</span></td><td data-label=""><span class="tag">…</span></td></tr><tr><td data-label="Date (UTC)">…</td><td data-label="Distance" class="num"><span>…<span class="s">loading</span></span></td><td data-label="Speed" class="num"><span>…</span></td><td data-label=""><span class="tag">…</span></td></tr><tr><td data-label="Date (UTC)">…</td><td data-label="Distance" class="num"><span>…<span class="s">loading</span></span></td><td data-label="Speed" class="num"><span>…</span></td><td data-label=""><span class="tag">…</span></td></tr><tr><td data-label="Date (UTC)">…</td><td data-label="Distance" class="num"><span>…<span class="s">loading</span></span></td><td data-label="Speed" class="num"><span>…</span></td><td data-label=""><span class="tag">…</span></td></tr></tbody>

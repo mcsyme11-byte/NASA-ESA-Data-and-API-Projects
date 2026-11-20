@@ -25,10 +25,10 @@
   <link rel="manifest" href="../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111907">
-  <script type="module" src="../shared/footer.js?v=2026111907"></script>
-  <link rel="stylesheet" href="spacecraft.css?v=2026111907">
-  <script type="module" src="app.js?v=2026111907"></script>
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111908">
+  <script type="module" src="../shared/footer.js?v=2026111908"></script>
+  <link rel="stylesheet" href="spacecraft.css?v=2026111908">
+  <script type="module" src="app.js?v=2026111908"></script>
 </head>
 <body>
   <header class="topbar">
@@ -54,71 +54,77 @@
         <p class="updated"><span id="scCount">Loading the positions…</span>
           <button class="reload" type="button" id="scReload">Reload the spacecraft positions and orbital elements</button></p>
       </div>
-      <nav class="seg views" aria-label="View" data-hscroll>
-        <button type="button" data-v="solar" aria-pressed="true">Solar system</button>
-        <button type="button" data-v="near" aria-pressed="false">Near Earth</button>
-        <button type="button" data-v="orbit" aria-pressed="false">Earth orbit</button>
-        <button type="button" data-v="moon" aria-pressed="false">Moon</button>
-        <button type="button" data-v="mars" aria-pressed="false">Mars</button>
-      </nav>
     </header>
 
-    <div class="sc-grid">
-      <aside class="sc-side" aria-label="Find a spacecraft">
-        <label class="lbl" for="scQ">Find a spacecraft</label>
-        <input id="scQ" type="search" placeholder="Name, agency or place" autocomplete="off" spellcheck="false">
-        <div class="lbl sc-gap">Agency</div>
-        <div class="chips" id="scAgency" role="group" aria-label="Agency" data-hscroll></div>
-        <div class="lbl sc-gap">Kind</div>
-        <div class="chips" id="scKind" role="group" aria-label="Kind" data-hscroll></div>
-        <div class="lbl sc-gap">Show</div>
-        <div class="chips" id="scShow" role="group" aria-label="Show" data-hscroll></div>
-        <div class="lbl sc-gap">Mission</div>
-        <div class="chips" id="scMission" role="group" aria-label="Mission" data-hscroll></div>
-        <div class="sc-lh"><h2 class="lbl">Spacecraft</h2><span class="aside" id="scListN"></span></div>
-        <div class="sc-list" id="scList" role="group" aria-label="Spacecraft"><div class="skel rows" aria-hidden="true"></div><span class="sr">Loading the spacecraft…</span></div>
-      </aside>
-
-      <section class="sc-mapcol" aria-label="The map">
-        <div class="sc-frame" id="scFrame">
-          <canvas id="scMap" tabindex="0" aria-label="Map of the spacecraft. Drag to turn, scroll or pinch to zoom, right-drag or two fingers to move. Arrow keys turn, plus and minus zoom."></canvas>
-          <div class="sc-state" id="scState" hidden></div>
-          <section class="sc-card" id="scCard" hidden aria-live="polite"></section>
-          <div class="sc-zoom">
-            <button type="button" id="zIn" aria-label="Zoom in">+</button>
-            <button type="button" id="zOut" aria-label="Zoom out">−</button>
-            <button type="button" id="zPan" aria-pressed="false" aria-label="Drag moves the map instead of turning it" title="Drag moves the map">✥</button>
+    <section class="panel mapcard" aria-label="Map of the spacecraft">
+      <div class="maplayout">
+        <div class="mapmain">
+          <div class="mapframe" id="scFrame">
+            <canvas id="scMap" tabindex="0" aria-label="Map of the spacecraft. Drag to turn, scroll or pinch to zoom, right-drag or two fingers to move. Arrow keys turn, plus and minus zoom."></canvas>
+            <div class="ovl ovl-date" aria-live="polite"><span class="eyebrow">Date (UTC)</span><strong id="scDate">—</strong><span class="note"><span class="live" id="scLive">Live</span></span></div>
+            <div class="ovl ovl-find">
+              <label class="sr" for="scQ">Find a spacecraft</label>
+              <input id="scQ" type="search" placeholder="Find a spacecraft, agency or place" autocomplete="off" spellcheck="false">
+            </div>
+            <div class="sc-state" id="scState" hidden></div>
           </div>
-          <div class="sc-angle seg" role="group" aria-label="Angle">
-            <button type="button" data-a="top">Top</button><button type="button" data-a="tilt" aria-pressed="true">Tilted</button><button type="button" data-a="side">Side</button>
+          <div class="mapbar">
+            <div class="seg views" role="group" aria-label="View" data-hscroll>
+              <span class="barlbl">Show</span>
+              <button type="button" data-v="solar" aria-pressed="true">Solar system</button>
+              <button type="button" data-v="near" aria-pressed="false">Near Earth</button>
+              <button type="button" data-v="orbit" aria-pressed="false">Earth orbit</button>
+              <button type="button" data-v="moon" aria-pressed="false">Moon</button>
+              <button type="button" data-v="mars" aria-pressed="false">Mars</button>
+            </div>
+            <div class="seg" role="group" aria-label="Angle">
+              <span class="barlbl">Angle</span>
+              <button type="button" data-a="top">Top</button><button type="button" data-a="tilt" aria-pressed="true">Tilted</button><button type="button" data-a="side">Side</button>
+            </div>
           </div>
-        </div>
-        <div class="sc-play" id="scPlay" hidden aria-label="Route replay">
-          <button class="sc-pp" type="button" id="rpPlay" aria-label="Pause">❚❚</button>
-          <div class="sc-pwhat" id="rpWhat" aria-live="polite"></div>
-          <button class="btn quiet small sc-px" type="button" id="rpClose">Close replay</button>
-          <input type="range" id="rpRange" min="0" max="1000" value="0" aria-label="Date in the route">
-          <div class="sc-pmarks" id="rpMarks"></div>
-          <div class="seg" role="group" aria-label="Replay speed" data-hscroll id="rpSpeed">
-            <button type="button" data-rp="1">1 day/s</button>
-            <button type="button" data-rp="7">1 week/s</button>
-            <button type="button" data-rp="30.44">1 month/s</button>
-            <button type="button" data-rp="365.25">1 year/s</button>
+          <div class="mapbar">
+            <div class="seg" role="group" aria-label="Time" data-hscroll>
+              <span class="barlbl">Time</span>
+              <button type="button" id="tNow" aria-pressed="true">Now</button>
+              <button type="button" data-speed="60">1 min/s</button>
+              <button type="button" data-speed="3600">1 h/s</button>
+              <button type="button" data-speed="86400">1 day/s</button>
+              <button type="button" data-speed="864000">10 days/s</button>
+            </div>
           </div>
-        </div>
-        <div class="sc-time">
-          <div class="sc-date"><span class="lbl">Date</span> <b id="scDate">—</b> <span class="live" id="scLive">Live</span></div>
-          <div class="seg" role="group" aria-label="Time" data-hscroll>
-            <button type="button" id="tNow" aria-pressed="true">Now</button>
-            <button type="button" data-speed="60">1 min/s</button>
-            <button type="button" data-speed="3600">1 h/s</button>
-            <button type="button" data-speed="86400">1 day/s</button>
-            <button type="button" data-speed="864000">10 days/s</button>
+          <div class="sc-play" id="scPlay" hidden aria-label="Route replay">
+            <button class="sc-pp" type="button" id="rpPlay" aria-label="Pause">❚❚</button>
+            <div class="sc-pwhat" id="rpWhat" aria-live="polite"></div>
+            <button class="btn quiet small sc-px" type="button" id="rpClose">Close replay</button>
+            <input type="range" id="rpRange" min="0" max="1000" value="0" aria-label="Date in the route">
+            <div class="sc-pmarks" id="rpMarks"></div>
+            <div class="seg" role="group" aria-label="Replay speed" data-hscroll id="rpSpeed">
+              <button type="button" data-rp="1">1 day/s</button>
+              <button type="button" data-rp="7">1 week/s</button>
+              <button type="button" data-rp="30.44">1 month/s</button>
+              <button type="button" data-rp="365.25">1 year/s</button>
+            </div>
           </div>
         </div>
-        <p class="caption sc-help">Drag to turn · scroll or pinch to zoom · ✥ or right-drag to move · tap a craft for its story.</p>
-      </section>
-    </div>
+        <aside class="mapside" aria-label="The spacecraft">
+          <section class="ctl sc-card" id="scCard" hidden aria-live="polite"></section>
+          <div class="ctl sc-filters">
+            <div class="lbl">Agency</div>
+            <div class="chips" id="scAgency" role="group" aria-label="Agency" data-hscroll></div>
+            <div class="lbl sc-gap">Kind</div>
+            <div class="chips" id="scKind" role="group" aria-label="Kind" data-hscroll></div>
+            <div class="lbl sc-gap">Show</div>
+            <div class="chips" id="scShow" role="group" aria-label="Show" data-hscroll></div>
+            <div class="lbl sc-gap">Mission</div>
+            <div class="chips" id="scMission" role="group" aria-label="Mission" data-hscroll></div>
+          </div>
+          <div class="ctl sc-listbox">
+            <div class="sc-lh"><h2 class="lbl">Spacecraft</h2><span class="aside" id="scListN"></span></div>
+            <div class="sc-list" id="scList" role="group" aria-label="Spacecraft"><div class="skel rows" aria-hidden="true"></div><span class="sr">Loading the spacecraft…</span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
 
     <section class="section sc-about prose" aria-labelledby="scAboutT">
       <div class="kicker">About</div>

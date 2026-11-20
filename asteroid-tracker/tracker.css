@@ -64,6 +64,9 @@ th[tabindex]:focus-visible, tr[tabindex]:focus-visible { outline: 2px solid var(
   table.neo td.empty { display: none; }
   table.neo td:first-child a { display: inline-block; padding: 8px 0; margin: -8px 0; }
   table.neo tr.drow > td { display: block; padding: var(--sp1) 0 6px; }
+  /* the brass mark of the chosen row sits at the card's edge, clear of the text (Nov 20, 2026; it touched the date) */
+  table.neo tbody tr[aria-selected="true"] td:first-child { box-shadow: none; }
+  table.neo tbody tr[aria-selected="true"] { box-shadow: inset 2px 0 0 var(--brass); }
   table.neo tr.drow > td::before, table.neo tr.msg td::before { content: none; }
   .sortsel, .filters .sortsel { display: flex; } .sortsel { margin: 0 0 var(--sp3); }
   .hide-sm { display: none; }
@@ -92,9 +95,8 @@ th[tabindex]:focus-visible, tr[tabindex]:focus-visible { outline: 2px solid var(
 .pills { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp2); margin-top: var(--sp4); }
 #facts { margin-bottom: var(--sp6); }
 .orbitbar, .timebar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp3); }
-.orbitbar { margin: 0 0 var(--sp3); }
 .timebar { margin: var(--sp3) 0 0; }
-.orbitframe { position: relative; }
+.orbitframe .ovl-hint { bottom: 44px; }   /* above the diagram's scale */
 svg.orbit { cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
 svg.orbit.dragging { cursor: grabbing; }
 /* every label in a diagram gets a dark outline, so it reads clearly over orbits and dots */
@@ -123,14 +125,12 @@ svg.orbit text { paint-order: stroke; stroke: #0C1119; stroke-width: 3.5px; stro
 .lg.meet { width: 12px; height: 12px; border: 1.6px solid var(--brass-bright); border-radius: 50%; }
 .orbitcard.hazard .lg.ast { border-top-color: var(--red); }
 /* the orbit diagram beside its readings on wide screens */
-.orbitlayout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: var(--sp5); align-items: start; }
 @media (min-width: 1101px) {
   .orbitside .readouts { margin-top: 0; grid-template-columns: 1fr; border-top: 0; }
   .orbitside .readouts .tile, .orbitside .readouts .tile + .tile { padding: var(--sp3) 0; border-left: 0; border-top: 1px solid var(--line); }
 }
 .orbitside .legend { flex-direction: column; gap: var(--sp2); margin-top: var(--sp4); }
 @media (max-width: 1100px) {
-  .orbitlayout { grid-template-columns: minmax(0, 1fr); }
   .orbitside .readouts { margin-top: var(--sp4); }
   .orbitside .legend { flex-direction: row; }
 }
@@ -138,9 +138,7 @@ svg.orbit text { paint-order: stroke; stroke: #0C1119; stroke-width: 3.5px; stro
   .orbitbar .seg, .timebar .seg { width: 100%; }
   .orbitbar .chip, .timebar .chip { flex: 1; justify-content: center; padding: 0 6px; white-space: nowrap; font-size: 13.5px; }
   .speed { width: 100%; justify-content: space-between; }
-  .orbitframe { display: flex; flex-direction: column; }
-  .orbitframe .ovl-date { position: static; order: -1; padding: 10px 12px 0; }
-  .orbitframe .ovl-date strong { font-size: 16px; }
+  .speed select, .speed input { flex: 1; min-width: 0; max-width: 70%; }   /* the list fits a 320 px phone (Nov 20, 2026) */
 }
 @media (max-width: 420px) {
   .timebar .chip { font-size: 12.5px; padding: 0 4px; }
@@ -313,3 +311,7 @@ dl.mini dd { margin: 0; }
 /* an asteroid's page: the line that decodes its name is two lines long at most widths once filled in; two lines are
    kept for it from the start, so the page does not jump when it fills in, whatever the fonts (Nov 19, 2026) */
 @media (min-width: 761px) { .pagehead #decode { min-height: calc(2 * 1lh); } }
+
+/* an asteroid's page with no asteroid chosen is only a message: it keeps the footer below the first screen, so the
+   footer, built by script, does not move what is in view (Nov 20, 2026; the page check's layout shift) */
+body[data-empty] main { min-height: 100svh; }

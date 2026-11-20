@@ -8,7 +8,8 @@
 import { SpaceMap, craftPos, relAt, parentAt, R_EARTH, R_MOON, R_MARS, AU_KM, jdFromMs, msFromJd } from './spacemap.js';
 import { satrecOf } from '../shared/sats.js';
 import { shareButton, linkWith, takeShared } from '../asteroid-tracker/share.js';
-import { reloadPage } from '../shared/reload.js?v=2026111907';
+import { reloadPage } from '../shared/reload.js?v=2026111908';
+import { mapFrame } from '../shared/mapframe.js?v=2026111908';
 
 const $ = (s) => document.querySelector(s), $$ = (s) => [...document.querySelectorAll(s)];
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
@@ -117,9 +118,23 @@ $$('.views [data-v]').forEach((b) => b.addEventListener('click', () => setViewNa
 $$('[data-a]').forEach((b) => b.addEventListener('click', () => { map.setView({ tilt: ANGLES[b.dataset.a] }); markAngle(); }));
 function markAngle() { $$('[data-a]').forEach((b) => b.setAttribute('aria-pressed', Math.abs(map.tilt - ANGLES[b.dataset.a]) < 1)); }
 map.onView = markAngle;
-$('#zIn').addEventListener('click', () => { map.setView({ viewR: map.viewR / 1.6 }); });
-$('#zOut').addEventListener('click', () => { map.setView({ viewR: map.viewR * 1.6 }); });
-$('#zPan').addEventListener('click', () => { map.panMode = !map.panMode; $('#zPan').setAttribute('aria-pressed', map.panMode); });
+// the map's controls (shared/mapframe.js, the same on every map of the site, Nov 20, 2026): + − back to the view's
+// start, full screen and the arrow pad; the pan switch (✥: a drag moves the map instead of turning it) sits above them
+const panBtn = Object.assign(document.createElement('button'), { type: 'button', textContent: '✥' });
+panBtn.setAttribute('aria-pressed', 'false');
+panBtn.setAttribute('aria-label', 'Drag moves the map instead of turning it');
+panBtn.title = 'Drag moves the map';
+panBtn.addEventListener('click', () => { map.panMode = !map.panMode; panBtn.setAttribute('aria-pressed', map.panMode); });
+mapFrame($('#scFrame'), {
+  zoomIn: () => map.setView({ viewR: map.viewR / 1.6 }),
+  zoomOut: () => map.setView({ viewR: map.viewR * 1.6 }),
+  reset: () => setViewName(view),
+  pan: (dx, dy) => map.setView({ panX: map.panX + dx * 0.2 * map.viewR, panY: map.panY - dy * 0.2 * map.viewR }),
+  resize: () => map.resize && map.resize(),
+  extra: [panBtn],
+  hint: 'Drag to turn · scroll or pinch to zoom · ✥ or right-drag to move · tap a craft for its story',
+  keys: false,
+});
 
 // ---------------------------------------------------------------- filters and list
 function chips() {

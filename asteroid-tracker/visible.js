@@ -45,7 +45,7 @@ export function mountVisible(root, url) {
     <div class="visgrid">
       <section class="panel" aria-labelledby="visListTitle">
         <div class="ph"><h3 id="visListTitle">Passes you can look for</h3><span class="aside" id="visCount"></span></div>
-        <div class="pb flush"><table class="neo vistable" id="visTable"><thead><tr><th>Asteroid</th><th>Best moment</th><th>Highest</th><th>Brightness</th><th>You need</th><th><span class="sr">Sky Finder</span></th></tr></thead><tbody></tbody></table></div>
+        <div class="pb flush scrollbox"><table class="neo vistable" id="visTable"><thead><tr><th>Asteroid</th><th>Best moment</th><th>Highest</th><th>Brightness</th><th>You need</th><th><span class="sr">Sky Finder</span></th></tr></thead><tbody></tbody></table></div>
         <div class="pf"><p class="caption" id="visSource"></p></div>
       </section>
       <aside class="visside">

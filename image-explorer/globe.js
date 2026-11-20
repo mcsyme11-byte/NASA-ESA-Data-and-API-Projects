@@ -6,6 +6,7 @@
  * 30 days, and astronaut photos of Earth (data/astronaut.json, refreshed daily by fetch_astronaut_photos.py). Uses app.js's show(), nice(), esc(), search(), openViewer(), libSearch(), focusEarth() and A.
  */
 import { THREE, D2R, vec, gmst, createGlobe, bodyTexture, closeUp, GIBS_BLUE_MARBLE } from '../shared/globe.js';
+import { mapFrame } from '../shared/mapframe.js?v=2026111908';
 
 /* The scene, the camera and its moves, the Earth's picture and the sharper close up are in shared/globe.js (since
    Nov 17, 2026, for Planetary Maps and Orbit Watch too); the sky, the pins and everything drawn on them are here. */
@@ -354,9 +355,17 @@ function goTo(it) {
     flyTo(skyView(it.pos, Math.max(camera.position.length(), 6)));
   }
 }
-$('gIn').addEventListener('click', () => G && G.zoom(0.75));
-$('gOut').addEventListener('click', () => G && G.zoom(1.4));
-$('gHome').addEventListener('click', () => home());
+/* the globe's controls (shared/mapframe.js, the same on every map of the site, Nov 20, 2026): + − back to the
+   start, full screen and the arrow pad, which turns the globe; the globe's own keys stay below */
+mapFrame(frame, {
+  zoomIn: () => G && G.zoom(0.75),
+  zoomOut: () => G && G.zoom(1.4),
+  reset: () => camera && home(),
+  pan: (dx, dy) => { if (!G) return; if (vis.spin) setSpin(false); G.turn(dx < 0 ? 'ArrowLeft' : dx > 0 ? 'ArrowRight' : dy < 0 ? 'ArrowUp' : 'ArrowDown'); },
+  resize: () => resize(),
+  hint: 'Drag to turn · scroll or pinch to zoom · tap a pin or a marker',
+  keys: false,
+});
 
 /* ---------- keyboard (added Nov 14, 2026): arrows turn the globe, + and − zoom, Home goes back, N and P step through
    the points in view (nearest the middle first), Enter opens the one shown, Escape lets it go ---------- */
@@ -367,8 +376,8 @@ frame.addEventListener('keydown', e => {
   if (k.startsWith('Arrow')) {
     if (vis.spin) setSpin(false);
     G.turn(k);                                             /* 8° a press, never over the poles */
-  } else if (k === '+' || k === '=') $('gIn').click();
-  else if (k === '-' || k === '_') $('gOut').click();
+  } else if (k === '+' || k === '=') G.zoom(0.75);
+  else if (k === '-' || k === '_') G.zoom(1.4);
   else if (k === 'Home') home();
   else if (k === 'n' || k === 'N' || k === 'p' || k === 'P') {
     const w = over.clientWidth / 2, h = over.clientHeight / 2, seen = new Set();

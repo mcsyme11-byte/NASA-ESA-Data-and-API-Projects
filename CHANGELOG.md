@@ -2,6 +2,36 @@
 
 # Change log
 
+## November 20, 2026 — Bigger maps with the same controls, folded credits, scrolling lists and a formatting review
+
+- **Maps (map card version 2, decided Nov 20, 2026):** every map, globe and sky chart is now one map card with the same
+  layout: the Asteroid Tracker's solar system map and an asteroid's orbit diagram, the Image Explorer's Earth map and
+  globe, Planetary Maps, Orbit Watch's globe, the spacecraft map and the Exoplanets sky map. The card uses the full
+  width of the window (up to 1760 px) and the map is nearly as tall as the screen (520 to 1040 px; 74 % of a phone's
+  height), about four times the area of before. A new shared file, `shared/mapframe.js`, gives every map the same
+  controls in the same places: zoom in and out, back to the starting view, full screen (also on iPhone), an arrow pad,
+  the keys + − arrows 0 F Esc, and a hint that fades after first use. The column beside the map matches the map's
+  height and fades at the edge where it scrolls. The settings of each map moved into that column or into rows under
+  the map.
+- **Credits fold up:** the credit lines above the footer fold into one "Credits" box whose summary names the agencies
+  (`shared/footer.js`); a list of three or more sources folds under its heading. The GIBS acknowledgement and the
+  footer's "Data courtesy of NASA and ESA" line stay in view.
+- **Long lists scroll in a box:** the new shared `.scrollbox` holds the tracker's week, year, risk and visible lists,
+  Within reach, an asteroid's close approaches, the Exoplanets list and Orbit Watch's close passes: at most 640 px or
+  70 % of the screen, the heading row held at the top, shaded edges where there is more.
+- **Formatting review of every page at every width:** the Image Explorer's map tag (22 px wide on phones), the
+  collision calculator's example buttons (cut off on computers), the tracker's search hint (squeezed into one column),
+  the aurora verdict (pressed against its paragraph), the chosen close approach's mark (touching its date on phones),
+  card links that dropped to the left when their badges wrapped, a heading level on Planetary Maps, the asteroid
+  page's speed list (wider than a 320 px phone), long layer names under the Earth map, choices cut off in half-width
+  panels on tablets, figures squeezed two to a row on 320 px phones (now one), and pages that jumped as they loaded
+  (Orbit Watch's and Planetary Maps' update lines now start at their final length; the credit lines hold the folded
+  box's place until they fold).
+- **New rules and checks:** `docs/CHECKS.md` "Rules learned from the formatting review of Nov 20, 2026";
+  `dev/check_pages.py` gained `cramped`, `squeezed`, `map`, `longlist`, `srcopen`, `segcut` and `msgnarrow`;
+  `docs/DESIGN.md` and the component page describe the map card version 2, the scroll box and the folded credits;
+  `CLAUDE.md` has the rule. Version tag 2026111908.
+
 ## November 20, 2026 — Daily runs confirmed
 
 - Astronaut photos ran every day from Nov 15 to Nov 20, 2026, all successful; since Nov 18 the outside clock starts

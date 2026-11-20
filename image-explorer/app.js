@@ -207,6 +207,19 @@ const map = new ol.Map({
 });
 const fillFrame = () => FlatMap.fillFrame(map, view !== 'world');   /* no empty bands; the edges crop to fit */
 map.once('change:size', fillFrame); if (map.getSize()) fillFrame();
+/* the map's controls (shared/mapframe.js, the same on every map of the site, Nov 20, 2026): + − back to the whole
+   world, full screen and the arrow pad, which moves the map a quarter of its width */
+import('../shared/mapframe.js?v=2026111908').then(m => m.mapFrame($('eFrame'), {
+  zoomIn: () => map.getView().animate({ zoom: map.getView().getZoom() + 1, duration: 250 }),
+  zoomOut: () => map.getView().animate({ zoom: map.getView().getZoom() - 1, duration: 250 }),
+  reset: () => fillFrame(),
+  pan: (dx, dy) => {
+    const v = map.getView(), c = v.getCenter(), r = v.getResolution(), [w, h] = map.getSize();
+    v.animate({ center: [c[0] + dx * w * r * 0.25, c[1] - dy * h * r * 0.25], duration: 250 });
+  },
+  resize: () => map.updateSize(),
+  hint: 'Drag to move · scroll or pinch to zoom · tap the map for the place and its picture',
+}));
 document.querySelectorAll('.lines [data-line]').forEach(b => b.addEventListener('click', () => {
   const k = b.dataset.line; LINES[k] = !LINES[k]; b.setAttribute('aria-pressed', LINES[k]); showLines();
 }));
@@ -375,7 +388,7 @@ async function reloadAll() {
   showNewest();
   return ok;
 }
-import('../shared/reload.js?v=2026111907').then(m => m.reloadPage($('reloadAll'), reloadAll));
+import('../shared/reload.js?v=2026111908').then(m => m.reloadPage($('reloadAll'), reloadAll));
 
 /* play: one step per tick; waits for the map to finish drawing before the next day */
 let timer = null;

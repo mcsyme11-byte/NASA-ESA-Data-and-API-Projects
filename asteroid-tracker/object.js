@@ -9,7 +9,8 @@
 import { backLink } from './back.js';
 import { nasaGet } from '../shared/nasa.js';
 import { neoCopy, forgetCopy } from './neows.js';
-import { reloadPage } from '../shared/reload.js?v=2026111907';
+import { reloadPage } from '../shared/reload.js?v=2026111908';
+import { mapFrame } from '../shared/mapframe.js?v=2026111908';
 import { fmt, sizeText, dateText, sizePicture, LD_KM } from './format.js';
 import { hoverTip, tipApi, hideTip } from './charts.js';
 import { asteroidElements, asteroidPosition, planetPosition, jdFromMs, msFromJd, dist, LD_AU, AU_KM, wrap180 } from './orbit.js';
@@ -212,9 +213,16 @@ function syncViewButtons() {
   $$('[data-tilt]').forEach((b) => b.setAttribute('aria-pressed', Math.abs(wrap180(state.view.tilt - Number(b.dataset.tilt))) < 0.5));
 }
 $$('[data-tilt]').forEach((b) => b.addEventListener('click', () => { state.view.setView({ tilt: Number(b.dataset.tilt), spin: state.view.spin }); syncViewButtons(); }));
-$('#zoomIn').addEventListener('click', () => { const v = state.view; if (v.nearEarth) v.nearRadius = Math.max(0.004, v.nearRadius / 1.6); else v.zoom = Math.min(12, v.zoom * 1.5); v.draw(); });
-$('#zoomOut').addEventListener('click', () => { const v = state.view; if (v.nearEarth) v.nearRadius = Math.min(0.5, v.nearRadius * 1.6); else v.zoom = Math.max(0.6, v.zoom / 1.5); v.draw(); });
-$('#zoomFit').addEventListener('click', () => { const v = state.view; v.zoom = 1; v.nearEarth = false; $('#zoomEarth').setAttribute('aria-pressed', 'false'); v.draw(); });
+// the diagram's controls (shared/mapframe.js, the same on every map of the site, Nov 20, 2026): + − Fit (back to the
+// whole orbit), full screen, and the arrow pad, which turns the diagram
+mapFrame($('#orbitFrame'), {
+  zoomIn: () => { const v = state.view; if (!v) return; if (v.nearEarth) v.nearRadius = Math.max(0.004, v.nearRadius / 1.6); else v.zoom = Math.min(12, v.zoom * 1.5); v.draw(); },
+  zoomOut: () => { const v = state.view; if (!v) return; if (v.nearEarth) v.nearRadius = Math.min(0.5, v.nearRadius * 1.6); else v.zoom = Math.max(0.6, v.zoom / 1.5); v.draw(); },
+  reset: () => { const v = state.view; if (!v) return; v.zoom = 1; v.nearEarth = false; $('#zoomEarth').setAttribute('aria-pressed', 'false'); v.setView({ tilt: 0, spin: 0 }); syncViewButtons(); },
+  pan: (dx, dy) => { const v = state.view; if (!v) return; v.setView({ tilt: Math.max(0, Math.min(90, v.tilt + dy * 10)), spin: v.spin + dx * 15 }); syncViewButtons(); },
+  resize: () => state.view && state.view.draw(),
+  hint: 'Drag to turn · the arrows tilt and spin it · + and − zoom',
+});
 $('#zoomEarth').addEventListener('click', () => {
   const v = state.view; v.nearEarth = !v.nearEarth;
   if (v.nearEarth) {   // fit the selected approach, or the current distance, comfortably in view

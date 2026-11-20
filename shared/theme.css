@@ -169,7 +169,7 @@ h4 { font-size: 17px; line-height: 1.35; }
 .stat, .tile { padding: var(--sp5) var(--sp5) var(--sp5) 0; container-type: inline-size; min-width: 0; }
 .stat + .stat, .tile + .tile { padding-left: var(--sp5); border-left: 1px solid var(--line); }
 .stat .label, .tile .label { font-size: 11.5px; letter-spacing: .22em; text-transform: uppercase; color: var(--brass); }
-.stat .value, .tile .value { font-size: 34px; font-size: clamp(22px, 16cqi, 36px); line-height: 1.1; margin: var(--sp2) 0 var(--sp1); white-space: nowrap; }
+.stat .value, .tile .value { font-size: 34px; font-size: clamp(19px, 16cqi, 36px); line-height: 1.1; margin: var(--sp2) 0 var(--sp1); white-space: nowrap; }
 .stat .value small, .tile .value small, .tile .value .u { font-size: .5em; color: var(--ink2); margin-left: 3px; letter-spacing: .02em; }
 .stat .value.warn, .tile .value.warn, .tile .value.bad { color: var(--red); }
 .stat .note, .tile .note, .tile .sub { font-size: 14px; font-style: italic; color: var(--muted); line-height: 1.4; overflow-wrap: anywhere; }
@@ -180,9 +180,17 @@ h4 { font-size: 17px; line-height: 1.35; }
   .stat:nth-child(n+3), .tile:nth-child(n+3) { border-top: 1px solid var(--line); }
   .stat:last-child:nth-child(odd), .tile:last-child:nth-child(odd) { grid-column: 1 / -1; }
 }
+/* the smallest phones (320 px): one figure to a row, so a figure and its note are never squeezed (Nov 20, 2026) */
+@media (max-width: 340px) {
+  .stats, .tiles { grid-template-columns: minmax(0, 1fr); }
+  .stat:nth-child(even), .tile:nth-child(even) { padding-left: 0; border-left: 0; }
+  .stat + .stat, .tile + .tile { border-top: 1px solid var(--line); }
+}
 
 /* ============================================================== cards: things you open */
 .cards, .grid { display: grid; gap: var(--sp4); grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+/* a message in a grid of cards (no results, loading, could not load) spans the whole row (Nov 20, 2026) */
+:is(.cards, .grid, .gallery, .results) > :is(.state, .notice, .empty, .loading) { grid-column: 1 / -1; }
 .cards.three { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
 .cards.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 @media (max-width: 700px) { .cards.two { grid-template-columns: minmax(0, 1fr); } }
@@ -195,7 +203,7 @@ a.card:active { transform: translateY(0); }
 .card > p, .card .d { color: var(--ink2); font-size: 15.5px; line-height: 1.55; margin: 0; }
 .card > p:last-of-type { flex: 1; }
 .card .foot { display: flex; align-items: center; justify-content: space-between; gap: var(--sp2); margin-top: auto; padding-top: var(--sp3); flex-wrap: wrap; }
-.card .go { font-size: 11.5px; letter-spacing: .22em; text-transform: uppercase; color: var(--brass); white-space: nowrap; }
+.card .go { font-size: 11.5px; letter-spacing: .22em; text-transform: uppercase; color: var(--brass); white-space: nowrap; margin-left: auto; }   /* stays at the right when the badges take a line of their own */
 .card .go::after { content: " →"; letter-spacing: 0; }
 .card .go.ext::after { content: " ↗"; }
 a.card:hover .go { color: var(--brass-bright); }
@@ -310,6 +318,10 @@ details.howto b { color: var(--ink); font-weight: 400; }
 .seg [aria-pressed="true"], .seg [aria-selected="true"], .seg [aria-current] { background: var(--card2); color: var(--brass-bright);
   box-shadow: inset 0 0 0 1px var(--brass-dim); }
 .seg button:disabled { opacity: .4; cursor: default; }
+/* in a half-width panel or column on a tablet or small computer, choices sit closer so a row of up to five shows whole
+   (Nov 20, 2026; the page check's segcut) */
+@media (min-width: 761px) and (max-width: 1180px) {
+  :is(.panels, .split, .mapside) .seg button, :is(.panels, .split, .mapside) .seg > .chip { padding-left: 9px; padding-right: 9px; } }
 /* chips inside a segmented control take its look; a label inside it sits at its start */
 .seg > .chip { border: 0; border-radius: 3px; min-height: 34px; padding: 0 var(--sp4); font-size: 14.5px; background: transparent; }
 .seg > .chip:hover { background: rgba(255, 255, 255, .04); }
@@ -484,6 +496,19 @@ a.tag.link:hover, a.badge:hover { border-color: var(--brass); color: var(--brass
 .table .sub { display: block; font-size: 13px; font-style: italic; color: var(--muted); }
 table.credits td { color: var(--ink2); }
 table.credits td:first-child { color: var(--ink); }
+/* Scroll box (Nov 20, 2026): a long list of rows (more than about a screenful) scrolls inside its own box, so it never
+   takes the whole page. The heading row stays in view; a soft shade at the top and bottom edges shows there is more. */
+.scrollbox { max-height: min(640px, 70svh); overflow: auto; scrollbar-gutter: stable; scrollbar-width: thin;
+  scrollbar-color: rgba(192, 160, 98, .45) transparent;
+  background:
+    linear-gradient(var(--deep) 40%, rgba(12, 17, 25, 0)) center top / 100% 36px no-repeat local,
+    linear-gradient(rgba(12, 17, 25, 0), var(--deep) 60%) center bottom / 100% 36px no-repeat local,
+    linear-gradient(rgba(0, 0, 0, .55), rgba(0, 0, 0, 0)) center top / 100% 16px no-repeat scroll,
+    linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, .55)) center bottom / 100% 16px no-repeat scroll,
+    var(--deep); }
+.scrollbox:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+.scrollbox thead th { position: sticky; top: 0; z-index: 2; background: var(--deep); box-shadow: inset 0 -1px 0 var(--line); }
+@media (max-width: 760px) { .scrollbox { max-height: 72svh; } }
 .tablewrap { overflow-x: auto; margin: 0 0 var(--sp5); background: var(--deep); border: 1px solid var(--line); border-radius: var(--r); }
 @media (max-width: 760px) {
   .table.stack thead, table.credits thead { display: none; }
@@ -619,6 +644,21 @@ a.stage:hover { color: var(--ink); }
 /* ============================================================== data credits and footer */
 .srcline { margin: var(--sp7) 0 0; font-size: 13.5px; font-style: italic; color: var(--muted); }
 .srcline + .srcline { margin-top: var(--sp2); }
+/* the credit lines folded into "Sources and credits", and a list of sources folded under its heading (shared/footer.js,
+   Nov 20, 2026) */
+details.howto.credits { margin-top: var(--sp7); }
+/* until shared/footer.js has folded them, the credit lines hold the folded box's place (46 px), so nothing under them
+   moves as the page loads (Nov 20, 2026) */
+html:not(.folded) main p.srcline { box-sizing: border-box; height: 46px; overflow: hidden; visibility: hidden; }
+html:not(.folded) main p.srcline + p.srcline { display: none; }
+details.howto.credits > summary .who { margin-left: var(--sp2); min-width: 0; line-height: 1.35; font-size: 13px; font-style: italic; letter-spacing: 0; text-transform: none; color: var(--muted); }
+details.howto.credits > .srcline { margin: 0; padding-top: 0; font-size: 13.5px; }
+details.howto.credits > .srcline + .srcline { padding-top: var(--sp2); }
+details.howto.credits + .srcline { margin-top: var(--sp4); }
+details.howto.sourcefold { margin-top: 0; }
+details.howto.sourcefold > .sources { padding: 0; border-top: 0; }
+details.howto.sourcefold > .sources .s { padding-left: var(--sp5); padding-right: var(--sp5); }
+@media (max-width: 760px) { details.howto.sourcefold > .sources .s { padding-left: var(--sp4); padding-right: var(--sp4); } }
 /* The site-map footer (decided Nov 17, 2026), built on every page by shared/footer.js from one list: the NEDAP mark,
    name and live data status on the left; a column for each part of the site; then the copyright with the legal links
    opposite, and the credit line. Below 1200 px the name sits above the columns; below 900 px the columns are in rows of three. Phones: one folded section each. */
@@ -767,84 +807,120 @@ img.img-failed, figure:has(img.img-failed):not(:has(img:not(.img-failed))) { dis
 .ticks a:hover i, .ticks i:hover { opacity: 1; transform: scaleY(1.12); }
 .ticks:empty::before { content: "No recent runs"; font-size: 12.5px; font-style: italic; color: var(--faint); align-self: center; }
 
-/* ============================================================== map card: a big interactive map with its controls
-   (added Nov 18, 2026, mock-up approved that day; first written for the Asteroid Tracker's solar system map and Orbit
-   Watch's globe). .mapcard (a panel) > .maplayout > .mapmain (the .mapframe and its .mapbar rows) and aside.mapside
-   (.selcard, .legendbox). Overlays inside the frame: .ovl plus .ovl-date, .ovl-find (.findbox, .findlist), .ovl-zoom
-   and .ovl-pad (.mbtn buttons), .ovl-scale, .ovl-hint. .mapframe.space: a near-black frame for a globe in space.
-   The map itself (canvas or SVG) and its dots and keys stay in the project's style sheet. */
-.mapcard { padding: var(--sp4); }
-.maplayout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: var(--sp5); align-items: start; }
+/* ============================================================== map card: every map, globe and sky chart
+   (version 2, Nov 20, 2026: bigger, wider than the text column, and the same layout and controls on every map; version
+   1 of Nov 18, 2026 was written for the Asteroid Tracker's solar system map and Orbit Watch's globe)
+   section.panel.mapcard > .maplayout > .mapmain (the .mapframe, then .mapbar rows, a .mapkey and a .caption) and
+   aside.mapside (.ctl boxes, .selcard, .legendbox). In the frame: the map (canvas, SVG or a map library's element,
+   class .mapsurface or any element filling it) and overlays: .ovl-title or .ovl-date (top left), .ovl-find (top
+   right), .ovl-scale (bottom left), and the controls added by shared/mapframe.js: .ovl-zoom (bottom right: + − reset
+   full screen), .ovl-pad (the arrows, left of it) and .ovl-hint. .mapframe.space: a near-black frame for space.
+   The map's own drawing (dots, keys, labels) stays in the project's style sheet. */
+.mapcard { --maph: clamp(520px, calc(100vh - 170px), 1040px); --maph: clamp(520px, calc(100svh - 170px), 1040px);
+  position: relative; width: min(calc(100vw - 48px), 1760px); margin-left: calc(50% - min(50vw - 24px, 880px)); padding: var(--sp4); }
+.maplayout { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: var(--sp4); align-items: start; }
+/* a map card with a panel head (a title bar): the head and the body keep the panel's own padding */
+.mapcard:has(> .ph) { padding: 0; }
 .mapmain, .mapside { min-width: 0; }
 .mapframe { scroll-margin-top: 72px; position: relative; background: var(--deep); border: 1px solid var(--line); border-radius: var(--r-sm);
-  overflow: hidden; height: min(74vh, 760px); min-height: 380px; }
+  overflow: hidden; height: var(--maph, min(74vh, 760px)); min-height: 360px; touch-action: none; }
+.mapframe > .mapsurface, .mapframe > canvas:first-child, .mapframe > svg:first-child { position: absolute; inset: 0; width: 100%; height: 100%; }
 .mapframe.space, .mapframe.space .loading { background: #05080D; }
-.mapframe:fullscreen { height: 100vh; border-radius: 0; }
-.mapframe.pseudo-full { position: fixed; inset: 0; z-index: 100; height: 100vh; height: 100dvh; border-radius: 0; }
+.mapframe:fullscreen { height: 100vh; border-radius: 0; border: 0; }
+.mapframe.pseudo-full { position: fixed; inset: 0; z-index: 100; height: 100vh; height: 100dvh; border-radius: 0; border: 0; }
 body.noscroll { overflow: hidden; }
 .mapframe:focus-visible { outline: none; box-shadow: inset 0 0 0 2px var(--brass); }
 .mapframe .loading { position: absolute; inset: 0; z-index: 3; display: flex; align-items: center; justify-content: center; flex-direction: column;
   padding: var(--sp5); text-align: center; background: var(--deep); }
 /* overlays */
 .ovl { position: absolute; pointer-events: none; z-index: 2; }
-.ovl-date { left: 14px; top: 10px; display: flex; flex-direction: column; gap: 1px; }
-.ovl-date strong { font-weight: 400; font-size: 20px; color: var(--ink); paint-order: stroke; }
-.ovl-date .note { font-size: 12.5px; font-variant-numeric: lining-nums tabular-nums; }
-.mbtn { width: 38px; height: 38px; border-radius: var(--r-sm); border: 1px solid var(--line2); background: rgba(12, 17, 25, .9); color: var(--ink);
-  font: 18px var(--font); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 0; }
+.ovl-date, .ovl-title { left: 14px; top: 12px; display: flex; flex-direction: column; gap: 2px; max-width: calc(100% - 360px); padding: 8px 12px;
+  background: rgba(12, 17, 25, .82); border: 1px solid var(--line); border-radius: var(--r-sm); }
+.ovl-date strong, .ovl-title strong { font-weight: 400; font-size: 19px; line-height: 1.25; color: var(--ink); }
+.ovl-date .note, .ovl-title .note { margin: 0; font-size: 12.5px; font-variant-numeric: lining-nums tabular-nums; }
+.ovl-title a, .ovl-title button { pointer-events: auto; }
+.mbtn { width: 40px; height: 40px; border-radius: var(--r-sm); border: 1px solid var(--line2); background: rgba(12, 17, 25, .92); color: var(--ink);
+  font: 19px/1 var(--font); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 0; }
 .mbtn.wide { width: auto; padding: 0 var(--sp3); font-size: 12px; text-transform: uppercase; letter-spacing: .18em; }
-.mbtn:hover { border-color: var(--brass); color: var(--brass); }
+.mbtn:hover, .mbtn:focus-visible { border-color: var(--brass); color: var(--brass); }
 .mbtn[aria-pressed="true"] { border-color: var(--brass); color: var(--brass-bright); background: rgba(192, 160, 98, .16); }
+.mbtn[hidden] { display: none; }
 .ovl-zoom { right: 12px; bottom: 12px; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; pointer-events: auto; }
 /* the arrow pad: a cross of four .mbtn to the left of the zoom buttons */
-.ovl-pad { right: 58px; bottom: 12px; display: grid; grid-template-columns: repeat(3, 38px); grid-template-rows: repeat(3, 38px); gap: 4px; pointer-events: auto; }
+.ovl-pad { right: 62px; bottom: 12px; display: grid; grid-template-columns: repeat(3, 36px); grid-template-rows: repeat(3, 36px); gap: 3px; pointer-events: auto; }
+.ovl-pad .mbtn { width: 36px; height: 36px; }
 .ovl-pad .pad-up { grid-area: 1 / 2; } .ovl-pad .pad-left { grid-area: 2 / 1; }
 .ovl-pad .pad-right { grid-area: 2 / 3; } .ovl-pad .pad-down { grid-area: 3 / 2; }
 .pad-left svg { transform: rotate(-90deg); } .pad-right svg { transform: rotate(90deg); } .pad-down svg { transform: rotate(180deg); }
-.ovl-find { right: 12px; top: 12px; width: min(280px, 46%); pointer-events: auto; }
-.findbox input { width: 100%; min-height: 38px; font-size: 15px; background: rgba(12, 17, 25, .9); }
-.findlist { list-style: none; margin: 4px 0 0; padding: 4px 0; background: var(--bg2); border: 1px solid var(--brass-dim); border-radius: var(--r-sm); max-height: 300px; overflow: auto; }
+.ovl-find { right: 12px; top: 12px; width: min(320px, 44%); pointer-events: auto; }
+.ovl-find input[type="search"], .findbox input { width: 100%; min-height: 40px; font-size: 15px; background: rgba(12, 17, 25, .94); }
+.ovl-find .bigsearch { background: rgba(12, 17, 25, .94); }
+.findlist, .ovl-find [role="listbox"] { list-style: none; margin: 4px 0 0; padding: 4px 0; background: var(--bg2); border: 1px solid var(--brass-dim);
+  border-radius: var(--r-sm); max-height: min(320px, calc(var(--maph, 600px) - 120px)); overflow: auto; }
 .findlist li { padding: var(--sp2) var(--sp3); font-size: 14.5px; cursor: pointer; display: flex; justify-content: space-between; gap: var(--sp2); align-items: center; }
 .findlist li small { margin-left: auto; color: var(--muted); }
 .findlist li:hover, .findlist li[aria-selected="true"] { background: rgba(192, 160, 98, .1); color: var(--brass-bright); }
 .findlist li.none { color: var(--muted); font-style: italic; cursor: default; }
 .ovl-scale { left: 14px; bottom: 12px; display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--ink2); }
 .ovl-scale i { display: block; height: 6px; border: 1.5px solid var(--ink2); border-top: 0; }
-/* the hint: at the bottom left, above the scale bar when the map has one */
-.ovl-hint { left: 14px; bottom: 14px; max-width: calc(100% - 100px); font-size: 13px; font-style: italic; color: var(--muted);
-  background: rgba(12, 17, 25, .85); padding: 4px 12px; border-radius: var(--r-sm); transition: opacity .6s; }
-.mapframe:has(.ovl-scale) .ovl-hint { bottom: 50px; }
+/* the hint: bottom left, above the scale bar when the map has one, clear of the controls on the right */
+.ovl-hint { left: 14px; bottom: 14px; max-width: calc(100% - 220px); font-size: 13px; font-style: italic; color: var(--muted);
+  background: rgba(12, 17, 25, .88); padding: 5px 12px; border-radius: var(--r-sm); transition: opacity .6s; }
+.mapframe:has(.ovl-scale) .ovl-hint, .mapframe:has(.ol-scale-line) .ovl-hint { bottom: 50px; }
 .ovl-hint.gone { opacity: 0; }
+/* a map library's own scale bar and attribution, in the site's colours, at the bottom left */
+.mapframe .ol-scale-line { left: 14px; bottom: 12px; background: rgba(12, 17, 25, .85); border-radius: var(--r-sm); padding: 3px 6px; }
+.mapframe .ol-scale-line-inner { border-color: var(--ink2); color: var(--ink2); font: 11.5px var(--font); }
+.mapframe .ol-zoom { display: none; }
 /* the rows of controls under the map */
 .mapbar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp3) var(--sp4); margin-top: var(--sp3); }
+.mapbar > .grow { flex: 1; }
 .mapbar.famous { padding-top: var(--sp3); border-top: 1px solid var(--line); }
-.mapbar.famous > .barlbl { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
-/* the column beside the map */
-.mapside { display: flex; flex-direction: column; gap: var(--sp4); }
-.selcard, .legendbox { padding: var(--sp4) var(--sp5); }
+.mapbar .barlbl, .mapbar.famous > .barlbl { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+.mapkey { display: flex; flex-wrap: wrap; gap: var(--sp2) var(--sp4); margin-top: var(--sp3); font-size: 13px; color: var(--ink2); }
+.mapkey > span { display: inline-flex; align-items: center; gap: 6px; }
+.mapmain > .caption { margin-top: var(--sp3); overflow-wrap: anywhere; }   /* long layer names wrap on small phones */
+.mapmain > .periodbar { margin: var(--sp3) 0 0; }
+/* the column beside the map: as tall as the map, scrolling inside when it holds more */
+.mapside { display: flex; flex-direction: column; gap: var(--sp3); }
+.mapside > .ctl, .selcard, .legendbox { padding: var(--sp4); }
 .selcard h3 { font-size: 19px; margin: 6px 0 4px; overflow-wrap: anywhere; }
 .mapside .label { font-size: 11px; text-transform: uppercase; letter-spacing: .22em; color: var(--brass); }
 .selcard .dlinks { margin-top: var(--sp3); display: flex; flex-wrap: wrap; gap: var(--sp2); }
 .selcard .btn { min-height: 40px; padding: 0 var(--sp4); font-size: 11.5px; }
 .legendbox .note { margin: var(--sp2) 0 0; }
-@media (max-width: 1100px) { .maplayout { grid-template-columns: minmax(0, 1fr); } }
+/* what sits in the side column is laid out for its width: one column, buttons that wrap their words */
+.mapside .split, .mapside .grid2 { grid-template-columns: minmax(0, 1fr); gap: var(--sp3); }
+.mapside .btn { height: auto; min-height: 40px; padding-block: 8px; line-height: 1.3; white-space: normal; text-align: center; }
+.mapside > .panel > .ph, .mapside > .panel > .pb { padding-left: var(--sp4); padding-right: var(--sp4); }
+@media (min-width: 1101px) {
+  /* the side column is as tall as the map with its rows of controls (it adds no height of its own: contain size), and
+     scrolls only when it holds more (Nov 20, 2026; it was cut at the frame's height while the column beside it ran on) */
+  .maplayout { align-items: stretch; }
+  .mapside { contain: size; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: var(--line2) transparent; padding-right: 2px; }
+  .mapside[data-more~="below"] { -webkit-mask-image: linear-gradient(#000 calc(100% - 48px), transparent); mask-image: linear-gradient(#000 calc(100% - 48px), transparent); }
+  .mapside[data-more~="above"] { -webkit-mask-image: linear-gradient(transparent, #000 48px); mask-image: linear-gradient(transparent, #000 48px); }
+  .mapside[data-more="above below"] { -webkit-mask-image: linear-gradient(transparent, #000 48px, #000 calc(100% - 48px), transparent); mask-image: linear-gradient(transparent, #000 48px, #000 calc(100% - 48px), transparent); }
+}
+@media (max-width: 1100px) {
+  .maplayout { grid-template-columns: minmax(0, 1fr); }
+  .mapside { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); align-items: start; }
+}
 @media (max-width: 760px) {
-  .mapcard { padding: 10px; }
-  .mapframe { height: 72vh; min-height: 340px; }
-  .ovl-find { left: 10px; right: 10px; top: 76px; width: auto; }
-  .mapframe .ovl-date { position: absolute; padding: 0; }
-  .mapframe .ovl-date strong { font-size: 15px; }
-  .ovl-hint { display: none; }
-  .mbtn { width: 40px; height: 40px; }
-  .findbox input { min-height: 40px; }
-  .ovl-pad { grid-template-columns: repeat(3, 40px); grid-template-rows: repeat(3, 40px); right: 60px; }
+  .mapcard { --maph: 74vh; --maph: 74svh; width: calc(100vw - 16px); margin-left: calc(50% - 50vw + 8px); padding: 8px; }
+  .mapframe { min-height: 360px; }
+  .ovl-find { left: 10px; right: 10px; top: 10px; width: auto; }
+  .ovl-date, .ovl-title { max-width: calc(100% - 20px); padding: 6px 10px; }
+  .mapframe:has(.ovl-find) .ovl-date, .mapframe:has(.ovl-find) .ovl-title { top: 60px; }
+  .ovl-date strong, .ovl-title strong { font-size: 15px; }
+  .ovl-hint, .ovl-pad { display: none; }
+  .mapside { grid-template-columns: minmax(0, 1fr); }
   .mapbar { gap: var(--sp2); }
   .mapbar .seg { width: 100%; }
   .mapbar .seg > .chip { flex: 1 0 auto; justify-content: center; padding: 0 10px; font-size: 13.5px; }
   .mapbar .speed { width: 100%; justify-content: space-between; }
   .mapbar .speed select, .mapbar .speed input { flex: 1; min-width: 0; max-width: 64%; }
 }
-@media (max-width: 360px) { .ovl-pad { grid-template-columns: repeat(3, 32px); grid-template-rows: repeat(3, 32px); right: 56px; } .ovl-pad .mbtn { width: 32px; height: 32px; } }
 
 /* ============================================================== phones: every tap target at least 40 px tall */
 @media (max-width: 760px) {

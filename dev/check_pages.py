@@ -21,6 +21,14 @@
 #   staleview  the footer still marks the old view after a switch of view inside the page
 #   jumplink   a link of an "On this page" bar (nav[data-spy]) whose section is missing, or that leaves the page
 #   layout-shift  the page jumps as it loads (more than CLS_MAX)     weight  more loaded on arrival than the budget
+#   (Nov 20, 2026, from the site-wide formatting review)
+#   cramped    text closer than 8 px to the side of its box, or 3 px to its top or bottom
+#   squeezed   six or more words held in a column under eight letters wide
+#   map        a map outside a map card, or a map frame under 60 % of the window's height (50 % on a phone)
+#   longlist   a table of more than 15 rows taller than 900 px that is not in a scroll box (.scrollbox)
+#   segcut     on a computer (1024 px and wider), a row of up to five choices (.seg) cut off and scrolling sideways
+#   msgnarrow  a message in a grid of cards held in one column instead of across the grid
+#   srcopen    a credit line (p.srcline) left open instead of folded into "Credits" (the GIBS acknowledgement stays open)
 # Requests to other sites are blocked, so every page is also seen in its "NASA out of reach" state; with
 # FAILDATA=404 the site's own data files fail too. Screenshots of every page land in the output folder.
 #
@@ -101,6 +109,7 @@ JS = r"""
   const desc = (e) => { let s = e.tagName.toLowerCase(); if (e.id) s += '#' + e.id; if (e.className && typeof e.className === 'string') s += '.' + e.className.trim().split(/\s+/).slice(0,2).join('.');
     const t = (e.innerText || e.getAttribute('aria-label') || e.value || '').trim().replace(/\s+/g,' ').slice(0, 50); return s + (t ? ' "' + t + '"' : ''); };
   const W = innerWidth;
+  const phone = W <= 760;
   // text leaves: elements with their own non-empty text nodes
   // text inside a scroll box that is scrolled out of view, and screen-reader-only text (.sr), is not seen on screen
   const scrolledAway = (e) => { const r = e.getBoundingClientRect(); for (let a = e.parentElement; a && a !== document.body; a = a.parentElement) {
@@ -134,9 +143,15 @@ JS = r"""
   const boxes = [];
   // text in a bar held on screen while the page scrolls (sticky or fixed) passes over the page by design
   const held = (e) => { for (let a = e; a && a !== document.body; a = a.parentElement) if (/sticky|fixed/.test(getComputedStyle(a).position)) return true; return false; };
+  // the part of a text shown through its scroll boxes (a row half scrolled out of a .scrollbox is cut at the box's edge)
+  const clipTo = (e, r) => { let L = r.left, R = r.right, T = r.top, B = r.bottom;
+    for (let a = e.parentElement; a && a !== document.body; a = a.parentElement) { const cs = getComputedStyle(a);
+      if (/auto|scroll|hidden/.test(cs.overflowX + cs.overflowY)) { const ar = a.getBoundingClientRect();
+        L = Math.max(L, ar.left); R = Math.min(R, ar.right); T = Math.max(T, ar.top); B = Math.min(B, ar.bottom); } }
+    return R > L && B > T ? { left: L, right: R, top: T, bottom: B, width: R - L, height: B - T } : null; };
   for (const e of leaves.filter(e => !e.closest('svg,canvas,.ol-viewport,.tip,[role=tooltip]') && !held(e))) {
     for (const n of e.childNodes) if (n.nodeType === 3 && n.textContent.trim()) { const rg = document.createRange(); rg.selectNodeContents(n);
-      for (const r of rg.getClientRects()) if (r.width > 2 && r.height > 2) boxes.push([e, r]); }
+      for (const r0 of rg.getClientRects()) { const r = clipTo(e, r0); if (r && r.width > 2 && r.height > 2) boxes.push([e, r]); } }
   }
   // clipped-away text inside a scroll container isn't visible; keep only boxes inside the viewport of their scroll parent
   for (let i = 0; i < boxes.length; i++) for (let j = i + 1; j < boxes.length; j++) {
@@ -150,8 +165,7 @@ JS = r"""
       if (out.overlap.length > 25) break;
     }
   }
-  const phone = W <= 760;
-  for (const e of document.querySelectorAll('a[href],button,input:not([type=hidden]),select,summary,[role=button],[role=tab],textarea')) {
+    for (const e of document.querySelectorAll('a[href],button,input:not([type=hidden]),select,summary,[role=button],[role=tab],textarea')) {
     if (!vis(e)) continue;
     const r = e.getBoundingClientRect();
     const inline = e.tagName === 'A' && getComputedStyle(e).display === 'inline' && e.closest('p,li,td,dd,.note,.lede,.srcline,.fnote,figcaption');
@@ -198,6 +212,63 @@ JS = r"""
     if (!vis(im) || !im.complete || im.naturalWidth || !im.currentSrc) continue;
     const fig = im.closest('figure');
     (out.brokenimg = out.brokenimg || []).push(desc(im).slice(0, 50) + (fig ? ' in ' + desc(fig).slice(0, 40) : '')); }
+  // (Nov 20, 2026, from the site-wide formatting review) text pressed against the edge of its box: the nearest box
+  // with a border or a background of its own leaves at least 8 px beside the text, and 4 px above and below it
+  const boxOf = (e) => { for (let a = e; a && a !== document.body; a = a.parentElement) { const cs = getComputedStyle(a);
+      if (a.matches('main, header, footer, nav, section:not(.panel):not(.card):not(.ctl), .page, .wrap, td, th, tr, table, tbody, thead')) { if (a.matches('td, th, tr, table')) return null; continue; }
+      const bw = parseFloat(cs.borderLeftWidth) + parseFloat(cs.borderRightWidth);
+      const bg = cs.backgroundColor !== 'rgba(0, 0, 0, 0)' && cs.backgroundColor !== 'transparent';
+      if ((bw > 0 && parseFloat(cs.borderTopWidth) > 0) || (bg && parseFloat(cs.borderRadius) > 0)) return a; } return null; };
+  for (const e of leaves) {
+    if (e.closest('svg, canvas, .ol-viewport, input, select, textarea, .tag, .badge, .pill, .newdot, kbd, .sr, .tip, [role=tooltip], .maptag, .ovl-hint, .skel, .footer')) continue;
+    const box = boxOf(e); if (!box || box.matches('.btn, .chip, button, .seg button, .tabs a, .tabs button, summary, kbd, .tag, .badge, .pill, input, select, .ovl-pad, .skel')) continue;
+    const cs = getComputedStyle(box), br = box.getBoundingClientRect();
+    if (/auto|scroll/.test(cs.overflowX + cs.overflowY) || box.matches('.seg, .chips, .popular')) continue;   // a scrolling row or list: its edges cut the text on purpose
+    const rg = document.createRange(); rg.selectNodeContents(e); const tr = rg.getBoundingClientRect();
+    if (tr.width < 2 || tr.height < 2) continue;
+    const L = tr.left - (br.left + parseFloat(cs.borderLeftWidth)), R = (br.right - parseFloat(cs.borderRightWidth)) - tr.right;
+    const T = tr.top - (br.top + parseFloat(cs.borderTopWidth)), B = (br.bottom - parseFloat(cs.borderBottomWidth)) - tr.bottom;
+    // a side without a border counts only when the box has a background of its own (a stat strip's open sides do not)
+    const filled = cs.backgroundColor !== 'rgba(0, 0, 0, 0)' && cs.backgroundColor !== 'transparent';
+    const has = (side) => filled || parseFloat(cs['border' + side + 'Width']) > 0;
+    // text inside a list that scrolls within the box is cut by the list, not pressed against the box
+    let inner = false; for (let a = e.parentElement; a && a !== box; a = a.parentElement) if (/auto|scroll/.test(getComputedStyle(a).overflowY)) { inner = true; break; }
+    if (inner) continue;
+    if ((has('Left') && L < 8) || (has('Right') && R < 8) || (has('Top') && T < 3) || (has('Bottom') && B < 3)) (out.cramped = out.cramped || []).push(desc(e).slice(0, 55) + ' in ' + desc(box).slice(0, 40) + ` (gaps ${Math.round(L)}/${Math.round(R)}/${Math.round(T)}/${Math.round(B)})`);
+  }
+  // (Nov 20, 2026) squeezed text: a paragraph of several words held in a column under eight letters wide
+  for (const e of leaves) {
+    if (e.closest('svg, table, .tag, .chip, .btn, button, nav, .footer, .ovl-pad')) continue;
+    const words = e.textContent.trim().split(/\s+/).length, fs = parseFloat(getComputedStyle(e).fontSize), r = e.getBoundingClientRect();
+    if (words >= 6 && r.width < fs * 8 && r.height > fs * 4) (out.squeezed = out.squeezed || []).push(desc(e).slice(0, 60) + ` (${Math.round(r.width)} px wide)`);
+  }
+  // (Nov 20, 2026) maps: every map is a map card (docs/DESIGN.md, "Map card"), and its frame is big: at least 60 % of the
+  // window's height on a computer and 50 % on a phone
+  for (const m of document.querySelectorAll('.ol-viewport, .mapframe')) {
+    if (!vis(m)) continue;
+    if (!m.closest('.mapcard')) { (out.map = out.map || []).push(desc(m).slice(0, 50) + ' is not inside a map card'); continue; }
+    if (!m.matches('.mapframe')) continue;
+    const h = m.getBoundingClientRect().height, need = innerHeight * (phone ? .5 : .6);
+    if (h < need - 1 && !document.fullscreenElement) (out.map = out.map || []).push(desc(m).slice(0, 50) + ` is ${Math.round(h)} px tall (needs ${Math.round(need)})`);
+  }
+  // (Nov 20, 2026) long lists of rows scroll inside a box (.scrollbox) instead of running down the whole page
+  for (const t of document.querySelectorAll('main table:not(.credits)')) {
+    if (!vis(t) || t.closest('.scrollbox, details:not([open])')) continue;
+    const n = t.querySelectorAll(':scope > tbody > tr').length, h = t.getBoundingClientRect().height;
+    if (n > 15 && h > 900) (out.longlist = out.longlist || []).push(desc(t).slice(0, 50) + ` (${n} rows, ${Math.round(h)} px)`);
+  }
+  // (Nov 20, 2026) on a computer a set of up to five choices is shown whole, never cut off in a sideways scroll
+  if (W >= 1024) for (const g of document.querySelectorAll('main .seg')) {
+    if (!vis(g) || g.querySelectorAll('button, a').length > 5) continue;
+    if (g.scrollWidth > g.clientWidth + 2) (out.segcut = out.segcut || []).push(desc(g).slice(0, 60) + ` (${g.scrollWidth} px in ${g.clientWidth})`); }
+  // (Nov 20, 2026) a message (no results, loading, could not load) in a grid of cards spans the grid, never one column
+  for (const m of document.querySelectorAll('main :is(.state, .notice, .empty)')) {
+    const g = m.parentElement; if (!vis(m) || !g || getComputedStyle(g).display !== 'grid') continue;
+    if (getComputedStyle(g).gridTemplateColumns.split(' ').length > 1 && m.getBoundingClientRect().width < g.getBoundingClientRect().width * .6)
+      (out.msgnarrow = out.msgnarrow || []).push(desc(m).slice(0, 60)); }
+  // (Nov 20, 2026) the detailed credit lines fold into "Credits" (shared/footer.js); the GIBS acknowledgement stays open
+  for (const p of document.querySelectorAll('main p.srcline')) if (vis(p) && !p.closest('details') && !/Global Imagery Browse Services/.test(p.textContent))
+    (out.srcopen = out.srcopen || []).push(desc(p).slice(0, 60));
   // page weight and layout shift (measured by the page check's start-up script)
   const res = performance.getEntriesByType('resource').concat(performance.getEntriesByType('navigation'));
   out.kb = Math.round(res.reduce((t, r) => t + (r.encodedBodySize || r.transferSize || 0), 0) / 1024);
@@ -305,7 +376,8 @@ async def run(outdir, widths, only):
     for k, r in report.items():
         issues = {x: r.get(x) for x in ('clip', 'svgclip', 'nofade', 'offscreen', 'overlap', 'tap', 'tiny', 'noname', 'noalt',
                                         'dupid', 'nolabel', 'errors', 'bad') if r.get(x)}
-        for x in ('headings', 'nolabelcell', 'plainlink', 'scrolled', 'aria', 'staleview', 'brokenimg', 'jumplink'):
+        for x in ('headings', 'nolabelcell', 'plainlink', 'scrolled', 'aria', 'staleview', 'brokenimg', 'jumplink', 'cramped',
+                  'squeezed', 'map', 'longlist', 'srcopen', 'segcut', 'msgnarrow'):
             if r.get(x):
                 issues[x] = r[x]
         if r.get('cls', 0) > CLS_MAX:

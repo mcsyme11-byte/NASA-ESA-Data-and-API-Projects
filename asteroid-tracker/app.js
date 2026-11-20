@@ -18,7 +18,7 @@ import { neowsId } from './search.js';
 import { placeKeeper, scrollBack } from './back.js';
 import { takeShared, linkWith, shareButton } from './share.js';
 import { weekCopy, forgetCopy } from './neows.js';
-import { reloadPage } from '../shared/reload.js?v=2026111907';
+import { reloadPage } from '../shared/reload.js?v=2026111908';
 import { mountRisk, chanceText } from './risk.js';
 import { mountVisible } from './visible.js';
 import { esaApproach, riskOf } from './esa.js';

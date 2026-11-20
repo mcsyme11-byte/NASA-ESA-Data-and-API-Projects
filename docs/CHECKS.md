@@ -195,3 +195,42 @@ enforces the ones marked (auto).
     motion (sections that rise into view are otherwise empty in the screenshots).
 19. Whatever marks the current page or view (the footer, a tab bar) follows a switch of view inside the page, not only
     the address the page was opened at (auto: the page check switches views and compares the footer's mark).
+
+## Rules learned from the formatting review of Nov 20, 2026
+
+The developer asked for every map to be much bigger with the same controls everywhere, for the credits and long lists
+to take less room, and for a site-wide check of crowded and squeezed text. Each finding below is fixed and is now a
+rule; the page check enforces the ones marked (auto).
+
+**Maps**
+1. Every map, globe and sky chart is a map card (`docs/DESIGN.md`, "Map card", version 2) and gets its controls only
+   from `shared/mapframe.js`: + − ⟲ ⛶, the arrow pad, the keys and the hint, in the same places on every map. A map
+   never draws buttons of its own beside them; its own buttons go in `extra` (auto: a map outside a map card).
+2. The map frame is at least 60 % of the window's height on a computer and 50 % on a phone (auto). (The maps were
+   about a quarter of the screen.)
+3. The column beside a map is as tall as the map with its rows of controls and scrolls only when it holds more; its
+   edges fade where there is more to scroll. Text never ends cut off at an edge with nothing to say that more follows.
+4. Text over a map (a date, a title, a tag) moves under the find box on a phone and takes the map's full width; a
+   width worked out for a computer (such as `100% − 380px`) never reaches a phone (auto: squeezed). (The Image
+   Explorer's tag was 22 px wide on a phone.)
+
+**Long lists and credits**
+5. A list of more than about fifteen rows scrolls inside a `.scrollbox`, with its "Show more" button under the box
+   (auto: a table of more than 15 rows taller than 900 px outside one).
+6. A page's detailed credits are written as `p.srcline` lines and fold into "Credits" by themselves; nothing restyles
+   or unfolds them. The GIBS acknowledgement stays open, and the footer's "Data courtesy of NASA and ESA" line stays
+   on every page (auto: srcopen).
+
+**Spacing**
+7. Text keeps at least 8 px from the sides of its box and 3 px from its top and bottom (auto: cramped). A mark that
+   shows the chosen row sits on the edge of the row, not against the text. (The chosen close approach's brass line
+   touched its date on phones.)
+8. A heading and the words under it are never pressed together: a heading changed by a script keeps the spacing of
+   the one written in the page. (The aurora verdict sat on its paragraph.)
+9. On a computer (1024 px and wider) a row of up to five choices (`.seg`) shows whole, never cut off in a sideways
+   scroll; the column that holds it is made wide enough (auto: segcut). (Orbit Watch's collision examples were cut
+   off at "1 cm pie".)
+10. A message in a grid of cards (no results yet, loading, could not load) spans the whole grid (auto: msgnarrow).
+    (The tracker's search hint sat squeezed in the first column.)
+11. A card's "Open" link stays at the right of its foot when the badges take a line of their own.
+12. Six or more words never sit in a column under eight letters wide (auto: squeezed).

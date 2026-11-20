@@ -18,8 +18,8 @@
   <link rel="manifest" href="site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="shared/theme.css?v=2026111907">
-  <script type="module" src="shared/footer.js?v=2026111907"></script>
+  <link rel="stylesheet" href="shared/theme.css?v=2026111908">
+  <script type="module" src="shared/footer.js?v=2026111908"></script>
 </head>
 <body>
   <svg class="starfield" id="stars" aria-hidden="true"></svg>
@@ -97,7 +97,7 @@
   <script type="module">
     // "Search the site" opens the site search (shared/search.js, through shared/footer.js), with the words of the
     // missing address already typed in
-    import { openSearch } from './shared/footer.js?v=2026111907';
+    import { openSearch } from './shared/footer.js?v=2026111908';
     const words = decodeURIComponent(location.pathname.split('/').filter(Boolean).pop() || '').replace(/\.html?$/, '').replace(/[-_]+/g, ' ');
     document.getElementById('find').addEventListener('click', () => openSearch(/NASA ESA Data and API Projects/i.test(words) ? '' : words));
   </script>

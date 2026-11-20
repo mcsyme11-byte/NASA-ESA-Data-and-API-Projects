@@ -82,7 +82,9 @@ export class OrbitView {
     const svg = this.svg, jd = this.jd;
     if (jd === null) return;
     const W = Math.max(280, Math.round(svg.parentElement.clientWidth || 600));
-    const H = W < 640 ? Math.round(W * 1.0) : Math.round(Math.min(W * 0.62, 640));
+    // in a map card (Nov 20, 2026) the diagram fills its frame; elsewhere its height follows its width
+    const fill = svg.parentElement.classList.contains('mapframe');
+    const H = fill ? Math.max(260, Math.round(svg.parentElement.clientHeight || W)) : W < 640 ? Math.round(W * 1.0) : Math.round(Math.min(W * 0.62, 640));
     svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
     svg.innerHTML = '';
     this.W = W; this.H = H; this.boxes = [];
@@ -93,7 +95,14 @@ export class OrbitView {
     this.s = (Math.min(W, H) / 2 - 18) / R;
     const vb = this.slanted;   // tilted: draw the plane of Earth's orbit for depth
     if (W >= 640) this.boxes.push([0, 0, 190, 84]);
-    this.boxes.push([0, H - 40, 260, H], [W - 130, H - 30, W, H]);
+    // the corners kept clear: the scale (bottom left), "seen from" (bottom right) and, in a map card, the controls
+    // the map card's buttons fill the bottom right: about 180 px wide with the arrow pad, one 56 px column on phones
+    // (the pad is hidden there), so a narrow diagram keeps its labels clear of them (Nov 20, 2026)
+    const narrow = W < 640, rx = fill ? W - (narrow ? 64 : 190) : W;
+    this.right = rx;
+    this.narrow = narrow;
+    this.boxes.push([0, H - (narrow ? 58 : 40), 260, H], [rx - 130, H - 30, rx, H]);
+    if (fill) this.boxes.push(narrow ? [W - 64, H - 250, W, H] : [W - 190, H - 200, W, H]);
 
     const defs = el('defs', {}, svg);
     const glow = el('radialGradient', { id: 'sunglow' }, defs);
@@ -116,7 +125,9 @@ export class OrbitView {
     const ulabel = this.nearEarth ? (nLd === 1 ? '1 Moon distance (384,400 km)' : `${nLd} Moon distances`) : `${unit} au = ${(unit * 149.6).toLocaleString('en-CA', { maximumFractionDigits: 1 })} million km`;
     const t = el('text', { x: bx, y: by - 8, fill: C.ink2, 'font-size': 11 }, svg); t.textContent = ulabel;
     if (!this.slanted && !this.nearEarth) {
-      const v = el('text', { x: W - 14, y: H - 14, 'text-anchor': 'end', fill: C.muted, 'font-size': 11, 'font-style': 'italic' }, svg);
+      // on a narrow diagram "seen from above" sits over the scale, at the left, clear of the buttons
+      const v = el('text', this.narrow ? { x: bx, y: H - 44, fill: C.muted, 'font-size': 11, 'font-style': 'italic' }
+        : { x: this.right - 14, y: H - 14, 'text-anchor': 'end', fill: C.muted, 'font-size': 11, 'font-style': 'italic' }, svg);
       v.textContent = Math.abs(this.tilt) < 90 ? 'seen from above' : 'seen from below';
     }
     svg.setAttribute('aria-label', `Orbit diagram on ${new Date((jd - 2440587.5) * 86400000).toISOString().slice(0, 10)}: the Sun, ${this.planets.join(', ')} and ${this.name}, ` +
@@ -234,7 +245,7 @@ export class OrbitView {
       if (this.boxes.some((q) => bx[0] < q[2] && bx[2] > q[0] && bx[1] < q[3] && bx[3] > q[1])) continue;
       at = [m.ax + dx, m.ay + dy]; this.boxes.push(bx); break;
     }
-    if (!at) at = [this.W - w - 14, this.H - 34 - h];          // no room beside the ring: the clear bottom-right corner
+    if (!at) at = [Math.max(6, (this.right || this.W) - w - 14), this.H - (this.narrow ? 62 : 34) - h];   // no room beside the ring: the clearest corner
     const t = el('text', { x: at[0], y: at[1] + 11, fill: C.bright, 'font-size': 12 }, g); t.textContent = head;
     if (sub) { const u = el('text', { x: at[0], y: at[1] + 25, fill: C.ink2, 'font-size': 11 }, g); u.textContent = sub; }
   }

@@ -2,14 +2,18 @@
 
 # Roadmap
 
-What's next, as of November 19, 2026. Every pending to-do lives here; items are done at the developer's own pace.
+What's next, as of November 20, 2026. Every pending to-do lives here; items are done at the developer's own pace.
 Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
 
 ## 0. Repository (set up Nov 8, 2026)
 
-- [ ] Developer testing of the site tools of Nov 19, 2026: the 14 cases of the site tools test plan
+- [ ] Developer testing of the site tools of Nov 19, 2026: the computer cases (D1 to D10) passed on Nov 20, 2026;
+  the phone cases (M1 to M3) and the outdoor case (F1) of the site tools test plan remain
   (`docs/documents/2026-11-20 - Site tools test plan.pdf`; the live doc is linked in `docs/documents/README.md`), with
   results recorded in the doc and any failed case sent to the General/Files/Repo chat.
+- [ ] Developer testing of the maps, credits and lists of Nov 20, 2026, on a phone and a computer: each of the eight
+  maps (size, + − ⟲, full screen and back, the arrows, dragging, the side column), a "Credits" box opening, and the
+  tracker's risk list scrolling inside its box.
 
 ## 1. Asteroid Tracker (version 1 live Nov 8, 2026)
 

@@ -13,6 +13,7 @@
 /* the aurora column: the facts under the verdict */
 .split > div > .caption + .facts { margin-top: var(--sp5); }
 .split .ctl + h3 { margin-top: var(--sp5); }
+.split .ctl + h3 + p { margin-top: var(--sp2); }   /* the verdict and its words were pressed together (Nov 20, 2026) */
 .ctl .actions + .bigsearch { margin-top: var(--sp3); }
 .ctl .searchopts { margin-top: var(--sp2); }
 

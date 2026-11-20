@@ -11,7 +11,7 @@
  *   globe.go(lat, lon, near)         turn to a place (near: come close)
  *   globe.run(on)                    start or stop drawing (stopped while another view is shown)
  */
-import { vec, createGlobe, bodyTexture, closeUp, reduceMotion } from '../shared/globe.js?v=2026111907';
+import { vec, createGlobe, bodyTexture, closeUp, reduceMotion } from '../shared/globe.js?v=2026111908';
 
 const TREK = 'https://trek.nasa.gov/tiles/';
 const BRIGHT = '#E2C88E', INK = '#EDE6D3', BRASS = '#C0A062';
@@ -111,8 +111,8 @@ export async function start({ frame, host, over, onPick }) {
   frame.addEventListener('keydown', e => {
     if (!running || e.altKey || e.ctrlKey || e.metaKey) return;
     if (e.key.startsWith('Arrow')) { g.controls.autoRotate = false; g.turn(e.key); e.preventDefault(); }
-    else if (e.key === '+' || e.key === '=') g.zoom(0.75);
-    else if (e.key === '-' || e.key === '_') g.zoom(1.4);
+    else if (e.key === '+' || e.key === '=') { g.zoom(0.75); e.preventDefault(); }
+    else if (e.key === '-' || e.key === '_') { g.zoom(1.4); e.preventDefault(); }
   });
 
   return {
@@ -123,5 +123,6 @@ export async function start({ frame, host, over, onPick }) {
       g.flyTo(vec(lat, lon, near ? 1.25 : Math.max(1.8, Math.min(g.camera.position.length(), 3.2))));
     },
     zoom: f => { g.controls.autoRotate = false; g.zoom(f); },
+    turn: k => { g.controls.autoRotate = false; g.turn(k); },
   };
 }

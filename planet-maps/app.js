@@ -314,7 +314,7 @@
     if (on) { $('pmPos').hidden = true; $('pmTag').hidden = true; }
     if (!on) { if (globe) globe.run(false); return; }
     if (!globe) {
-      globeLoading = globeLoading || import('./globe.js?v=2026111907')
+      globeLoading = globeLoading || import('./globe.js?v=2026111908')
         .then(m => m.start({ frame: $('pmGlobe'), host: $('pmGlobeHost'), over: $('pmGlobeOver'), onPick: choose }))
         .then(g => { globe = g; if (S.view === 'globe') globeShow(); })
         .catch(() => problem('The globe needs WebGL, which this browser could not start. The map views still work.'));
@@ -325,8 +325,20 @@
     const p = PLACES[S.body].find(x => x.id === S.sel);
     if (p) globe.go(p.lat, p.lon, false);
   }
-  $('pmGIn').addEventListener('click', () => globe && globe.zoom(0.75));
-  $('pmGOut').addEventListener('click', () => globe && globe.zoom(1.4));
+  /* the map's controls (shared/mapframe.js, the same on every map of the site, Nov 20, 2026): + − back to the whole
+     world, full screen and the arrow pad; they act on the flat map or on the globe, whichever is showing */
+  import('../shared/mapframe.js?v=2026111908').then(m => m.mapFrame($('pmFrame'), {
+    zoomIn: () => { if (S.view === 'globe') { if (globe) globe.zoom(0.75); } else view.animate({ zoom: view.getZoom() + 1, duration: 250 }); },
+    zoomOut: () => { if (S.view === 'globe') { if (globe) globe.zoom(1.4); } else view.animate({ zoom: view.getZoom() - 1, duration: 250 }); },
+    reset: () => { if (S.view === 'globe') { if (globe) globe.go(0, 0, false); } else home(); },
+    pan: (dx, dy) => {
+      if (S.view === 'globe') { if (globe) globe.turn(dx < 0 ? 'ArrowLeft' : dx > 0 ? 'ArrowRight' : dy < 0 ? 'ArrowUp' : 'ArrowDown'); return; }
+      const c = view.getCenter(), r = view.getResolution(), [w, h] = map.getSize();
+      view.animate({ center: [c[0] + dx * w * r * 0.25, c[1] - dy * h * r * 0.25], duration: 250 });
+    },
+    resize: () => { if (S.view !== 'globe') map.updateSize(); },
+    hint: 'Drag to move · scroll or pinch to zoom · tap a place to read about it',
+  }));
 
   /* ---------- choosing a place ---------- */
   function choose(id, body = S.body) {
@@ -498,6 +510,6 @@
   loadRoutes();
   loadNames('mars'); loadNames('moon');
   /* the Reload button (shared/reload.js, a module, loaded from this plain script): fetches the routes again */
-  import('../shared/reload.js?v=2026111907').then(m => m.reloadPage($('reloadAll'), () => loadRoutes(true)))
+  import('../shared/reload.js?v=2026111908').then(m => m.reloadPage($('reloadAll'), () => loadRoutes(true)))
     .catch(() => { $('reloadAll').hidden = true; });
 })();

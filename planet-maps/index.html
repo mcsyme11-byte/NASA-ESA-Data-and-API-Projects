@@ -26,9 +26,9 @@
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
   <link rel="stylesheet" href="../shared/vendor/ol-10.11.0/ol.css">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111907">
-  <script type="module" src="../shared/footer.js?v=2026111907"></script>
-  <link rel="stylesheet" href="maps.css?v=2026111907">
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111908">
+  <script type="module" src="../shared/footer.js?v=2026111908"></script>
+  <link rel="stylesheet" href="maps.css?v=2026111908">
 </head>
 <body>
   <header class="topbar">
@@ -51,7 +51,7 @@
       <div class="kicker"><a href="../space-watch/">Orbit &amp; Space Watch · Planetary Maps</a></div>
       <h1>The Moon and Mars, mapped</h1>
       <p class="lede">Zoom from the whole world down to the rocks a rover drove past: every landing site, the rovers' routes and the best-known craters, volcanoes and valleys, on maps made by NASA's orbiters.</p>
-      <p class="meta"><span class="small" id="pmCopied">Rovers' routes: reading the daily copy of NASA/JPL's files…</span>
+      <p class="meta"><span class="small" id="pmCopied">Rovers' routes copied …, 2026 · Curiosity to sol …, Perseverance to sol … · NASA/JPL-Caltech</span>
         <button class="reload" type="button" id="reloadAll">Reload the rovers' routes</button></p>
     </header>
 
@@ -62,88 +62,87 @@
 
     <div class="stats" id="pmStats" aria-live="polite"><div class="stat"><div class="label">Size</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note"><span class="skel line" aria-hidden="true"></span><span class="sr">loading</span></div></div><div class="stat"><div class="label">Landers that worked</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note"><span class="skel line" aria-hidden="true"></span><span class="sr">loading</span></div></div><div class="stat"><div class="label">Curiosity has driven</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note"><span class="skel line" aria-hidden="true"></span><span class="sr">loading</span></div></div><div class="stat"><div class="label">Perseverance has driven</div><div class="value"><span class="skel num" aria-hidden="true"></span></div><div class="note"><span class="skel line" aria-hidden="true"></span><span class="sr">loading</span></div></div></div>
 
-    <div class="pmtool">
-      <div class="pmside">
-        <div class="ctl pmplace">
-          <h2>Find a place</h2>
-          <div class="pmfind">
-            <label class="bigsearch">
-              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="1.6"/></svg>
-              <input type="search" id="pmFind" placeholder="A crater or a mission" autocomplete="off" spellcheck="false"
-                role="combobox" aria-expanded="false" aria-controls="pmList" aria-autocomplete="list" aria-label="Find a place or coordinates">
-            </label>
-            <ul class="pmlist" id="pmList" role="listbox" hidden></ul>
+    <section class="panel mapcard" aria-label="Map of the surface">
+      <div class="maplayout">
+        <div class="mapmain">
+          <div class="mapframe pmframe" id="pmFrame">
+            <div id="pmap" tabindex="0" aria-label="Map of the surface. Drag to move, scroll or pinch to zoom, or use the arrow keys and plus and minus."></div>
+            <div class="pmglobe" id="pmGlobe" tabindex="0" hidden aria-label="Globe. Drag to turn, scroll or pinch to zoom, or use the arrow keys and plus and minus.">
+              <div class="pmglobehost" id="pmGlobeHost"></div>
+              <canvas class="pmglobeover" id="pmGlobeOver" aria-hidden="true"></canvas>
+            </div>
+            <div class="pmtag" id="pmTag" hidden></div>
+            <div class="pmpos" id="pmPos" hidden></div>
+            <div class="ovl ovl-find pmplace">
+              <div class="pmfind">
+                <label class="bigsearch">
+                  <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="1.6"/></svg>
+                  <input type="search" id="pmFind" placeholder="A crater or a mission" autocomplete="off" spellcheck="false"
+                    role="combobox" aria-expanded="false" aria-controls="pmList" aria-autocomplete="list" aria-label="Find a place or coordinates">
+                </label>
+                <ul class="pmlist" id="pmList" role="listbox" hidden></ul>
+              </div>
+            </div>
           </div>
-          <p class="caption" id="pmFindNote">A place on the map, or coordinates such as <i>18.4, 77.5</i> (latitude, longitude; south and west negative).</p>
-        </div>
-        <div class="ctl">
-          <h2>View</h2>
-          <div class="seg" id="pmViews" role="group" aria-label="View">
-            <button class="chip" type="button" aria-pressed="true" data-view="map">Map</button>
-            <button class="chip" type="button" aria-pressed="false" data-view="globe">Globe</button>
-            <button class="chip" type="button" aria-pressed="false" data-view="north">North</button>
-            <button class="chip" type="button" aria-pressed="false" data-view="south">South</button>
+          <div class="mapkey pmkey" aria-hidden="true">
+            <span><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1 11 6 6 11 1 6Z" fill="#C0A062" stroke="#0C1119"/></svg>Landing site</span>
+            <span><svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="4.5" fill="none" stroke="#EDE6D3" stroke-width="1.5"/></svg>Crater or basin</span>
+            <span><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1.5 10.8 10H1.2Z" fill="none" stroke="#EDE6D3" stroke-width="1.5"/></svg>Volcano or mountain</span>
+            <span><svg width="12" height="12" viewBox="0 0 12 12"><rect x="2" y="2" width="8" height="8" fill="none" stroke="#EDE6D3" stroke-width="1.4" stroke-dasharray="3 2"/></svg>Valley or plain</span>
+            <span id="keyRoutes"><svg width="18" height="12" viewBox="0 0 18 12"><path d="M1 9 6 4l5 4 6-6" fill="none" stroke="#E2C88E" stroke-width="2"/></svg>Curiosity <svg width="18" height="12" viewBox="0 0 18 12"><path d="M1 9 6 4l5 4 6-6" fill="none" stroke="#8AA9C9" stroke-width="2"/></svg>Perseverance</span>
           </div>
-          <p class="caption" id="pmViewNote">The whole world unrolled flat. North and South look straight down on a pole, without the flat map's stretch.</p>
+          <p class="caption" id="pmSrc"></p>
+          <div class="notice" id="pmNote" hidden><span class="t" id="pmNoteT"></span></div>
         </div>
-        <div class="ctl">
-          <h2>Map</h2>
-          <div class="seg" id="pmLayers" role="group" aria-label="Map"></div>
-          <p class="caption" id="pmLayerNote"></p>
-        </div>
-        <div class="ctl">
-          <h2>On the map</h2>
-          <div class="chips" id="pmOn" role="group" aria-label="On the map">
-            <button class="chip" aria-pressed="true" data-k="land">Landing sites</button>
-            <button class="chip" aria-pressed="true" data-k="route" id="chipRoute">Rovers' routes</button>
-            <button class="chip" aria-pressed="true" data-k="crater">Craters and basins</button>
-            <button class="chip" aria-pressed="true" data-k="volc">Volcanoes and mountains</button>
-            <button class="chip" aria-pressed="true" data-k="valley">Valleys and plains</button>
-            <button class="chip" aria-pressed="false" data-k="grid">Grid</button>
+        <aside class="mapside" aria-label="The place chosen, and the map's settings">
+          <h2 class="sr">The place chosen</h2>
+          <section class="panel" id="pmCard" aria-live="polite"></section>
+          <div class="ctl">
+            <h2>View</h2>
+            <div class="seg" id="pmViews" role="group" aria-label="View">
+              <button class="chip" type="button" aria-pressed="true" data-view="map">Map</button>
+              <button class="chip" type="button" aria-pressed="false" data-view="globe">Globe</button>
+              <button class="chip" type="button" aria-pressed="false" data-view="north">North</button>
+              <button class="chip" type="button" aria-pressed="false" data-view="south">South</button>
+            </div>
+            <p class="caption" id="pmViewNote">The whole world unrolled flat. North and South look straight down on a pole, without the flat map's stretch.</p>
           </div>
-          <p class="caption">Tap a place to read about it.</p>
-        </div>
+          <div class="ctl">
+            <h2>Map</h2>
+            <div class="seg" id="pmLayers" role="group" aria-label="Map"></div>
+            <p class="caption" id="pmLayerNote"></p>
+          </div>
+          <div class="ctl">
+            <h2>On the map</h2>
+            <div class="chips" id="pmOn" role="group" aria-label="On the map">
+              <button class="chip" aria-pressed="true" data-k="land">Landing sites</button>
+              <button class="chip" aria-pressed="true" data-k="route" id="chipRoute">Rovers' routes</button>
+              <button class="chip" aria-pressed="true" data-k="crater">Craters and basins</button>
+              <button class="chip" aria-pressed="true" data-k="volc">Volcanoes and mountains</button>
+              <button class="chip" aria-pressed="true" data-k="valley">Valleys and plains</button>
+              <button class="chip" aria-pressed="false" data-k="grid">Grid</button>
+            </div>
+            <p class="caption">Tap a place to read about it.</p>
+          </div>
+        </aside>
       </div>
-
-      <div class="pmcol">
-        <div class="frame pmframe">
-          <div id="pmap" tabindex="0" aria-label="Map of the surface. Drag to move, scroll or pinch to zoom, or use the arrow keys and plus and minus."></div>
-          <div class="pmglobe" id="pmGlobe" tabindex="0" hidden aria-label="Globe. Drag to turn, scroll or pinch to zoom, or use the arrow keys and plus and minus.">
-            <div class="pmglobehost" id="pmGlobeHost"></div>
-            <canvas class="pmglobeover" id="pmGlobeOver" aria-hidden="true"></canvas>
-            <div class="pmglobebtns"><button type="button" id="pmGIn" aria-label="Zoom in">+</button><button type="button" id="pmGOut" aria-label="Zoom out">−</button></div>
-          </div>
-          <div class="pmtag" id="pmTag" hidden></div>
-          <div class="pmpos" id="pmPos" hidden></div>
-        </div>
-        <div class="pmkey" aria-hidden="true">
-          <span><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1 11 6 6 11 1 6Z" fill="#C0A062" stroke="#0C1119"/></svg>Landing site</span>
-          <span><svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="4.5" fill="none" stroke="#EDE6D3" stroke-width="1.5"/></svg>Crater or basin</span>
-          <span><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1.5 10.8 10H1.2Z" fill="none" stroke="#EDE6D3" stroke-width="1.5"/></svg>Volcano or mountain</span>
-          <span><svg width="12" height="12" viewBox="0 0 12 12"><rect x="2" y="2" width="8" height="8" fill="none" stroke="#EDE6D3" stroke-width="1.4" stroke-dasharray="3 2"/></svg>Valley or plain</span>
-          <span id="keyRoutes"><svg width="18" height="12" viewBox="0 0 18 12"><path d="M1 9 6 4l5 4 6-6" fill="none" stroke="#E2C88E" stroke-width="2"/></svg>Curiosity <svg width="18" height="12" viewBox="0 0 18 12"><path d="M1 9 6 4l5 4 6-6" fill="none" stroke="#8AA9C9" stroke-width="2"/></svg>Perseverance</span>
-        </div>
-        <p class="caption" id="pmSrc"></p>
-        <div class="notice" id="pmNote" hidden><span class="t" id="pmNoteT"></span></div>
-        <details class="howto">
-          <summary>How to read this</summary>
-          <p><b>Flat, like a world map.</b> The globe is unrolled so that lines of latitude and longitude form a square grid
-            (an equirectangular map). Places near the poles are stretched sideways, so polar craters look wider than they are.</p>
-          <p><b>Photo or height.</b> "Photo" is thousands of orbiter pictures joined into one. "Height" is coloured by
-            altitude, from blue (low) through green and yellow to red and white (high), and shaded as if lit from one side,
-            so hills and craters stand out.</p>
-          <p><b>Close-ups.</b> Around Jezero and Gale on Mars, and at five of the Apollo sites, much sharper pictures appear
-            as you zoom in. Elsewhere, zooming further only makes the pixels bigger.</p>
-          <p><b>Globe and poles.</b> The globe wraps the same pictures round a ball, the way the world really is.
-            North and South look straight down on a pole (a polar stereographic map), out to 65° of latitude, so the
-            craters and ice caps there keep their true shape.</p>
-          <p><b>Longitude</b> is counted east from 0° to 180° and west to −180°, the convention NASA uses for its maps of
-            both worlds.</p>
-        </details>
-      </div>
-    </div>
-
-    <section class="panel" id="pmCard" aria-live="polite"></section>
+    </section>
+    <details class="howto">
+      <summary>How to read this</summary>
+      <p><b>Flat, like a world map.</b> The globe is unrolled so that lines of latitude and longitude form a square grid
+        (an equirectangular map). Places near the poles are stretched sideways, so polar craters look wider than they are.</p>
+      <p><b>Photo or height.</b> "Photo" is thousands of orbiter pictures joined into one. "Height" is coloured by
+        altitude, from blue (low) through green and yellow to red and white (high), and shaded as if lit from one side,
+        so hills and craters stand out.</p>
+      <p><b>Close-ups.</b> Around Jezero and Gale on Mars, and at five of the Apollo sites, much sharper pictures appear
+        as you zoom in. Elsewhere, zooming further only makes the pixels bigger.</p>
+      <p><b>Globe and poles.</b> The globe wraps the same pictures round a ball, the way the world really is.
+        North and South look straight down on a pole (a polar stereographic map), out to 65° of latitude, so the
+        craters and ice caps there keep their true shape.</p>
+      <p><b>Finding a place.</b> A place on the map, or coordinates such as <i>18.4, 77.5</i> (latitude, longitude; south and west negative).</p>
+      <p><b>Longitude</b> is counted east from 0° to 180° and west to −180°, the convention NASA uses for its maps of
+        both worlds.</p>
+    </details>
 
     <section class="section" aria-labelledby="hHow">
       <div class="section-head"><div><div class="kicker">The method</div><h2 id="hHow">How these maps were made</h2></div></div>
@@ -200,7 +199,7 @@
   </script>
   <script src="../shared/vendor/ol-10.11.0/ol.js"></script>
   <script src="../shared/vendor/proj4-2.22.0/proj4.js"></script>
-  <script src="../shared/flatmap.js?v=2026111907"></script>
-  <script src="app.js?v=2026111907"></script>
+  <script src="../shared/flatmap.js?v=2026111908"></script>
+  <script src="app.js?v=2026111908"></script>
 </body>
 </html>

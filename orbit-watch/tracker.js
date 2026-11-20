@@ -21,14 +21,16 @@ import { THREE, gmst, createGlobe, bodyTexture, closeUp, GIBS_BLUE_MARBLE } from
 import * as sat from '../shared/vendor/satellite.min.js';
 import { takeShared, linkWith, shareButton } from '../asteroid-tracker/share.js';
 import { $, $$, esc, load, fmt, utc, ago, day, KINDS, CLOUDS } from './common.js';
-import { reloadPage } from '../shared/reload.js?v=2026111907';
+import { reloadPage } from '../shared/reload.js?v=2026111908';
+import { mapFrame } from '../shared/mapframe.js?v=2026111908';
 
 const RE = 6371, MU = 398600.4418, R_EQ = 6378.137;
 const MON = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const two = (n) => String(n).padStart(2, '0');
 const frame = $('#owFrame'), host = $('#owGlobe'), over = $('#owOver'), octx = over.getContext('2d'), tip = $('#owTip');
 const banner = (html) => { $('#owBanner').innerHTML = html || ''; $('#owBanner').hidden = !html; };
-const hintGone = () => $('#owHint').classList.add('gone');
+let mapUi = null;                     // the globe's controls (shared/mapframe.js), set up below
+const hintGone = () => mapUi && mapUi.used();
 
 // Well-known satellites: a button each under the globe, and the first three labelled on the globe.
 const FAMOUS = [
@@ -315,8 +317,6 @@ frame.addEventListener('keydown', (e) => {
   else if (e.key === 'Escape') select(null);
   hintGone();
 });
-$('#owIn').addEventListener('click', () => { G.zoom(0.7); hintGone(); });
-$('#owOut').addEventListener('click', () => { G.zoom(1.4); hintGone(); });
 
 // view and distance
 function setView(v, r) {
@@ -338,25 +338,17 @@ function toggleKind(k, force) {
 }
 $$('.mapbar [data-k]').forEach((c) => c.addEventListener('click', () => toggleKind(c.dataset.k)));
 
-// full screen: the browser's own where it allows it, otherwise the globe fills the window (as on the solar system map)
-const ICON_OPEN = '<svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M3 8V3h5M12 3h5v5M17 12v5h-5M8 17H3v-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-const ICON_CLOSE = '<svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M8 3v5H3M17 8h-5V3M12 17v-5h5M3 12h5v5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-const isFull = () => !!document.fullscreenElement || frame.classList.contains('pseudo-full');
-function syncFull() {
-  const b = $('#owFull'), full = isFull();
-  b.innerHTML = full ? `${ICON_CLOSE}<span>Exit</span>` : ICON_OPEN; b.classList.toggle('wide', full);
-  b.setAttribute('aria-label', full ? 'Exit full screen' : 'Full screen'); b.title = full ? 'Exit full screen (Esc)' : 'Full screen';
-  G.resize();
-}
-const leavePseudo = () => { frame.classList.remove('pseudo-full'); document.body.classList.remove('noscroll'); syncFull(); };
-$('#owFull').addEventListener('click', () => {
-  if (document.fullscreenElement) { document.exitFullscreen(); return; }
-  if (frame.classList.contains('pseudo-full')) { leavePseudo(); return; }
-  const fallback = () => { frame.classList.add('pseudo-full'); document.body.classList.add('noscroll'); syncFull(); };
-  if (frame.requestFullscreen) frame.requestFullscreen().catch(fallback); else fallback();
+// the globe's controls (shared/mapframe.js, the same on every map of the site): + − back to the start, full screen and
+// the arrow pad, which turns the globe; the globe's own keys stay above
+mapUi = mapFrame(frame, {
+  zoomIn: () => G.zoom(0.7),
+  zoomOut: () => G.zoom(1.4),
+  reset: () => setView('tilt', 4.3),
+  pan: (dx, dy) => { G.turn(dx < 0 ? 'ArrowLeft' : dx > 0 ? 'ArrowRight' : dy < 0 ? 'ArrowUp' : 'ArrowDown'); following = false; syncFollow(); },
+  resize: () => G.resize(),
+  hint: 'Drag to turn · scroll or pinch to zoom · point at a dot for its name, tap it for details',
+  keys: false,
 });
-document.addEventListener('fullscreenchange', syncFull);
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && frame.classList.contains('pseudo-full')) leavePseudo(); });
 
 // ------------------------------------------------------------------ find by name or number
 const q = $('#owQ'), list = $('#owList');

@@ -25,8 +25,8 @@
   <link rel="manifest" href="../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111907">
-  <script type="module" src="../shared/footer.js?v=2026111907"></script>
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111908">
+  <script type="module" src="../shared/footer.js?v=2026111908"></script>
 </head>
 <body>
   <header class="topbar">
@@ -227,7 +227,7 @@
       document.getElementById("tClimbN").textContent = `above the landing site by sol ${fmt(z.sol)}`;
       return meda != null;
     }
-    import("../shared/reload.js?v=2026111907").then(({ reloadPage }) => reloadPage(document.getElementById("reloadAll"), () => fill(true))).catch(() => { document.getElementById("reloadAll").hidden = true; });
+    import("../shared/reload.js?v=2026111908").then(({ reloadPage }) => reloadPage(document.getElementById("reloadAll"), () => fill(true))).catch(() => { document.getElementById("reloadAll").hidden = true; });
     try { await fill(); settle(); }
     catch (e) { settle(); document.getElementById("homeUpd").textContent = "The figures could not be loaded; try the reload button."; }   /* the tiles keep their placeholders */
   })();

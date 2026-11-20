@@ -7,7 +7,9 @@ import { SolarMap, wrap180, Asteroids, CLASSES, COL, spacecraftAt, classOf, COME
 import { planetPosition, jdFromMs, msFromJd, dist, LD_AU, AU_KM } from './orbit.js';
 import { fmt, sizeText, sizePicture, diameterM, LD_KM } from './format.js';
 import { loadMapData, loadExtras } from './mapdata.js';
-import { reloadPage } from '../shared/reload.js?v=2026111907';
+import { reloadPage } from '../shared/reload.js?v=2026111908';
+import { mapFrame } from '../shared/mapframe.js?v=2026111908';
+let mapUi = null;                     // the map's controls (shared/mapframe.js), set up below
 import { searchNames, neowsId, decodeName } from './search.js';
 import { placeKeeper, scrollBack } from './back.js';
 import { riskDesignations, forgetLists } from './esa.js';
@@ -37,7 +39,7 @@ async function start() {
   const byDes = new Map(data.rows.map((r, k) => [String(r[COL.pdes]), k]));
   data.visitors.forEach((d) => { const k = byDes.get(String(d)); if (k !== undefined) map.highlight.add(k); });
   map.onFrame = afterFrame;
-  map.onView = () => { syncButtons(); $('#hint').classList.add('gone'); };
+  map.onView = () => { syncButtons(); mapUi && mapUi.used(); };
   map.onTap = (e) => select(map.pick(e.clientX, e.clientY, 14));
   map.onHover = hover; map.onLeave = () => ($('#tip').hidden = true);
   setDate(Date.now(), true);
@@ -151,7 +153,7 @@ function restorePlace(p) {
   else if (c && Number.isInteger(c.craft) && map.spacecraft[c.craft]) map.center = { craft: c.craft };
   if (Number.isFinite(p.viewR) && Number.isFinite(p.tilt) && Number.isFinite(p.spin)) map.setView({ viewR: p.viewR, tilt: p.tilt, spin: p.spin });
   if (Number.isFinite(p.panX) && Number.isFinite(p.panY)) { map.panX = p.panX; map.panY = p.panY; map.panMode = !!p.panMode; map.request(); }
-  $('#hint').classList.add('gone');
+  mapUi && mapUi.used();
   scrollBack(p.scrollY);
 }
 
@@ -244,26 +246,11 @@ function syncPan() {
   $('#recentre').hidden = !off;
   $('#panBtn').setAttribute('aria-pressed', map.panMode);
   $('#map').classList.toggle('panmode', map.panMode);
-  $('#panPad').hidden = !map.panMode;
 }
-$('#panBtn').addEventListener('click', () => { map.panMode = !map.panMode; syncPan(); $('#hint').classList.add('gone'); });
-// The arrow pad (shown while the pan button is on): a tap moves a fifth of the view; holding glides, about half the
-// view a second, until released. Enter or Space on a focused arrow also moves a fifth.
+$('#panBtn').addEventListener('click', () => { map.panMode = !map.panMode; syncPan(); mapUi && mapUi.used(); });
+// The arrow pad (shared/mapframe.js): a tap moves a fifth of the view.
 const PAN_DIR = { up: [0, 1], down: [0, -1], left: [-1, 0], right: [1, 0] };
-function nudge(dir, f) { const [x, y] = PAN_DIR[dir]; map.panX += x * f * map.viewR; map.panY += y * f * map.viewR; map.request(); syncPan(); $('#hint').classList.add('gone'); }
-$$('[data-pan]').forEach((b) => {
-  let glide = null, byPointer = false;
-  const halt = () => { if (glide) cancelAnimationFrame(glide.raf); glide = null; };
-  b.addEventListener('pointerdown', (e) => {
-    if (e.button !== 0) return;
-    byPointer = true; nudge(b.dataset.pan, 0.2);
-    const t0 = performance.now(); let last = t0;
-    const step = (t) => { if (!glide) return; if (t - t0 > 350) nudge(b.dataset.pan, 0.5 * (t - last) / 1000); last = t; glide.raf = requestAnimationFrame(step); };
-    glide = { raf: requestAnimationFrame(step) };
-  });
-  for (const ev of ['pointerup', 'pointerleave', 'pointercancel']) b.addEventListener(ev, halt);
-  b.addEventListener('click', () => { if (byPointer) { byPointer = false; return; } nudge(b.dataset.pan, 0.2); });
-});
+function nudge(dir, f) { const [x, y] = PAN_DIR[dir]; map.panX += x * f * map.viewR; map.panY += y * f * map.viewR; map.request(); syncPan(); mapUi && mapUi.used(); }
 $('#recentre').addEventListener('click', () => { animateTo({ panX: 0, panY: 0 }, 500); setTimeout(syncPan, 520); });
 $$('[data-c]').forEach((b) => b.addEventListener('click', () => {
   if (b.dataset.c === 'sel') { if (selected) centre(selected.kind === 'asteroid' ? { asteroid: selected.k } : selected.kind === 'craft' ? { craft: selected.i } : selected.name); }
@@ -300,8 +287,6 @@ async function setFilter(f) {
   map.filter = f; map.request(); syncButtons();
 }
 $$('[data-f]').forEach((b) => b.addEventListener('click', () => setFilter(b.dataset.f)));
-$('#zIn').addEventListener('click', () => animateTo({ viewR: map.viewR / 1.8 }, 300));
-$('#zOut').addEventListener('click', () => animateTo({ viewR: map.viewR * 1.8 }, 300));
 $('#craftBtn').addEventListener('click', (e) => {
   const on = e.currentTarget.getAttribute('aria-pressed') !== 'true';
   e.currentTarget.setAttribute('aria-pressed', on); map.spacecraft.forEach((c) => (c.show = on)); map.request(); buildCraft();
@@ -312,28 +297,19 @@ $('#weekBtn').addEventListener('click', (e) => {
   if (on) { map.highlight = map._savedHighlight || map.highlight; } else { map._savedHighlight = map.highlight; map.highlight = new Set(); }
   map.request();
 });
-// full screen: the browser's own where it allows it for page elements, otherwise the map fills the window
+// the map's controls (shared/mapframe.js, the same on every map of the site): + − back to the start, full screen, the
+// arrow pad; the pan switch and "Re-centre" sit above them
 const frameEl = $('#mapframe');
-const isFull = () => !!document.fullscreenElement || frameEl.classList.contains('pseudo-full');
-// icons: four corners pointing out (full screen) or pointing in, with the word "Exit" (leave full screen)
-const ICON_OPEN = '<svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M3 8V3h5M12 3h5v5M17 12v5h-5M8 17H3v-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-const ICON_CLOSE = '<svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M8 3v5H3M17 8h-5V3M12 17v-5h5M3 12h5v5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-function syncFull() {
-  const on = isFull();
-  $('#full').innerHTML = on ? ICON_CLOSE + '<span>Exit</span>' : ICON_OPEN;
-  $('#full').classList.toggle('wide', on);
-  $('#full').setAttribute('aria-label', on ? 'Exit full screen' : 'Full screen');
-  $('#full').title = on ? 'Exit full screen (Esc)' : 'Full screen';
-  map && map.resize();
-}
-$('#full').addEventListener('click', () => {
-  if (document.fullscreenElement) { document.exitFullscreen(); return; }
-  if (frameEl.classList.contains('pseudo-full')) { frameEl.classList.remove('pseudo-full'); document.body.classList.remove('noscroll'); syncFull(); return; }
-  const fallback = () => { frameEl.classList.add('pseudo-full'); document.body.classList.add('noscroll'); syncFull(); };
-  if (frameEl.requestFullscreen) frameEl.requestFullscreen().catch(fallback); else fallback();
+mapUi = mapFrame(frameEl, {
+  zoomIn: () => animateTo({ viewR: map.viewR / 1.8 }, 300),
+  zoomOut: () => animateTo({ viewR: map.viewR * 1.8 }, 300),
+  reset: () => { animateTo({ ...VIEWS.tilt, viewR: 1.7, panX: 0, panY: 0 }, 700); setTimeout(syncPan, 720); },
+  pan: (dx, dy) => nudge(dx < 0 ? 'left' : dx > 0 ? 'right' : dy < 0 ? 'up' : 'down', 0.2),
+  resize: () => map && map.resize(),
+  extra: [$('#recentre'), $('#panBtn')],
+  hint: 'Drag to turn · right-drag or ✥ to move · scroll or pinch to zoom · tap a dot',
+  keys: false,
 });
-document.addEventListener('fullscreenchange', syncFull);
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && frameEl.classList.contains('pseudo-full')) { frameEl.classList.remove('pseudo-full'); document.body.classList.remove('noscroll'); syncFull(); } });
 
 // ---------------------------------------------------------------- selection
 function select(b) {

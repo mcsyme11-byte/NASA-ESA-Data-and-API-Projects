@@ -61,7 +61,7 @@ dl.mini dd { margin: 0; font-variant-numeric: lining-nums tabular-nums; }
 .ow-chart .bar:hover rect { opacity: .82; }
 
 /* ---------- the collision calculator and the teaching model ---------- */
-.ow-two { display: grid; grid-template-columns: 330px minmax(0, 1fr); gap: var(--sp4); align-items: start; }
+.ow-two { display: grid; grid-template-columns: 380px minmax(0, 1fr); gap: var(--sp4); align-items: start; }
 @media (max-width: 1000px) { .ow-two { grid-template-columns: 1fr; } }
 .ow-two .field { display: grid; gap: 4px; margin-top: var(--sp4); }
 .ow-two .field input[type=range] { width: 100%; height: 40px; padding: 0; accent-color: var(--brass); background: none; border: 0; }

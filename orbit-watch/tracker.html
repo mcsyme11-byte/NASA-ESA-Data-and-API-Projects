@@ -25,9 +25,9 @@
   <link rel="manifest" href="../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111907">
-  <link rel="stylesheet" href="orbit.css?v=2026111907">
-  <script type="module" src="../shared/footer.js?v=2026111907"></script>
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111908">
+  <link rel="stylesheet" href="orbit.css?v=2026111908">
+  <script type="module" src="../shared/footer.js?v=2026111908"></script>
 </head>
 <body>
   <header class="topbar">
@@ -49,7 +49,7 @@
     <header class="pagehead compact">
       <div class="kicker"><a href="./">Orbit &amp; Space Watch · Orbit Watch</a></div>
       <h1>What's in orbit</h1>
-      <p class="meta"><span class="small" id="owUpd">Loading the orbits…</span>
+      <p class="meta"><span class="small" id="owUpd">… objects · orbits copied from CelesTrak …, … UTC (… hours ago)</span>
         <button class="reload" type="button" id="owReload">Reload the orbits and the satellite catalogue</button></p>
     </header>
 
@@ -74,12 +74,6 @@
               </label>
               <ul class="findlist" id="owList" role="listbox" aria-label="Matching objects" hidden></ul>
             </div>
-            <div class="ovl ovl-zoom">
-              <button class="mbtn" type="button" id="owIn" aria-label="Zoom in">+</button>
-              <button class="mbtn" type="button" id="owOut" aria-label="Zoom out">−</button>
-              <button class="mbtn" type="button" id="owFull" aria-label="Full screen" title="Full screen"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M3 8V3h5M12 3h5v5M17 12v5h-5M8 17H3v-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            </div>
-            <div class="ovl ovl-hint" id="owHint">Drag to turn · scroll or pinch to zoom · point at a dot for its name, tap it for details</div>
             <div class="tourbanner" id="owBanner" hidden></div>
             <div class="loading" id="owLoading"><span>Loading about 20,000 orbits…</span></div>
           </div>

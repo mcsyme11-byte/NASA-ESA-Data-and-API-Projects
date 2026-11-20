@@ -26,9 +26,9 @@
   <link rel="manifest" href="../../site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
-  <link rel="stylesheet" href="../../shared/theme.css?v=2026111907">
-  <script type="module" src="../../shared/footer.js?v=2026111907"></script>
-  <link rel="stylesheet" href="../mars.css?v=2026111907">
+  <link rel="stylesheet" href="../../shared/theme.css?v=2026111908">
+  <script type="module" src="../../shared/footer.js?v=2026111908"></script>
+  <link rel="stylesheet" href="../mars.css?v=2026111908">
 </head>
 <body>
   <header class="topbar">
@@ -370,7 +370,7 @@
     const main = document.querySelector("main");
     // the reload button is made at once (its icon, not its words, while the data loads); it works once the charts are drawn
     let reloadNow = null;
-    import("../../shared/reload.js?v=2026111907").then(({ reloadPage }) => reloadPage(document.getElementById("reloadAll"), () => reloadNow ? reloadNow() : Promise.resolve(false))).catch(() => { document.getElementById("reloadAll").hidden = true; });
+    import("../../shared/reload.js?v=2026111908").then(({ reloadPage }) => reloadPage(document.getElementById("reloadAll"), () => reloadNow ? reloadNow() : Promise.resolve(false))).catch(() => { document.getElementById("reloadAll").hidden = true; });
     main.setAttribute("aria-busy", "true");          // not the class "loading": that is the shared placeholder (it drew lines above the page head)
     let M;
     try {

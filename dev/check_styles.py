@@ -27,7 +27,7 @@ PROJECT_CSS = ['asteroid-tracker/tracker.css', 'image-explorer/explorer.css', 'm
                'orbit-watch/orbit.css',
                'exoplanets/exoplanets.css']
 # the shared components (shared/theme.css); a project style sheet may not restyle one of these by itself
-SHARED = ['readbar', 'totop', 'glide', 'glides', 'reveal', 'btn', 'chip', 'chips', 'card', 'cards', 'panel', 'panels', 'seg', 'tabs', 'notice', 'badge', 'badges', 'pill',
+SHARED = ['readbar', 'scrollbox', 'sourcefold', 'totop', 'glide', 'glides', 'reveal', 'btn', 'chip', 'chips', 'card', 'cards', 'panel', 'panels', 'seg', 'tabs', 'notice', 'badge', 'badges', 'pill',
           'tag', 'stat', 'stats', 'tile', 'tiles', 'pagehead', 'phead', 'back', 'backlink', 'howto', 'section',
           'section-head', 'shead', 'footer', 'fmap', 'fcol', 'fcols', 'fhead', 'flegal', 'flinks', 'fbrand', 'srcline', 'lede', 'kicker', 'eyebrow', 'bigsearch', 'qclear',
           'filters', 'periodbar', 'period', 'linkbtn', 'state', 'empty', 'loading', 'ctl', 'table', 'prose', 'list',
@@ -36,7 +36,7 @@ SHARED = ['readbar', 'totop', 'glide', 'glides', 'reveal', 'btn', 'chip', 'chips
           'need', 'chart', 'chartcard', 'display-link', 'summary', 'updated', 'facts', 'light', 'livestatus',
           'levels', 'board', 'board-head', 'jobs', 'job', 'job-when', 'job-side', 'job-state', 'srcstate', 'ticks',
           'reload', 'reloader', 'rnote', 'phtitle', 'nowrap', 'img-failed', 'egg-turn', 'egg-comet',
-          'navsearch', 'fsearch', 'dlg', 'shead2', 'sbody', 'sfoot', 'hits', 'keylist', 'grouph', 'hlink', 'newdot', 'skel', 'hit', 'keyhint']
+          'navsearch', 'fsearch', 'dlg', 'shead2', 'sbody', 'sfoot', 'hits', 'keylist', 'grouph', 'hlink', 'newdot', 'skel', 'hit', 'keyhint', 'mapsurface', 'ovl-title', 'mapkey']
 
 # 5. the project tab bars: folder -> the bar's label; pages that are not one of the project's views (an asteroid's own
 # page) carry the bar but need no link to themselves

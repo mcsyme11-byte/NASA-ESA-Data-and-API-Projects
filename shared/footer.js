@@ -268,6 +268,44 @@ document.addEventListener('error', (e) => {
 const failedEarly = () => { for (const img of document.images) if (img.complete && img.currentSrc && !img.naturalWidth && !img.onerror && !img.hasAttribute('data-keep')) img.classList.add('img-failed'); };
 
 
+// The credit lines above the footer (p.srcline) fold into one "Credits" box, its summary naming the agencies, and a page's list of sources
+// (.sources) into a "Show the N sources" fold-out under its heading (Nov 20, 2026), so the end of a page stays short.
+// The NASA GIBS acknowledgement stays in view wherever GIBS pictures are shown (NASA's terms, CLAUDE.md).
+function creditFolds() {
+  const keep = (p) => /Global Imagery Browse Services/.test(p.textContent);
+  const seen = new Set();
+  for (const first of document.querySelectorAll('main p.srcline')) {
+    if (seen.has(first) || first.closest('details')) continue;
+    const group = [first];
+    let n = first.nextElementSibling;
+    while (n && n.matches('p.srcline')) { group.push(n); n = n.nextElementSibling; }
+    group.forEach((p) => seen.add(p));
+    const fold = group.filter((p) => !keep(p));
+    if (!fold.length) continue;
+    const d = document.createElement('details');
+    d.className = 'howto credits';
+    const text = fold.map((p) => p.textContent).join(' ');
+    const who = ['NASA', 'ESA', 'NOAA', 'GFZ', 'CelesTrak', 'USGS', 'Caltech'].filter((w) => new RegExp(`\\b${w}\\b`).test(text));
+    d.innerHTML = `<summary>Credits${who.length ? `<span class="who">${who.join(', ')}</span>` : ''}</summary>`;
+    first.before(d);
+    fold.forEach((p) => d.append(p));
+    group.filter(keep).forEach((p) => d.after(p));
+  }
+  document.querySelectorAll('main p.srcline').forEach((p) => { if (keep(p)) p.classList.add('kept'); });
+  document.documentElement.classList.add('folded');
+  for (const list of document.querySelectorAll('main .sources')) {
+    if (list.closest('details')) continue;
+    const n = list.querySelectorAll(':scope > .s').length;
+    if (n < 3) continue;
+    const d = document.createElement('details');
+    d.className = 'howto sourcefold';
+    d.innerHTML = `<summary>Show the ${n} sources</summary>`;
+    d.addEventListener('toggle', () => { d.querySelector('summary').textContent = d.open ? `Hide the ${n} sources` : `Show the ${n} sources`; });
+    list.before(d);
+    d.append(list);
+  }
+}
+
 // ============================================================== site tools (Nov 19, 2026)
 const VER = new URL(import.meta.url).search;
 const shared = (f) => new URL(f + VER, import.meta.url).href;
@@ -384,6 +422,6 @@ function siteTools() {
   try { searchButtons(); shortcuts(); sectionLinks(); newDots(); spy(); } catch { /* the page works without them */ }
 }
 
-function start() { buildFooter(); wireBack(); wireScrollRows(); addLiveStatus(); addMotion(); failedEarly(); siteTools(); }
+function start() { try { creditFolds(); } catch { document.documentElement.classList.add('folded'); } buildFooter(); wireBack(); wireScrollRows(); addLiveStatus(); addMotion(); failedEarly(); siteTools(); }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
 else start();

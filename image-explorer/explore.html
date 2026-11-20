@@ -26,9 +26,9 @@
   <meta name="apple-mobile-web-app-title" content="NEDAP">
   <meta name="application-name" content="NEDAP">
   <link rel="stylesheet" href="../shared/vendor/ol-10.11.0/ol.css">
-  <link rel="stylesheet" href="../shared/theme.css?v=2026111907">
-  <script type="module" src="../shared/footer.js?v=2026111907"></script>
-  <link rel="stylesheet" href="explorer.css?v=2026111907">
+  <link rel="stylesheet" href="../shared/theme.css?v=2026111908">
+  <script type="module" src="../shared/footer.js?v=2026111908"></script>
+  <link rel="stylesheet" href="explorer.css?v=2026111908">
 </head>
 <body>
   <header class="topbar">
@@ -64,27 +64,6 @@
 
     <!-- ===================== EARTH MAP ===================== -->
     <section id="view-earth">
-      <div class="periodbar datebar">
-        <div class="seg" role="group" aria-label="Day">
-          <button class="chip" id="dPrev" data-key="prev" aria-label="Previous day">‹ Day</button>
-          <button class="chip" id="dLatest" aria-pressed="true">Latest</button>
-          <button class="chip" id="dNext" data-key="next" aria-label="Next day">Day ›</button>
-        </div>
-        <label class="period"><span class="lbl">Date (UTC)</span><input type="date" id="dPick" aria-label="Date of the imagery"></label>
-        <span class="grow"></span>
-        <select id="speed" aria-label="Playback speed">
-          <option value="1000">1 day a second</option>
-          <option value="500" selected>2 days a second</option>
-          <option value="250">4 days a second</option>
-        </select>
-        <button class="btn outline small play" id="play" aria-pressed="false">▶ Play</button>
-      </div>
-      <div class="slider">
-        <span class="end" id="sFrom"></span>
-        <input type="range" id="sDay" min="0" max="60" value="60" aria-label="Step through the last 60 days">
-        <span class="end" id="sTo"></span>
-      </div>
-
       <div class="tiles" id="mapTiles">
         <div class="tile"><div class="label">Date</div><div class="value" id="tDate">—</div><div class="note">UTC · one picture per day</div></div>
         <div class="tile"><div class="label">Picture</div><div class="value" id="tBase">—</div><div class="note" id="tBaseNote">—</div></div>
@@ -92,134 +71,157 @@
         <div class="tile"><div class="label">On top</div><div class="value" id="tOver">—</div><div class="note" id="tOverNote">—</div></div>
       </div>
 
-      <div class="explore">
-        <div class="side">
-          <div class="ctl place">
-            <h2>Find a place</h2>
-            <div class="placebox">
-              <label class="bigsearch">
-                <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="1.6"/></svg>
-                <input type="search" id="placeQ" placeholder="A town, a mountain or a lake" autocomplete="off" spellcheck="false"
-                  role="combobox" aria-expanded="false" aria-controls="placeList" aria-autocomplete="list" aria-label="Find a place or coordinates">
-              </label>
-              <ul class="suggest" id="placeList" role="listbox" hidden></ul>
+      <section class="panel mapcard" aria-label="Earth map">
+        <div class="maplayout">
+          <div class="mapmain">
+            <div class="mapframe" id="eFrame">
+              <div id="map" class="mapsurface" aria-label="Map of the Earth, satellite imagery"></div>
+              <div class="maptag" id="mapTag"></div>
+              <div class="cursor" id="cursor" hidden></div>
+              <div class="ovl ovl-find" title="Towns of 10,000 people or more, countries, mountains, ranges, lakes, rivers, glaciers, islands, parks and seas (about 89,000 natural features), or coordinates (latitude, longitude). Tap the map to see what is there.">
+                <div class="placebox">
+                  <label class="bigsearch">
+                    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="1.6"/></svg>
+                    <input type="search" id="placeQ" placeholder="A town, a mountain or a lake" autocomplete="off" spellcheck="false"
+                      role="combobox" aria-expanded="false" aria-controls="placeList" aria-autocomplete="list" aria-label="Find a place or coordinates">
+                  </label>
+                  <ul class="suggest" id="placeList" role="listbox" hidden></ul>
+                </div>
+              </div>
             </div>
-            <p class="caption">Towns of 10,000 people or more, countries, mountains, ranges, lakes, rivers, glaciers, islands, parks and seas (about 89,000 natural features), or coordinates (latitude, longitude). Tap the map to see what is there.</p>
-          </div>
-
-          <div class="ctl">
-            <h2>Picture</h2>
-            <div class="lyr" id="baseList" role="radiogroup" aria-label="Picture"></div>
-          </div>
-
-          <div class="ctl">
-            <h2>On top</h2>
-            <div class="lyr multi" id="overList" aria-label="On top"></div>
-            <p class="caption">Fires go with anything; the coloured layers show one at a time.</p>
-          </div>
-
-          <div class="ctl">
-            <h2>Map lines and names</h2>
-            <div class="chips lines" role="group" aria-label="Map lines and names">
-              <button class="chip" aria-pressed="true" data-line="borders">Borders</button>
-              <button class="chip" aria-pressed="true" data-line="coast">Coastlines</button>
-              <button class="chip" aria-pressed="false" data-line="rivers">Rivers</button>
-              <button class="chip" aria-pressed="true" data-line="names">Names</button>
-              <button class="chip" aria-pressed="false" data-line="grid">Grid</button>
+            <div class="periodbar datebar">
+              <div class="seg" role="group" aria-label="Day">
+                <button class="chip" id="dPrev" data-key="prev" aria-label="Previous day">‹ Day</button>
+                <button class="chip" id="dLatest" aria-pressed="true">Latest</button>
+                <button class="chip" id="dNext" data-key="next" aria-label="Next day">Day ›</button>
+              </div>
+              <label class="period"><span class="lbl">Date (UTC)</span><input type="date" id="dPick" aria-label="Date of the imagery"></label>
+              <span class="grow"></span>
+              <select id="speed" aria-label="Playback speed">
+                <option value="1000">1 day a second</option>
+                <option value="500" selected>2 days a second</option>
+                <option value="250">4 days a second</option>
+              </select>
+              <button class="btn outline small play" id="play" aria-pressed="false">▶ Play</button>
             </div>
-            <p class="caption">Drawn from Natural Earth. More names appear as you zoom in.</p>
-          </div>
-
-          <div class="ctl">
-            <h2>View</h2>
-            <div class="seg" role="group" aria-label="View">
-              <button class="chip" aria-pressed="true" data-proj="world">World</button>
-              <button class="chip" aria-pressed="false" data-proj="arctic">Arctic</button>
-              <button class="chip" aria-pressed="false" data-proj="antarctic">Antarctic</button>
+            <div class="slider">
+              <span class="end" id="sFrom"></span>
+              <input type="range" id="sDay" min="0" max="60" value="60" aria-label="Step through the last 60 days">
+              <span class="end" id="sTo"></span>
             </div>
-            <p class="caption">Arctic and Antarctic look straight down on the poles, which the world view stretches out of shape. Around each winter the pole is in darkness for months, so the photographs show a black area there; in those months (October to March in the Arctic, April to September around Antarctica) Sea ice shows the ice's surface temperature from NOAA-21's night passes instead, which a heat camera sees in the dark. Sea temperature and smoke are world view only; fires are not shown around Antarctica.</p>
+            <div class="legend" id="legend"></div>
+            <p class="caption" id="mapSrc"></p>
           </div>
+          <aside class="mapside" aria-label="Map settings">
+            <div class="ctl">
+              <h2>Picture</h2>
+              <div class="lyr" id="baseList" role="radiogroup" aria-label="Picture"></div>
+            </div>
+
+            <div class="ctl">
+              <h2>On top</h2>
+              <div class="lyr multi" id="overList" aria-label="On top"></div>
+              <p class="caption">Fires go with anything; the coloured layers show one at a time.</p>
+            </div>
+
+            <div class="ctl">
+              <h2>Map lines and names</h2>
+              <div class="chips lines" role="group" aria-label="Map lines and names">
+                <button class="chip" aria-pressed="true" data-line="borders">Borders</button>
+                <button class="chip" aria-pressed="true" data-line="coast">Coastlines</button>
+                <button class="chip" aria-pressed="false" data-line="rivers">Rivers</button>
+                <button class="chip" aria-pressed="true" data-line="names">Names</button>
+                <button class="chip" aria-pressed="false" data-line="grid">Grid</button>
+              </div>
+              <p class="caption">Drawn from Natural Earth. More names appear as you zoom in.</p>
+            </div>
+
+            <div class="ctl">
+              <h2>View</h2>
+              <div class="seg" role="group" aria-label="View">
+                <button class="chip" aria-pressed="true" data-proj="world">World</button>
+                <button class="chip" aria-pressed="false" data-proj="arctic">Arctic</button>
+                <button class="chip" aria-pressed="false" data-proj="antarctic">Antarctic</button>
+              </div>
+              <p class="caption">Arctic and Antarctic look straight down on the poles, which the world view stretches out of shape. Around each winter the pole is in darkness for months, so the photographs show a black area there; in those months (October to March in the Arctic, April to September around Antarctica) Sea ice shows the ice's surface temperature from NOAA-21's night passes instead, which a heat camera sees in the dark. Sea temperature and smoke are world view only; fires are not shown around Antarctica.</p>
+            </div>
+          </aside>
         </div>
-
-        <div class="mapcol">
-          <div class="frame mapframe">
-            <div id="map" aria-label="Map of the Earth, satellite imagery"></div>
-            <div class="maptag" id="mapTag"></div>
-            <div class="cursor" id="cursor" hidden></div>
-          </div>
-          <div class="legend" id="legend"></div>
-          <p class="caption after" id="mapSrc"></p>
-          <details class="howto">
-            <summary>How to read this</summary>
-            <p><b>One day at a time.</b> Each satellite photographs the Earth in strips as it circles, about 14 times a day, so
-              a day's picture is a patchwork. Dark wedges between strips are areas the satellite did not pass over that day.</p>
-            <p><b>Picture</b> is the base: a normal photograph (true colour), the Earth at night, or the ocean coloured by its
-              temperature. <b>On top</b> adds layers over it, each with its colour key under the map.</p>
-            <p><b>Play</b> steps through the days. Clouds move, fires spread and sea ice grows and shrinks with the seasons.</p>
-            <p><b>Arctic and Antarctic.</b> Near each pole the sun does not rise for weeks to months around midwinter
-              (December in the Arctic, June in the Antarctic). Cameras need daylight, so the true-colour picture and the
-              sea ice layer show a black area over the pole then; the night-lights layer still works.</p>
-            <p><b>Latest</b> is the most recent full day. Some layers take a day or two longer to arrive; a blank map on the
-              newest days means that layer is not ready yet.</p>
-          </details>
-        </div>
-      </div>
+      </section>
+      <details class="howto">
+        <summary>How to read this</summary>
+        <p><b>One day at a time.</b> Each satellite photographs the Earth in strips as it circles, about 14 times a day, so
+          a day's picture is a patchwork. Dark wedges between strips are areas the satellite did not pass over that day.</p>
+        <p><b>Picture</b> is the base: a normal photograph (true colour), the Earth at night, or the ocean coloured by its
+          temperature. <b>On top</b> adds layers over it, each with its colour key under the map.</p>
+        <p><b>Play</b> steps through the days. Clouds move, fires spread and sea ice grows and shrinks with the seasons.</p>
+        <p><b>Arctic and Antarctic.</b> Near each pole the sun does not rise for weeks to months around midwinter
+          (December in the Arctic, June in the Antarctic). Cameras need daylight, so the true-colour picture and the
+          sea ice layer show a black area over the pole then; the night-lights layer still works.</p>
+        <p><b>Find a place.</b> Towns of 10,000 people or more, countries, mountains, ranges, lakes, rivers, glaciers, islands, parks and seas (about 89,000 natural features), or coordinates (latitude, longitude). Tap the map to see what is there.</p>
+      <p><b>Latest</b> is the most recent full day. Some layers take a day or two longer to arrive; a blank map on the
+          newest days means that layer is not ready yet.</p>
+      </details>
     </section>
 
     <!-- ===================== GLOBE ===================== -->
     <section id="view-globe" hidden>
-      <div class="gbar">
-        <div class="chips gshow" role="group" aria-label="Show on the globe" data-hscroll>
-          <button class="chip" aria-pressed="true" data-show="events"><i class="key ev"></i>Events on Earth</button>
-          <button class="chip" aria-pressed="true" data-show="photos"><i class="key ph"></i>Astronaut photos</button>
-          <button class="chip" aria-pressed="true" data-show="quake"><i class="key qk"></i>Earthquakes</button>
-          <button class="chip" aria-pressed="true" data-show="volcano"><i class="key vo"></i>Volcanoes</button>
-          <button class="chip" aria-pressed="true" data-show="launch"><i class="key la"></i>Launch sites</button>
-          <button class="chip" aria-pressed="false" data-show="wonder"><i class="key wo"></i>Natural wonders</button>
-          <button class="chip" aria-pressed="true" data-show="galaxy"><i class="key ga"></i>Galaxies</button>
-          <button class="chip" aria-pressed="true" data-show="nebula"><i class="key ne"></i>Nebulae</button>
-          <button class="chip" aria-pressed="true" data-show="cluster"><i class="key cl"></i>Star clusters</button>
-          <button class="chip" aria-pressed="true" data-show="lines">Constellations</button>
-          <button class="chip" aria-pressed="true" data-show="labels">Names</button>
-          <button class="chip" aria-pressed="true" data-show="night">Day and night</button>
-          <button class="chip" aria-pressed="true" data-show="spin">Turn slowly</button>
-        </div>
-        <div class="placebox gfind">
-          <label class="bigsearch">
-            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="1.6"/></svg>
-            <input type="search" id="gQ" placeholder="Find: Andromeda, M42, wildfire…" autocomplete="off" spellcheck="false"
-              role="combobox" aria-expanded="false" aria-controls="gList" aria-autocomplete="list" aria-label="Find a sky object or an event">
-          </label>
-          <ul class="suggest" id="gList" role="listbox" hidden></ul>
-        </div>
-      </div>
-
-      <div class="gwrap">
-        <div class="frame globeframe" id="globeFrame" tabindex="0" aria-describedby="gKeys">
-          <div id="globe" role="region" aria-label="A globe of the Earth inside the sky, with NASA events and the sky's best-known galaxies, nebulae and star clusters"></div>
-          <canvas id="gOver" aria-hidden="true"></canvas>
-          <div class="maptag" id="gTag">Loading the globe…</div>
-          <div class="gzoom">
-            <button class="chip" id="gIn" aria-label="Closer">+</button>
-            <button class="chip" id="gOut" aria-label="Farther">−</button>
-            <button class="chip" id="gHome" aria-label="Back to the starting view">⌂</button>
+      <section class="panel mapcard" aria-label="Globe">
+        <div class="maplayout">
+          <div class="mapmain">
+            <div class="mapframe space globeframe" id="globeFrame" tabindex="0" aria-describedby="gKeys">
+              <div id="globe" class="mapsurface" role="region" aria-label="A globe of the Earth inside the sky, with NASA events and the sky's best-known galaxies, nebulae and star clusters"></div>
+              <canvas id="gOver" aria-hidden="true"></canvas>
+              <div class="maptag" id="gTag">Loading the globe…</div>
+              <div class="ovl ovl-find">
+                <div class="placebox gfind">
+                  <label class="bigsearch">
+                    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="1.6"/></svg>
+                    <input type="search" id="gQ" placeholder="Find: Andromeda, M42, wildfire…" autocomplete="off" spellcheck="false"
+                      role="combobox" aria-expanded="false" aria-controls="gList" aria-autocomplete="list" aria-label="Find a sky object or an event">
+                  </label>
+                  <ul class="suggest" id="gList" role="listbox" hidden></ul>
+                </div>
+              </div>
+            </div>
+            <div class="mapbar">
+              <div class="chips gshow" role="group" aria-label="Show on the globe" data-hscroll>
+                <button class="chip" aria-pressed="true" data-show="events"><i class="key ev"></i>Events on Earth</button>
+                <button class="chip" aria-pressed="true" data-show="photos"><i class="key ph"></i>Astronaut photos</button>
+                <button class="chip" aria-pressed="true" data-show="quake"><i class="key qk"></i>Earthquakes</button>
+                <button class="chip" aria-pressed="true" data-show="volcano"><i class="key vo"></i>Volcanoes</button>
+                <button class="chip" aria-pressed="true" data-show="launch"><i class="key la"></i>Launch sites</button>
+                <button class="chip" aria-pressed="false" data-show="wonder"><i class="key wo"></i>Natural wonders</button>
+                <button class="chip" aria-pressed="true" data-show="galaxy"><i class="key ga"></i>Galaxies</button>
+                <button class="chip" aria-pressed="true" data-show="nebula"><i class="key ne"></i>Nebulae</button>
+                <button class="chip" aria-pressed="true" data-show="cluster"><i class="key cl"></i>Star clusters</button>
+                <button class="chip" aria-pressed="true" data-show="lines">Constellations</button>
+                <button class="chip" aria-pressed="true" data-show="labels">Names</button>
+                <button class="chip" aria-pressed="true" data-show="night">Day and night</button>
+                <button class="chip" aria-pressed="true" data-show="spin">Turn slowly</button>
+              </div>
+            </div>
+            <p class="caption" id="gSrc"></p>
           </div>
+          <aside class="mapside" aria-label="Selected, and other maps">
+            <div class="ctl gcard" id="gCard" aria-live="polite">
+              <h2>Selected</h2>
+              <p class="caption">Tap a pin on the Earth or a marker in the sky. Zoom out to see the sky around the Earth.</p>
+            </div>
+            <div class="ctl">
+              <h2>Moon and Mars maps</h2>
+              <div class="chips">
+                <a class="chip" href="../planet-maps/#moon-globe">The Moon</a>
+                <a class="chip" href="../planet-maps/#mars-globe">Mars</a>
+                <a class="chip" href="../planet-maps/#moon-apollo11">Apollo 11 site</a>
+                <a class="chip" href="../planet-maps/#moon-south">Moon's south pole</a>
+                <a class="chip" href="../planet-maps/#mars-jezero">Jezero crater</a>
+                <a class="chip" href="../planet-maps/#mars-gale">Gale crater</a>
+              </div>
+            </div>
+          </aside>
         </div>
-        <aside class="ctl gcard" id="gCard" aria-live="polite">
-          <h2>Selected</h2>
-          <p class="caption">Tap a pin on the Earth or a marker in the sky. Zoom out to see the sky around the Earth.</p>
-        </aside>
-      </div>
-      <p class="caption after" id="gSrc"></p>
-      <div class="lbl">Moon and Mars maps</div>
-      <div class="popular" aria-label="Moon and Mars maps">
-        <a class="chip" href="../planet-maps/#moon-globe">The Moon</a>
-        <a class="chip" href="../planet-maps/#mars-globe">Mars</a>
-        <a class="chip" href="../planet-maps/#moon-apollo11">Apollo 11 site</a>
-        <a class="chip" href="../planet-maps/#moon-south">Moon's south pole</a>
-        <a class="chip" href="../planet-maps/#mars-jezero">Jezero crater</a>
-        <a class="chip" href="../planet-maps/#mars-gale">Gale crater</a>
-      </div>
+      </section>
       <details class="howto">
         <summary>How to read this</summary>
         <p><b>The Earth</b> is NASA's Blue Marble, a cloud-free picture made from many days of satellite images. It is

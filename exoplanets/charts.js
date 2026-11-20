@@ -331,7 +331,10 @@ export function sepDeg(ra1, de1, ra2, de2) {
   return Math.acos(Math.max(-1, Math.min(1, c))) / RAD;
 }
 export function skyChart(svg, star, stars, field = 30) {
-  const W = Math.min(frameWidth(svg), 560), H = W, cx = W / 2, cy = H / 2, R = W / 2 - 6;
+  // in a map card (Nov 20, 2026) the chart fills its frame; elsewhere a square up to 560 px
+  const fill = svg.parentElement.classList.contains('mapframe');
+  const W = fill ? frameWidth(svg) : Math.min(frameWidth(svg), 560), H = fill ? Math.max(280, svg.parentElement.clientHeight) : W;
+  const cx = W / 2, cy = H / 2, R = Math.min(W, H) / 2 - 6;
   start(svg, W, H);
   const d0 = star.dec * RAD, a0 = star.ra * RAD, scale = R / (2 * Math.tan(field * RAD / 2));
   const proj = (ra, de) => {
