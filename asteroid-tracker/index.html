@@ -28,7 +28,8 @@
   <script>
     // Links made before the project had a home page (Nov 12, 2026) pointed at this address with a tab (#risk, #year-2005,
     // #visible, #search) or a shared view (?view=…). They open the tracker itself, tracker.html, unchanged.
-    const toTracker = () => { if (location.hash.length > 1 || /[?&]view=/.test(location.search)) location.replace('tracker.html' + location.search + location.hash); };
+    // Only those tabs move on: the page's own section links (#tiles, #why…) stay here (fixed Nov 20, 2026).
+    const toTracker = () => { if (/^#(week|risk|visible|search|year(-\d{4})?)$/.test(location.hash) || /[?&]view=/.test(location.search)) location.replace('tracker.html' + location.search + location.hash); };
     toTracker();
     addEventListener('hashchange', toTracker);
   </script>

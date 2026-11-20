@@ -19,6 +19,7 @@
 #   aria       aria-selected outside tabs, options and rows; aria-expanded on a table row; an empty table heading
 #   brokenimg  a picture that failed to load left on show (its description in an empty frame)
 #   staleview  the footer still marks the old view after a switch of view inside the page
+#   jumplink   a link of an "On this page" bar (nav[data-spy]) whose section is missing, or that leaves the page
 #   layout-shift  the page jumps as it loads (more than CLS_MAX)     weight  more loaded on arrival than the budget
 # Requests to other sites are blocked, so every page is also seen in its "NASA out of reach" state; with
 # FAILDATA=404 the site's own data files fail too. Screenshots of every page land in the output folder.
@@ -276,6 +277,24 @@ async def run(outdir, widths, only):
                 report[f'{w} {u or "/"}'] = res
                 name = re.sub(r'[^a-z0-9]+', '_', (u or 'home').lower()).strip('_')
                 await pg.screenshot(path=f'{outdir}/{name}__{w}.png', full_page=True)
+                # (Nov 20, 2026) every link of an "On this page" bar leads to a section of this same page
+                try:
+                    links = await pg.evaluate("[...document.querySelectorAll('nav[data-spy] a[href]')].map((a) => a.getAttribute('href'))")
+                    path0 = await pg.evaluate('location.pathname')
+                    jump = []
+                    for h in links:
+                        if not h.startswith('#') or not await pg.evaluate('(id) => !!document.getElementById(id)', h[1:]):
+                            jump.append(f'{h}: no section with that id on the page')
+                            continue
+                        await pg.evaluate('(h) => document.querySelector(`nav[data-spy] a[href="${h}"]`).click()', h)
+                        await pg.wait_for_timeout(400)
+                        if await pg.evaluate('location.pathname') != path0:
+                            jump.append(f'{h}: leaves the page for {await pg.evaluate("location.pathname")}')
+                            break
+                    if jump:
+                        report[f'{w} {u or "/"}']['jumplink'] = jump
+                except Exception:
+                    pass
             await ctx.close()
         await b.close()
     json.dump(report, open(f'{outdir}/report.json', 'w'), indent=1)
@@ -286,7 +305,7 @@ async def run(outdir, widths, only):
     for k, r in report.items():
         issues = {x: r.get(x) for x in ('clip', 'svgclip', 'nofade', 'offscreen', 'overlap', 'tap', 'tiny', 'noname', 'noalt',
                                         'dupid', 'nolabel', 'errors', 'bad') if r.get(x)}
-        for x in ('headings', 'nolabelcell', 'plainlink', 'scrolled', 'aria', 'staleview', 'brokenimg'):
+        for x in ('headings', 'nolabelcell', 'plainlink', 'scrolled', 'aria', 'staleview', 'brokenimg', 'jumplink'):
             if r.get(x):
                 issues[x] = r[x]
         if r.get('cls', 0) > CLS_MAX:

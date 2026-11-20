@@ -2,6 +2,14 @@
 
 # Change log
 
+## November 20, 2026 — Asteroid Tracker overview: the "On this page" links stay on the page
+
+- Fixed: every link of the overview's "On this page" bar (`asteroid-tracker/index.html`) opened the tracker
+  (`tracker.html`), because the redirect kept for old links sent any address ending in `#…` there. Only the tracker's
+  own tabs (`#week`, `#risk`, `#visible`, `#search`, `#year`, `#year-YYYY`) and shared views (`?view=`) move on now.
+- `dev/check_pages.py` gained the `jumplink` check: every link of an "On this page" bar (`nav[data-spy]`) must lead to a
+  section of the same page; it reports the old fault on the overview.
+
 ## November 20, 2026 — Documents kept in the repository
 
 - `docs/documents/`: every document made for the project or the developer is kept here for good, with its source and a
