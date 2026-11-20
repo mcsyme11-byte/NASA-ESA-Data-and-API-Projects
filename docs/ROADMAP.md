@@ -7,9 +7,9 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
 
 ## 0. Repository (set up Nov 8, 2026)
 
-- [ ] Developer testing of the site tools of Nov 19, 2026 (the test list of that day): the search, the shortcuts,
-  "Copy link to this section", the menu's dots, the Lost in space page, the Space Watch figures, and a shared link's
-  preview card.
+- [ ] Developer testing of the site tools of Nov 19, 2026: the 14 cases of the site tools test plan
+  (`docs/documents/2026-11-20 - Site tools test plan.pdf`; the live doc is linked in `docs/documents/README.md`), with
+  results recorded in the doc and any failed case sent to the General/Files/Repo chat.
 
 ## 1. Asteroid Tracker (version 1 live Nov 8, 2026)
 

@@ -6,7 +6,8 @@
 
 - `docs/documents/`: every document made for the project or the developer is kept here for good, with its source and a
   list in its README (decided Nov 20, 2026; rule in `CLAUDE.md`). First document: the site tools test list of Nov 19,
-  2026 (PDF and its HTML source). The list is in the Project Record, under "Decisions and Working Rules".
+  2026 (PDF and its HTML source), and the site tools test plan of Nov 20, 2026 that replaces it (PDF of the doc).
+  The list is in the Project Record, under "Decisions and Working Rules".
 - The scripts that list the repository's pages (`dev/build_social.py`, `dev/build_search.py`, `dev/check_pages.py`,
   `dev/check_docs.py`) read file names with spaces correctly.
 
