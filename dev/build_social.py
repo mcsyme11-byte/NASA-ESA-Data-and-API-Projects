@@ -41,7 +41,7 @@ SKIP = ('404.html',)
 
 
 def pages():
-    files = subprocess.run(['git', 'ls-files', '*.html'], cwd=ROOT, capture_output=True, text=True).stdout.split()
+    files = subprocess.run(['git', 'ls-files', '*.html'], cwd=ROOT, capture_output=True, text=True).stdout.splitlines()
     return [f for f in sorted(files) if 'mockup' not in f and '/vendor/' not in f
             and not f.startswith(('brand/', 'docs/', 'dev/')) and not f.startswith(SKIP)]
 

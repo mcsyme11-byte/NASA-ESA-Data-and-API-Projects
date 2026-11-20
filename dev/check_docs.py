@@ -140,7 +140,7 @@ def main():
             problems.append(f'docs/record/build_record.js: {folder}/README.md is not in PARTS')
 
     # 6. no folder of pages left out of SECTIONS
-    files = subprocess.run(['git', 'ls-files', '*.html'], cwd=ROOT, capture_output=True, text=True).stdout.split()
+    files = subprocess.run(['git', 'ls-files', '*.html'], cwd=ROOT, capture_output=True, text=True).stdout.splitlines()
     folders = {f.split('/')[0] for f in files if '/' in f and 'mockup' not in f and '/vendor/' not in f}
     known = {f for n, f, s in tools} | SITE_PAGES
     for f in sorted(folders - known):
@@ -171,13 +171,13 @@ def main():
     # 9. every page has its preview card for shared links (dev/build_social.py, Nov 19, 2026)
     card = subprocess.run([sys.executable, os.path.join(ROOT, 'dev', 'build_social.py'), '--check'], cwd=ROOT, capture_output=True, text=True)
     if card.returncode:
-        problems.append(card.stdout.strip())
+        problems.append(card.stdout.strip() or card.stderr.strip()[-600:])
 
     # 10. the credit on every document and file of code, and the patch on every document (dev/brand_files.py,
     # Nov 19, 2026)
     brand = subprocess.run([sys.executable, os.path.join(ROOT, 'dev', 'brand_files.py'), '--check'], cwd=ROOT, capture_output=True, text=True)
     if brand.returncode:
-        problems.append(brand.stdout.strip())
+        problems.append(brand.stdout.strip() or brand.stderr.strip()[-600:])
 
     # 11. links between documents
     for f in subprocess.run(['git', 'ls-files', '-z', '*.md'], cwd=ROOT, capture_output=True, text=True).stdout.split('\0'):

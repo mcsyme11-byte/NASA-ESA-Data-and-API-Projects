@@ -2,6 +2,14 @@
 
 # Change log
 
+## November 20, 2026 — Documents kept in the repository
+
+- `docs/documents/`: every document made for the project or the developer is kept here for good, with its source and a
+  list in its README (decided Nov 20, 2026; rule in `CLAUDE.md`). First document: the site tools test list of Nov 19,
+  2026 (PDF and its HTML source). The list is in the Project Record, under "Decisions and Working Rules".
+- The scripts that list the repository's pages (`dev/build_social.py`, `dev/build_search.py`, `dev/check_pages.py`,
+  `dev/check_docs.py`) read file names with spaces correctly.
+
 ## November 19, 2026 — The credit and patch on every file of the repository
 
 - Every document and file of code carries "© 2026 Malcolm Syme · mcsyme11@gmail.com": 50 files gained it (a first

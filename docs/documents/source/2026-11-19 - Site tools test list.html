@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<!-- NASA and ESA Data Projects · docs/documents/source/2026-11-19 - Site tools test list.html · © 2026 Malcolm Syme · mcsyme11@gmail.com -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>NEDAP · Site tools test list · November 19, 2026</title>
+<style>
+  @page { size: Letter; margin: 0.55in 0.6in 0.7in; }
+  :root { --navy: #141B26; --navy2: #1E2836; --brass: #A8863F; --brass-l: #C0A062; --ink: #1F2530; --ink2: #4A5260;
+          --muted: #7A808A; --line: #DDD6C6; --paper: #FBF8F1; }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { margin: 0; font-family: Gelasio, Georgia, serif; color: var(--ink); font-size: 10.6pt; line-height: 1.45; }
+  a { color: #7A5F24; text-decoration: underline; text-decoration-color: rgba(168, 134, 63, .55); text-underline-offset: 2px; }
+
+  /* title band */
+  .band { background: var(--navy); color: #EDE6D3; border-radius: 6px; padding: 20px 26px 20px 22px; display: flex; gap: 22px; align-items: center;
+          border: 1px solid var(--brass-l); position: relative; }
+  .band img { width: 96px; height: 96px; flex: none; }
+  .band .kick { font-size: 8.4pt; letter-spacing: .24em; text-transform: uppercase; color: var(--brass-l); }
+  .band h1 { margin: 4px 0 6px; font-weight: 400; font-size: 25pt; line-height: 1.1; color: #F3EEE0; }
+  .band .sub { font-style: italic; color: #B9B3A3; font-size: 10.4pt; }
+
+  /* facts row */
+  .facts { display: grid; grid-template-columns: repeat(4, 1fr); margin: 14px 0 6px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .facts div { padding: 9px 12px; border-left: 1px solid var(--line); }
+  .facts div:first-child { border-left: 0; padding-left: 2px; }
+  .facts b { display: block; font-weight: 400; font-size: 15pt; color: var(--navy); }
+  .facts span { font-size: 7.8pt; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+
+  .how { color: var(--ink2); font-size: 9.8pt; margin: 10px 0 2px; }
+
+  /* sections */
+  h2 { display: flex; align-items: baseline; gap: 12px; margin: 18px 0 6px; padding-bottom: 5px; border-bottom: 1.5px solid var(--brass);
+       font-weight: 400; font-size: 14.5pt; color: var(--navy); break-after: avoid; }
+  h2 .n { font-size: 8pt; letter-spacing: .2em; text-transform: uppercase; color: var(--brass); }
+  h2 .time { margin-left: auto; font-size: 8.6pt; font-style: italic; color: var(--muted); }
+
+  ol { list-style: none; margin: 0; padding: 0; }
+  li { display: grid; grid-template-columns: 16px 22px 1fr; gap: 0 8px; padding: 7px 0 7px; border-bottom: 1px solid #EEE8DB; break-inside: avoid; }
+  li .box { width: 12px; height: 12px; border: 1.2px solid var(--brass); border-radius: 2px; margin-top: 3px; }
+  li .num { color: var(--brass); font-size: 9.6pt; text-align: right; padding-top: 1px; }
+  li .what { font-weight: 700; color: var(--navy); }
+  li p { margin: 0; }
+  li .notes { margin-top: 5px; height: 14px; border-bottom: 1px dotted #C9C0AC; font-size: 7.6pt; color: #A39A86; letter-spacing: .12em; text-transform: uppercase; }
+
+  kbd { display: inline-block; min-width: 1.5em; padding: 0 5px; border: 1px solid #C9C0AC; border-bottom-width: 2px; border-radius: 4px;
+        background: var(--paper); font-family: "DejaVu Sans Mono", monospace; font-size: 8.4pt; line-height: 1.45; text-align: center; color: var(--navy); }
+  .q { color: var(--navy); }
+
+  /* report box */
+  .report { margin-top: 16px; padding: 12px 16px; background: var(--paper); border: 1px solid var(--line); border-left: 3px solid var(--brass); border-radius: 4px;
+            break-inside: avoid; font-size: 9.8pt; }
+  .report b { color: var(--navy); }
+  .report p { margin: 2px 0; }
+</style>
+</head>
+<body>
+
+<header class="band">
+  <img src="../../../brand/patch/nedap-patch.svg" alt="The NEDAP mission patch">
+  <div>
+    <div class="kick">NASA and ESA Data Projects · Developer testing</div>
+    <h1>Site tools test list</h1>
+    <div class="sub">The search, shortcuts, section links, preview cards, Lost in space and the Space Watch figures, added November 19, 2026</div>
+  </div>
+</header>
+
+<div class="facts">
+  <div><b>14</b><span>Checks</span></div>
+  <div><b>~35 min</b><span>In total</span></div>
+  <div><b>3</b><span>Sittings</span></div>
+  <div><b>Any</b><span>Order</span></div>
+</div>
+<p class="how">Tick each box when it works. If something looks wrong, write a word or two on its notes line and take a screenshot.</p>
+
+<h2><span class="n">Part 1</span>On a computer<span class="time">about 20 minutes</span></h2>
+<ol>
+  <li><span class="box"></span><span class="num">1</span><div><p><span class="what">Search and shortcuts.</span> On any page, press <kbd>/</kbd>, type <span class="q">“mars”</span> and press <kbd>Enter</kbd>. Then press <kbd>?</kbd> to see the list of shortcuts. On Orbit Watch, press <kbd>2</kbd> to open its second tab.</p><div class="notes">Notes</div></div></li>
+  <li><span class="box"></span><span class="num">2</span><div><p><span class="what">Copy link to this section.</span> Point at a section heading and click its link icon. Paste the link into a new tab and check that it lands on that section.</p><div class="notes">Notes</div></div></li>
+  <li><span class="box"></span><span class="num">3</span><div><p><span class="what">Space Watch figures.</span> Open the <a href="https://mcsyme11-byte.github.io/NASA-ESA-Data-and-API-Projects/space-watch/">Space Watch page</a> and check that all four figures show numbers.</p><div class="notes">Notes</div></div></li>
+  <li><span class="box"></span><span class="num">4</span><div><p><span class="what">Lost in space.</span> Go to a <a href="https://mcsyme11-byte.github.io/NASA-ESA-Data-and-API-Projects/nope">wrong address</a>. The Lost in space page should open, and its “Search the site” button should open the search with <span class="q">“nope”</span> already typed in.</p><div class="notes">Notes</div></div></li>
+  <li><span class="box"></span><span class="num">5</span><div><p><span class="what">Orbit Watch.</span> Turn and zoom the globe, tap a dot, search for one, and change the speed and the kind switches. Then try one close approach’s “Watch”, the collision calculator and the model.</p><div class="notes">Notes</div></div></li>
+  <li><span class="box"></span><span class="num">6</span><div><p><span class="what">Exoplanets.</span> The light curves (including CHEOPS), “Make a transit” and the chart tooltips. Then the wobble, microlensing and the Webb picture. Then search for one planet, open its page with “Where it is in the sky”, and press Back.</p><div class="notes">Notes</div></div></li>
+  <li><span class="box"></span><span class="num">7</span><div><p><span class="what">Planetary Maps.</span> The Globe, North and South views, the Moon and Mars tabs, the Apollo 11 and Jezero close-ups, a search by name and one by coordinates, and a place card’s link to Mars Data.</p><div class="notes">Notes</div></div></li>
+  <li><span class="box"></span><span class="num">8</span><div><p><span class="what">Mars Data.</span> The dust storm section, humidity at the two sites, the rovers’ climbs, and the reload buttons.</p><div class="notes">Notes</div></div></li>
+  <li><span class="box"></span><span class="num">9</span><div><p><span class="what">Space Weather.</span> The page’s reload button and one panel’s reload button. The “Since 2010” chart should mark the incomplete years.</p><div class="notes">Notes</div></div></li>
+  <li><span class="box"></span><span class="num">10</span><div><p><span class="what">Image Explorer.</span> In the picture library, search <span class="q">“Saturn rings”</span>, <span class="q">“hurricane”</span> and <span class="q">“Apollo 11”</span>, and note any poor top result. Then give the globe a quick look.</p><div class="notes">Notes</div></div></li>
+</ol>
+
+<h2><span class="n">Part 2</span>On a phone<span class="time">about 10 minutes</span></h2>
+<ol>
+  <li><span class="box"></span><span class="num">11</span><div><p><span class="what">Phone layout.</span> Look at Space Watch, Space Weather and the <a href="https://mcsyme11-byte.github.io/NASA-ESA-Data-and-API-Projects/control-room/">control room</a>. Try “Search the site” in the footer, and tap a dot on the Orbit Watch globe.</p><div class="notes">Notes</div></div></li>
+  <li><span class="box"></span><span class="num">12</span><div><p><span class="what">Preview card.</span> Send yourself the Space Watch link in Messages. The preview picture with the patch should appear.</p><div class="notes">Notes</div></div></li>
+  <li><span class="box"></span><span class="num">13</span><div><p><span class="what">New-tool dots.</span> Come back the next day: the menu should show no dots, because nothing new was added after your first visit.</p><div class="notes">Notes</div></div></li>
+</ol>
+
+<h2><span class="n">Part 3</span>Outdoors at night<span class="time">about 5 minutes</span></h2>
+<ol>
+  <li><span class="box"></span><span class="num">14</span><div><p><span class="what">Sky Finder.</span> Calibrate on the Moon, check that the markers line up with what you see, and switch the target.</p><div class="notes">Notes</div></div></li>
+</ol>
+
+<div class="report">
+  <p><b>When you are done:</b> send the General chat the numbers of any checks that did not work, with their notes and screenshots. Checks that passed come off the roadmap.</p>
+</div>
+
+</body>
+</html>

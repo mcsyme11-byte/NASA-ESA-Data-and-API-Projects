@@ -60,7 +60,7 @@ def page(path):
 
 
 def main():
-    files = subprocess.run(['git', 'ls-files', '*.html'], cwd=ROOT, capture_output=True, text=True).stdout.split()
+    files = subprocess.run(['git', 'ls-files', '*.html'], cwd=ROOT, capture_output=True, text=True).stdout.splitlines()
     pages = []
     for f in sorted(files):
         if 'mockup' in f or '/vendor/' in f or f.startswith(('brand/', 'docs/', 'dev/')) or f.startswith(SKIP):

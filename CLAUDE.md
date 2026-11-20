@@ -147,6 +147,10 @@ inside its own folder.
 - Quality bar: correct, professional, tested. Check every page at the widths in DESIGN.md, and its empty, loading and
   error states (no results, NASA out of reach, the demo key used up).
 - Keep every pending to-do in `docs/ROADMAP.md`; the developer tests at his own pace.
+- **Every document is kept in the repository (decided Nov 20, 2026):** documents made for the project or the developer
+  (test lists, notes, letters, reports, PDFs) are saved in `docs/documents/` as `YYYY-MM-DD - <title>.<ext>`, with
+  their source in `docs/documents/source/`, and listed in `docs/documents/README.md`, in the same change as they are
+  handed over. They stay there once they are finished with; nothing is kept only in a chat.
 - Explain things with examples and clear, concise, correct notes. When teaching a method, give a clear set of rules
   saying which formula or step to use in which situation.
 

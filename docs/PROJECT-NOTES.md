@@ -6,6 +6,8 @@ How NASA and ESA Data Projects is built, the decisions made so far, and how to r
 
 ## Decisions
 
+- **Decided Nov 20, 2026 (documents):** every document made for the project or the developer is kept in the
+  repository, in `docs/documents/` with its source, also once it is finished with (`docs/documents/README.md`).
 - **Decided Nov 19, 2026 (the credit and patch on every file):** every document and file of code in the repository
   carries "© 2026 Malcolm Syme · mcsyme11@gmail.com", and every Markdown document opens with the NEDAP patch and the
   credit line (`dev/brand_files.py`, checked by `dev/check_docs.py`); the Mars Data cleaning reports carry the credit

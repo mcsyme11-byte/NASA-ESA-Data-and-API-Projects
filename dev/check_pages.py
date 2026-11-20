@@ -61,7 +61,7 @@ EXTRA = ['asteroid-tracker/tracker.html#year', 'asteroid-tracker/tracker.html#se
 
 
 def pages():
-    files = subprocess.run(['git', 'ls-files', '*.html'], cwd=ROOT, capture_output=True, text=True).stdout.split()
+    files = subprocess.run(['git', 'ls-files', '*.html'], cwd=ROOT, capture_output=True, text=True).stdout.splitlines()
     out = []
     for f in sorted(files):
         if 'mockup' in f or '/vendor/' in f or f.startswith(('brand/', 'docs/', 'dev/')):
@@ -74,7 +74,7 @@ def pages():
 
 def changed_pages(all_pages):
     """Pages touched by the commits not yet on origin/main (and the working tree): all of them when a shared file changed."""
-    diff = subprocess.run(['git', 'diff', '--name-only', 'origin/main'], cwd=ROOT, capture_output=True, text=True).stdout.split()
+    diff = subprocess.run(['git', 'diff', '--name-only', 'origin/main'], cwd=ROOT, capture_output=True, text=True).stdout.splitlines()
     if any(f.startswith('shared/') or f == 'dev/check_pages.py' for f in diff):
         return all_pages
     folders = {f.split('/')[0] for f in diff if '/' in f}
