@@ -63,6 +63,14 @@ one GitHub issue labelled `data-health`.
 
 - [ ] Confirm the CelesTrak fix of Nov 20, 2026: Orbit data's sources ok again (CelesTrak answering), a run within two
   hours of the last request shows "not asked this run" in its log, and GitHub's late starts show "so it is skipped".
+- [ ] CelesTrak's active list from GitHub's machines (first run with the fix, Nov 20, 2026, 22:18 UTC): CelesTrak
+  answered the spacecraft script's smaller lists but timed out on the active list and one debris list, whose use
+  CelesTrak limits. GitHub's runners share their addresses with many other projects, so the limit may be used up by
+  others too. If Orbit data's elements stay failed for several days, choose between keeping the last copy (the globe
+  shows older elements), building the list from CelesTrak's smaller groups (a change to `orbit-watch/fetch_orbits.py`,
+  the Orbit Watch chat), or another source (a decision for the developer).
+- [ ] `actions/cache/restore@v4` and `save@v4` run on Node.js 20, which GitHub runs on Node.js 24 with a warning; move
+  `orbit-data.yml` and `spacecraft-data.yml` to the version that targets Node.js 24 when it is confirmed.
 - [ ] Confirm the first run started by the Exoplanets data timers (11:43 UTC Tuesdays and Wednesdays, first Nov 24,
   2026). Every other timer is confirmed (Nov 18 and 19, 2026): Spacecraft data 05:23, Astronaut photos 19:11, Rover
   routes 20:59, Data health 22:07, Orbit data 23:13 and Space weather data 00:37 UTC each started its job within
