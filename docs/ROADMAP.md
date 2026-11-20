@@ -70,14 +70,6 @@ one GitHub issue labelled `data-health`.
   2026). First runs by hand on Nov 17, 2026: both rovers read (Curiosity sol 5073, Perseverance sol 2022,
   `routes.json` 123 KB), and the Moon and Mars place names built (1,783 Mars and 7,982 Moon names).
 
-- [ ] Confirm over the first days: the Astronaut photos 19:11 backup run and a daily Data health run. Results so far:
-  - Astronaut photos backup (19:11 UTC): ran and succeeded for Nov 15 (started 23:21 UTC) and Nov 16 (started
-    02:26 UTC on Nov 17). The morning run (07:41 UTC) also succeeded each day but started 7 to 9 hours late, so the
-    backup is the run that keeps the photos current within the day.
-  - Data health (22:07 UTC): ran and succeeded for Nov 15 (started 01:51 UTC on Nov 16; opened issue #2) and Nov 16
-    (started 04:25 UTC on Nov 17; nothing to report). GitHub starts it 4 to 6 hours late; still one run a day.
-  - Mars data: the scheduled Monday run on Nov 16 succeeded (started 19:42 UTC, about 10 hours late).
-  - Next check: Nov 20, 2026; the item is closed if the runs keep coming daily.
 - [ ] Confirm the monthly refresh of `asteroid-tracker/data/famous.json` on December 1, 2026 (the "Asteroid data" log
   shows "famous.json written").
 - [ ] Confirm the first scheduled run of "Place and map lists" on January 2, 2027.

@@ -2,6 +2,13 @@
 
 # Change log
 
+## November 20, 2026 — Daily runs confirmed
+
+- Astronaut photos ran every day from Nov 15 to Nov 20, 2026, all successful; since Nov 18 the outside clock starts
+  the 07:41 and 19:11 UTC runs on time (within 11 seconds), GitHub's late schedule runs still arrive as the backup.
+- Data health ran every day from Nov 15 to Nov 19, 2026, all successful; since Nov 18 it starts at 22:07 UTC on time.
+  The roadmap item for these first days is closed.
+
 ## November 20, 2026 — Asteroid Tracker overview: the "On this page" links stay on the page
 
 - Fixed: every link of the overview's "On this page" bar (`asteroid-tracker/index.html`) opened the tracker
