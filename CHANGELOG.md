@@ -13,6 +13,8 @@
   `run_uv.py`, `run_mex.py`); the 93 reports already saved were given it.
 - The Project Record leaves the documents' patch headers out, as every page of the record carries the credit.
 - `CITATION.cff`: GitHub's "Cite this repository" names the developer, the licence and the site.
+- On GitHub (Nov 20, 2026): the repository's description, topics and social preview picture (`shared/og/home.png`) were
+  updated, so links to the repository show the patch.
 
 ## November 19, 2026 — Mars Data: the site tools
 
