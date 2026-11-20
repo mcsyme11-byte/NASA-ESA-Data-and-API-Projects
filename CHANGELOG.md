@@ -26,7 +26,8 @@
   page's speed list (wider than a 320 px phone), long layer names under the Earth map, choices cut off in half-width
   panels on tablets, figures squeezed two to a row on 320 px phones (now one), and pages that jumped as they loaded
   (Orbit Watch's and Planetary Maps' update lines now start at their final length; the credit lines hold the folded
-  box's place until they fold).
+  box's place until they fold; the control room's status lines start at their final length, which takes its layout
+  shift on a phone from 0.28 on GitHub's check to 0.01).
 - **New rules and checks:** `docs/CHECKS.md` "Rules learned from the formatting review of Nov 20, 2026";
   `dev/check_pages.py` gained `cramped`, `squeezed`, `map`, `longlist`, `srcopen`, `segcut` and `msgnarrow`;
   `docs/DESIGN.md` and the component page describe the map card version 2, the scroll box and the folded credits;
