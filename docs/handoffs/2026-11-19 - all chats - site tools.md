@@ -1,3 +1,5 @@
+<p align="center"><img src="../../brand/patch/nedap-patch.svg" width="72" alt="The NEDAP mission patch"><br><sub>NASA and ESA Data Projects · © 2026 Malcolm Syme · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></sub></p>
+
 # Handoff: the site tools of Nov 19, 2026
 
 From the General/Files/Repo chat to every project chat, Nov 19, 2026. Approved by the developer the same day; the

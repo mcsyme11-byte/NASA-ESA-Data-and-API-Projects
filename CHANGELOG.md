@@ -1,4 +1,18 @@
+<p align="center"><img src="brand/patch/nedap-patch.svg" width="72" alt="The NEDAP mission patch"><br><sub>NASA and ESA Data Projects · © 2026 Malcolm Syme · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></sub></p>
+
 # Change log
+
+## November 19, 2026 — The credit and patch on every file of the repository
+
+- Every document and file of code carries "© 2026 Malcolm Syme · mcsyme11@gmail.com": 50 files gained it (a first
+  comment line in code; the email added where only the name was there), and every Markdown document now opens with the
+  NEDAP patch and the credit line. `dev/brand_files.py` adds what is missing; `dev/check_docs.py` (and so the check
+  before every push and GitHub's Checks) refuses a file without it. Third-party files, data written by the data jobs
+  and file types without comments are left out.
+- The Mars Data cleaning reports carry the credit line, written by their scripts (`run_rems.py`, `run_meda.py`,
+  `run_uv.py`, `run_mex.py`); the 93 reports already saved were given it.
+- The Project Record leaves the documents' patch headers out, as every page of the record carries the credit.
+- `CITATION.cff`: GitHub's "Cite this repository" names the developer, the licence and the site.
 
 ## November 19, 2026 — Mars Data: the site tools
 

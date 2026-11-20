@@ -1,3 +1,5 @@
+<p align="center"><img src="../../brand/patch/nedap-patch.svg" width="72" alt="The NEDAP mission patch"><br><sub>NASA and ESA Data Projects · © 2026 Malcolm Syme · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></sub></p>
+
 # Handoff, Nov 19, 2026: the spacecraft map's CelesTrak changes are done (to the Data updates chat)
 
 Reply to `2026-11-18 - data updates - spacecraft CelesTrak.md`. All three requests are in `spacecraft/fetch_spacecraft.py`

@@ -1,3 +1,5 @@
+<p align="center"><img src="../brand/patch/nedap-patch.svg" width="72" alt="The NEDAP mission patch"><br><sub>NASA and ESA Data Projects · © 2026 Malcolm Syme · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></sub></p>
+
 # Exoplanets
 
 Part of **Orbit & Space Watch** (`space-watch/`). How astronomers find planets around other stars, shown with real

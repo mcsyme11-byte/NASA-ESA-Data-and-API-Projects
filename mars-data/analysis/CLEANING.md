@@ -1,3 +1,5 @@
+<p align="center"><img src="../../brand/patch/nedap-patch.svg" width="72" alt="The NEDAP mission patch"><br><sub>NASA and ESA Data Projects · © 2026 Malcolm Syme · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></sub></p>
+
 # Cleaning rules: Curiosity REMS (version 1.2)
 
 Rules applied by `rems.py` to NASA's REMS MODRDR tables (Curiosity's weather station, Gale Crater). Each rule says

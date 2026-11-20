@@ -1,3 +1,5 @@
+<p align="center"><img src="../brand/patch/nedap-patch.svg" width="72" alt="The NEDAP mission patch"><br><sub>NASA and ESA Data Projects · © 2026 Malcolm Syme · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></sub></p>
+
 # Sky Finder
 
 An installable phone web app that points to tonight's passing asteroids, with the Moon, planets, bright stars and the

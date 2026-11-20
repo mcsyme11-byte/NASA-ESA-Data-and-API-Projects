@@ -135,6 +135,7 @@ function runs(tokens, rel, base = {}) {
       }
       case 'image': out.push(new D.TextRun({ text: '[' + unesc(t.text || 'image') + ']', ...base, italics: true, color: MUTED })); break;
       case 'html': {
+        if (/brand\/patch\/nedap-/.test(t.text)) break;
         const txt = unesc(t.text.replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, ''));
         if (txt.trim()) out.push(new D.TextRun({ text: txt, ...base }));
         break;
@@ -184,6 +185,9 @@ function blocks(tokens, ctx) {
       case 'blockquote': out.push(...blocks(t.tokens, { ...ctx, quote: true })); break;
       case 'hr': out.push(new D.Paragraph({ border: { bottom: { style: D.BorderStyle.SINGLE, size: 6, color: RULE, space: 1 } }, spacing: { after: 160 }, children: [] })); break;
       case 'html': {
+        // the patch-and-credit header that opens every document (dev/brand_files.py, Nov 19, 2026) is left out: every
+        // page of the record carries the credit already
+        if (/brand\/patch\/nedap-/.test(t.text)) break;
         const txt = unesc(t.text.replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, '')).split(' ').map(x => x.trim()).filter(Boolean);
         for (const line of txt) out.push(new D.Paragraph({ alignment: D.AlignmentType.CENTER, children: [new D.TextRun({ text: line, size: 16, color: MUTED, italics: true })] }));
         break;

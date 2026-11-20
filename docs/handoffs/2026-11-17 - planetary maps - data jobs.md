@@ -1,3 +1,5 @@
+<p align="center"><img src="../../brand/patch/nedap-patch.svg" width="72" alt="The NEDAP mission patch"><br><sub>NASA and ESA Data Projects · © 2026 Malcolm Syme · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></sub></p>
+
 # Handoff: Planetary Maps data jobs (Nov 17, 2026)
 
 From the Planetary Maps chat to the Data updates chat. Sources are recorded in `docs/DATA-SOURCES.md` ("Planetary

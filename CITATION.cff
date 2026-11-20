@@ -1,0 +1,23 @@
+# NASA and ESA Data Projects · how to cite the project (GitHub shows it as "Cite this repository") · © 2026 Malcolm Syme · mcsyme11@gmail.com
+cff-version: 1.2.0
+message: "To cite this project, please use the details below."
+type: software
+title: "NASA and ESA Data Projects (NEDAP)"
+abstract: "Learning-and-exploring projects built on open data from NASA and ESA: an Asteroid Tracker, an Image Explorer, a Mars Data study and the Orbit & Space Watch tools (Orbit Watch, Space Weather, Exoplanets, Planetary Maps), with Sky Finder and the spacecraft map. Not endorsed by NASA or ESA."
+authors:
+  - given-names: Malcolm
+    family-names: Syme
+    email: mcsyme11@gmail.com
+license: MIT
+url: "https://mcsyme11-byte.github.io/NASA-ESA-Data-and-API-Projects/"
+repository-code: "https://github.com/mcsyme11-byte/NASA-ESA-Data-and-API-Projects"
+date-released: "2026-11-08"
+keywords:
+  - NASA
+  - ESA
+  - open data
+  - asteroids
+  - Mars
+  - exoplanets
+  - space weather
+  - satellites

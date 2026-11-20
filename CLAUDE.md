@@ -1,3 +1,5 @@
+<p align="center"><img src="brand/patch/nedap-patch.svg" width="72" alt="The NEDAP mission patch"><br><sub>NASA and ESA Data Projects · © 2026 Malcolm Syme · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></sub></p>
+
 # Instructions for Claude working in this repo
 
 This repository is Malcolm Syme's **NASA and ESA Data Projects**: learning-and-exploring projects built on the open data
@@ -71,6 +73,12 @@ inside its own folder.
 - **Public-ready by default:** no personal details in code, docs or tests (no PC or user names, personal paths,
   callsigns or family details); use generic wording and made-up test data. **Exception: always keep "Malcolm Syme"
   and mcsyme11@gmail.com as the developer, copyright and contact credit.**
+- **The credit and patch on every file (decided Nov 19, 2026):** every document and file of code carries
+  "© 2026 Malcolm Syme · mcsyme11@gmail.com" (a first comment line in code, in the form
+  `NASA and ESA Data Projects · <file> · © 2026 Malcolm Syme · mcsyme11@gmail.com`), and every Markdown document
+  opens with the NEDAP patch and the credit line. After adding a file, run `python3 dev/brand_files.py`, which adds
+  what is missing; `dev/check_docs.py` refuses a file without it. Third-party files, data written by the data jobs
+  and file types without comments (JSON, CSV, pictures) are left out.
 - **Look:** the Flight Deck Suite's "old money" look (navy, brass, cream, serif type), as set out in `docs/DESIGN.md`
   and `shared/theme.css`. New pages and big visual changes start as mock-ups the developer approves.
 - **Logo (decided Nov 17, 2026):** the NEDAP mission patch (`brand/patch/`) is the project's logo everywhere: the

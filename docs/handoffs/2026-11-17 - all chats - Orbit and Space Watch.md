@@ -1,3 +1,5 @@
+<p align="center"><img src="../../brand/patch/nedap-patch.svg" width="72" alt="The NEDAP mission patch"><br><sub>NASA and ESA Data Projects · © 2026 Malcolm Syme · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></sub></p>
+
 # Handoff: Orbit & Space Watch (Nov 17, 2026)
 
 For the four new chats (Orbit Watch, Space Weather, Exoplanets, Planetary Maps), the Asteroid Tracker, Image Explorer and

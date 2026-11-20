@@ -90,7 +90,7 @@ def run_file(name: str) -> None:
         "sha256": sha.hexdigest(), "product_version": "", "created": ""}]), ["file"])
 
     with_uv = df[df["uv_minutes"] > 0]
-    lines = [f"# Cleaning report: Curiosity REMS corrected UV, {name}", "",
+    lines = [f"# Cleaning report: Curiosity REMS corrected UV, {name}", "", "NASA and ESA Data Projects · © 2026 Malcolm Syme · mcsyme11@gmail.com", "",
              f"Processed {datetime.now(timezone.utc):%Y-%m-%d %H:%M} UTC (mars-data/analysis/CLEANING.md, rule 9).", "",
              f"- Sols in the file: {len(df)} ({df['sol'].min()}–{df['sol'].max()}); with a midday UV value: {len(with_uv)}",
              f"- Rows read: {tally['rows_read']:,} (the label's count: {rows_label:,})",

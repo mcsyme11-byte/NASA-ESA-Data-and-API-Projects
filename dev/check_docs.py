@@ -20,7 +20,10 @@
 #   8. docs/ROADMAP.md keeping its shape: numbered sections in order with none missing, no finished "[x]" items (they
 #      move to CHANGELOG.md), no indented line left alone after the item above it was removed;
 #   9. every link from one document to a file of the repository pointing to a file that exists (handoffs, which
-#      record a moment, are left out).
+#      record a moment, are left out);
+#  10. every page's preview card tags (dev/build_social.py --check, Nov 19, 2026);
+#  11. the credit "© 2026 Malcolm Syme · mcsyme11@gmail.com" on every document and file of code, and the NEDAP patch
+#      at the top of every Markdown document (dev/brand_files.py --check, Nov 19, 2026).
 # docs/CHECKS.md is the full checklist for a repo-wide or site-wide check; this script is its first step.
 import json, os, re, subprocess, sys
 from urllib.parse import unquote
@@ -170,7 +173,13 @@ def main():
     if card.returncode:
         problems.append(card.stdout.strip())
 
-    # 10. links between documents
+    # 10. the credit on every document and file of code, and the patch on every document (dev/brand_files.py,
+    # Nov 19, 2026)
+    brand = subprocess.run([sys.executable, os.path.join(ROOT, 'dev', 'brand_files.py'), '--check'], cwd=ROOT, capture_output=True, text=True)
+    if brand.returncode:
+        problems.append(brand.stdout.strip())
+
+    # 11. links between documents
     for f in subprocess.run(['git', 'ls-files', '-z', '*.md'], cwd=ROOT, capture_output=True, text=True).stdout.split('\0'):
         if not f or 'handoffs/' in f:
             continue

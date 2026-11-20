@@ -148,7 +148,7 @@ def write_report(chunk: str, results: list[dict]) -> str:
     expected = range(int(m.group(1)), int(m.group(2)) + 1) if m else range(0)
     got = {r["sol"] for r in results}
     none = [s for s in expected if s not in got]
-    lines = [f"# Cleaning report: Perseverance MEDA, {chunk}", "",
+    lines = [f"# Cleaning report: Perseverance MEDA, {chunk}", "", "NASA and ESA Data Projects · © 2026 Malcolm Syme · mcsyme11@gmail.com", "",
              f"Processed {datetime.now(timezone.utc):%Y-%m-%d %H:%M} UTC with MEDA cleaning rules version "
              f"{RULES_VERSION} (mars-data/analysis/CLEANING-MEDA.md).", "",
              f"- Sols in this chunk's range: {len(expected)}; with a data folder: {len(got)}; processed: {len(ok)}",

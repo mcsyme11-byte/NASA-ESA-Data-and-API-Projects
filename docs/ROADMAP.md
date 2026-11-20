@@ -1,3 +1,5 @@
+<p align="center"><img src="../brand/patch/nedap-patch.svg" width="72" alt="The NEDAP mission patch"><br><sub>NASA and ESA Data Projects · © 2026 Malcolm Syme · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></sub></p>
+
 # Roadmap
 
 What's next, as of November 19, 2026. Every pending to-do lives here; items are done at the developer's own pace.
@@ -5,6 +7,10 @@ Everything finished moves to [CHANGELOG.md](../CHANGELOG.md).
 
 ## 0. Repository (set up Nov 8, 2026)
 
+- [ ] The developer updates the repository's settings on GitHub, which only the owner can change (Settings, then
+  General): the description ("NASA and ESA Data Projects (NEDAP): learning-and-exploring projects built on open NASA
+  and ESA data. © 2026 Malcolm Syme · mcsyme11@gmail.com"; the old one reads "NASA Data and API Projects"), the topics,
+  and the social preview picture (`shared/og/home.png`, 1200 × 630), so links to the repository show the patch.
 - [ ] Developer testing of the site tools of Nov 19, 2026 (the test list of that day): the search, the shortcuts,
   "Copy link to this section", the menu's dots, the Lost in space page, the Space Watch figures, and a shared link's
   preview card.

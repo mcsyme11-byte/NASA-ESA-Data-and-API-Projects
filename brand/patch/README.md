@@ -1,3 +1,5 @@
+<p align="center"><img src="../../brand/patch/nedap-patch.svg" width="72" alt="The NEDAP mission patch"><br><sub>NASA and ESA Data Projects · © 2026 Malcolm Syme · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></sub></p>
+
 # The NEDAP mission patch
 
 The project's logo (decided Nov 17, 2026): a round mission patch with "NEDAP · DATA PROJECTS" on its ring, the year

@@ -123,7 +123,7 @@ def write_report(chunk: str, results: list[dict], expected: range) -> str:
     def pct(a, b):
         return f"{100 * a / b:.1f} %" if b else "–"
 
-    lines = [f"# Cleaning report: Curiosity REMS, {chunk}", "",
+    lines = [f"# Cleaning report: Curiosity REMS, {chunk}", "", "NASA and ESA Data Projects · © 2026 Malcolm Syme · mcsyme11@gmail.com", "",
              f"Processed {datetime.now(timezone.utc):%Y-%m-%d %H:%M} UTC with cleaning rules version "
              f"{rems.RULES_VERSION} (mars-data/analysis/CLEANING.md).", "",
              "## Sols", "",

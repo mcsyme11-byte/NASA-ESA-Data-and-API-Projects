@@ -1,3 +1,5 @@
+<p align="center"><img src="../brand/patch/nedap-patch.svg" width="72" alt="The NEDAP mission patch"><br><sub>NASA and ESA Data Projects · © 2026 Malcolm Syme · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></sub></p>
+
 # Repo-wide and site-wide checks
 
 The fixed procedure for checking the whole repository and the whole site (decided Nov 18, 2026, after a repo-wide check
@@ -45,7 +47,8 @@ All three pass with no problems (GitHub runs them after every push; run them by 
 python3 dev/check_wording.py    # professional wording, no personal details, no keys
 python3 dev/check_styles.py     # shared components only, no page styles, one version tag, project tab bars
 python3 dev/check_docs.py       # every place below names every live project; roadmap shape; links between documents;
-                                # every page's preview card tags (dev/build_social.py --check)
+                                # every page's preview card tags (dev/build_social.py --check); the credit and patch
+                                # on every document and file of code (dev/brand_files.py --check)
 ```
 
 ## Step 2. Every place that describes the whole site

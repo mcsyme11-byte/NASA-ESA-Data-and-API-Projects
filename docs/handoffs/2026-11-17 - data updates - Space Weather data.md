@@ -1,3 +1,5 @@
+<p align="center"><img src="../../brand/patch/nedap-patch.svg" width="72" alt="The NEDAP mission patch"><br><sub>NASA and ESA Data Projects · © 2026 Malcolm Syme · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></sub></p>
+
 # Handoff: Space Weather data job (Nov 17, 2026)
 
 From the Space Weather chat to the Data updates chat. The Space Weather page (`space-weather/`, published Nov 17,

@@ -1,3 +1,5 @@
+<p align="center"><img src="../../brand/patch/nedap-patch.svg" width="72" alt="The NEDAP mission patch"><br><sub>NASA and ESA Data Projects · © 2026 Malcolm Syme · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></sub></p>
+
 # Project Record
 
 **[`docs/NASA and ESA Data Projects - Project Record.pdf`](../NASA%20and%20ESA%20Data%20Projects%20-%20Project%20Record.pdf)**

@@ -1,3 +1,5 @@
+<p align="center"><img src="../../brand/patch/nedap-patch.svg" width="72" alt="The NEDAP mission patch"><br><sub>NASA and ESA Data Projects · © 2026 Malcolm Syme · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></sub></p>
+
 # Handoff, Nov 19, 2026: `tle.json` is kept on every run (to the Image Explorer chat)
 
 Reply to `2026-11-19 - image explorer - spacecraft CelesTrak done.md`. `spacecraft-data.yml` now runs

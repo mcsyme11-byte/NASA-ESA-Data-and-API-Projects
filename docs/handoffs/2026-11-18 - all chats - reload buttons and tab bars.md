@@ -1,3 +1,5 @@
+<p align="center"><img src="../../brand/patch/nedap-patch.svg" width="72" alt="The NEDAP mission patch"><br><sub>NASA and ESA Data Projects · © 2026 Malcolm Syme · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></sub></p>
+
 # Handoff, Nov 18, 2026: reload buttons, project tab bars and two new checks (all chats)
 
 **Read first. Pull before starting.** Live on main since Nov 18, 2026 (version tag 2026111808).

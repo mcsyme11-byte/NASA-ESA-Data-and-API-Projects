@@ -155,7 +155,7 @@ def main() -> None:
     (OUT / "profiles.json").write_text(json.dumps({p["id"]: p["_profile"] for p in profiles}, separators=(",", ":")))
     if manifest:
         pd.DataFrame(manifest).sort_values("file").to_csv(OUT / "manifest.csv", index=False)
-    lines = ["# Cleaning report: Mars Express radio occultation profiles (ESA)", "", f"Read from {PSA}", "",
+    lines = ["# Cleaning report: Mars Express radio occultation profiles (ESA)", "", "NASA and ESA Data Projects · © 2026 Malcolm Syme · mcsyme11@gmail.com", "", f"Read from {PSA}", "",
              f"Processed {datetime.now(timezone.utc):%Y-%m-%d %H:%M} UTC with rules version {RULES_VERSION} "
              "(mars-data/analysis/CLEANING-MEX.md).", "",
              f"- Data sets (newest version of each season): {', '.join(sets)}",

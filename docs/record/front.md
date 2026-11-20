@@ -1,3 +1,5 @@
+<p align="center"><img src="../../brand/patch/nedap-patch.svg" width="72" alt="The NEDAP mission patch"><br><sub>NASA and ESA Data Projects · © 2026 Malcolm Syme · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></sub></p>
+
 # About this record
 
 This is the complete record of **NASA and ESA Data Projects**, Malcolm Syme's learning-and-exploring projects built on the open data of NASA and ESA (the European Space Agency): the Asteroid Tracker, the Image Explorer, Mars Data, the four tools of Orbit & Space Watch and two utilities: what each project is and how it works, where everything stands, what is planned, every change so far, the data sources and their terms, the design, the decisions and working rules, the site's own pages, the licence and credits, and the repository's full history.

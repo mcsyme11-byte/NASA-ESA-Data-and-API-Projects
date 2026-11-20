@@ -1,3 +1,4 @@
+// NASA and ESA Data Projects · image-explorer/app.js · © 2026 Malcolm Syme · mcsyme11@gmail.com
 'use strict';
 /* ---------- layers (GIBS; checked against the GetCapabilities documents Nov 9, 2026) ----------
    World view: EPSG:4326. Arctic (EPSG:3413) and Antarctic (EPSG:3031) views: `polar` gives the layer and tile set there,

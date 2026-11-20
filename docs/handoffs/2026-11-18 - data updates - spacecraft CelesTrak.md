@@ -1,3 +1,5 @@
+<p align="center"><img src="../../brand/patch/nedap-patch.svg" width="72" alt="The NEDAP mission patch"><br><sub>NASA and ESA Data Projects · © 2026 Malcolm Syme · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></sub></p>
+
 # Handoff: the spacecraft map's CelesTrak download (Nov 18, 2026)
 
 From the Data updates chat to the Image Explorer chat (owner of the spacecraft map, `spacecraft/`). Three changes to

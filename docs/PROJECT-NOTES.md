@@ -1,9 +1,15 @@
+<p align="center"><img src="../brand/patch/nedap-patch.svg" width="72" alt="The NEDAP mission patch"><br><sub>NASA and ESA Data Projects · © 2026 Malcolm Syme · <a href="mailto:mcsyme11@gmail.com">mcsyme11@gmail.com</a></sub></p>
+
 # Project notes
 
 How NASA and ESA Data Projects is built, the decisions made so far, and how to run and publish it.
 
 ## Decisions
 
+- **Decided Nov 19, 2026 (the credit and patch on every file):** every document and file of code in the repository
+  carries "© 2026 Malcolm Syme · mcsyme11@gmail.com", and every Markdown document opens with the NEDAP patch and the
+  credit line (`dev/brand_files.py`, checked by `dev/check_docs.py`); the Mars Data cleaning reports carry the credit
+  from their scripts; `CITATION.cff` names the developer for GitHub's "Cite this repository".
 - **Decided Nov 19, 2026 (the name NEDAP):** a trademark search (CIPO and WIPO's Global Brand Database) found NEDAP
   registered in Canada by Nedap N.V. (TMA1226461, registered Mar 22, 2024, classes 7, 9, 11, 35, 37, 42 and 45). The
   name stays as the short name of this free, non-commercial education site; no trademark is filed for it (a filing
