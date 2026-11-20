@@ -15,6 +15,10 @@
 # in heights, one close pass); a file below them is put back to its previous copy and its source is recorded as failing.
 # Follows the data-job standard in docs/DATA-UPDATES.md; the last step (dev/datajob.py) checks the files, records each
 # source in shared/data/status/orbit-data.json and commits with the standard message.
+# CelesTrak's two-hour limit (decided Nov 20, 2026): this job and Spacecraft data share a copy of CelesTrak's lists in
+# GitHub's Actions cache, with the time of the last request; a run within two hours of it asks CelesTrak nothing and
+# keeps the files (its sources are recorded as skipped). GitHub's late starts of a slot that already ran are skipped
+# by the gate job.
 # Run by hand: Actions › Orbit data › Run workflow.
 
 name: Orbit data
@@ -37,21 +41,60 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Decided Nov 20, 2026: GitHub's own schedule stays as the backup of the outside clock, but its late start of a slot
+  # that has already run successfully is skipped (dev/datajob.py --gate), so a source is not asked twice.
+  gate:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      actions: read
+    outputs:
+      run: ${{ steps.gate.outputs.run }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          sparse-checkout: dev
+      - name: Skip GitHub's late start of a slot that already ran
+        id: gate
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 dev/datajob.py --gate orbit-data '${{ github.event.schedule }}'
+
   update:
+    needs: gate
+    if: needs.gate.outputs.run == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v6
+      # the copy of CelesTrak's lists kept between runs of this job and Spacecraft data, with the time of the last
+      # request (asked_at); CelesTrak is asked only when that is two hours or more ago (decided Nov 20, 2026)
+      - name: The kept CelesTrak copy
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ runner.temp }}/celestrak
+          key: celestrak-${{ github.run_id }}
+          restore-keys: celestrak-
+      - name: Was CelesTrak asked less than two hours ago?
+        id: wait
+        run: python3 dev/datajob.py --celestrak "$RUNNER_TEMP/celestrak"
       # exit 1 when any source failed; the files of the sources that worked are still written
       - name: Fetch from CelesTrak
         id: fetch
+        if: steps.wait.outputs.ask == 'true'
         continue-on-error: true
         run: |
           set -o pipefail
           python3 -u orbit-watch/fetch_orbits.py --keep "$RUNNER_TEMP/celestrak" | tee "$RUNNER_TEMP/orbits.log"
+      - name: Keep the CelesTrak copy for the next run
+        if: always() && steps.wait.outputs.ask == 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ runner.temp }}/celestrak
+          key: celestrak-${{ github.run_id }}-${{ github.run_attempt }}
       - name: Check the files and decide each source
         id: parts
-        if: always()
+        if: always() && steps.wait.outputs.ask == 'true'
         run: |
           python3 - <<'PY'
           import json, os, subprocess
@@ -92,7 +135,7 @@ jobs:
           python3 dev/datajob.py --job orbit-data
           --message "Orbit data: satellites, debris and close passes from CelesTrak"
           --paths orbit-watch/data
-          --source elements=${{ steps.parts.outputs.elements || 'cancelled' }}
-          --source catalogue=${{ steps.parts.outputs.catalogue || 'cancelled' }}
-          --source close=${{ steps.parts.outputs.close || 'cancelled' }}
+          --source elements=${{ steps.wait.outputs.ask == 'false' && 'skipped' || steps.parts.outputs.elements || 'cancelled' }}
+          --source catalogue=${{ steps.wait.outputs.ask == 'false' && 'skipped' || steps.parts.outputs.catalogue || 'cancelled' }}
+          --source close=${{ steps.wait.outputs.ask == 'false' && 'skipped' || steps.parts.outputs.close || 'cancelled' }}
           --log "$RUNNER_TEMP/orbits.log" --watch "not found|below the minimums"

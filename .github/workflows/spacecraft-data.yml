@@ -18,6 +18,10 @@
 # schedule. CelesTrak asks for the active list at most once in two hours, so the two jobs' times stay at least five
 # hours apart (Spacecraft data 05:23 and 17:53, Orbit data 11:13 and 23:13 UTC). If the download fails, the spacecraft
 # script reads CelesTrak's smaller groups instead, and stops at CelesTrak's first failure, keeping the previous tle.json.
+# CelesTrak's two-hour limit (decided Nov 20, 2026): this job and Orbit data share a copy of CelesTrak's lists in
+# GitHub's Actions cache, with the time of the last request; within two hours of it the kept active.csv is read and
+# only the few craft not in it are asked for by name. GitHub's late starts of a slot that already ran are skipped by
+# the gate job.
 # Run by hand: Actions › Spacecraft data › Run workflow.
 # Follows the data-job standard in docs/DATA-UPDATES.md: the last step (dev/datajob.py) checks the files before they are
 # saved, records the state in shared/data/status/spacecraft-data.json, with every "not found" line of the log as a
@@ -50,7 +54,28 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Decided Nov 20, 2026: GitHub's own schedule stays as the backup of the outside clock, but its late start of a slot
+  # that has already run successfully is skipped (dev/datajob.py --gate), so a source is not asked twice.
+  gate:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      actions: read
+    outputs:
+      run: ${{ steps.gate.outputs.run }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          sparse-checkout: dev
+      - name: Skip GitHub's late start of a slot that already ran
+        id: gate
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 dev/datajob.py --gate spacecraft-data '${{ github.event.schedule }}'
+
   update:
+    needs: gate
+    if: needs.gate.outputs.run == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
@@ -58,9 +83,22 @@ jobs:
       # If one source cannot be read, the run is marked with a warning but what was read is still saved (the
       # previous file is kept for the other). "-u" writes the log line by line, so a run that is stopped still shows
       # how far it got.
+      # the copy of CelesTrak's lists kept between runs of this job and Orbit data, with the time of the last request
+      # (asked_at); CelesTrak's lists are asked for only when that is two hours or more ago (decided Nov 20, 2026),
+      # otherwise the kept active.csv is read
+      - name: The kept CelesTrak copy
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ runner.temp }}/celestrak
+          key: celestrak-${{ github.run_id }}
+          restore-keys: celestrak-
+      - name: Was CelesTrak asked less than two hours ago?
+        id: wait
+        run: python3 dev/datajob.py --celestrak "$RUNNER_TEMP/celestrak"
       # one download of CelesTrak's element groups, kept in $RUNNER_TEMP/celestrak for the next step; Orbit Watch's
       # files it writes are put back, since Orbit data saves them
       - name: Download CelesTrak's element groups once (Orbit Watch's script)
+        if: steps.wait.outputs.ask == 'true'
         continue-on-error: true
         run: |
           python3 -u orbit-watch/fetch_orbits.py --only gp --keep "$RUNNER_TEMP/celestrak" || true
@@ -70,6 +108,12 @@ jobs:
         id: fetch
         continue-on-error: true
         run: python3 -u spacecraft/fetch_spacecraft.py --from "$RUNNER_TEMP/celestrak" | tee "$RUNNER_TEMP/spacecraft.log"
+      - name: Keep the CelesTrak copy for the next run
+        if: always() && steps.wait.outputs.ask == 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ runner.temp }}/celestrak
+          key: celestrak-${{ github.run_id }}-${{ github.run_attempt }}
       - name: Check, record and commit
         if: always()
         run: >-

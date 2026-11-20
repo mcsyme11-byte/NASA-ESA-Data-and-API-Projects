@@ -22,8 +22,16 @@
 # A source with every_days in dev/data_jobs.json (a monthly source, for example) also records last_run and last_ok;
 #   python3 dev/datajob.py --due asteroid-data reach phys
 # prints whether any of them is due (every_days since its last run, or retry_days after a failed run).
-import argparse, csv, io, json, os, re, subprocess, sys, time
-from datetime import datetime, timezone
+#
+# Two checks at the start of a run (decided Nov 20, 2026), each writing its answer to GITHUB_OUTPUT:
+#   python3 dev/datajob.py --gate JOB 'CRON'
+# run=false when GitHub starts a scheduled run late and a run of the same job has already succeeded since that cron
+# time (the outside clock's on-time run); every other run goes ahead (run=true), also when GitHub cannot be asked.
+#   python3 dev/datajob.py --celestrak DIR
+# ask=false when CelesTrak's active list was asked for less than two hours ago (CelesTrak's usage policy), by either
+# CelesTrak job: DIR holds the shared copy kept between runs (Actions cache) with the time of the last request.
+import argparse, csv, io, json, os, re, subprocess, sys, time, urllib.request
+from datetime import datetime, timedelta, timezone
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATUS_DIR = 'shared/data/status'
@@ -146,9 +154,114 @@ def due(job, source):
     return age >= wait
 
 
+def _cron_field(text, lo, hi):
+    out = set()
+    for part in text.split(','):
+        step = 1
+        if '/' in part:
+            part, step = part.split('/'); step = int(step)
+        if part == '*':
+            a, b = lo, hi
+        elif '-' in part:
+            a, b = (int(x) for x in part.split('-'))
+        else:
+            a = b = int(part)
+        out.update(range(a, b + 1, step))
+    return out
+
+
+def last_cron_time(cron, now):
+    """The latest time at or before now (UTC, to the minute) that a five-field cron expression names."""
+    mi, ho, dm, mo, dw = cron.split()
+    M, H, D, MO = _cron_field(mi, 0, 59), _cron_field(ho, 0, 23), _cron_field(dm, 1, 31), _cron_field(mo, 1, 12)
+    W = {d % 7 for d in _cron_field(dw, 0, 7)}
+    day_any, wday_any = dm == '*', dw == '*'
+    t = now.replace(second=0, microsecond=0)
+    day = t.replace(hour=0, minute=0)
+    for _ in range(400):
+        cw = (day.weekday() + 1) % 7          # cron: Sunday 0
+        if day_any or wday_any:
+            day_ok = (day.day in D) and (cw in W)
+        else:
+            day_ok = (day.day in D) or (cw in W)
+        if day.month in MO and day_ok:
+            for h in sorted(H, reverse=True):
+                for m in sorted(M, reverse=True):
+                    c = day.replace(hour=h, minute=m)
+                    if c <= t:
+                        return c
+        day -= timedelta(days=1)
+    return None
+
+
+def gate(job, cron):
+    """run=false for a late scheduled start when the slot has already had a successful run."""
+    def answer(run, why):
+        print(why)
+        out = os.environ.get('GITHUB_OUTPUT')
+        if out:
+            with open(out, 'a') as f:
+                f.write('run=%s\n' % ('true' if run else 'false'))
+    if os.environ.get('GITHUB_EVENT_NAME') != 'schedule' or not cron:
+        return answer(True, 'Started by %s: the run goes ahead.' % (os.environ.get('GITHUB_EVENT_NAME') or 'hand'))
+    now = datetime.now(timezone.utc)
+    slot = last_cron_time(cron, now)
+    if not slot:
+        return answer(True, 'No cron time found for %r: the run goes ahead.' % cron)
+    since = (slot - timedelta(minutes=2)).strftime('%Y-%m-%dT%H:%M:%SZ')
+    url = 'https://api.github.com/repos/%s/actions/workflows/%s.yml/runs?status=success&per_page=20&created=%%3E%%3D%s' % (
+        os.environ.get('GITHUB_REPOSITORY', ''), job, since)
+    try:
+        req = urllib.request.Request(url, headers={'Accept': 'application/vnd.github+json',
+                                                   'Authorization': 'Bearer ' + os.environ.get('GITHUB_TOKEN', '')})
+        with urllib.request.urlopen(req, timeout=30) as r:
+            runs = json.load(r).get('workflow_runs', [])
+    except Exception as e:
+        return answer(True, 'GitHub could not be asked (%s): the run goes ahead.' % str(e)[:80])
+    this = os.environ.get('GITHUB_RUN_ID', '')
+    done = [x for x in runs if str(x.get('id')) != this and x.get('conclusion') == 'success']
+    late = int((now - slot).total_seconds() // 60)
+    if done:
+        return answer(False, 'The %s UTC slot already ran successfully at %s (%s); GitHub started this run %d min late, '
+                      'so it is skipped.' % (slot.strftime('%H:%M'), done[-1].get('run_started_at', '?')[11:16],
+                                            done[-1].get('event'), late))
+    return answer(True, 'No successful run since the %s UTC slot: this run (%d min late) goes ahead.'
+                  % (slot.strftime('%H:%M'), late))
+
+
+def celestrak(folder):
+    """ask=false while CelesTrak's active list was asked for less than two hours ago."""
+    stamp = os.path.join(folder, 'asked_at')
+    ask, why = True, 'No earlier CelesTrak request on record: CelesTrak is asked.'
+    try:
+        last = datetime.fromisoformat(open(stamp).read().strip().replace('Z', '+00:00'))
+        gap = datetime.now(timezone.utc) - last
+        if gap < timedelta(minutes=125):
+            ask = False
+            why = ('CelesTrak was last asked at %s UTC, %d min ago (its limit: once in two hours): not asked this run; '
+                   'the kept copy is used.' % (last.strftime('%H:%M'), gap.total_seconds() // 60))
+        else:
+            why = 'CelesTrak was last asked at %s UTC: CelesTrak is asked.' % last.strftime('%Y-%m-%d %H:%M')
+    except (OSError, ValueError):
+        pass
+    if ask:
+        os.makedirs(folder, exist_ok=True)
+        with open(stamp, 'w') as f:
+            f.write(datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'))
+    print(why)
+    out = os.environ.get('GITHUB_OUTPUT')
+    if out:
+        with open(out, 'a') as f:
+            f.write('ask=%s\n' % ('true' if ask else 'false'))
+
+
 def main():
     # "--due JOB SOURCE [SOURCE…]": print true when any of the sources is due, else false (and set the step output
     # "due"); used before a periodic step
+    if len(sys.argv) >= 3 and sys.argv[1] == '--gate':
+        return gate(sys.argv[2], sys.argv[3] if len(sys.argv) > 3 else '')
+    if len(sys.argv) == 3 and sys.argv[1] == '--celestrak':
+        return celestrak(sys.argv[2])
     if len(sys.argv) >= 4 and sys.argv[1] == '--due':
         answer = 'true' if any(due(sys.argv[2], src) for src in sys.argv[3:]) else 'false'
         print('Due: ' + answer)

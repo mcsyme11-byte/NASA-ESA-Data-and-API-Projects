@@ -104,8 +104,19 @@ Decided Nov 17, 2026; set up Nov 17 and 18, 2026. GitHub's own `schedule` runs h
 cron time (17 in all), each in UTC, sending `POST /repos/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/actions/workflows/<file>/dispatches`
 with the body `{"ref":"main"}` and the headers `Accept: application/vnd.github+json`, `X-GitHub-Api-Version:
 2022-11-28`, `Content-Type: application/json` and `Authorization: Bearer <token>`. A run started this way begins within
-about a minute. GitHub's own `schedule` stays in every workflow as the backup; a second run on the same data changes
-nothing, because `dev/datajob.py` commits only when a file changed.
+about a minute. GitHub's own `schedule` stays in every workflow as the backup. Since Nov 20, 2026 every data workflow
+starts with a gate job (`python3 dev/datajob.py --gate <job> '<cron>'`): when GitHub starts a scheduled run late and
+the job has already run successfully since that cron time, the run's other jobs are skipped, so no source is asked
+twice for one slot. A run started by the clock, by hand or by a push always goes ahead; so does a late start when the
+on-time run failed or never came.
+
+**CelesTrak's two-hour limit (decided Nov 20, 2026).** CelesTrak asks for its active list at most once in two hours and
+blocks addresses that ask more; on Nov 20, 2026 GitHub's late start of Orbit data came 72 minutes after Spacecraft
+data, and CelesTrak stopped answering both jobs. Both jobs now share a copy of CelesTrak's lists in GitHub's Actions
+cache (key `celestrak-<run>`, the newest restored), with `asked_at`, the time of the last request. `python3
+dev/datajob.py --celestrak DIR` answers whether two hours (125 minutes) have passed: if not, Orbit data asks CelesTrak
+nothing and records its sources as skipped, and Spacecraft data reads the kept `active.csv`. A failed request also
+counts as a request, and a failed download leaves the previous copy in place.
 
 - **The token:** a fine-grained personal access token ("NEDAP data job starter"), Actions read and write on this
   repository only, nothing else. It lives only in the timers at cron-job.org, never in the repository. It expires

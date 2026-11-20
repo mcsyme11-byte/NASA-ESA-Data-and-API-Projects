@@ -61,6 +61,8 @@ Plan confirmed Nov 11, 2026 (see PROJECT-NOTES.md): three missions, updated auto
 The standard and the jobs are in [DATA-UPDATES.md](DATA-UPDATES.md); the daily Data health check reports problems in
 one GitHub issue labelled `data-health`.
 
+- [ ] Confirm the CelesTrak fix of Nov 20, 2026: Orbit data's sources ok again (CelesTrak answering), a run within two
+  hours of the last request shows "not asked this run" in its log, and GitHub's late starts show "so it is skipped".
 - [ ] Confirm the first run started by the Exoplanets data timers (11:43 UTC Tuesdays and Wednesdays, first Nov 24,
   2026). Every other timer is confirmed (Nov 18 and 19, 2026): Spacecraft data 05:23, Astronaut photos 19:11, Rover
   routes 20:59, Data health 22:07, Orbit data 23:13 and Space weather data 00:37 UTC each started its job within

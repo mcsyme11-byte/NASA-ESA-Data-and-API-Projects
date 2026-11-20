@@ -30,7 +30,28 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Decided Nov 20, 2026: GitHub's own schedule stays as the backup of the outside clock, but its late start of a slot
+  # that has already run successfully is skipped (dev/datajob.py --gate), so a source is not asked twice.
+  gate:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      actions: read
+    outputs:
+      run: ${{ steps.gate.outputs.run }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          sparse-checkout: dev
+      - name: Skip GitHub's late start of a slot that already ran
+        id: gate
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 dev/datajob.py --gate mars-data '${{ github.event.schedule }}'
+
   update:
+    needs: gate
+    if: needs.gate.outputs.run == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 300
     steps:

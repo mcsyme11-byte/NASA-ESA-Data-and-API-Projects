@@ -2,6 +2,17 @@
 
 # Change log
 
+## November 20, 2026 — Late backup runs skipped; CelesTrak asked at most once in two hours
+
+- CelesTrak stopped answering Orbit data and Spacecraft data on Nov 20, 2026 (every request timed out from 11:13 UTC):
+  GitHub's late backup starts and runs started by pushes had asked for its active list several times within two
+  hours, against its usage policy. Files kept their previous copies.
+- Every data workflow starts with a gate job (`dev/datajob.py --gate`): GitHub's late start of a slot that already ran
+  successfully is skipped, which also halves the runs.
+- Orbit data and Spacecraft data share a copy of CelesTrak's lists in the Actions cache with the time of the last
+  request (`dev/datajob.py --celestrak`); within two hours of it CelesTrak is not asked (Orbit data's sources are
+  recorded as skipped; Spacecraft data reads the kept `active.csv`).
+
 ## November 20, 2026 — Bigger maps with the same controls, folded credits, scrolling lists and a formatting review
 
 - **Maps (map card version 2, decided Nov 20, 2026):** every map, globe and sky chart is now one map card with the same
