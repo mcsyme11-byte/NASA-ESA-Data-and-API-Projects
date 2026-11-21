@@ -1,13 +1,12 @@
 {
  "job": "orbit-data",
  "workflow": ".github/workflows/orbit-data.yml",
- "last_data_change": "2026-11-20T03:57:38Z",
+ "last_data_change": "2026-11-21T11:13:56Z",
  "sources": {
   "catalogue": {
-   "state": "failed",
-   "since": "2026-11-20T11:24:34Z",
-   "note": "",
-   "run": "https://github.com/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/actions/runs/44725788110"
+   "state": "ok",
+   "since": "2026-11-21T11:13:56Z",
+   "note": ""
   },
   "checks": {
    "state": "ok",
@@ -15,21 +14,15 @@
    "note": ""
   },
   "close": {
-   "state": "failed",
-   "since": "2026-11-20T11:24:34Z",
-   "note": "",
-   "run": "https://github.com/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/actions/runs/44725788110"
+   "state": "ok",
+   "since": "2026-11-21T11:13:56Z",
+   "note": ""
   },
   "elements": {
-   "state": "failed",
-   "since": "2026-11-20T11:24:34Z",
-   "note": "",
-   "run": "https://github.com/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/actions/runs/44725788110"
+   "state": "ok",
+   "since": "2026-11-21T11:13:56Z",
+   "note": ""
   }
  },
- "notes": [
-  "not found: the satellite catalogue (https://celestrak.org/pub/satcat.csv: The read operation timed out); kinds come from the groups, heights.json is kept",
-  "not found: elements for active (https://celestrak.org/NORAD/elements/gp.php?GROUP=active&FORMAT=csv: The read operation timed out)",
-  "not found: close approaches (https://celestrak.org/SOCRATES/sort-minRange.csv: The read operation timed out); close.json kept"
- ]
+ "notes": []
 }
