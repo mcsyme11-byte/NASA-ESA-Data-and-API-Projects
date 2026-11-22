@@ -1,7 +1,7 @@
 {
  "job": "asteroid-data",
  "workflow": ".github/workflows/asteroid-data.yml",
- "last_data_change": "2026-11-22T06:18:26Z",
+ "last_data_change": "2026-11-22T14:48:14Z",
  "sources": {
   "checks": {
    "state": "ok",
