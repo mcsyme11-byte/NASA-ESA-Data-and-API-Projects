@@ -1,7 +1,7 @@
 {
  "job": "mars-data",
  "workflow": ".github/workflows/mars-data.yml",
- "last_data_change": "2026-11-19T18:26:10Z",
+ "last_data_change": "2026-11-23T09:24:32Z",
  "sources": {
   "archive": {
    "state": "ok",
