@@ -2,6 +2,14 @@
 
 # Change log
 
+## November 24, 2026 — Outside clock and CelesTrak fix confirmed
+
+- The Exoplanets data timer started its first run on time (11:43:14 UTC, Nov 24, 2026); every outside-clock timer is
+  now confirmed.
+- Orbit data's sources have all been ok since Nov 21, 2026 (11:13 UTC): CelesTrak answers the active list again.
+- The gate skips GitHub's late starts as intended (for example Orbit data's late start of the 23:13 slot, 463 minutes
+  late, on Nov 24, 2026); the two-hour CelesTrak wait has not been needed since.
+
 ## November 20, 2026 — Late backup runs skipped; CelesTrak asked at most once in two hours
 
 - CelesTrak stopped answering Orbit data and Spacecraft data on Nov 20, 2026 (every request timed out from 11:13 UTC):
