@@ -1,7 +1,7 @@
 {
  "job": "exoplanets-data",
  "workflow": ".github/workflows/exoplanets-data.yml",
- "last_data_change": "",
+ "last_data_change": "2026-11-24T11:43:42Z",
  "sources": {
   "archive": {
    "state": "ok",
