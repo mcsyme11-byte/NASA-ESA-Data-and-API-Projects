@@ -1,7 +1,7 @@
 {
  "job": "orbit-data",
  "workflow": ".github/workflows/orbit-data.yml",
- "last_data_change": "2026-11-23T23:13:56Z",
+ "last_data_change": "2026-11-24T11:13:53Z",
  "sources": {
   "catalogue": {
    "state": "ok",
