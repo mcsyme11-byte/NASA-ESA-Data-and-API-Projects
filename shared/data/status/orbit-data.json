@@ -1,13 +1,12 @@
 {
  "job": "orbit-data",
  "workflow": ".github/workflows/orbit-data.yml",
- "last_data_change": "2026-11-26T11:13:49Z",
+ "last_data_change": "2026-11-27T11:13:55Z",
  "sources": {
   "catalogue": {
-   "state": "failed",
-   "since": "2026-11-26T23:27:13Z",
-   "note": "",
-   "run": "https://github.com/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/actions/runs/45909616607"
+   "state": "ok",
+   "since": "2026-11-27T11:13:55Z",
+   "note": ""
   },
   "checks": {
    "state": "ok",
@@ -15,24 +14,15 @@
    "note": ""
   },
   "close": {
-   "state": "failed",
-   "since": "2026-11-26T23:27:13Z",
-   "note": "",
-   "run": "https://github.com/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/actions/runs/45909616607"
+   "state": "ok",
+   "since": "2026-11-27T11:13:55Z",
+   "note": ""
   },
   "elements": {
-   "state": "failed",
-   "since": "2026-11-26T23:27:13Z",
-   "note": "",
-   "run": "https://github.com/mcsyme11-byte/NASA-ESA-Data-and-API-Projects/actions/runs/45909616607"
+   "state": "ok",
+   "since": "2026-11-27T11:13:55Z",
+   "note": ""
   }
  },
- "notes": [
-  "not found: the satellite catalogue (https://celestrak.org/pub/satcat.csv: <urlopen error [Errno 110] Connection timed out>); kinds come from the groups, heights.json is kept",
-  "not found: elements for active (https://celestrak.org/NORAD/elements/gp.php?GROUP=active&FORMAT=csv: <urlopen error [Errno 110] Connection timed out>)",
-  "not found: elements for fengyun-1c-debris (https://celestrak.org/NORAD/elements/gp.php?GROUP=fengyun-1c-debris&FORMAT=csv: <urlopen error [Errno 110] Connection timed out>)",
-  "not found: elements for cosmos-2251-debris (https://celestrak.org/NORAD/elements/gp.php?GROUP=cosmos-2251-debris&FORMAT=csv: <urlopen error [Errno 110] Connection timed out>)",
-  "not found: elements for iridium-33-debris (https://celestrak.org/NORAD/elements/gp.php?GROUP=iridium-33-debris&FORMAT=csv: <urlopen error [Errno 110] Connection timed out>)",
-  "not found: close approaches (https://celestrak.org/SOCRATES/sort-minRange.csv: <urlopen error [Errno 110] Connection timed out>); close.json kept"
- ]
+ "notes": []
 }
